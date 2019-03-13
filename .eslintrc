@@ -1,0 +1,36 @@
+{
+    "env": {
+      "browser": true,
+      "node": true,
+      "es6": true,
+      "worker": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 2017,
+      "sourceType": "module"
+    },
+    "extends": "eslint-config-airbnb",
+    "rules": {
+      "semi": 2,
+      "func-names": "off",
+      "no-plusplus": "off",
+      "comma-dangle": "off",
+      "import/prefer-default-export": "off",
+      "class-methods-use-this": "warn",
+      "no-unused-vars": "warn",
+      "no-param-reassign": "off",
+      "no-unused-expressions": "warn",
+      "no-bitwise": "off",
+      "default-case":"off",
+      "no-continue": "off",
+      "no-restricted-syntax": "off",
+      "no-underscore-dangle": "off",
+
+      "react/prop-types": 1,
+      "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+      "react/prefer-stateless-function": [1, { "ignorePureComponents": true }],
+      "import/no-webpack-loader-syntax": "off",
+      "import/no-unresolved": "warn",
+      "no-prototype-builtins": "warn"
+    }
+  }

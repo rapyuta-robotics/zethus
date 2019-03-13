@@ -1,13 +1,16 @@
 import React from 'react';
 import ROSLIB from 'roslib';
-import Header from "./header";
+import { cpus } from 'os';
+import Header from './header';
 import Scene from './scene';
+import { ROS_SOCKET_STATUSES } from './ros';
+import Simulator from './simulation';
+import { getCompositionDetailsApi } from './api';
 
-export const ROS_SOCKET_STATUSES = {
-  INITIAL: 0,
-  CONNECTING: 1,
-  CONNECTED: 2,
-  CONNECTION_ERROR: 3,
+const statuses = {
+  loading: 0,
+  error: 1,
+  success: 2,
 };
 
 class Wrapper extends React.Component {
@@ -19,15 +22,62 @@ class Wrapper extends React.Component {
     this.ros = new ROSLIB.Ros();
     this.connectRos = this.connectRos.bind(this);
     this.disconnectRos = this.disconnectRos.bind(this);
+
+    this.setROSConnHandlers();
   }
+
+  async componentDidMount() {
+    const { match: { params: { composition_id: compId } } } = this.props;
+    console.log('test', compId);
+    try {
+      const { data: compositionDetails } = await getCompositionDetailsApi(compId);
+      this.setState({
+        compositionDetails,
+        status: statuses.success,
+      });
+    } catch (e) {
+      this.setState({
+        status: statuses.error,
+      });
+    }
+  }
+
+  // Set ROSBridge connection handler to handle events like
+  // 'error', 'connection', 'close'
+  setROSConnHandlers() {
+    this.ros.on('error', (data) => {
+      this.setState({
+        rosStatus: ROS_SOCKET_STATUSES.CONNECTION_ERROR
+      });
+    });
+
+    this.ros.on('connection', (data) => {
+      this.setState({
+        rosStatus: ROS_SOCKET_STATUSES.CONNECTED
+      });
+    });
+
+    this.ros.on('close', (data) => {
+      this.setState({
+        rosStatus: ROS_SOCKET_STATUSES.INITIAL
+      });
+    });
+  }
+
   connectRos(endpoint) {
-
+    this.setState({
+      rosStatus: ROS_SOCKET_STATUSES.CONNECTING
+    });
+    this.ros.connect(endpoint);
   }
+
   disconnectRos() {
-
+    this.ros.close();
   }
+
   render() {
     const { rosStatus } = this.state;
+    const compositionDetails = null;
     return (
       <div id="wrapper">
         <Header
@@ -35,9 +85,11 @@ class Wrapper extends React.Component {
           connectRos={this.connectRos}
           disconnectRos={this.disconnectRos}
         />
-        <Scene />
+        <Simulator
+          compositionDetails={compositionDetails}
+        />
       </div>
-    )
+    );
   }
 }
 

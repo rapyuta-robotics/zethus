@@ -14,9 +14,20 @@
       homescreen on Android. See https://developers.google.com/web/fundamentals/web-app-manifest/
     -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-
     <script src="%PUBLIC_URL%/three.js"></script>
-    <script src="%PUBLIC_URL%/OrbitControls.js"></script>
+    <script>
+      THREE.Cache.enabled = true;
+    </script>
+    <script src="%PUBLIC_URL%/SceneUtils.js"></script>
+    <script src="%PUBLIC_URL%/TransformControls.js"></script>
+    <script src="%PUBLIC_URL%/EditorControls.js"></script>
+    <script src="%PUBLIC_URL%/OBJLoader.js"></script>
+    <script src="%PUBLIC_URL%/STLLoader.js"></script>
+    <script src="%PUBLIC_URL%/ColladaLoader.js"></script>
+    <script src="%PUBLIC_URL%/ModelLoader.js"></script>
+    <script src="%PUBLIC_URL%/URDFLoader.js"></script>
+    <script src="%PUBLIC_URL%/urdf-viewer-element.js"></script>
+    <script src="%PUBLIC_URL%/urdf-manipulator-element.js"></script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
       It will be replaced with the URL of the `public` folder during the build.
