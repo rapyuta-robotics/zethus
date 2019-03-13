@@ -1,10 +1,10 @@
 import React from 'react';
 
 export const ROS_SOCKET_STATUSES = {
-  INITIAL: 0,
-  CONNECTING: 1,
-  CONNECTED: 2,
-  CONNECTION_ERROR: 3,
+  INITIAL: 'Idle',
+  CONNECTING: 'Connecting',
+  CONNECTED: 'Connected successfully',
+  CONNECTION_ERROR: 'Error in connection',
 };
 
 class Ros extends React.PureComponent {

@@ -1,26 +1,17 @@
 /* eslint import/no-webpack-loader-syntax: off */
 import _ from 'lodash';
+import Amphion from 'amphion';
 import ROSLIB from 'roslib';
 import PointCloudWorker from 'worker-loader!../utils/rosWorker';
-
 import React from 'react';
-// import Terminal from './terminal';
-import SimulateMenu from './simulateMenu';
 import Viewport from '../viewport';
 import UrdfObject from '../urdfObject';
 import {
   rosEndpoint,
   MAX_POINTCLOUD_POINTS,
-  // pointCloudBaseLinkTransform,
   boundingBoxTransform,
   boundingBoxColor,
 } from '../config';
-import StateMachine from './stateMachine';
-
-const uiStates = {
-  editor: 0,
-  simulator: 1,
-};
 
 const { THREE } = window;
 
@@ -60,11 +51,11 @@ class Simulation extends React.Component {
       name: '/tf_static',
       messageType: 'tf2_msgs/TFMessage',
     });
-    this.tfTopic = new ROSLIB.Topic({
-      ros: this.ros,
-      name: '/tf',
-      messageType: 'tf2_msgs/TFMessage',
-    });
+    this.amphionTf = new Amphion.DisplayTf(
+      this.ros,
+      this.scene,
+      '/tf',
+    );
     this.planningSceneTopic = new ROSLIB.Topic({
       ros: this.ros,
       name: '/bin_picking/monitored_planning_scene',
@@ -140,14 +131,11 @@ class Simulation extends React.Component {
     this.markerArray = [];
 
     this.updateJointPositions = this.updateJointPositions.bind(this);
-    this.handleTfMessage = this.handleTfMessage.bind(this);
   }
 
   componentDidMount() {
     const {
-      compositionDetails: {
-        environment: { urdf, packages },
-      },
+      compositionDetails: { urdf, packages },
     } = this.props;
     [[-1, 0], [1, 0], [0, -1], [0, 1]].forEach((positions) => {
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
@@ -163,8 +151,7 @@ class Simulation extends React.Component {
 
     this.model = new UrdfObject({ urdf, packages }, (robot) => {
       this.scene.add(robot);
-      // this.handleTfMessage(pointCloudBaseLinkTransform);
-      this.handleTfMessage(boundingBoxTransform);
+      this.amphionTf.update(boundingBoxTransform);
     });
 
     window.scene = this.scene;
@@ -188,10 +175,6 @@ class Simulation extends React.Component {
       );
     }, 5000);
     this.ros.on('connection', () => {
-      // this.ros.getTopics((message) => {
-      //   console.log(message);
-      // });
-
       // this.jointStateTopic.subscribe(this.updateJointPositions);
       // this.jointStateTopic.subscribe(message => {
       //   console.log(message);
@@ -205,7 +188,7 @@ class Simulation extends React.Component {
           const object = _.get(collisionObjects, '[0].object');
           this.planningBox.scale.set(...object.primitives[0].dimensions);
           this.planningBox.visible = true;
-          this.handleTfMessage({
+          this.amphionTf.update({
             transforms: [
               {
                 header: {
@@ -293,11 +276,7 @@ class Simulation extends React.Component {
           }
         }
       });
-      this.tfTopic.subscribe(this.handleTfMessage);
-      // this.tfStaticTopic.subscribe(message => {
-      //   console.log(message);
-      //   // this.handleTfMessage(message);
-      // });
+      this.amphionTf.subscribe();
     });
 
     this.ros.connect(rosEndpoint);
@@ -309,38 +288,6 @@ class Simulation extends React.Component {
       && this.pointCloudWorker.postMessage({
         type: 'TERMINATE',
       });
-  }
-
-  handleTfMessage(message) {
-    _.each(message.transforms, (t) => {
-      const {
-        child_frame_id: childFrame,
-        header: { frame_id: parentFrame },
-        transform: {
-          translation: { x, y, z },
-          rotation: {
-            x: rx, y: ry, z: rz, w: rw
-          },
-        },
-      } = t;
-      const [trimmedChildFrame, trimmedParentFrame] = [
-        _.trimStart(childFrame, '/'),
-        _.trimStart(parentFrame, '/'),
-      ];
-      const childObject = this.scene.getObjectByName(trimmedChildFrame);
-      const parentObject = this.scene.getObjectByName(trimmedParentFrame);
-      if (childObject && parentObject) {
-        childObject.position.set(x, y, z);
-        childObject.quaternion.set(rx, ry, rz, rw);
-        parentObject.add(childObject);
-      } else if (childObject && trimmedParentFrame === 'world') {
-        childObject.position.set(x, y, z);
-        childObject.quaternion.set(rx, ry, rz, rw);
-        this.scene.add(childObject);
-        // } else {
-        //   console.log(childFrame, parentFrame);
-      }
-    });
   }
 
   updatePointCloudGeometry(positions, colors, frame) {
@@ -378,17 +325,9 @@ class Simulation extends React.Component {
     };
 
     return (
-      <React.Fragment>
-        <div id="cdContents">
-          {/* <StateMachine ros={this.ros} /> */}
-          {/* <Terminal /> */}
-          {/* <Separator /> */}
-          <div className="cdHardwareVis">
-            <SimulateMenu editor={editor} />
-            <Viewport editor={editor} />
-          </div>
-        </div>
-      </React.Fragment>
+      <div id="simContents">
+        <Viewport editor={editor} />
+      </div>
     );
   }
 }

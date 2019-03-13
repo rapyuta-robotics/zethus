@@ -22,6 +22,21 @@ button {
   height: 100vh;
   overflow-y: auto;
 }
+#simContents {
+  flex-grow: 1;
+  position: relative;
+}
+#viewport {
+  width: 100%;
+  height: 100%;
+}
+#viewportStats {
+  position: absolute !important;
+  top: auto !important;
+  left: auto !important;
+  right: 0 !important;
+  bottom: 0 !important;
+}
 #header {
   width: 100%;
   height: 50px;
@@ -46,6 +61,7 @@ button {
   display: flex;
 }
 #ros-input {
+  color: #fff;
   width: 250px;
   border: 0;
   height: 26px;

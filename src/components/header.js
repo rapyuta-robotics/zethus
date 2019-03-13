@@ -49,6 +49,7 @@ class Header extends React.Component {
             {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ? 'Disconnect' : 'Connect'}
           </button>
         </form>
+        Status: {rosStatus}
       </div>
     );
   }
