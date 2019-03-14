@@ -896,17 +896,17 @@ const compositionDetails = {
     <origin rpy="0.0 0.0 0.345" xyz="0.0 0.0 0.125"/>
   </joint>
 </robot>`,
-    packages: {
-      robotiq_2f_model: 'https://storage.googleapis.com/kompose-artifacts/robotiq_2f_model',
-      rr_world_description: 'https://storage.googleapis.com/kompose-artifacts/rr_world_description',
-      ur_description: 'https://storage.googleapis.com/kompose-artifacts/ur_description',
-      rr_japanpost_parts: 'https://storage.googleapis.com/kompose-artifacts/rr_japanpost_parts',
-      rr_schmalz_multisuction: 'https://storage.googleapis.com/kompose-artifacts/rr_schmalz_multisuction',
-      mitsubishi_manipulator_description:
+  packages: {
+    robotiq_2f_model: 'https://storage.googleapis.com/kompose-artifacts/robotiq_2f_model',
+    rr_world_description: 'https://storage.googleapis.com/kompose-artifacts/rr_world_description',
+    ur_description: 'https://storage.googleapis.com/kompose-artifacts/ur_description',
+    rr_japanpost_parts: 'https://storage.googleapis.com/kompose-artifacts/rr_japanpost_parts',
+    rr_schmalz_multisuction: 'https://storage.googleapis.com/kompose-artifacts/rr_schmalz_multisuction',
+    mitsubishi_manipulator_description:
         'https://storage.googleapis.com/kompose-artifacts/mitsubishi_manipulator_description',
-      nkc_amr_description: 'https://storage.googleapis.com/kompose-artifacts/nkc_amr_description',
-      rr_shared_world_description: 'https://storage.googleapis.com/kompose-artifacts/rr_shared_world_description',
-    },
+    nkc_amr_description: 'https://storage.googleapis.com/kompose-artifacts/nkc_amr_description',
+    rr_shared_world_description: 'https://storage.googleapis.com/kompose-artifacts/rr_shared_world_description',
+  },
 };
 
 class Wrapper extends React.Component {
@@ -945,6 +945,10 @@ class Wrapper extends React.Component {
   }
 
   connectRos(endpoint) {
+    if (!endpoint) {
+      endpoint = 'ws://localhost:9090';
+    }
+
     this.setState({
       rosStatus: ROS_SOCKET_STATUSES.CONNECTING
     });
@@ -965,6 +969,7 @@ class Wrapper extends React.Component {
           disconnectRos={this.disconnectRos}
         />
         <Simulator
+          rosInstance={this.ros}
           compositionDetails={compositionDetails}
         />
       </div>
