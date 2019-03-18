@@ -1,11 +1,21 @@
 import React from 'react';
-import { ROS_SOCKET_STATUSES } from './ros';
+import _ from 'lodash';
 
-class Header extends React.Component {
+import { ROS_SOCKET_STATUSES } from '../utils';
+import VizListItem from "./vizListItem";
+
+export const CONNECTION_DOT_CLASSES = {
+  [ROS_SOCKET_STATUSES.INITIAL]: 'initial',
+  [ROS_SOCKET_STATUSES.CONNECTING]: 'connecting',
+  [ROS_SOCKET_STATUSES.CONNECTED]: 'connected',
+  [ROS_SOCKET_STATUSES.CONNECTION_ERROR]: 'error',
+};
+
+class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rosEndpoint: '',
+      rosEndpoint: 'ws://localhost:9090',
     };
     this.onRosSubmit = this.onRosSubmit.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
@@ -31,25 +41,24 @@ class Header extends React.Component {
   }
 
   render() {
-    const { rosStatus } = this.props;
+    const { rosStatus, visualizations, toggleAddModal } = this.props;
     const { rosEndpoint } = this.state;
     return (
-      <div id="header">
-        <div id="logo">
-          <img id="logomark" src="/logo.svg" alt="Zethus" />
-          <h2>Zethus</h2>
+      <div id="sidebar">
+        <div id="logo-wrapper">
+          <img id="logo" src="/logo.svg" alt="Zethus" />
         </div>
-        <div id="input-connect-section">
-          <div id="connect-indicator">
-            <span className="dot-connection" />
-            <span className="connect-status">
+        <div id="ros-input-section">
+          <div id="ros-status">
+            <span id="ros-status-dot" className={CONNECTION_DOT_CLASSES[rosStatus]} />
+            <span id="ros-status-text">
               {rosStatus}
             </span>
           </div>
           <form id="ros-input-flex" onSubmit={this.onRosSubmit}>
             <input type="text" id="ros-input" value={rosEndpoint} onChange={this.updateRosEndpoint} />
             <button
-              id="ros-connect"
+              id="ros-connect-button"
               className="btn-primary"
               type="submit"
               disabled={rosStatus === ROS_SOCKET_STATUSES.CONNECTING}
@@ -58,9 +67,20 @@ class Header extends React.Component {
             </button>
           </form>
         </div>
+        <div id="visualzation-list">
+          <button className="btn-primary" onClick={toggleAddModal}>Add Visualization</button>
+          {
+            _.size(visualizations) === 0 && (
+              <p>No visualizations added to the scene</p>
+            )
+          }
+          {
+            _.map(visualizations, viz => <VizListItem details={viz} />)
+          }
+        </div>
       </div>
     );
   }
 }
 
-export default Header;
+export default Sidebar;

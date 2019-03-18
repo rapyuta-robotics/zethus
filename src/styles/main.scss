@@ -4,49 +4,87 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes twinkle {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes twinkle {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes twinkle {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes twinkle {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes twinkle {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 body {
   padding: 0;
   margin: 0;
   color: #ddd;
   font-family: 'Source Sans Pro', sans-serif;
+  overflow-y: hidden;
 }
-button {
+input, button {
   font-size: inherit;
   font-family: inherit;
+  outline: 0;
+  &:active {
+    outline: 0;
+  }
+}
+button {
+  cursor: pointer;
 }
 #wrapper {
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
   background-color: #000;
   width: 100%;
   height: 100vh;
-  overflow-y: auto;
-
-  #side-bar {
-    flex-grow: 1;
-    flex: 1 0 30%;
-    display: flex;
-    background-color: #222;
-    flex-direction: column;
-
-    .display-type-section {
-      padding: 20px 30px;
-    }
-  }
-
-  #sim-container {
-    flex: 1 0 70%;
-    display: flex;
-  }
+  overflow-y: hidden;
 }
-#simContents {
-  flex-grow: 1;
-  position: relative;
+#sidebar {
+  background-color: #222;
+  width: 400px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  overflow-y: auto;
 }
 #viewport {
   width: 100%;
   height: 100%;
+  position: relative;
 }
 #viewportStats {
   position: absolute !important;
@@ -55,51 +93,51 @@ button {
   right: 0 !important;
   bottom: 0 !important;
 }
-#header {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-
-  #connect-indicator {
-    display: flex;
-    align-items: center;
-    line-height: 1.84;
-
-    .dot-connection {
-      margin-right: 10px;
-      height: 8px;
-      width: 8px;
-      border-radius: 100%;
-      background: white;
-    }
-
-    .connect-status {
-      font-size: 16px;
-    }
-  }
-
-  & > div {
-    padding: 20px 30px;
-    border-bottom: 1px solid white;
-    width: 100%;
-  }
+#logo-wrapper {
+  padding: 10px 20px;
+  border-bottom: 1px solid #000000;
 }
+
 #logo {
-  width: 100%;
-  height: 40px;
-  align-items: center;
-  align-self: start;
-  display: flex;
-}
-#logomark {
   height: 40px;
   display: block;
 }
+
 #scene {
   flex-grow: 1;
   width: 100%;
 }
+#ros-input-section {
+  padding: 14px 20px;
+  border-bottom: 1px solid #000000;
+}
+
+#ros-status {
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+}
+#ros-status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  margin: 0 10px -2px 0;
+  &.connected {
+    background-color: #3e991c;
+  }
+  &.connecting {
+    background-color: #f9C351;
+    animation: twinkle normal 1s infinite ease-in-out;
+  }
+  &.error {
+    background-color: #ff3e3c;
+  }
+}
+#ros-status-text {
+
+}
+
 #ros-input-flex {
   display: flex;
 }
@@ -107,23 +145,59 @@ button {
   color: #fff;
   width: 220px;
   border: 0;
-  height: 32px;
-  padding: 0;
-  margin-right: 7px;
+  padding: 6px 10px;
+  margin-right: 10px;
   border-radius: 4px;
-  background-color: #666666;
+  background-color: #444;
   font-size: 16px;
 }
-#ros-connect {
+#ros-connect-button {
+  flex-grow: 1;
 }
 
+#visualzation-list {
+  padding: 10px 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 .btn-primary {
-  height: 32px;
   border: 0;
   margin: 0;
-  padding: 0 10px;
+  padding: 6px 20px;
   border-radius: 4px;
   color: white;
   background-color: #34b7ee;
   font-size: 16px;
+}
+
+.modal-wrapper {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.modal-contents {
+  width: 1000px;
+  margin: 100px auto;
+  height: 600px;
+  background-color: #222222;
+  border-radius: 8px;
 }
