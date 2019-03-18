@@ -3,6 +3,9 @@ import ROSLIB from 'roslib';
 import Header from './header';
 import { ROS_SOCKET_STATUSES } from './ros';
 import Simulator from './simulation';
+import SelectedDisplayTypes from './ui/selectedDisplayTypes';
+
+const { THREE } = window;
 
 const compositionDetails = {
   urdf: `<?xml version="1.0" ?>
@@ -919,7 +922,13 @@ class Wrapper extends React.Component {
     this.connectRos = this.connectRos.bind(this);
     this.disconnectRos = this.disconnectRos.bind(this);
 
+    this.scene = new THREE.Scene();
+
     this.setROSConnHandlers();
+  }
+
+  componentDidMount() {
+    window.scene = this.scene;
   }
 
   // Set ROSBridge connection handler to handle events like
@@ -963,15 +972,22 @@ class Wrapper extends React.Component {
     const { rosStatus } = this.state;
     return (
       <div id="wrapper">
-        <Header
-          rosStatus={rosStatus}
-          connectRos={this.connectRos}
-          disconnectRos={this.disconnectRos}
-        />
-        <Simulator
-          rosInstance={this.ros}
-          compositionDetails={compositionDetails}
-        />
+        <div id="side-bar">
+          <Header
+            rosStatus={rosStatus}
+            connectRos={this.connectRos}
+            disconnectRos={this.disconnectRos}
+          />
+
+          <SelectedDisplayTypes scene={this.scene} ros={this.ros} />
+        </div>
+        <div id="sim-container">
+          <Simulator
+            rosInstance={this.ros}
+            compositionDetails={compositionDetails}
+            scene={this.scene}
+          />
+        </div>
       </div>
     );
   }

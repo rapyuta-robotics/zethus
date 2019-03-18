@@ -17,10 +17,28 @@ button {
 #wrapper {
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   background-color: #000;
   width: 100%;
   height: 100vh;
   overflow-y: auto;
+
+  #side-bar {
+    flex-grow: 1;
+    flex: 1 0 30%;
+    display: flex;
+    background-color: #222;
+    flex-direction: column;
+
+    .display-type-section {
+      padding: 20px 30px;
+    }
+  }
+
+  #sim-container {
+    flex: 1 0 70%;
+    display: flex;
+  }
 }
 #simContents {
   flex-grow: 1;
@@ -39,18 +57,43 @@ button {
 }
 #header {
   width: 100%;
-  height: 50px;
-  background-color: #222;
   display: flex;
   align-items: center;
+  flex-direction: column;
+
+  #connect-indicator {
+    display: flex;
+    align-items: center;
+    line-height: 1.84;
+
+    .dot-connection {
+      margin-right: 10px;
+      height: 8px;
+      width: 8px;
+      border-radius: 100%;
+      background: white;
+    }
+
+    .connect-status {
+      font-size: 16px;
+    }
+  }
+
+  & > div {
+    padding: 20px 30px;
+    border-bottom: 1px solid white;
+    width: 100%;
+  }
 }
 #logo {
-  width: 60px;
+  width: 100%;
   height: 40px;
+  align-items: center;
+  align-self: start;
+  display: flex;
 }
 #logomark {
   height: 40px;
-  margin: 0 auto;
   display: block;
 }
 #scene {
@@ -62,18 +105,25 @@ button {
 }
 #ros-input {
   color: #fff;
-  width: 250px;
+  width: 220px;
   border: 0;
-  height: 26px;
+  height: 32px;
   padding: 0;
-  margin: 0;
-  border-radius: 4px 0 0 4px;
+  margin-right: 7px;
+  border-radius: 4px;
   background-color: #666666;
+  font-size: 16px;
 }
 #ros-connect {
-  height: 26px;
+}
+
+.btn-primary {
+  height: 32px;
   border: 0;
   margin: 0;
   padding: 0 10px;
-  border-radius: 0 4px 4px 0;
+  border-radius: 4px;
+  color: white;
+  background-color: #34b7ee;
+  font-size: 16px;
 }

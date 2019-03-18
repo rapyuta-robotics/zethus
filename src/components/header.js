@@ -17,10 +17,10 @@ class Header extends React.Component {
     const { connectRos, disconnectRos, rosStatus } = this.props;
 
     if (rosStatus === ROS_SOCKET_STATUSES.CONNECTED) {
-      this.props.disconnectRos();
+      disconnectRos();
     } else if (rosStatus === ROS_SOCKET_STATUSES.INITIAL
         || rosStatus === ROS_SOCKET_STATUSES.CONNECTION_ERROR) {
-      this.props.connectRos(rosEndpoint);
+      connectRos(rosEndpoint);
     }
   }
 
@@ -37,21 +37,27 @@ class Header extends React.Component {
       <div id="header">
         <div id="logo">
           <img id="logomark" src="/logo.svg" alt="Zethus" />
+          <h2>Zethus</h2>
         </div>
-        <form id="ros-input-flex" onSubmit={this.onRosSubmit}>
-          <input type="text" id="ros-input" value={rosEndpoint} onChange={this.updateRosEndpoint} />
-          <button
-            id="ros-connect"
-            type="submit"
-            disabled={rosStatus === ROS_SOCKET_STATUSES.CONNECTING}
-          >
-            {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ? 'Disconnect' : 'Connect'}
-          </button>
-        </form>
-        <i>
-          Status :
-          {rosStatus}
-        </i>
+        <div id="input-connect-section">
+          <div id="connect-indicator">
+            <span className="dot-connection" />
+            <span className="connect-status">
+              {rosStatus}
+            </span>
+          </div>
+          <form id="ros-input-flex" onSubmit={this.onRosSubmit}>
+            <input type="text" id="ros-input" value={rosEndpoint} onChange={this.updateRosEndpoint} />
+            <button
+              id="ros-connect"
+              className="btn-primary"
+              type="submit"
+              disabled={rosStatus === ROS_SOCKET_STATUSES.CONNECTING}
+            >
+              {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ? 'Disconnect' : 'Connect'}
+            </button>
+          </form>
+        </div>
       </div>
     );
   }

@@ -11,7 +11,7 @@ import {
   MAX_POINTCLOUD_POINTS,
   boundingBoxTransform,
   boundingBoxColor,
-} from '../config';
+} from '../config'
 
 const { THREE } = window;
 
@@ -19,12 +19,12 @@ class Simulation extends React.Component {
   constructor(props) {
     super(props);
 
-    const { rosInstance } = this.props;
+    const { rosInstance, scene } = this.props;
     this.ros = rosInstance;
 
     this.markerArray = [];
 
-    this.scene = new THREE.Scene();
+    this.scene = scene;
     this.sceneHelpers = new THREE.Scene();
 
     this.InitCamera();
@@ -51,8 +51,6 @@ class Simulation extends React.Component {
       this.scene.add(robot);
       this.amphionTf.update(boundingBoxTransform);
     });
-
-    window.scene = this.scene;
 
     setTimeout(() => {
       this.pointCloudWorker = new PointCloudWorker();
@@ -175,7 +173,6 @@ class Simulation extends React.Component {
       //     }
       //   }
       // });
-      this.amphionTf.subscribe();
     });
   }
 
@@ -257,8 +254,6 @@ class Simulation extends React.Component {
       name: '/bin_picking/monitored_planning_scene',
       messageType: 'moveit_msgs/PlanningScene',
     });
-
-    this.amphionArrowTemp = new Amphion.Arrow(this.scene);
   }
 
   AddPointCloud() {
