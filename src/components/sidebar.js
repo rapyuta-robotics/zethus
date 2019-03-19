@@ -75,7 +75,7 @@ class Sidebar extends React.Component {
             )
           }
           {
-            _.map(visualizations, viz => <VizListItem details={viz} />)
+            _.map(visualizations, viz => <VizListItem key={viz.id} details={viz} />)
           }
         </div>
       </div>

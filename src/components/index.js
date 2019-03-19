@@ -1,8 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
-import Amphion from 'amphion';
 import ROSLIB from 'roslib';
+import Amphion from 'amphion';
 import { MESSAGE_TYPE_TF } from 'amphion/src/utils/constants';
+import shortid from 'shortid';
 
 import Sidebar from './sidebar';
 import { ROS_SOCKET_STATUSES } from '../utils';
@@ -79,9 +80,11 @@ class Wrapper extends React.Component {
   }
 
   addVisualization(types) {
-    const { visualizations, rosTopics } = this.state;
-    const defaultTopic = _.first(rosTopics, topic => _.includes(types, topic.name));
-    const vizObject = this.getVisualization(defaultTopic);
+    const { visualizations, rosTopics: { topics, types: messageTypes } } = this.state;
+    const defaultTopicIndex = _.findIndex(messageTypes, type => _.includes(types, type));
+    const vizObject = this.getVisualization(topics[defaultTopicIndex], messageTypes[defaultTopicIndex]);
+    window.vizObject = vizObject;
+    vizObject.subscribe();
     this.scene.add(vizObject.object);
     this.setState({
       visualizations: [
@@ -89,12 +92,13 @@ class Wrapper extends React.Component {
         {
           visible: true,
           object: vizObject,
+          id: shortid.generate(),
         },
       ],
     });
   }
 
-  getVisualization({ name, messageType }) {
+  getVisualization(name, messageType) {
     switch (messageType) {
       case MESSAGE_TYPE_TF:
         return new Amphion.Tf(this.ros, name);
@@ -126,7 +130,7 @@ class Wrapper extends React.Component {
       <div id="wrapper">
         {
           addModalOpen && (
-            <AddModal closeModal={this.toggleAddModal} />
+            <AddModal closeModal={this.toggleAddModal} addVisualization={this.addVisualization} />
           )
         }
         <Sidebar

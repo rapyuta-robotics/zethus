@@ -5,19 +5,26 @@ import { vizOptions } from '../utils';
 
 const stopPropagation = e => e.stopPropagation();
 
-const AddModal = ({
-  closeModal,
-  addVisualization,
-}) => (
-  <div className="modal-wrapper" onClick={closeModal}>
-    <div className="modal-contents" onClick={stopPropagation}>
-      {
-        _.map(vizOptions, op => (
-          <button onClick={() => addVisualization(op.messageTypes)}>{op.name}</button>
-        ))
-      }
-    </div>
-  </div>
-);
+class AddModal extends React.Component {
+  addVisualization(messageTypes) {
+    const { addVisualization, closeModal } = this.props;
+    addVisualization(messageTypes);
+    closeModal();
+  }
+  render() {
+    const { closeModal } = this.props;
+    return (
+      <div className="modal-wrapper" onClick={closeModal}>
+        <div className="modal-contents" onClick={stopPropagation}>
+          {
+            _.map(vizOptions, op => (
+              <button key={op.name} onClick={() => this.addVisualization(op.messageTypes)}>{op.name}</button>
+            ))
+          }
+        </div>
+      </div>
+    );
+  }
+}
 
 export default AddModal;
