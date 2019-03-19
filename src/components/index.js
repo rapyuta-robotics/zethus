@@ -53,6 +53,8 @@ class Wrapper extends React.Component {
         this.setState({
           rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
           rosTopics,
+        }, () => {
+          // const robotModel = Amphion.RobotModel
         });
       });
     });

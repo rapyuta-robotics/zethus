@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 
 import { ROS_SOCKET_STATUSES } from '../utils';
-import VizListItem from "./vizListItem";
+import VizListItem from './vizListItem';
 
 export const CONNECTION_DOT_CLASSES = {
   [ROS_SOCKET_STATUSES.INITIAL]: 'initial',

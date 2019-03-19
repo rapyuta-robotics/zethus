@@ -1,8 +1,9 @@
 {
-  "name": "zethus",
+  "name": "@rapyuta-robotics/zethus",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "amphion": "^0.0.1",
     "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "mousetrap": "^1.6.3",
