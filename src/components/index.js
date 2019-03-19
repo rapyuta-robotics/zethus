@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import ROSLIB from 'roslib';
 import Amphion from 'amphion';
-import { MESSAGE_TYPE_TF } from 'amphion/src/utils/constants';
+import { MESSAGE_TYPE_TF, MESSAGE_TYPE_POSESTAMPED } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
 import Sidebar from './sidebar';
@@ -42,6 +42,14 @@ class Wrapper extends React.Component {
 
     this.ros.on('connection', () => {
       this.ros.getTopics((rosTopics) => {
+        // const poseViz = new Amphion.Pose(this.ros, '/random_pose');
+        // poseViz.subscribe();
+        // console.log(poseViz);
+        // this.scene.add(poseViz.object);
+
+        // "/random_pose"
+        // geometry_msgs/PoseStamped
+
         this.setState({
           rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
           rosTopics,
@@ -102,6 +110,8 @@ class Wrapper extends React.Component {
     switch (messageType) {
       case MESSAGE_TYPE_TF:
         return new Amphion.Tf(this.ros, name);
+      case MESSAGE_TYPE_POSESTAMPED:
+        return new Amphion.Pose(this.ros, name);
     }
     return null;
   }
