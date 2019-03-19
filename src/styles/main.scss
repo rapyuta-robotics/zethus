@@ -200,4 +200,73 @@ button {
   height: 600px;
   background-color: #222222;
   border-radius: 8px;
+  padding: 20px;
+
+  .modal-title {
+    margin-bottom: 6px;
+  }
+
+  .type-container {
+    display: flex;
+    flex-grow: 1;
+
+    .type-selection {
+      padding: 0 10px;
+      flex: 1 0 50%;
+
+      button {
+        text-align: left;
+        width: 100%;
+        height: 58px;
+        font-size: 22px;
+        border: 0;
+        background: transparent;
+        color: white;
+        padding: 15px 28px 13px 28px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+
+        .type-image {
+          width: 30px;
+          height: 30px;
+          display: inline-block;
+          background-color: #444444;
+          margin-right: 10px;
+          border-radius: 4px;
+        }
+      }
+
+      button.active {
+        background: black;
+      }
+
+      button.inactive {
+        color: #444444;
+
+        .type-image {
+          background-color: #2d2d2d;
+        }
+      }
+    }
+
+    .type-info {
+      padding: 0 10px;
+      flex: 1 0 50%;
+
+      .type-description {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 22px;
+      }
+
+      &>div {
+        margin-bottom: 8px;
+
+        a {
+          color: #34B7EE;
+        }
+      }
+    }
+  }
 }

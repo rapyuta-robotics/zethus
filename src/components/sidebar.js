@@ -68,7 +68,7 @@ class Sidebar extends React.Component {
           </form>
         </div>
         <div id="visualzation-list">
-          <button className="btn-primary" onClick={toggleAddModal}>Add Visualization</button>
+          <button type="button" className="btn-primary" onClick={toggleAddModal}>Add Visualization</button>
           {
             _.size(visualizations) === 0 && (
               <p>No visualizations added to the scene</p>

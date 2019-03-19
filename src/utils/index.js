@@ -1,4 +1,11 @@
-import { MESSAGE_TYPE_TF, MESSAGE_TYPE_POSESTAMPED, MESSAGE_TYPE_POINTCLOUD, MESSAGE_TYPE_POINTCLOUD2 } from 'amphion/src/utils/constants';
+import {
+  MESSAGE_TYPE_TF,
+  MESSAGE_TYPE_POSESTAMPED,
+  MESSAGE_TYPE_POINTCLOUD, MESSAGE_TYPE_POINTCLOUD2,
+  MESSAGE_TYPE_MARKER, MESSAGE_TYPE_MARKERARRAY,
+  MESSAGE_TYPE_LASERSCAN,
+  MESSAGE_TYPE_OCCUPANCYGRID
+} from 'amphion/src/utils/constants';
 
 export const ROS_SOCKET_STATUSES = {
   INITIAL: 'Idle. Not Connected',
@@ -11,14 +18,36 @@ export const vizOptions = [
   {
     name: 'Tf',
     messageTypes: [MESSAGE_TYPE_TF],
+    enabled: true
   },
   {
     name: 'Pose',
     messageTypes: [MESSAGE_TYPE_POSESTAMPED],
+    enabled: true
   },
   {
     name: 'Point Cloud',
     messageTypes: [MESSAGE_TYPE_POINTCLOUD, MESSAGE_TYPE_POINTCLOUD2],
+    enabled: false
+  },
+  {
+    name: 'Marker',
+    messageTypes: [MESSAGE_TYPE_MARKER],
+    enabled: false
+  },
+  {
+    name: 'MarkerArray',
+    messageTypes: [MESSAGE_TYPE_MARKERARRAY],
+    enabled: false
+  },
+  {
+    name: 'Laser',
+    messageTypes: [MESSAGE_TYPE_LASERSCAN],
+    enabled: false
+  },
+  {
+    name: 'Map',
+    messageTypes: [MESSAGE_TYPE_OCCUPANCYGRID],
   },
 ];
 

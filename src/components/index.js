@@ -3,6 +3,7 @@ import _ from 'lodash';
 import ROSLIB from 'roslib';
 import Amphion from 'amphion';
 import { MESSAGE_TYPE_TF, MESSAGE_TYPE_POSESTAMPED } from 'amphion/src/utils/constants';
+import Arrow from 'amphion/src/core/Arrow';
 import shortid from 'shortid';
 
 import Sidebar from './sidebar';
@@ -42,14 +43,6 @@ class Wrapper extends React.Component {
 
     this.ros.on('connection', () => {
       this.ros.getTopics((rosTopics) => {
-        // const poseViz = new Amphion.Pose(this.ros, '/random_pose');
-        // poseViz.subscribe();
-        // console.log(poseViz);
-        // this.scene.add(poseViz.object);
-
-        // "/random_pose"
-        // geometry_msgs/PoseStamped
-
         this.setState({
           rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
           rosTopics,
@@ -63,6 +56,37 @@ class Wrapper extends React.Component {
       this.setState({
         rosStatus: ROS_SOCKET_STATUSES.INITIAL
       });
+    });
+  }
+
+  getVisualization(name, messageType) {
+    switch (messageType) {
+      case MESSAGE_TYPE_TF:
+        return new Amphion.Tf(this.ros, name);
+      case MESSAGE_TYPE_POSESTAMPED:
+        return new Amphion.Pose(this.ros, 'random_pose');
+    }
+    return null;
+  }
+
+  addVisualization(types) {
+    const { visualizations, rosTopics: { topics, types: messageTypes } } = this.state;
+    const defaultTopicIndex = _.findIndex(messageTypes, type => _.includes(types, type));
+    const vizObject = this.getVisualization(
+      topics[defaultTopicIndex], messageTypes[defaultTopicIndex]
+    );
+    window.vizObject = vizObject;
+    vizObject.subscribe();
+    this.scene.add(vizObject.object);
+    this.setState({
+      visualizations: [
+        ...visualizations,
+        {
+          visible: true,
+          object: vizObject,
+          id: shortid.generate()
+        },
+      ],
     });
   }
 
@@ -87,35 +111,6 @@ class Wrapper extends React.Component {
     this.camera.lookAt(new THREE.Vector3());
 
     this.scene.add(this.camera);
-  }
-
-  addVisualization(types) {
-    const { visualizations, rosTopics: { topics, types: messageTypes } } = this.state;
-    const defaultTopicIndex = _.findIndex(messageTypes, type => _.includes(types, type));
-    const vizObject = this.getVisualization(topics[defaultTopicIndex], messageTypes[defaultTopicIndex]);
-    window.vizObject = vizObject;
-    vizObject.subscribe();
-    this.scene.add(vizObject.object);
-    this.setState({
-      visualizations: [
-        ...visualizations,
-        {
-          visible: true,
-          object: vizObject,
-          id: shortid.generate(),
-        },
-      ],
-    });
-  }
-
-  getVisualization(name, messageType) {
-    switch (messageType) {
-      case MESSAGE_TYPE_TF:
-        return new Amphion.Tf(this.ros, name);
-      case MESSAGE_TYPE_POSESTAMPED:
-        return new Amphion.Pose(this.ros, name);
-    }
-    return null;
   }
 
   connectRos(endpoint) {

@@ -25,6 +25,7 @@
       "no-continue": "off",
       "no-restricted-syntax": "off",
       "no-underscore-dangle": "off",
+      "no-useless-constructor": "off",
 
       "react/destructuring-assignment": "warn",
       "react/no-unused-state": "off",
