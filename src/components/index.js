@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import ROSLIB from 'roslib';
 import Amphion from 'amphion';
-import { MESSAGE_TYPE_TF, MESSAGE_TYPE_POSESTAMPED } from 'amphion/src/utils/constants';
+import { MESSAGE_TYPE_TF, MESSAGE_TYPE_POSESTAMPED, MESSAGE_TYPE_MARKERARRAY, MESSAGE_TYPE_LASERSCAN, MESSAGE_TYPE_POINTCLOUD2 } from 'amphion/src/utils/constants';
 import Arrow from 'amphion/src/core/Arrow';
 import shortid from 'shortid';
 
@@ -10,6 +10,7 @@ import Sidebar from './sidebar';
 import { ROS_SOCKET_STATUSES } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
+import LaserScan from 'amphion/src/viz/LaserScan';
 
 const { THREE } = window;
 
@@ -65,6 +66,12 @@ class Wrapper extends React.Component {
         return new Amphion.Tf(this.ros, name);
       case MESSAGE_TYPE_POSESTAMPED:
         return new Amphion.Pose(this.ros, 'random_pose');
+      case MESSAGE_TYPE_MARKERARRAY:
+        return new Amphion.MarkerArray(this.ros, '/rviz_visual_tools');
+      case MESSAGE_TYPE_LASERSCAN:
+        return new Amphion.LaserScan(this.ros, '/base_scan');
+      case MESSAGE_TYPE_POINTCLOUD2:
+        return new Amphion.PointCloud(this.ros, '/pickit/camera/depth_registered/points_3d_rectified');
     }
     return null;
   }

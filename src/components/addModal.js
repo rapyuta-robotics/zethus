@@ -22,10 +22,9 @@ class AddModal extends React.Component {
             <div className="type-selection">
               {
                 _.map(vizOptions, op => (
-                  <div>
+                  <div key={op.name}>
                     <button
                       type="button"
-                      key={op.name}
                       className={!op.enabled ? 'inactive' : ''}
                       disabled={!op.enabled}
                       onClick={() => this.addVisualization(op.messageTypes)}

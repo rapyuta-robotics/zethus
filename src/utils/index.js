@@ -27,8 +27,8 @@ export const vizOptions = [
   },
   {
     name: 'Point Cloud',
-    messageTypes: [MESSAGE_TYPE_POINTCLOUD, MESSAGE_TYPE_POINTCLOUD2],
-    enabled: false
+    messageTypes: [MESSAGE_TYPE_POINTCLOUD2],
+    enabled: true
   },
   {
     name: 'Marker',
@@ -36,14 +36,14 @@ export const vizOptions = [
     enabled: false
   },
   {
-    name: 'MarkerArray',
+    name: 'Marker Array',
     messageTypes: [MESSAGE_TYPE_MARKERARRAY],
-    enabled: false
+    enabled: true
   },
   {
-    name: 'Laser',
+    name: 'Laser Scan',
     messageTypes: [MESSAGE_TYPE_LASERSCAN],
-    enabled: false
+    enabled: true
   },
   {
     name: 'Map',
