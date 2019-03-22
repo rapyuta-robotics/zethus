@@ -14,7 +14,7 @@ import {
 import shortid from 'shortid';
 
 import Sidebar from './sidebar';
-import {ROS_SOCKET_STATUSES, urdfDetails} from '../utils';
+import { ROS_SOCKET_STATUSES, urdfDetails } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
 
@@ -32,11 +32,11 @@ const excludedObjects = [
   'PointLight',
 ];
 
-const removeExcludedObjects = mesh => {
+const removeExcludedObjects = (mesh) => {
   const objectArray = [mesh];
   while (_.size(objectArray) > 0) {
     const currentItem = objectArray.shift();
-    _.each(currentItem.children, child => {
+    _.each(currentItem.children, (child) => {
       if (!child) {
         return;
       }
@@ -102,21 +102,18 @@ class Wrapper extends React.Component {
         case MESSAGE_TYPE_DISPLAYTF:
           return new Amphion.DisplayTf(this.ros, name, this.scene);
         case MESSAGE_TYPE_DISPLAYJOINTSTATE:
-          return new Amphion.DisplayJointState(this.ros, name, this.scene);
+         console.log(this.robot);
+          return new Amphion.DisplayJointState(this.ros, name, this.robot);
       }
       return null;
     }
     switch (messageType) {
       case 'robot_model': {
         const loader = new URDFLoader();
-        const robot = loader.parse(
+        this.robot = loader.parse(
           urdfDetails.urdf,
-          urdfDetails.packages,
-          (robot) => {
-            removeExcludedObjects(robot);
-            // this.scene.add(robot);
-          },
           {
+            packages: urdfDetails.packages,
             loadMeshCb: (path, ext, done) => {
               loader.defaultMeshLoader(path, ext, (mesh) => {
                 removeExcludedObjects(mesh);
@@ -124,17 +121,19 @@ class Wrapper extends React.Component {
               });
             },
             fetchOptions: { mode: 'cors', credentials: 'same-origin' },
-          }
+          },
+        
         );
+        removeExcludedObjects(this.robot);
         return {
-          object: robot,
+          object: this.robot,
           subscribe: () => {},
         };
       }
       case MESSAGE_TYPE_TF:
-        return new Amphion.Tf(this.ros, name);
+        return new Amphion.Tf(this.ros, '/tf');
       case MESSAGE_TYPE_POSESTAMPED:
-        return new Amphion.Pose(this.ros, 'random_pose');
+        return new Amphion.Pose(this.ros, '/random_pose');
       case MESSAGE_TYPE_MARKERARRAY:
         return new Amphion.MarkerArray(this.ros, '/rviz_visual_tools');
       case MESSAGE_TYPE_LASERSCAN:
@@ -153,7 +152,7 @@ class Wrapper extends React.Component {
     ] = [
       topics[defaultTopicIndex],
       messageTypes[defaultTopicIndex] || types[0],
-    ]
+    ];
     const vizObject = this.getVisualization(
       name, type, isDisplay,
     );
