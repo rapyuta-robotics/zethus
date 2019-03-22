@@ -2,17 +2,53 @@ import React from 'react';
 import _ from 'lodash';
 import ROSLIB from 'roslib';
 import Amphion from 'amphion';
-import { MESSAGE_TYPE_TF, MESSAGE_TYPE_POSESTAMPED, MESSAGE_TYPE_MARKERARRAY, MESSAGE_TYPE_LASERSCAN, MESSAGE_TYPE_POINTCLOUD2 } from 'amphion/src/utils/constants';
-import Arrow from 'amphion/src/core/Arrow';
+// import URDFLoader from 'urdf-loader';
+import {
+  MESSAGE_TYPE_TF,
+  MESSAGE_TYPE_POSESTAMPED,
+  MESSAGE_TYPE_MARKERARRAY,
+  MESSAGE_TYPE_LASERSCAN,
+  MESSAGE_TYPE_POINTCLOUD2,
+  MESSAGE_TYPE_DISPLAYTF, MESSAGE_TYPE_DISPLAYJOINTSTATE
+} from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
 import Sidebar from './sidebar';
-import { ROS_SOCKET_STATUSES } from '../utils';
+import {ROS_SOCKET_STATUSES, urdfDetails} from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
-import LaserScan from 'amphion/src/viz/LaserScan';
 
-const { THREE } = window;
+const { THREE, URDFLoader } = window;
+
+const excludedObjects = [
+  'PerspectiveCamera',
+  'OrthographicCamera',
+  'AmbientLight',
+  'DirectionalLight',
+  'HemisphereLight',
+  'Light',
+  'RectAreaLight',
+  'SpotLight',
+  'PointLight',
+];
+
+const removeExcludedObjects = mesh => {
+  const objectArray = [mesh];
+  while (_.size(objectArray) > 0) {
+    const currentItem = objectArray.shift();
+    _.each(currentItem.children, child => {
+      if (!child) {
+        return;
+      }
+      if (_.includes(excludedObjects, child.type)) {
+        const { parent } = child;
+        parent.children = _.filter(parent.children, c => c !== child);
+      } else {
+        objectArray.push(child);
+      }
+    });
+  }
+};
 
 class Wrapper extends React.Component {
   constructor(props) {
@@ -60,8 +96,41 @@ class Wrapper extends React.Component {
     });
   }
 
-  getVisualization(name, messageType) {
+  getVisualization(name, messageType, isDisplay) {
+    if (isDisplay) {
+      switch (messageType) {
+        case MESSAGE_TYPE_DISPLAYTF:
+          return new Amphion.DisplayTf(this.ros, name, this.scene);
+        case MESSAGE_TYPE_DISPLAYJOINTSTATE:
+          return new Amphion.DisplayJointState(this.ros, name, this.scene);
+      }
+      return null;
+    }
     switch (messageType) {
+      case 'robot_model': {
+        const loader = new URDFLoader();
+        const robot = loader.parse(
+          urdfDetails.urdf,
+          urdfDetails.packages,
+          (robot) => {
+            removeExcludedObjects(robot);
+            // this.scene.add(robot);
+          },
+          {
+            loadMeshCb: (path, ext, done) => {
+              loader.defaultMeshLoader(path, ext, (mesh) => {
+                removeExcludedObjects(mesh);
+                done(mesh);
+              });
+            },
+            fetchOptions: { mode: 'cors', credentials: 'same-origin' },
+          }
+        );
+        return {
+          object: robot,
+          subscribe: () => {},
+        };
+      }
       case MESSAGE_TYPE_TF:
         return new Amphion.Tf(this.ros, name);
       case MESSAGE_TYPE_POSESTAMPED:
@@ -76,22 +145,31 @@ class Wrapper extends React.Component {
     return null;
   }
 
-  addVisualization(types) {
+  addVisualization(types, isDisplay) {
     const { visualizations, rosTopics: { topics, types: messageTypes } } = this.state;
     const defaultTopicIndex = _.findIndex(messageTypes, type => _.includes(types, type));
+    const [
+      name, type
+    ] = [
+      topics[defaultTopicIndex],
+      messageTypes[defaultTopicIndex] || types[0],
+    ]
     const vizObject = this.getVisualization(
-      topics[defaultTopicIndex], messageTypes[defaultTopicIndex]
+      name, type, isDisplay,
     );
-    window.vizObject = vizObject;
+    if (!isDisplay) {
+      this.scene.add(vizObject.object);
+    }
     vizObject.subscribe();
-    this.scene.add(vizObject.object);
     this.setState({
       visualizations: [
         ...visualizations,
         {
           visible: true,
           object: vizObject,
-          id: shortid.generate()
+          id: shortid.generate(),
+          name,
+          type,
         },
       ],
     });

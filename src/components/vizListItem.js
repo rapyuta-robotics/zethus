@@ -1,13 +1,14 @@
 import React from 'react';
 
 class VizListItem extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
   }
 
-  render(){
+  render() {
+    const { details: { type } } = this.props;
     return (
-      <h3>Type Holder</h3>
+      <h3>{ type }</h3>
     );
     // <select>{this.props.data.map((x,y) => <option key={y}>{x}</option>)}</select>;
   }

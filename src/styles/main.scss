@@ -201,6 +201,8 @@ button {
   background-color: #222222;
   border-radius: 8px;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
 
   .modal-title {
     margin-bottom: 6px;
@@ -208,11 +210,12 @@ button {
 
   .type-container {
     display: flex;
-    flex-grow: 1;
+    flex-grow: 0;
 
     .type-selection {
       padding: 0 10px;
       flex: 1 0 50%;
+      overflow-y: auto;
 
       button {
         text-align: left;

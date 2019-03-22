@@ -1,7 +1,8 @@
 import {
   MESSAGE_TYPE_TF,
   MESSAGE_TYPE_POSESTAMPED,
-  MESSAGE_TYPE_POINTCLOUD, MESSAGE_TYPE_POINTCLOUD2,
+  MESSAGE_TYPE_DISPLAYJOINTSTATE,
+  MESSAGE_TYPE_POINTCLOUD2,
   MESSAGE_TYPE_MARKER, MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_LASERSCAN,
   MESSAGE_TYPE_OCCUPANCYGRID
@@ -16,9 +17,26 @@ export const ROS_SOCKET_STATUSES = {
 
 export const vizOptions = [
   {
+    name: 'Robot Model',
+    messageTypes: ['robot_model'],
+    enabled: true
+  },
+  {
+    name: 'Display Joint state',
+    messageTypes: [MESSAGE_TYPE_DISPLAYJOINTSTATE],
+    enabled: true,
+    isDisplay: true,
+  },
+  {
     name: 'Tf',
     messageTypes: [MESSAGE_TYPE_TF],
     enabled: true
+  },
+  {
+    name: 'Display Tf',
+    messageTypes: [MESSAGE_TYPE_TF],
+    enabled: true,
+    isDisplay: true,
   },
   {
     name: 'Pose',
@@ -29,11 +47,11 @@ export const vizOptions = [
     name: 'Point Cloud',
     messageTypes: [MESSAGE_TYPE_POINTCLOUD2],
     enabled: true
-  },
-  {
-    name: 'Marker',
-    messageTypes: [MESSAGE_TYPE_MARKER],
-    enabled: false
+  // },
+  // {
+  //   name: 'Marker',
+  //   messageTypes: [MESSAGE_TYPE_MARKER],
+  //   enabled: false
   },
   {
     name: 'Marker Array',
