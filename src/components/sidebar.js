@@ -41,7 +41,13 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const { rosStatus, visualizations, toggleAddModal } = this.props;
+    const {
+      ros,
+      rosStatus,
+      visualizations,
+      toggleAddModal
+    } = this.props;
+
     const { rosEndpoint } = this.state;
     return (
       <div id="sidebar">
@@ -75,7 +81,7 @@ class Sidebar extends React.Component {
             )
           }
           {
-            _.map(visualizations, viz => <VizListItem key={viz.id} details={viz} />)
+            _.map(visualizations, viz => <VizListItem key={viz.id} details={viz} ros={ros} />)
           }
         </div>
       </div>

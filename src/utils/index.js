@@ -47,11 +47,6 @@ export const vizOptions = [
     name: 'Point Cloud',
     messageTypes: [MESSAGE_TYPE_POINTCLOUD2],
     enabled: true
-  // },
-  // {
-  //   name: 'Marker',
-  //   messageTypes: [MESSAGE_TYPE_MARKER],
-  //   enabled: false
   },
   {
     name: 'Marker Array',

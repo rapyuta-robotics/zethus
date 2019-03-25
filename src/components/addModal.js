@@ -6,9 +6,9 @@ import { vizOptions } from '../utils';
 const stopPropagation = e => e.stopPropagation();
 
 class AddModal extends React.Component {
-  addVisualization(messageTypes, isDisplay) {
+  addVisualization(messageTypes, isDisplay, displayName) {
     const { addVisualization, closeModal } = this.props;
-    addVisualization(messageTypes, isDisplay);
+    addVisualization(messageTypes, isDisplay, displayName);
     closeModal();
   }
 
@@ -27,7 +27,7 @@ class AddModal extends React.Component {
                       type="button"
                       className={!op.enabled ? 'inactive' : ''}
                       disabled={!op.enabled}
-                      onClick={() => this.addVisualization(op.messageTypes, op.isDisplay)}
+                      onClick={() => this.addVisualization(op.messageTypes, op.isDisplay, op.name)}
                     >
                       <span className="type-image" />
                       {op.name}

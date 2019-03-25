@@ -102,7 +102,6 @@ class Wrapper extends React.Component {
         case MESSAGE_TYPE_DISPLAYTF:
           return new Amphion.DisplayTf(this.ros, name, this.scene);
         case MESSAGE_TYPE_DISPLAYJOINTSTATE:
-          console.log(this.robot);
           return new Amphion.DisplayJointState(this.ros, name, this.robot);
       }
       return null;
@@ -144,7 +143,8 @@ class Wrapper extends React.Component {
     return null;
   }
 
-  addVisualization(types, isDisplay) {
+  addVisualization(types, isDisplay, displayName) {
+    console.log(displayName);
     const { visualizations, rosTopics: { topics, types: messageTypes } } = this.state;
     const defaultTopicIndex = _.findIndex(messageTypes, type => _.includes(types, type));
     const [
@@ -165,10 +165,11 @@ class Wrapper extends React.Component {
         ...visualizations,
         {
           visible: true,
-          object: vizObject,
+          rosObject: vizObject,
           id: shortid.generate(),
           name,
           type,
+          displayName
         },
       ],
     });
@@ -229,6 +230,7 @@ class Wrapper extends React.Component {
           connectRos={this.connectRos}
           disconnectRos={this.disconnectRos}
           visualizations={visualizations}
+          ros={this.ros}
           toggleAddModal={this.toggleAddModal}
         />
         <Viewport camera={this.camera} scene={this.scene} />
