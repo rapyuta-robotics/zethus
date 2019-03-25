@@ -19,6 +19,7 @@ class Sidebar extends React.Component {
     };
     this.onRosSubmit = this.onRosSubmit.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
+    this.removeDisplayType = this.removeDisplayType.bind(this);
   }
 
   onRosSubmit(e) {
@@ -38,6 +39,11 @@ class Sidebar extends React.Component {
     this.setState({
       rosEndpoint: e.target.value,
     });
+  }
+
+  removeDisplayType(id) {
+    const { removeDisplayType } = this.props;
+    removeDisplayType(id);
   }
 
   render() {
@@ -81,7 +87,9 @@ class Sidebar extends React.Component {
             )
           }
           {
-            _.map(visualizations, viz => <VizListItem key={viz.id} details={viz} ros={ros} />)
+            _.map(
+              visualizations, viz => <VizListItem key={viz.id} details={viz} ros={ros} removeDisplayType={this.removeDisplayType} />
+            )
           }
         </div>
       </div>

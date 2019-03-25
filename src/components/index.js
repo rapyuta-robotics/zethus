@@ -69,6 +69,7 @@ class Wrapper extends React.Component {
     this.addVisualization = this.addVisualization.bind(this);
     this.toggleAddModal = this.toggleAddModal.bind(this);
     this.getVisualization = this.getVisualization.bind(this);
+    this.removeDisplayType = this.removeDisplayType.bind(this);
   }
 
   componentDidMount() {
@@ -144,7 +145,6 @@ class Wrapper extends React.Component {
   }
 
   addVisualization(types, isDisplay, displayName) {
-    console.log(displayName);
     const { visualizations, rosTopics: { topics, types: messageTypes } } = this.state;
     const defaultTopicIndex = _.findIndex(messageTypes, type => _.includes(types, type));
     const [
@@ -173,6 +173,21 @@ class Wrapper extends React.Component {
         },
       ],
     });
+  }
+
+  removeDisplayType(id) {
+    const { visualizations } = this.state;
+
+    let vizArrayClone = [...visualizations];
+    vizArrayClone = _.reject(vizArrayClone, (vizObject) => {
+      if (vizObject.id === id) {
+        vizObject.rosObject.destroy();
+        return true;
+      }
+      return false;
+    });
+
+    this.setState({ visualizations: vizArrayClone });
   }
 
   addLights() {
@@ -232,6 +247,7 @@ class Wrapper extends React.Component {
           visualizations={visualizations}
           ros={this.ros}
           toggleAddModal={this.toggleAddModal}
+          removeDisplayType={this.removeDisplayType}
         />
         <Viewport camera={this.camera} scene={this.scene} />
       </div>

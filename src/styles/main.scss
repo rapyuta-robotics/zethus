@@ -159,21 +159,62 @@ button {
   padding: 10px 20px;
 }
 
+.dislay-type-form-wrapper {
+  padding: 20px 10px 10px 20px;
+  border-bottom: 1px solid black;
 
+  .display-type-form-header {
+    display: flex;
+    align-items: center;
+  }
 
+  .display-type-form-content {
+    margin-top: 8px;
+  }
 
+  .display-type-form-button-section {
+    margin-top: 8px;
 
+    button:first-child {
+      margin-right: 15px;
+    }
 
+    button {
+      background: #444444;
+      border: 0;
+      border-radius: 4px;
+      color: white;
+      padding: 5px 10px;
+      font-size: 12px;
 
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
 
+  .type-image {
+    width: 20px;
+    height: 20px;
+  }
 
+  select {
+    margin-left: 10px;
+    background: #212121;
+    border-color: #444444;
+    color: white;
+    padding: 3px;
+  }
+}
 
-
-
-
-
-
-
+.type-image {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  background-color: #444444;
+  margin-right: 10px;
+  border-radius: 4px;
+}
 
 .btn-primary {
   border: 0;
@@ -229,15 +270,6 @@ button {
         display: flex;
         align-items: center;
         margin-bottom: 8px;
-
-        .type-image {
-          width: 30px;
-          height: 30px;
-          display: inline-block;
-          background-color: #444444;
-          margin-right: 10px;
-          border-radius: 4px;
-        }
       }
 
       button.active {
