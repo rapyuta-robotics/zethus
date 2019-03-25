@@ -38,8 +38,8 @@ class AddModal extends React.Component {
             </div>
             <div className="type-info">
               <p className="type-description">Description</p>
-              <div><a href="#">view example</a></div>
-              <div><a href="#">view docs</a></div>
+              <div><a href="null">view example</a></div>
+              <div><a href="null">view docs</a></div>
             </div>
           </div>
         </div>

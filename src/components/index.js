@@ -102,7 +102,7 @@ class Wrapper extends React.Component {
         case MESSAGE_TYPE_DISPLAYTF:
           return new Amphion.DisplayTf(this.ros, name, this.scene);
         case MESSAGE_TYPE_DISPLAYJOINTSTATE:
-         console.log(this.robot);
+          console.log(this.robot);
           return new Amphion.DisplayJointState(this.ros, name, this.robot);
       }
       return null;
@@ -122,7 +122,7 @@ class Wrapper extends React.Component {
             },
             fetchOptions: { mode: 'cors', credentials: 'same-origin' },
           },
-        
+
         );
         removeExcludedObjects(this.robot);
         return {
@@ -131,15 +131,15 @@ class Wrapper extends React.Component {
         };
       }
       case MESSAGE_TYPE_TF:
-        return new Amphion.Tf(this.ros, '/tf');
+        return new Amphion.Tf(this.ros, name);
       case MESSAGE_TYPE_POSESTAMPED:
-        return new Amphion.Pose(this.ros, '/random_pose');
+        return new Amphion.Pose(this.ros, name);
       case MESSAGE_TYPE_MARKERARRAY:
-        return new Amphion.MarkerArray(this.ros, '/rviz_visual_tools');
+        return new Amphion.MarkerArray(this.ros, name);
       case MESSAGE_TYPE_LASERSCAN:
-        return new Amphion.LaserScan(this.ros, '/base_scan');
+        return new Amphion.LaserScan(this.ros, name);
       case MESSAGE_TYPE_POINTCLOUD2:
-        return new Amphion.PointCloud(this.ros, '/pickit/camera/depth_registered/points_3d_rectified');
+        return new Amphion.PointCloud(this.ros, name);
     }
     return null;
   }
