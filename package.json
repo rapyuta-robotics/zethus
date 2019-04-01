@@ -1,8 +1,9 @@
 {
-  "name": "zethus",
+  "name": "@rapyuta-robotics/zethus",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "amphion": "^0.0.1",
     "classnames": "^2.2.6",
     "lodash": "^4.17.11",
     "mousetrap": "^1.6.3",
@@ -13,9 +14,11 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.3",
     "roslib": "^1.0.1",
+    "shortid": "^2.2.14",
     "stats-js": "^1.0.0",
     "three": "^0.101.1",
-    "undo-manager": "^1.0.5"
+    "undo-manager": "^1.0.5",
+    "urdf-loader": "^0.6.1"
   },
   "scripts": {
     "start": "react-scripts start",

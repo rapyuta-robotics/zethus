@@ -4,31 +4,87 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+@keyframes twinkle {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes twinkle {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes twinkle {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes twinkle {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes twinkle {
+  from, to {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
 body {
   padding: 0;
   margin: 0;
   color: #ddd;
   font-family: 'Source Sans Pro', sans-serif;
+  overflow-y: hidden;
 }
-button {
+input, button {
   font-size: inherit;
   font-family: inherit;
+  outline: 0;
+  &:active {
+    outline: 0;
+  }
+}
+button {
+  cursor: pointer;
 }
 #wrapper {
   display: flex;
-  flex-direction: column;
   background-color: #000;
   width: 100%;
   height: 100vh;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
-#simContents {
-  flex-grow: 1;
-  position: relative;
+#sidebar {
+  background-color: #222;
+  width: 400px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  overflow-y: auto;
 }
 #viewport {
   width: 100%;
   height: 100%;
+  position: relative;
 }
 #viewportStats {
   position: absolute !important;
@@ -37,43 +93,215 @@ button {
   right: 0 !important;
   bottom: 0 !important;
 }
-#header {
-  width: 100%;
-  height: 50px;
-  background-color: #222;
-  display: flex;
-  align-items: center;
+#logo-wrapper {
+  padding: 10px 20px;
+  border-bottom: 1px solid #000000;
 }
+
 #logo {
-  width: 60px;
   height: 40px;
-}
-#logomark {
-  height: 40px;
-  margin: 0 auto;
   display: block;
 }
+
 #scene {
   flex-grow: 1;
   width: 100%;
 }
+#ros-input-section {
+  padding: 14px 20px;
+  border-bottom: 1px solid #000000;
+}
+
+#ros-status {
+  display: flex;
+  margin-bottom: 10px;
+  align-items: center;
+}
+#ros-status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #ffffff;
+  border-radius: 4px;
+  margin: 0 10px -2px 0;
+  &.connected {
+    background-color: #3e991c;
+  }
+  &.connecting {
+    background-color: #f9C351;
+    animation: twinkle normal 1s infinite ease-in-out;
+  }
+  &.error {
+    background-color: #ff3e3c;
+  }
+}
+#ros-status-text {
+
+}
+
 #ros-input-flex {
   display: flex;
 }
 #ros-input {
   color: #fff;
-  width: 250px;
+  width: 220px;
   border: 0;
-  height: 26px;
-  padding: 0;
-  margin: 0;
-  border-radius: 4px 0 0 4px;
-  background-color: #666666;
+  padding: 6px 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  background-color: #444;
+  font-size: 16px;
 }
-#ros-connect {
-  height: 26px;
+#ros-connect-button {
+  flex-grow: 1;
+}
+
+#visualzation-list {
+  padding: 10px 20px;
+}
+
+.dislay-type-form-wrapper {
+  padding: 20px 10px 10px 20px;
+  border-bottom: 1px solid black;
+
+  .display-type-form-header {
+    display: flex;
+    align-items: center;
+  }
+
+  .display-type-form-content {
+    margin-top: 8px;
+  }
+
+  .display-type-form-button-section {
+    margin-top: 8px;
+
+    button:first-child {
+      margin-right: 15px;
+    }
+
+    button {
+      background: #444444;
+      border: 0;
+      border-radius: 4px;
+      color: white;
+      padding: 5px 10px;
+      font-size: 12px;
+
+      i {
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .type-image {
+    width: 20px;
+    height: 20px;
+  }
+
+  select {
+    margin-left: 10px;
+    background: #212121;
+    border-color: #444444;
+    color: white;
+    padding: 3px;
+  }
+}
+
+.type-image {
+  width: 30px;
+  height: 30px;
+  display: inline-block;
+  background-color: #444444;
+  margin-right: 10px;
+  border-radius: 4px;
+}
+
+.btn-primary {
   border: 0;
   margin: 0;
-  padding: 0 10px;
-  border-radius: 0 4px 4px 0;
+  padding: 6px 20px;
+  border-radius: 4px;
+  color: white;
+  background-color: #34b7ee;
+  font-size: 16px;
+}
+
+.modal-wrapper {
+  position: absolute;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.modal-contents {
+  width: 1000px;
+  margin: 100px auto;
+  height: 600px;
+  background-color: #222222;
+  border-radius: 8px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  .modal-title {
+    margin-bottom: 6px;
+  }
+
+  .type-container {
+    display: flex;
+    flex-grow: 0;
+
+    .type-selection {
+      padding: 0 10px;
+      flex: 1 0 50%;
+      overflow-y: auto;
+
+      button {
+        text-align: left;
+        width: 100%;
+        height: 58px;
+        font-size: 22px;
+        border: 0;
+        background: transparent;
+        color: white;
+        padding: 15px 28px 13px 28px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      button.active {
+        background: black;
+      }
+
+      button.inactive {
+        color: #444444;
+
+        .type-image {
+          background-color: #2d2d2d;
+        }
+      }
+    }
+
+    .type-info {
+      padding: 0 10px;
+      flex: 1 0 50%;
+
+      .type-description {
+        margin-top: 0;
+        margin-bottom: 8px;
+        font-size: 22px;
+      }
+
+      &>div {
+        margin-bottom: 8px;
+
+        a {
+          color: #34B7EE;
+        }
+      }
+    }
+  }
 }
