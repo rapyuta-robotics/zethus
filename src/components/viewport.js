@@ -41,8 +41,8 @@ class Viewport extends React.Component {
     const container = this.container.current;
     const { offsetWidth, offsetHeight } = container;
     if (
-      Math.abs(offsetWidth - this.previousWidth) > 10
-      || Math.abs(offsetHeight - this.previousHeight) > 10
+      Math.abs(offsetWidth - this.previousWidth) > 10 ||
+      Math.abs(offsetHeight - this.previousHeight) > 10
     ) {
       camera.aspect = container.offsetWidth / container.offsetHeight;
       camera.updateProjectionMatrix();

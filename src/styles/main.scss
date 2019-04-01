@@ -5,45 +5,55 @@
 }
 
 @keyframes twinkle {
-  from, to {
+  from,
+  to {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
 }
 
 @-moz-keyframes twinkle {
-  from, to {
+  from,
+  to {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
 }
 
 @-webkit-keyframes twinkle {
-  from, to {
+  from,
+  to {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
 }
 
 @-ms-keyframes twinkle {
-  from, to {
+  from,
+  to {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
 }
 
 @-o-keyframes twinkle {
-  from, to {
+  from,
+  to {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
@@ -56,17 +66,22 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   overflow-y: hidden;
 }
-input, button {
+
+input,
+button {
   font-size: inherit;
   font-family: inherit;
   outline: 0;
+
   &:active {
     outline: 0;
   }
 }
+
 button {
   cursor: pointer;
 }
+
 #wrapper {
   display: flex;
   background-color: #000;
@@ -74,6 +89,7 @@ button {
   height: 100vh;
   overflow-y: hidden;
 }
+
 #sidebar {
   background-color: #222;
   width: 400px;
@@ -81,11 +97,13 @@ button {
   flex-grow: 0;
   overflow-y: auto;
 }
+
 #viewport {
   width: 100%;
   height: 100%;
   position: relative;
 }
+
 #viewportStats {
   position: absolute !important;
   top: auto !important;
@@ -93,9 +111,10 @@ button {
   right: 0 !important;
   bottom: 0 !important;
 }
+
 #logo-wrapper {
   padding: 10px 20px;
-  border-bottom: 1px solid #000000;
+  border-bottom: 1px solid #000;
 }
 
 #logo {
@@ -107,9 +126,10 @@ button {
   flex-grow: 1;
   width: 100%;
 }
+
 #ros-input-section {
   padding: 14px 20px;
-  border-bottom: 1px solid #000000;
+  border-bottom: 1px solid #000;
 }
 
 #ros-status {
@@ -117,30 +137,35 @@ button {
   margin-bottom: 10px;
   align-items: center;
 }
+
 #ros-status-dot {
   width: 8px;
   height: 8px;
-  background-color: #ffffff;
+  background-color: #fff;
   border-radius: 4px;
   margin: 0 10px -2px 0;
+
   &.connected {
     background-color: #3e991c;
   }
+
   &.connecting {
-    background-color: #f9C351;
+    background-color: #f9c351;
     animation: twinkle normal 1s infinite ease-in-out;
   }
+
   &.error {
     background-color: #ff3e3c;
   }
 }
-#ros-status-text {
 
+#ros-status-text {
 }
 
 #ros-input-flex {
   display: flex;
 }
+
 #ros-input {
   color: #fff;
   width: 220px;
@@ -151,6 +176,7 @@ button {
   background-color: #444;
   font-size: 16px;
 }
+
 #ros-connect-button {
   flex-grow: 1;
 }
@@ -180,7 +206,7 @@ button {
     }
 
     button {
-      background: #444444;
+      background: #444;
       border: 0;
       border-radius: 4px;
       color: white;
@@ -201,7 +227,7 @@ button {
   select {
     margin-left: 10px;
     background: #212121;
-    border-color: #444444;
+    border-color: #444;
     color: white;
     padding: 3px;
   }
@@ -211,7 +237,7 @@ button {
   width: 30px;
   height: 30px;
   display: inline-block;
-  background-color: #444444;
+  background-color: #444;
   margin-right: 10px;
   border-radius: 4px;
 }
@@ -235,11 +261,12 @@ button {
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.8);
 }
+
 .modal-contents {
   width: 1000px;
   margin: 100px auto;
   height: 600px;
-  background-color: #222222;
+  background-color: #222;
   border-radius: 8px;
   padding: 20px;
   display: flex;
@@ -277,7 +304,7 @@ button {
       }
 
       button.inactive {
-        color: #444444;
+        color: #444;
 
         .type-image {
           background-color: #2d2d2d;
@@ -295,11 +322,11 @@ button {
         font-size: 22px;
       }
 
-      &>div {
+      & > div {
         margin-bottom: 8px;
 
         a {
-          color: #34B7EE;
+          color: #34b7ee;
         }
       }
     }

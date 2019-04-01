@@ -9,7 +9,8 @@ import {
   MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_LASERSCAN,
   MESSAGE_TYPE_POINTCLOUD2,
-  MESSAGE_TYPE_DISPLAYTF, MESSAGE_TYPE_DISPLAYJOINTSTATE
+  MESSAGE_TYPE_DISPLAYTF,
+  MESSAGE_TYPE_DISPLAYJOINTSTATE,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
@@ -32,11 +33,11 @@ const excludedObjects = [
   'PointLight',
 ];
 
-const removeExcludedObjects = (mesh) => {
+const removeExcludedObjects = mesh => {
   const objectArray = [mesh];
   while (_.size(objectArray) > 0) {
     const currentItem = objectArray.shift();
-    _.each(currentItem.children, (child) => {
+    _.each(currentItem.children, child => {
       if (!child) {
         return;
       }
@@ -75,24 +76,27 @@ class Wrapper extends React.Component {
   componentDidMount() {
     this.ros.on('error', () => {
       this.setState({
-        rosStatus: ROS_SOCKET_STATUSES.CONNECTION_ERROR
+        rosStatus: ROS_SOCKET_STATUSES.CONNECTION_ERROR,
       });
     });
 
     this.ros.on('connection', () => {
-      this.ros.getTopics((rosTopics) => {
-        this.setState({
-          rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
-          rosTopics,
-        }, () => {
-          // const robotModel = Amphion.RobotModel
-        });
+      this.ros.getTopics(rosTopics => {
+        this.setState(
+          {
+            rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
+            rosTopics,
+          },
+          () => {
+            // const robotModel = Amphion.RobotModel
+          },
+        );
       });
     });
 
     this.ros.on('close', () => {
       this.setState({
-        rosStatus: ROS_SOCKET_STATUSES.INITIAL
+        rosStatus: ROS_SOCKET_STATUSES.INITIAL,
       });
     });
   }
@@ -110,20 +114,16 @@ class Wrapper extends React.Component {
     switch (messageType) {
       case 'robot_model': {
         const loader = new URDFLoader();
-        this.robot = loader.parse(
-          urdfDetails.urdf,
-          {
-            packages: urdfDetails.packages,
-            loadMeshCb: (path, ext, done) => {
-              loader.defaultMeshLoader(path, ext, (mesh) => {
-                removeExcludedObjects(mesh);
-                done(mesh);
-              });
-            },
-            fetchOptions: { mode: 'cors', credentials: 'same-origin' },
+        this.robot = loader.parse(urdfDetails.urdf, {
+          packages: urdfDetails.packages,
+          loadMeshCb: (path, ext, done) => {
+            loader.defaultMeshLoader(path, ext, mesh => {
+              removeExcludedObjects(mesh);
+              done(mesh);
+            });
           },
-
-        );
+          fetchOptions: { mode: 'cors', credentials: 'same-origin' },
+        });
         removeExcludedObjects(this.robot);
         return {
           object: this.robot,
@@ -145,17 +145,18 @@ class Wrapper extends React.Component {
   }
 
   addVisualization(types, isDisplay, displayName) {
-    const { visualizations, rosTopics: { topics, types: messageTypes } } = this.state;
-    const defaultTopicIndex = _.findIndex(messageTypes, type => _.includes(types, type));
-    const [
-      name, type
-    ] = [
+    const {
+      visualizations,
+      rosTopics: { topics, types: messageTypes },
+    } = this.state;
+    const defaultTopicIndex = _.findIndex(messageTypes, type =>
+      _.includes(types, type),
+    );
+    const [name, type] = [
       topics[defaultTopicIndex],
       messageTypes[defaultTopicIndex] || types[0],
     ];
-    const vizObject = this.getVisualization(
-      name, type, isDisplay,
-    );
+    const vizObject = this.getVisualization(name, type, isDisplay);
     if (!isDisplay) {
       this.scene.add(vizObject.object);
     }
@@ -169,7 +170,7 @@ class Wrapper extends React.Component {
           id: shortid.generate(),
           name,
           type,
-          displayName
+          displayName,
         },
       ],
     });
@@ -179,7 +180,7 @@ class Wrapper extends React.Component {
     const { visualizations } = this.state;
 
     let vizArrayClone = [...visualizations];
-    vizArrayClone = _.reject(vizArrayClone, (vizObject) => {
+    vizArrayClone = _.reject(vizArrayClone, vizObject => {
       if (vizObject.id === id) {
         vizObject.rosObject.destroy();
         return true;
@@ -191,7 +192,7 @@ class Wrapper extends React.Component {
   }
 
   addLights() {
-    [[-1, 0], [1, 0], [0, -1], [0, 1]].forEach((positions) => {
+    [[-1, 0], [1, 0], [0, -1], [0, 1]].forEach(positions => {
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
       [directionalLight.position.x, directionalLight.position.y] = positions;
       directionalLight.position.z = 1;
@@ -215,7 +216,7 @@ class Wrapper extends React.Component {
 
   connectRos(endpoint) {
     this.setState({
-      rosStatus: ROS_SOCKET_STATUSES.CONNECTING
+      rosStatus: ROS_SOCKET_STATUSES.CONNECTING,
     });
     this.ros.connect(endpoint);
   }
@@ -235,11 +236,12 @@ class Wrapper extends React.Component {
     const { addModalOpen, rosStatus, visualizations } = this.state;
     return (
       <div id="wrapper">
-        {
-          addModalOpen && (
-            <AddModal closeModal={this.toggleAddModal} addVisualization={this.addVisualization} />
-          )
-        }
+        {addModalOpen && (
+          <AddModal
+            closeModal={this.toggleAddModal}
+            addVisualization={this.addVisualization}
+          />
+        )}
         <Sidebar
           rosStatus={rosStatus}
           connectRos={this.connectRos}

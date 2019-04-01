@@ -4,10 +4,12 @@ class VizListItem extends React.Component {
   constructor(props) {
     super(props);
 
-    const { details: { type } } = this.props;
+    const {
+      details: { type },
+    } = this.props;
     this.state = {
       type,
-      topicTypes: []
+      topicTypes: [],
     };
     this.changeTopic = this.changeTopic.bind(this);
     this.hide = this.hide.bind(this);
@@ -16,31 +18,38 @@ class VizListItem extends React.Component {
   }
 
   componentDidMount() {
-    const { details: { type } } = this.props;
-    this.props.ros.getTopicsForType(type, (data) => {
+    const {
+      details: { type },
+    } = this.props;
+    this.props.ros.getTopicsForType(type, data => {
       this.setState({
         topicTypes: [...data],
-        hidden: false
+        hidden: false,
       });
     });
   }
 
   changeTopic(event) {
     const selectedTopic = event.target.value;
-    const { details: { rosObject } } = this.props;
+    const {
+      details: { rosObject },
+    } = this.props;
     rosObject.changeTopic(selectedTopic);
   }
 
   delete() {
-    const { details: { id } } = this.props;
+    const {
+      details: { id },
+    } = this.props;
     const { removeDisplayType } = this.props;
 
     removeDisplayType(id);
   }
 
-
   hide() {
-    const { details: { rosObject } } = this.props;
+    const {
+      details: { rosObject },
+    } = this.props;
     const { hidden } = this.state;
 
     this.setState({ hidden: true });
@@ -48,7 +57,9 @@ class VizListItem extends React.Component {
   }
 
   show() {
-    const { details: { rosObject } } = this.props;
+    const {
+      details: { rosObject },
+    } = this.props;
     const { hidden } = this.state;
 
     this.setState({ hidden: false });
@@ -56,7 +67,9 @@ class VizListItem extends React.Component {
   }
 
   render() {
-    const { details: { displayName } } = this.props;
+    const {
+      details: { displayName },
+    } = this.props;
     const { topicTypes, hidden } = this.state;
 
     return (
@@ -68,7 +81,9 @@ class VizListItem extends React.Component {
         <div className="display-type-form-content">
           Topic:
           <select onChange={this.changeTopic}>
-            { topicTypes.map(topic => <option>{topic}</option>)}
+            {topicTypes.map(topic => (
+              <option>{topic}</option>
+            ))}
           </select>
         </div>
         <div className="display-type-form-button-section">
@@ -77,19 +92,17 @@ class VizListItem extends React.Component {
             Delete
           </button>
 
-          {
-            !hidden ? (
-              <button type="button" onClick={this.hide}>
-                <i className="fa fa-eye-slash" aria-hidden="true" />
-                Hide
-              </button>
-            ) : (
-              <button type="button" onClick={this.show}>
-                <i className="fa fa-eye" aria-hidden="true" />
-                Show
-              </button>
-            )
-          }
+          {!hidden ? (
+            <button type="button" onClick={this.hide}>
+              <i className="fa fa-eye-slash" aria-hidden="true" />
+              Hide
+            </button>
+          ) : (
+            <button type="button" onClick={this.show}>
+              <i className="fa fa-eye" aria-hidden="true" />
+              Show
+            </button>
+          )}
         </div>
       </div>
     );

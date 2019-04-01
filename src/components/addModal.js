@@ -20,30 +20,37 @@ class AddModal extends React.Component {
           <h2 className="modal-title">Create Visualization</h2>
           <div className="type-container">
             <div className="type-selection">
-              {
-                _.map(vizOptions, op => (
-                  <div key={op.name}>
-                    <button
-                      type="button"
-                      className={!op.enabled ? 'inactive' : ''}
-                      disabled={!op.enabled}
-                      onClick={() => this.addVisualization(op.messageTypes, op.isDisplay, op.name)}
-                    >
-                      <span className="type-image" />
-                      {op.name}
-                    </button>
-                  </div>
-                ))
-              }
+              {_.map(vizOptions, op => (
+                <div key={op.name}>
+                  <button
+                    type="button"
+                    className={!op.enabled ? 'inactive' : ''}
+                    disabled={!op.enabled}
+                    onClick={() =>
+                      this.addVisualization(
+                        op.messageTypes,
+                        op.isDisplay,
+                        op.name,
+                      )
+                    }
+                  >
+                    <span className="type-image" />
+                    {op.name}
+                  </button>
+                </div>
+              ))}
             </div>
             <div className="type-info">
               <p className="type-description">Description</p>
-              <div><a href="null">view example</a></div>
-              <div><a href="null">view docs</a></div>
+              <div>
+                <a href="null">view example</a>
+              </div>
+              <div>
+                <a href="null">view docs</a>
+              </div>
             </div>
           </div>
         </div>
-
       </div>
     );
   }

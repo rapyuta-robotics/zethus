@@ -3,9 +3,10 @@ import {
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_DISPLAYJOINTSTATE,
   MESSAGE_TYPE_POINTCLOUD2,
-  MESSAGE_TYPE_MARKER, MESSAGE_TYPE_MARKERARRAY,
+  MESSAGE_TYPE_MARKER,
+  MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_LASERSCAN,
-  MESSAGE_TYPE_OCCUPANCYGRID
+  MESSAGE_TYPE_OCCUPANCYGRID,
 } from 'amphion/src/utils/constants';
 
 export const ROS_SOCKET_STATUSES = {
@@ -19,7 +20,7 @@ export const vizOptions = [
   {
     name: 'Robot Model',
     messageTypes: ['robot_model'],
-    enabled: true
+    enabled: true,
   },
   {
     name: 'Display Joint state',
@@ -30,7 +31,7 @@ export const vizOptions = [
   {
     name: 'Tf',
     messageTypes: [MESSAGE_TYPE_TF],
-    enabled: true
+    enabled: true,
   },
   {
     name: 'Display Tf',
@@ -41,22 +42,22 @@ export const vizOptions = [
   {
     name: 'Pose',
     messageTypes: [MESSAGE_TYPE_POSESTAMPED],
-    enabled: true
+    enabled: true,
   },
   {
     name: 'Point Cloud',
     messageTypes: [MESSAGE_TYPE_POINTCLOUD2],
-    enabled: true
+    enabled: true,
   },
   {
     name: 'Marker Array',
     messageTypes: [MESSAGE_TYPE_MARKERARRAY],
-    enabled: true
+    enabled: true,
   },
   {
     name: 'Laser Scan',
     messageTypes: [MESSAGE_TYPE_LASERSCAN],
-    enabled: true
+    enabled: true,
   },
   {
     name: 'Map',
@@ -957,14 +958,21 @@ export const urdfDetails = {
   </joint>
 </robot>`,
   packages: {
-    robotiq_2f_model: 'https://storage.googleapis.com/kompose-artifacts/robotiq_2f_model',
-    rr_world_description: 'https://storage.googleapis.com/kompose-artifacts/rr_world_description',
-    ur_description: 'https://storage.googleapis.com/kompose-artifacts/ur_description',
-    rr_japanpost_parts: 'https://storage.googleapis.com/kompose-artifacts/rr_japanpost_parts',
-    rr_schmalz_multisuction: 'https://storage.googleapis.com/kompose-artifacts/rr_schmalz_multisuction',
+    robotiq_2f_model:
+      'https://storage.googleapis.com/kompose-artifacts/robotiq_2f_model',
+    rr_world_description:
+      'https://storage.googleapis.com/kompose-artifacts/rr_world_description',
+    ur_description:
+      'https://storage.googleapis.com/kompose-artifacts/ur_description',
+    rr_japanpost_parts:
+      'https://storage.googleapis.com/kompose-artifacts/rr_japanpost_parts',
+    rr_schmalz_multisuction:
+      'https://storage.googleapis.com/kompose-artifacts/rr_schmalz_multisuction',
     mitsubishi_manipulator_description:
       'https://storage.googleapis.com/kompose-artifacts/mitsubishi_manipulator_description',
-    nkc_amr_description: 'https://storage.googleapis.com/kompose-artifacts/nkc_amr_description',
-    rr_shared_world_description: 'https://storage.googleapis.com/kompose-artifacts/rr_shared_world_description',
+    nkc_amr_description:
+      'https://storage.googleapis.com/kompose-artifacts/nkc_amr_description',
+    rr_shared_world_description:
+      'https://storage.googleapis.com/kompose-artifacts/rr_shared_world_description',
   },
 };

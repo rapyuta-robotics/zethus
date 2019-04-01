@@ -15,7 +15,7 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rosEndpoint: 'ws://localhost:9090',
+      rosEndpoint: 'ws://10.81.1.116:9090',
     };
     this.onRosSubmit = this.onRosSubmit.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
@@ -29,8 +29,10 @@ class Sidebar extends React.Component {
 
     if (rosStatus === ROS_SOCKET_STATUSES.CONNECTED) {
       disconnectRos();
-    } else if (rosStatus === ROS_SOCKET_STATUSES.INITIAL
-        || rosStatus === ROS_SOCKET_STATUSES.CONNECTION_ERROR) {
+    } else if (
+      rosStatus === ROS_SOCKET_STATUSES.INITIAL ||
+      rosStatus === ROS_SOCKET_STATUSES.CONNECTION_ERROR
+    ) {
       connectRos(rosEndpoint);
     }
   }
@@ -47,12 +49,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const {
-      ros,
-      rosStatus,
-      visualizations,
-      toggleAddModal
-    } = this.props;
+    const { ros, rosStatus, visualizations, toggleAddModal } = this.props;
 
     const { rosEndpoint } = this.state;
     return (
@@ -62,35 +59,50 @@ class Sidebar extends React.Component {
         </div>
         <div id="ros-input-section">
           <div id="ros-status">
-            <span id="ros-status-dot" className={CONNECTION_DOT_CLASSES[rosStatus]} />
-            <span id="ros-status-text">
-              {rosStatus}
-            </span>
+            <span
+              id="ros-status-dot"
+              className={CONNECTION_DOT_CLASSES[rosStatus]}
+            />
+            <span id="ros-status-text">{rosStatus}</span>
           </div>
           <form id="ros-input-flex" onSubmit={this.onRosSubmit}>
-            <input type="text" id="ros-input" value={rosEndpoint} onChange={this.updateRosEndpoint} />
+            <input
+              type="text"
+              id="ros-input"
+              value={rosEndpoint}
+              onChange={this.updateRosEndpoint}
+            />
             <button
               id="ros-connect-button"
               className="btn-primary"
               type="submit"
               disabled={rosStatus === ROS_SOCKET_STATUSES.CONNECTING}
             >
-              {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ? 'Disconnect' : 'Connect'}
+              {rosStatus === ROS_SOCKET_STATUSES.CONNECTED
+                ? 'Disconnect'
+                : 'Connect'}
             </button>
           </form>
         </div>
         <div id="visualzation-list">
-          <button type="button" className="btn-primary" onClick={toggleAddModal}>Add Visualization</button>
-          {
-            _.size(visualizations) === 0 && (
-              <p>No visualizations added to the scene</p>
-            )
-          }
-          {
-            _.map(
-              visualizations, viz => <VizListItem key={viz.id} details={viz} ros={ros} removeDisplayType={this.removeDisplayType} />
-            )
-          }
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={toggleAddModal}
+          >
+            Add Visualization
+          </button>
+          {_.size(visualizations) === 0 && (
+            <p>No visualizations added to the scene</p>
+          )}
+          {_.map(visualizations, viz => (
+            <VizListItem
+              key={viz.id}
+              details={viz}
+              ros={ros}
+              removeDisplayType={this.removeDisplayType}
+            />
+          ))}
         </div>
       </div>
     );
