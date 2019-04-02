@@ -4,6 +4,8 @@ import Arrow from 'amphion/src/primitives/Arrow';
 
 const { THREE } = window;
 
+const SIDEBAR_WIDTH = 400;
+
 class Viewport extends React.Component {
   constructor(props) {
     super(props);
@@ -12,16 +14,23 @@ class Viewport extends React.Component {
     this.previousWidth = 0;
     this.previousHeight = 0;
 
-    this.intersetPoint = new THREE.Vector3();
+    this.controls = null;
     this.mouse = new THREE.Vector2();
     this.raycaster = new THREE.Raycaster();
-    this.plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0)
+    this.rayIntersection = new THREE.Vector3();
+    this.plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+    this.arrow = new Arrow();
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.animate = this.animate.bind(this);
     this.initRenderer = this.initRenderer.bind(this);
     this.initGrid = this.initGrid.bind(this);
     this.initStats = this.initStats.bind(this);
+
+    this.setMouse = this.setMouse.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
   }
 
   componentDidMount() {
@@ -32,7 +41,8 @@ class Viewport extends React.Component {
     this.initRenderer();
     this.initGrid();
 
-    new THREE.EditorControls(camera, container);
+    this.controls = new THREE.EditorControls(camera, container);
+    this.controls.enabled = false;
     window.addEventListener('resize', this.onWindowResize);
     requestAnimationFrame(this.animate);
     this.onWindowResize();
@@ -86,68 +96,45 @@ class Viewport extends React.Component {
     scene.add(grid);
     const { array } = grid.geometry.attributes.color;
     for (let i = 0; i < array.length; i += 60) {
-      for (let j = 0; j < 12; j++) {
+      for (let j = 0; j < 12; j += 1) {
         array[i + j] = 0.26;
       }
     }
   }
 
-  setMouse(event) {
-    this.mouse.x = ( event.nativeEvent.offsetX / this.renderer.domElement.width ) * 2 - 1;
-    this.mouse.y = - ( event.nativeEvent.offsetY / this.renderer.domElement.height ) * 2 + 1;
+  setMouse({ clientX, clientY }) {
+    const { width, height } = this.renderer.domElement;
+    this.mouse.x = ((clientX - SIDEBAR_WIDTH) / width) * 2 - 1;
+    this.mouse.y = -(clientY / height) * 2 + 1;
   }
 
   castRay() {
     const { camera } = this.props;
-
-    // update the picking ray with the camera and mouse position
-    this.raycaster.setFromCamera( this.mouse, camera );
-
-    // calculate objects intersecting the picking ray
-    this.raycaster.ray.intersectPlane(this.plane, this.intersetPoint);
+    this.raycaster.setFromCamera(this.mouse, camera);
+    return this.raycaster.ray.intersectPlane(this.plane, this.rayIntersection);
   }
 
-  _onMouseMove(event) {
-    event.persist();
-
-    if (!this.canSetNav2D) {
-      return;
-    }
-
+  onMouseMove(event) {
     this.setMouse(event);
     this.castRay();
-
-    const direction = this.intersetPoint.sub(this.arrow.position);
-    this.arrow.lookAt(direction);
+    this.arrow.lookAt(this.rayIntersection);
+    this.arrow.rotateY(-Math.PI / 2);
   }
 
-  _onMouseClick(event) {
+  onMouseDown(event) {
     const { scene } = this.props;
-
-    event.persist();
     this.setMouse(event);
-    this.castRay();
-
-    if (this.intersetPoint) {
-      scene.add(this.getArrow());
-      this.arrow.position.set(this.intersetPoint.x, this.intersetPoint.y, 0)
+    const mousePos = this.castRay();
+    if (mousePos) {
+      this.arrow.position.set(mousePos.x, mousePos.y, 0);
+      scene.add(this.arrow);
+      window.addEventListener('mousemove', this.onMouseMove);
     }
-
-    this.canSetNav2D = true;
   }
 
-  _onMouseUp(event) {
-    event.persist();
-    this.arrow.visible = false;
-    this.canSetNav2D = false;
-  }
-
-  getArrow() {
-    if (!this.arrow) {
-      this.arrow = new Arrow();
-    }
-    this.arrow.visible = true;
-    return this.arrow;
+  onMouseUp() {
+    window.removeEventListener('mousemove', this.onMouseMove);
+    this.props.scene.remove(this.arrow);
   }
 
   initStats() {
@@ -158,11 +145,15 @@ class Viewport extends React.Component {
   }
 
   render() {
-    return <div ref={this.container}
-      onMouseMove={this._onMouseMove.bind(this)}
-      onMouseDown={this._onMouseClick.bind(this)}
-      onMouseUp={this._onMouseUp.bind(this)}
-      className="Panel" id="viewport" />;
+    return (
+      <div
+        ref={this.container}
+        onMouseDown={this.onMouseDown}
+        onMouseUp={this.onMouseUp}
+        className="Panel"
+        id="viewport"
+      />
+    );
   }
 }
 
