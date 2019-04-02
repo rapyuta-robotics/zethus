@@ -1,7 +1,7 @@
 import React from 'react';
 import Stats from 'stats-js';
 import Arrow from 'amphion/src/primitives/Arrow';
-import { MESSAGE_TYPE_POSESTAMPED } from 'amphion/src/utils/constants';
+import { MESSAGE_TYPE_POSESTAMPED, MESSAGE_TYPE_POSECOVARIANCE } from 'amphion/src/utils/constants';
 
 const { THREE } = window;
 
@@ -132,7 +132,7 @@ class Viewport extends React.Component {
     const pose = {
       pose: {
         position: { x: position.x, y: position.y, z: position.z },
-        quaternion: {
+        orientation: {
           x: quaternion.x,
           y: quaternion.y,
           z: quaternion.z,
@@ -141,7 +141,20 @@ class Viewport extends React.Component {
       },
     };
 
-    publishNavMessages(pose, this.currentNavTopicType);
+    if (this.currentNavTopicType === '/move_base_simple/goal') {
+      publishNavMessages(
+        { header: { frame_id: 'world' }, ...pose },
+        this.currentNavTopicType,
+        MESSAGE_TYPE_POSESTAMPED,
+      );
+    } else {
+      const arr = new Array(12).fill(0);
+      publishNavMessages(
+        { ...pose, covariance: arr },
+        this.currentNavTopicType,
+        MESSAGE_TYPE_POSECOVARIANCE,
+      );
+    }
   }
 
   onMouseDown(event) {

@@ -238,28 +238,16 @@ class Wrapper extends React.Component {
     }
   }
 
-  publishNavMessages(pose, topic) {
-    console.log(pose);
-    const { position, quaternion } = pose.pose;
+  publishNavMessages(msg, topic, messageType) {
     const nav2D = new ROSLIB.Topic({
       ros: this.ros,
       name: topic,
-      messageType: MESSAGE_TYPE_POSESTAMPED,
+      messageType,
     });
     const poseMsg = new ROSLIB.Message({
-      header: {
-        frame_id: 'world',
-      },
-      pose: {
-        position: { x: position.x, y: position.y, z: position.z },
-        orientation: {
-          x: quaternion.x,
-          y: quaternion.y,
-          z: quaternion.z,
-          w: quaternion.w,
-        },
-      },
+      ...msg,
     });
+
     nav2D.publish(poseMsg);
   }
 
