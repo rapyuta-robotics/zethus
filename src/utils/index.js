@@ -3,10 +3,13 @@ import {
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_DISPLAYJOINTSTATE,
   MESSAGE_TYPE_POINTCLOUD2,
-  MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_LASERSCAN,
   MESSAGE_TYPE_OCCUPANCYGRID,
+  MESSAGE_TYPE_ODOMETRY,
+  MESSAGE_TYPE_POINTCLOUD,
+  MESSAGE_TYPE_DISPLAYTF,
+  MESSAGE_TYPE_ROBOT_MODEL,
 } from 'amphion/src/utils/constants';
 
 export const ROS_SOCKET_STATUSES = {
@@ -18,50 +21,77 @@ export const ROS_SOCKET_STATUSES = {
 
 export const vizOptions = [
   {
-    name: 'Robot Model',
-    messageTypes: ['robot_model'],
-    enabled: true,
-  },
-  {
-    name: 'Display Joint state',
-    messageTypes: [MESSAGE_TYPE_DISPLAYJOINTSTATE],
-    enabled: true,
-    isDisplay: true,
-  },
-  {
-    name: 'Tf',
-    messageTypes: [MESSAGE_TYPE_TF],
-    enabled: true,
-  },
-  {
-    name: 'Display Tf',
-    messageTypes: [MESSAGE_TYPE_TF],
-    enabled: true,
-    isDisplay: true,
-  },
-  {
-    name: 'Pose',
-    messageTypes: [MESSAGE_TYPE_POSESTAMPED],
-    enabled: true,
-  },
-  {
-    name: 'Point Cloud',
-    messageTypes: [MESSAGE_TYPE_POINTCLOUD2],
-    enabled: true,
-  },
-  {
-    name: 'Marker Array',
-    messageTypes: [MESSAGE_TYPE_MARKERARRAY],
-    enabled: true,
-  },
-  {
     name: 'Laser Scan',
     messageTypes: [MESSAGE_TYPE_LASERSCAN],
-    enabled: true,
+    description: `shows data from a sensor_msgs/LaserScan message with different options for rendering modes, accumulation, etc.  
+![](/image/sc_pointcloud.png)`,
+    exampleLink: '',
+    docsLink: '',
   },
   {
     name: 'Map',
     messageTypes: [MESSAGE_TYPE_OCCUPANCYGRID],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+  },
+  {
+    name: 'Marker Array',
+    messageTypes: [MESSAGE_TYPE_MARKERARRAY],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+  },
+  {
+    name: 'Odometry',
+    messageTypes: [MESSAGE_TYPE_ODOMETRY],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+  },
+  {
+    name: 'Point Cloud',
+    messageTypes: [MESSAGE_TYPE_POINTCLOUD2, MESSAGE_TYPE_POINTCLOUD],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+  },
+  {
+    name: 'Pose',
+    messageTypes: [MESSAGE_TYPE_POSESTAMPED],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+  },
+  {
+    name: 'Robot Model',
+    messageTypes: [MESSAGE_TYPE_ROBOT_MODEL],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+  },
+  {
+    name: 'Tf',
+    messageTypes: [MESSAGE_TYPE_TF],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+  },
+  {
+    name: 'Display Joint state',
+    messageTypes: [MESSAGE_TYPE_DISPLAYJOINTSTATE],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+    isDisplay: true,
+  },
+  {
+    name: 'Display Tf',
+    messageTypes: [MESSAGE_TYPE_DISPLAYTF],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+    isDisplay: true,
   },
 ];
 

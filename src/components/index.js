@@ -58,7 +58,7 @@ class Wrapper extends React.Component {
       rosStatus: ROS_SOCKET_STATUSES.INITIAL,
       visualizations: [],
       addModalOpen: false,
-      rosTopics: [],
+      rosTopics: {},
     };
     this.ros = new ROSLIB.Ros();
     this.scene = new THREE.Scene();
@@ -82,15 +82,10 @@ class Wrapper extends React.Component {
 
     this.ros.on('connection', () => {
       this.ros.getTopics(rosTopics => {
-        this.setState(
-          {
-            rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
-            rosTopics,
-          },
-          () => {
-            // const robotModel = Amphion.RobotModel
-          },
-        );
+        this.setState({
+          rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
+          rosTopics,
+        });
       });
     });
 
@@ -233,11 +228,12 @@ class Wrapper extends React.Component {
   }
 
   render() {
-    const { addModalOpen, rosStatus, visualizations } = this.state;
+    const { addModalOpen, rosStatus, visualizations, rosTopics } = this.state;
     return (
       <div id="wrapper">
         {addModalOpen && (
           <AddModal
+            rosTopics={rosTopics}
             closeModal={this.toggleAddModal}
             addVisualization={this.addVisualization}
           />
