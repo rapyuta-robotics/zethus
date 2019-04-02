@@ -1,5 +1,6 @@
 import React from 'react';
 import Stats from 'stats-js';
+import Arrow from 'amphion/src/primitives/Arrow';
 
 const { THREE } = window;
 
@@ -10,6 +11,11 @@ class Viewport extends React.Component {
 
     this.previousWidth = 0;
     this.previousHeight = 0;
+
+    this.intersetPoint = new THREE.Vector3();
+    this.mouse = new THREE.Vector2();
+    this.raycaster = new THREE.Raycaster();
+    this.plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0)
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.animate = this.animate.bind(this);
@@ -86,6 +92,64 @@ class Viewport extends React.Component {
     }
   }
 
+  setMouse(event) {
+    this.mouse.x = ( event.nativeEvent.offsetX / this.renderer.domElement.width ) * 2 - 1;
+    this.mouse.y = - ( event.nativeEvent.offsetY / this.renderer.domElement.height ) * 2 + 1;
+  }
+
+  castRay() {
+    const { camera } = this.props;
+
+    // update the picking ray with the camera and mouse position
+    this.raycaster.setFromCamera( this.mouse, camera );
+
+    // calculate objects intersecting the picking ray
+    this.raycaster.ray.intersectPlane(this.plane, this.intersetPoint);
+  }
+
+  _onMouseMove(event) {
+    event.persist();
+
+    if (!this.canSetNav2D) {
+      return;
+    }
+
+    this.setMouse(event);
+    this.castRay();
+
+    const direction = this.intersetPoint.sub(this.arrow.position);
+    this.arrow.lookAt(direction);
+  }
+
+  _onMouseClick(event) {
+    const { scene } = this.props;
+
+    event.persist();
+    this.setMouse(event);
+    this.castRay();
+
+    if (this.intersetPoint) {
+      scene.add(this.getArrow());
+      this.arrow.position.set(this.intersetPoint.x, this.intersetPoint.y, 0)
+    }
+
+    this.canSetNav2D = true;
+  }
+
+  _onMouseUp(event) {
+    event.persist();
+    this.arrow.visible = false;
+    this.canSetNav2D = false;
+  }
+
+  getArrow() {
+    if (!this.arrow) {
+      this.arrow = new Arrow();
+    }
+    this.arrow.visible = true;
+    return this.arrow;
+  }
+
   initStats() {
     this.stats = new Stats();
     this.stats.showPanel(0);
@@ -94,7 +158,11 @@ class Viewport extends React.Component {
   }
 
   render() {
-    return <div ref={this.container} className="Panel" id="viewport" />;
+    return <div ref={this.container}
+      onMouseMove={this._onMouseMove.bind(this)}
+      onMouseDown={this._onMouseClick.bind(this)}
+      onMouseUp={this._onMouseUp.bind(this)}
+      className="Panel" id="viewport" />;
   }
 }
 
