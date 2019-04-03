@@ -12,6 +12,7 @@ import {
   MESSAGE_TYPE_DISPLAYTF,
   MESSAGE_TYPE_DISPLAYJOINTSTATE,
   MESSAGE_TYPE_ROBOT_MODEL,
+  MESSAGE_TYPE_ODOMETRY,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
@@ -148,6 +149,8 @@ class Wrapper extends React.Component {
         return new Amphion.LaserScan(this.ros, name);
       case MESSAGE_TYPE_POINTCLOUD2:
         return new Amphion.PointCloud(this.ros, name);
+      case MESSAGE_TYPE_ODOMETRY:
+        return new Amphion.DisplayOdometry(this.ros, name);
       default:
         return null;
     }
