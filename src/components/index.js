@@ -19,6 +19,7 @@ import Sidebar from './sidebar';
 import { ROS_SOCKET_STATUSES } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
+import { posix } from 'upath';
 
 const { THREE } = window;
 
@@ -72,6 +73,8 @@ class Wrapper extends React.Component {
     this.toggleAddModal = this.toggleAddModal.bind(this);
     this.getVisualization = this.getVisualization.bind(this);
     this.removeDisplayType = this.removeDisplayType.bind(this);
+    this.toggleEditorControls = this.toggleEditorControls.bind(this);
+    this.publishNavMessages = this.publishNavMessages.bind(this);
   }
 
   componentDidMount() {
@@ -240,6 +243,27 @@ class Wrapper extends React.Component {
     });
   }
 
+  toggleEditorControls(enabled, topicName) {
+    if (enabled) {
+      this.viewportRef.enableEditorControls();
+    } else {
+      this.viewportRef.disableEditorControls(topicName);
+    }
+  }
+
+  publishNavMessages(msg, topic, messageType) {
+    const nav2D = new ROSLIB.Topic({
+      ros: this.ros,
+      name: topic,
+      messageType,
+    });
+    const poseMsg = new ROSLIB.Message({
+      ...msg,
+    });
+
+    nav2D.publish(poseMsg);
+  }
+
   render() {
     const { addModalOpen, rosStatus, visualizations, rosTopics } = this.state;
     return (
@@ -259,8 +283,16 @@ class Wrapper extends React.Component {
           ros={this.ros}
           toggleAddModal={this.toggleAddModal}
           removeDisplayType={this.removeDisplayType}
+          toggleEditorControls={this.toggleEditorControls}
         />
-        <Viewport camera={this.camera} scene={this.scene} />
+        <Viewport
+          camera={this.camera}
+          scene={this.scene}
+          publishNavMessages={this.publishNavMessages}
+          onRef={ref => {
+            this.viewportRef = ref;
+          }}
+        />
       </div>
     );
   }

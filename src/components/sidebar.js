@@ -48,61 +48,100 @@ class Sidebar extends React.Component {
     removeDisplayType(id);
   }
 
+  navGoal2DClicked() {
+    // disable editor controls and publish the topic /goal
+    const { toggleEditorControls } = this.props;
+    toggleEditorControls(false, '/move_base_simple/goal');
+  }
+
+  navEstimate2DClicked() {
+    // disable editor controls and publish the topic /initialpose
+    const { toggleEditorControls } = this.props;
+    toggleEditorControls(false, 'initialpose');
+  }
+
+  nav2DBtnBlur() {
+    // enable the editor controls here.
+    const { toggleEditorControls } = this.props;
+    toggleEditorControls(true);
+  }
+
   render() {
     const { ros, rosStatus, visualizations, toggleAddModal } = this.props;
 
     const { rosEndpoint } = this.state;
     return (
       <div id="sidebar">
-        <div id="logo-wrapper">
-          <img id="logo" src="/logo.svg" alt="Zethus" />
-        </div>
-        <div id="ros-input-section">
-          <div id="ros-status">
-            <span
-              id="ros-status-dot"
-              className={CONNECTION_DOT_CLASSES[rosStatus]}
-            />
-            <span id="ros-status-text">{rosStatus}</span>
+        <div className="sidebar-display">
+          <div id="logo-wrapper">
+            <img id="logo" src="/logo.svg" alt="Zethus" />
           </div>
-          <form id="ros-input-flex" onSubmit={this.onRosSubmit}>
-            <input
-              type="text"
-              id="ros-input"
-              value={rosEndpoint}
-              onChange={this.updateRosEndpoint}
-            />
+          <div id="ros-input-section">
+            <div id="ros-status">
+              <span
+                id="ros-status-dot"
+                className={CONNECTION_DOT_CLASSES[rosStatus]}
+              />
+              <span id="ros-status-text">{rosStatus}</span>
+            </div>
+            <form id="ros-input-flex" onSubmit={this.onRosSubmit}>
+              <input
+                type="text"
+                id="ros-input"
+                value={rosEndpoint}
+                onChange={this.updateRosEndpoint}
+              />
+              <button
+                id="ros-connect-button"
+                className="btn-primary"
+                type="submit"
+                disabled={rosStatus === ROS_SOCKET_STATUSES.CONNECTING}
+              >
+                {rosStatus === ROS_SOCKET_STATUSES.CONNECTED
+                  ? 'Disconnect'
+                  : 'Connect'}
+              </button>
+            </form>
+          </div>
+          <div id="visualzation-list">
             <button
-              id="ros-connect-button"
+              type="button"
               className="btn-primary"
-              type="submit"
-              disabled={rosStatus === ROS_SOCKET_STATUSES.CONNECTING}
+              onClick={toggleAddModal}
             >
-              {rosStatus === ROS_SOCKET_STATUSES.CONNECTED
-                ? 'Disconnect'
-                : 'Connect'}
+              Add Visualization
             </button>
-          </form>
+            {_.size(visualizations) === 0 && (
+              <p>No visualizations added to the scene</p>
+            )}
+            {_.map(visualizations, viz => (
+              <VizListItem
+                key={viz.id}
+                details={viz}
+                ros={ros}
+                removeDisplayType={this.removeDisplayType}
+              />
+            ))}
+          </div>
         </div>
-        <div id="visualzation-list">
+        <div
+          className="sidebar-bottom-btn"
+          onBlur={this.nav2DBtnBlur.bind(this)}
+        >
           <button
             type="button"
             className="btn-primary"
-            onClick={toggleAddModal}
+            onClick={this.navGoal2DClicked.bind(this)}
           >
-            Add Visualization
+            2D Nav Goal
           </button>
-          {_.size(visualizations) === 0 && (
-            <p>No visualizations added to the scene</p>
-          )}
-          {_.map(visualizations, viz => (
-            <VizListItem
-              key={viz.id}
-              details={viz}
-              ros={ros}
-              removeDisplayType={this.removeDisplayType}
-            />
-          ))}
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={this.navEstimate2DClicked.bind(this)}
+          >
+            2D Nav Estimate
+          </button>
         </div>
       </div>
     );

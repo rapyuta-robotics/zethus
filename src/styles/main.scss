@@ -108,9 +108,32 @@ p {
 #sidebar {
   background-color: #222;
   width: 400px;
+  display: flex;
+  flex-direction: column;
   flex-shrink: 0;
-  flex-grow: 0;
-  overflow-y: auto;
+  justify-content: space-between;
+
+  .sidebar-display {
+    overflow-y: auto;
+  }
+
+  .sidebar-bottom-btn {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+
+    button {
+      flex-grow: 1;
+    }
+
+    button:first-child {
+      margin-right: 10px;
+    }
+
+    button:focus {
+      background: orange;
+    }
+  }
 }
 
 #viewport {

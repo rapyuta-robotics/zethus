@@ -1,6 +1,10 @@
 import React from 'react';
 import Stats from 'stats-js';
 import Arrow from 'amphion/src/primitives/Arrow';
+import {
+  MESSAGE_TYPE_POSESTAMPED,
+  MESSAGE_TYPE_POSECOVARIANCE,
+} from 'amphion/src/utils/constants';
 
 const { THREE } = window;
 
@@ -46,10 +50,13 @@ class Viewport extends React.Component {
     window.addEventListener('resize', this.onWindowResize);
     requestAnimationFrame(this.animate);
     this.onWindowResize();
+
+    this.props.onRef(this);
   }
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.onWindowResize);
+    this.props.onRef(undefined);
   }
 
   onWindowResize() {
@@ -121,7 +128,43 @@ class Viewport extends React.Component {
     this.arrow.rotateY(-Math.PI / 2);
   }
 
+  publishNavMsg() {
+    const { position, quaternion } = this.arrow;
+    const { publishNavMessages } = this.props;
+
+    const pose = {
+      pose: {
+        position: { x: position.x, y: position.y, z: position.z },
+        orientation: {
+          x: quaternion.x,
+          y: quaternion.y,
+          z: quaternion.z,
+          w: quaternion.w,
+        },
+      },
+    };
+
+    if (this.currentNavTopicType === '/move_base_simple/goal') {
+      publishNavMessages(
+        { header: { frame_id: 'world' }, ...pose },
+        this.currentNavTopicType,
+        MESSAGE_TYPE_POSESTAMPED,
+      );
+    } else {
+      const arr = new Array(12).fill(0);
+      publishNavMessages(
+        { ...pose, covariance: arr },
+        this.currentNavTopicType,
+        MESSAGE_TYPE_POSECOVARIANCE,
+      );
+    }
+  }
+
   onMouseDown(event) {
+    if (this.controls.enabled) {
+      return;
+    }
+
     const { scene } = this.props;
     this.setMouse(event);
     const mousePos = this.castRay();
@@ -133,8 +176,26 @@ class Viewport extends React.Component {
   }
 
   onMouseUp() {
+    const { scene } = this.props;
+
     window.removeEventListener('mousemove', this.onMouseMove);
-    this.props.scene.remove(this.arrow);
+    scene.remove(this.arrow);
+
+    console.log(this.currentNavTopicType);
+    if (this.currentNavTopicType) {
+      this.publishNavMsg();
+    }
+
+    this.currentNavTopicType = null;
+  }
+
+  disableEditorControls(topicName) {
+    this.controls.enabled = false;
+    this.currentNavTopicType = topicName;
+  }
+
+  enableEditorControls() {
+    this.controls.enabled = true;
   }
 
   initStats() {
