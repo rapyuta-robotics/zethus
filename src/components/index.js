@@ -14,6 +14,7 @@ import {
   MESSAGE_TYPE_ROBOT_MODEL,
   MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_POSEARRAY,
+  MESSAGE_TYPE_PATH,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
@@ -21,7 +22,6 @@ import Sidebar from './sidebar';
 import { ROS_SOCKET_STATUSES } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
-import { posix } from 'upath';
 
 const { THREE } = window;
 
@@ -153,6 +153,8 @@ class Wrapper extends React.Component {
         return new Amphion.LaserScan(this.ros, name);
       case MESSAGE_TYPE_POINTCLOUD2:
         return new Amphion.PointCloud(this.ros, name);
+      case MESSAGE_TYPE_PATH:
+        return new Amphion.Path(this.ros, name);
       default:
         return null;
     }
