@@ -151,7 +151,7 @@ class Viewport extends React.Component {
         MESSAGE_TYPE_POSESTAMPED,
       );
     } else {
-      const arr = new Array(12).fill(0);
+      const arr = new Array(36).fill(0);
       publishNavMessages(
         { ...pose, covariance: arr },
         this.currentNavTopicType,

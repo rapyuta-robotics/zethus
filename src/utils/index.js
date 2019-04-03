@@ -44,13 +44,6 @@ export const vizOptions = [
     docsLink: '',
   },
   {
-    name: 'Odometry',
-    messageTypes: [MESSAGE_TYPE_ODOMETRY],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
-  },
-  {
     name: 'Point Cloud',
     messageTypes: [MESSAGE_TYPE_POINTCLOUD2, MESSAGE_TYPE_POINTCLOUD],
     description: 'Lorem ipsum',
@@ -100,6 +93,14 @@ export const vizOptions = [
     exampleLink: '',
     docsLink: '',
     isDisplay: true,
+  },
+  {
+    name: 'Display Odometry',
+    messageTypes: [MESSAGE_TYPE_ODOMETRY],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+    isDisplay: false,
   },
 ];
 
