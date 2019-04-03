@@ -209,8 +209,8 @@ class Viewport extends React.Component {
     return (
       <div
         ref={this.container}
-        // onMouseDown={this.onMouseDown}
-        // onMouseUp={this.onMouseUp}
+        onMouseDown={this.onMouseDown}
+        onMouseUp={this.onMouseUp}
         className="Panel"
         id="viewport"
       />

@@ -15,11 +15,15 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rosEndpoint: 'ws://10.81.1.184:9090',
+      rosEndpoint: 'ws://10.81.1.171:9090',
     };
     this.onRosSubmit = this.onRosSubmit.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
     this.removeDisplayType = this.removeDisplayType.bind(this);
+
+    this.nav2DBtnBlur = this.nav2DBtnBlur.bind(this);
+    this.navGoal2DClicked = this.navGoal2DClicked.bind(this);
+    this.navEstimate2DClicked = this.navEstimate2DClicked.bind(this);
   }
 
   onRosSubmit(e) {
@@ -124,21 +128,18 @@ class Sidebar extends React.Component {
             ))}
           </div>
         </div>
-        <div
-          className="sidebar-bottom-btn"
-          onBlur={this.nav2DBtnBlur.bind(this)}
-        >
+        <div className="sidebar-bottom-btn" onBlur={this.nav2DBtnBlur}>
           <button
             type="button"
             className="btn-primary"
-            onClick={this.navGoal2DClicked.bind(this)}
+            onClick={this.navGoal2DClicked}
           >
             2D Nav Goal
           </button>
           <button
             type="button"
             className="btn-primary"
-            onClick={this.navEstimate2DClicked.bind(this)}
+            onClick={this.navEstimate2DClicked}
           >
             2D Nav Estimate
           </button>
