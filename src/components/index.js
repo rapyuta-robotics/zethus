@@ -11,15 +11,16 @@ import {
   MESSAGE_TYPE_POINTCLOUD2,
   MESSAGE_TYPE_DISPLAYTF,
   MESSAGE_TYPE_DISPLAYJOINTSTATE,
+  MESSAGE_TYPE_ROBOT_MODEL,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
 import Sidebar from './sidebar';
-import { ROS_SOCKET_STATUSES, urdfDetails } from '../utils';
+import { ROS_SOCKET_STATUSES } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
 
-const { THREE, URDFLoader } = window;
+const { THREE } = window;
 
 const excludedObjects = [
   'PerspectiveCamera',
@@ -96,34 +97,43 @@ class Wrapper extends React.Component {
     });
   }
 
-  getVisualization(name, messageType, isDisplay) {
+  getVisualization(name, messageType, isDisplay, options) {
     if (isDisplay) {
       switch (messageType) {
         case MESSAGE_TYPE_DISPLAYTF:
           return new Amphion.DisplayTf(this.ros, name, this.scene);
         case MESSAGE_TYPE_DISPLAYJOINTSTATE:
           return new Amphion.DisplayJointState(this.ros, name, this.robot);
+        default:
+          return null;
       }
-      return null;
     }
     switch (messageType) {
-      case 'robot_model': {
-        const loader = new URDFLoader();
-        this.robot = loader.parse(urdfDetails.urdf, {
-          packages: urdfDetails.packages,
-          loadMeshCb: (path, ext, done) => {
-            loader.defaultMeshLoader(path, ext, mesh => {
-              removeExcludedObjects(mesh);
-              done(mesh);
-            });
+      case MESSAGE_TYPE_ROBOT_MODEL: {
+        const robotModel = new Amphion.RobotModel(
+          this.ros,
+          options.paramName || 'robot_description',
+        );
+        robotModel.load(
+          object => {
+            console.log(object);
+            // removeExcludedObjects(object);
           },
-          fetchOptions: { mode: 'cors', credentials: 'same-origin' },
-        });
-        removeExcludedObjects(this.robot);
-        return {
-          object: this.robot,
-          subscribe: () => {},
-        };
+          {
+            packages: _.mapValues(
+              _.keyBy(options.packages || {}, 'name'),
+              'value',
+            ),
+            // loadMeshCb: (path, ext, done) => {
+            //   robotModel.defaultMeshLoader(path, ext, mesh => {
+            //     // removeExcludedObjects(mesh);
+            //     done(mesh);
+            //   });
+            // },
+            // fetchOptions: { mode: 'cors', credentials: 'same-origin' },
+          },
+        );
+        return robotModel;
       }
       case MESSAGE_TYPE_TF:
         return new Amphion.Tf(this.ros, name);
@@ -135,11 +145,12 @@ class Wrapper extends React.Component {
         return new Amphion.LaserScan(this.ros, name);
       case MESSAGE_TYPE_POINTCLOUD2:
         return new Amphion.PointCloud(this.ros, name);
+      default:
+        return null;
     }
-    return null;
   }
 
-  addVisualization(types, isDisplay, displayName) {
+  addVisualization(types, isDisplay, displayName, options) {
     const {
       visualizations,
       rosTopics: { topics, types: messageTypes },
@@ -151,11 +162,13 @@ class Wrapper extends React.Component {
       topics[defaultTopicIndex],
       messageTypes[defaultTopicIndex] || types[0],
     ];
-    const vizObject = this.getVisualization(name, type, isDisplay);
+    const vizObject = this.getVisualization(name, type, isDisplay, options);
     if (!isDisplay) {
       this.scene.add(vizObject.object);
     }
-    vizObject.subscribe();
+    if (vizObject.subscribe) {
+      vizObject.subscribe();
+    }
     this.setState({
       visualizations: [
         ...visualizations,

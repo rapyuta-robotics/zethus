@@ -42,7 +42,7 @@ class Viewport extends React.Component {
     this.initGrid();
 
     this.controls = new THREE.EditorControls(camera, container);
-    this.controls.enabled = false;
+    // this.controls.enabled = false;
     window.addEventListener('resize', this.onWindowResize);
     requestAnimationFrame(this.animate);
     this.onWindowResize();
@@ -148,8 +148,8 @@ class Viewport extends React.Component {
     return (
       <div
         ref={this.container}
-        onMouseDown={this.onMouseDown}
-        onMouseUp={this.onMouseUp}
+        // onMouseDown={this.onMouseDown}
+        // onMouseUp={this.onMouseUp}
         className="Panel"
         id="viewport"
       />

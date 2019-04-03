@@ -50,8 +50,6 @@ class VizListItem extends React.Component {
     const {
       details: { rosObject },
     } = this.props;
-    const { hidden } = this.state;
-
     this.setState({ hidden: true });
     rosObject.hide();
   }
@@ -60,8 +58,6 @@ class VizListItem extends React.Component {
     const {
       details: { rosObject },
     } = this.props;
-    const { hidden } = this.state;
-
     this.setState({ hidden: false });
     rosObject.show();
   }

@@ -6,7 +6,7 @@ const TopicName = ({ rosTopics: { topics, types } }) => (
     {_.map(topics, (t, index) => {
       const messageType = types[index];
       return (
-        <p>
+        <p key={t}>
           {t} {messageType}
         </p>
       );

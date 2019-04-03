@@ -42,6 +42,7 @@ class AddModal extends React.Component {
     this.selectViz = this.selectViz.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.updateTab = this.updateTab.bind(this);
+    this.toggleOptionsForm = this.toggleOptionsForm.bind(this);
   }
 
   addVisualization(messageTypes, isDisplay, displayName, options) {
@@ -68,10 +69,14 @@ class AddModal extends React.Component {
       selectedViz: { messageTypes, isDisplay, name },
     } = this.state;
     if (hasAdditionalOptions(messageTypes[0])) {
-      this.setState({ optionsForm: true });
+      this.toggleOptionsForm();
       return;
     }
     this.addVisualization(messageTypes, isDisplay, name);
+  }
+
+  toggleOptionsForm() {
+    this.setState({ optionsForm: !this.state.optionsForm });
   }
 
   render() {
@@ -79,62 +84,65 @@ class AddModal extends React.Component {
     const { selectedViz, tabType, optionsForm } = this.state;
     return (
       <div className="modal-wrapper" onClick={closeModal}>
-        <form
-          className="modal-contents"
-          onClick={stopPropagation}
-          onSubmit={this.onSubmit}
-        >
-          <h2 className="modal-title">Add Visualization</h2>
-          {optionsForm && (
-            <SelectedVizOptionsForm
-              selectedViz={selectedViz}
-              selectViz={this.selectViz}
-            />
-          )}
-          {!optionsForm && (
-            <React.Fragment>
-              <div className="flex tabs-header">
-                {_.map(tabs, tabText => (
-                  <button
-                    key={tabText}
-                    type="button"
-                    className={classNames({
-                      selected: tabType === tabText,
-                      'tabs-button': true,
-                    })}
-                    onClick={() => this.updateTab(tabText)}
-                  >
-                    {tabText}
-                  </button>
-                ))}
-              </div>
-              <div className="type-container">
-                {tabType === tabs.vizType ? (
-                  <VizType
-                    modalVizOptions={modalVizOptions}
-                    selectedViz={selectedViz}
-                    selectViz={this.selectViz}
-                  />
-                ) : (
-                  <TopicName rosTopics={rosTopics} />
-                )}
-              </div>
-            </React.Fragment>
-          )}
-          <div className="modal-actions">
-            <div className="flex-gap" />
-            <button
-              type="submit"
-              className="btn-primary"
-              disabled={!selectedViz}
-            >
-              Add Visualization
-            </button>
-            <button type="button" className="btn-primary" onClick={closeModal}>
-              Close
-            </button>
-          </div>
-        </form>
+        {optionsForm && (
+          <SelectedVizOptionsForm
+            selectedViz={selectedViz}
+            toggleOptionsForm={this.toggleOptionsForm}
+            addVisualization={this.addVisualization}
+          />
+        )}
+        {!optionsForm && (
+          <form
+            className="modal-contents"
+            onClick={stopPropagation}
+            onSubmit={this.onSubmit}
+          >
+            <h2 className="modal-title">Add Visualization</h2>
+            <div className="flex tabs-header">
+              {_.map(tabs, tabText => (
+                <button
+                  key={tabText}
+                  type="button"
+                  className={classNames({
+                    selected: tabType === tabText,
+                    'tabs-button': true,
+                  })}
+                  onClick={() => this.updateTab(tabText)}
+                >
+                  {tabText}
+                </button>
+              ))}
+            </div>
+            <div className="type-container">
+              {tabType === tabs.vizType ? (
+                <VizType
+                  modalVizOptions={modalVizOptions}
+                  selectedViz={selectedViz}
+                  selectViz={this.selectViz}
+                />
+              ) : (
+                <TopicName rosTopics={rosTopics} />
+              )}
+            </div>
+            <div className="modal-actions">
+              <div className="flex-gap" />
+              <button
+                type="submit"
+                className="btn-primary"
+                disabled={!selectedViz}
+              >
+                Add Visualization
+              </button>
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={closeModal}
+              >
+                Close
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     );
   }
