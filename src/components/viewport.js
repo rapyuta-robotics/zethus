@@ -181,7 +181,6 @@ class Viewport extends React.Component {
     window.removeEventListener('mousemove', this.onMouseMove);
     scene.remove(this.arrow);
 
-    console.log(this.currentNavTopicType);
     if (this.currentNavTopicType) {
       this.publishNavMsg();
     }

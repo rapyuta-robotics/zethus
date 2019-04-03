@@ -78,7 +78,7 @@ class VizListItem extends React.Component {
           Topic:
           <select onChange={this.changeTopic}>
             {topicTypes.map(topic => (
-              <option>{topic}</option>
+              <option key={topic}>{topic}</option>
             ))}
           </select>
         </div>

@@ -12,6 +12,8 @@ import {
   MESSAGE_TYPE_DISPLAYTF,
   MESSAGE_TYPE_DISPLAYJOINTSTATE,
   MESSAGE_TYPE_ROBOT_MODEL,
+  MESSAGE_TYPE_OCCUPANCYGRID,
+  MESSAGE_TYPE_POSEARRAY,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
@@ -119,29 +121,32 @@ class Wrapper extends React.Component {
         );
         robotModel.load(
           object => {
-            console.log(object);
-            // removeExcludedObjects(object);
+            removeExcludedObjects(object);
           },
           {
             packages: _.mapValues(
               _.keyBy(options.packages || {}, 'name'),
               'value',
             ),
-            // loadMeshCb: (path, ext, done) => {
-            //   robotModel.defaultMeshLoader(path, ext, mesh => {
-            //     // removeExcludedObjects(mesh);
-            //     done(mesh);
-            //   });
-            // },
-            // fetchOptions: { mode: 'cors', credentials: 'same-origin' },
+            loadMeshCb: (path, ext, done) => {
+              robotModel.defaultMeshLoader(path, ext, mesh => {
+                removeExcludedObjects(mesh);
+                done(mesh);
+              });
+            },
+            fetchOptions: { mode: 'cors', credentials: 'same-origin' },
           },
         );
         return robotModel;
       }
       case MESSAGE_TYPE_TF:
         return new Amphion.Tf(this.ros, name);
+      case MESSAGE_TYPE_OCCUPANCYGRID:
+        return new Amphion.Map(this.ros, name);
       case MESSAGE_TYPE_POSESTAMPED:
         return new Amphion.Pose(this.ros, name);
+      case MESSAGE_TYPE_POSEARRAY:
+        return new Amphion.PoseArray(this.ros, name);
       case MESSAGE_TYPE_MARKERARRAY:
         return new Amphion.MarkerArray(this.ros, name);
       case MESSAGE_TYPE_LASERSCAN:

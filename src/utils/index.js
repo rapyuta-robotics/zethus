@@ -10,6 +10,7 @@ import {
   MESSAGE_TYPE_POINTCLOUD,
   MESSAGE_TYPE_DISPLAYTF,
   MESSAGE_TYPE_ROBOT_MODEL,
+  MESSAGE_TYPE_POSEARRAY,
 } from 'amphion/src/utils/constants';
 
 export const ROS_SOCKET_STATUSES = {
@@ -59,6 +60,13 @@ export const vizOptions = [
   {
     name: 'Pose',
     messageTypes: [MESSAGE_TYPE_POSESTAMPED],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+  },
+  {
+    name: 'Pose Array',
+    messageTypes: [MESSAGE_TYPE_POSEARRAY],
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
