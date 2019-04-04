@@ -140,6 +140,17 @@ p {
   width: 100%;
   height: 100%;
   position: relative;
+
+  .viz-image-container {
+    width: 320px;
+    height: 150px;
+    position: absolute;
+
+    #myCanvas {
+      width: 640px;
+      height: 480px;
+    }
+  }
 }
 
 #viewportStats {
@@ -319,6 +330,7 @@ p {
 .type-container {
   display: flex;
   flex-grow: 1;
+  overflow: hidden;
 
   .type-selection {
     flex: 1 0 50%;

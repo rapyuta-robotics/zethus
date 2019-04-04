@@ -16,6 +16,7 @@ import {
   MESSAGE_TYPE_POSEARRAY,
   MESSAGE_TYPE_ODOMETRY,
   MESSAGE_TYPE_PATH,
+  MESSAGE_TYPE_IMAGE,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
@@ -158,9 +159,16 @@ class Wrapper extends React.Component {
         return new Amphion.DisplayOdometry(this.ros, name);
       case MESSAGE_TYPE_PATH:
         return new Amphion.Path(this.ros, name);
+      case MESSAGE_TYPE_IMAGE:
+        return new Amphion.Image(this.ros, name, this.getImageElement());
       default:
         return null;
     }
+  }
+
+  getImageElement() {
+    // Image dislay type
+    return document.getElementById('myCanvas');
   }
 
   addVisualization(types, isDisplay, displayName, options) {

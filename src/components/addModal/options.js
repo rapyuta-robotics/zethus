@@ -53,6 +53,7 @@ class SelectedVizOptionsForm extends React.Component {
       options: tempOptions,
     });
   }
+
   handleAdd(e, arrayKey, typeKey, defaultValue) {
     if (e) e.preventDefault();
     const tempData = getDefaultArrayItem(typeKey, defaultValue);
@@ -66,6 +67,7 @@ class SelectedVizOptionsForm extends React.Component {
       options: tempOptions,
     });
   }
+
   handleRemove(e, arrayKey, removeKey) {
     e.preventDefault();
     const tempOptions = {
@@ -78,6 +80,7 @@ class SelectedVizOptionsForm extends React.Component {
       options: tempOptions,
     });
   }
+
   onSubmit(e) {
     e.preventDefault();
     const {
@@ -87,6 +90,7 @@ class SelectedVizOptionsForm extends React.Component {
     const { options } = this.state;
     addVisualization(messageTypes, isDisplay, name, options);
   }
+
   render() {
     const {
       selectedViz: {

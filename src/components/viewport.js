@@ -212,7 +212,18 @@ class Viewport extends React.Component {
         onMouseUp={this.onMouseUp}
         className="Panel"
         id="viewport"
-      />
+      >
+        <div className="viz-image-container">
+          <canvas
+            id="myCanvas"
+            width="640px"
+            style={{ border: '1px solid #d3d3d3' }}
+            height="480px"
+          >
+            Your browser does not support the HTML5 canvas tag.
+          </canvas>
+        </div>
+      </div>
     );
   }
 }
