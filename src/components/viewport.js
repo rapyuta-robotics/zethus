@@ -109,10 +109,16 @@ class Viewport extends React.Component {
     }
   }
 
-  setMouse({ clientX, clientY }) {
+  setMouse(event) {
+    const { clientX, clientY } = event;
     const { width, height } = this.renderer.domElement;
-    this.mouse.x = ((clientX - SIDEBAR_WIDTH) / width) * 2 - 1;
-    this.mouse.y = -(clientY / height) * 2 + 1;
+
+    const canvasRect = event.target.getBoundingClientRect();
+    const x = clientX - canvasRect.left;
+    const y = clientY - canvasRect.top;
+
+    this.mouse.x = (x / width) * 2 - 1;
+    this.mouse.y = -(y / height) * 2 + 1;
   }
 
   castRay() {
