@@ -222,9 +222,9 @@ class Viewport extends React.Component {
         <div className="viz-image-container">
           <canvas
             id="myCanvas"
-            width="640px"
+            width="640"
             style={{ border: '1px solid #d3d3d3' }}
-            height="480px"
+            height="480"
           >
             Your browser does not support the HTML5 canvas tag.
           </canvas>

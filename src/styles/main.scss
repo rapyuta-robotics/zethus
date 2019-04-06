@@ -142,13 +142,14 @@ p {
   position: relative;
 
   .viz-image-container {
-    width: 320px;
-    height: 150px;
+    display: flex;
     position: absolute;
+    background: black;
+    bottom: 0;
 
     #myCanvas {
-      width: 640px;
-      height: 480px;
+      width: 320px;
+      height: 240px;
     }
   }
 }
