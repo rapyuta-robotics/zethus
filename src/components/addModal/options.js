@@ -11,7 +11,14 @@ const getOptionsForMessageType = messageType => {
     case MESSAGE_TYPE_ROBOT_MODEL:
       return {
         paramName: 'robot_description',
-        packages: [],
+        packages: [
+          {
+            name: 'hitachi_forklift_description',
+            value:
+              'https://storage.googleapis.com/kompose-artifacts/hitachi_forklift_description',
+            key: shortid.generate(),
+          },
+        ],
       };
     default:
       return {};
@@ -112,6 +119,7 @@ class SelectedVizOptionsForm extends React.Component {
               <h4>Parameter name</h4>
               <input
                 type="text"
+                value={options.paramName}
                 onChange={e => this.updateValue('paramName', e.target.value)}
               />
 

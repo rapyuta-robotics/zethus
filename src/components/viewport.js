@@ -5,8 +5,9 @@ import {
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_POSECOVARIANCE,
 } from 'amphion/src/utils/constants';
+import { Quaternion } from 'three';
 
-const { THREE } = window;
+const { THREE, devicePixelRatio } = window;
 
 const SIDEBAR_WIDTH = 400;
 
@@ -117,8 +118,8 @@ class Viewport extends React.Component {
     const x = clientX - canvasRect.left;
     const y = clientY - canvasRect.top;
 
-    this.mouse.x = (x / width) * 2 - 1;
-    this.mouse.y = -(y / height) * 2 + 1;
+    this.mouse.x = ((x * devicePixelRatio) / width) * 2 - 1;
+    this.mouse.y = -((y * devicePixelRatio) / height) * 2 + 1;
   }
 
   castRay() {
@@ -135,24 +136,29 @@ class Viewport extends React.Component {
   }
 
   publishNavMsg() {
-    const { position, quaternion } = this.arrow;
+    const { position, rotation } = this.arrow;
     const { publishNavMessages } = this.props;
+
+    const q = new THREE.Quaternion().setFromAxisAngle(
+      new THREE.Vector3(0, 0, 1),
+      rotation.z,
+    );
 
     const pose = {
       pose: {
         position: { x: position.x, y: position.y, z: position.z },
         orientation: {
-          x: quaternion.x,
-          y: quaternion.y,
-          z: quaternion.z,
-          w: quaternion.w,
+          x: q.x,
+          y: q.y,
+          z: q.z,
+          w: q.w,
         },
       },
     };
 
     if (this.currentNavTopicType === '/move_base_simple/goal') {
       publishNavMessages(
-        { header: { frame_id: 'world' }, ...pose },
+        { header: { frame_id: 'map' }, ...pose },
         this.currentNavTopicType,
         MESSAGE_TYPE_POSESTAMPED,
       );
@@ -219,16 +225,16 @@ class Viewport extends React.Component {
         className="Panel"
         id="viewport"
       >
-        <div className="viz-image-container">
-          <canvas
-            id="myCanvas"
-            width="640"
-            style={{ border: '1px solid #d3d3d3' }}
-            height="480"
-          >
-            Your browser does not support the HTML5 canvas tag.
-          </canvas>
-        </div>
+        {/*<div className="viz-image-container">*/}
+        {/*<canvas*/}
+        {/*id="myCanvas"*/}
+        {/*width="640"*/}
+        {/*style={{ border: '1px solid #d3d3d3' }}*/}
+        {/*height="480"*/}
+        {/*>*/}
+        {/*Your browser does not support the HTML5 canvas tag.*/}
+        {/*</canvas>*/}
+        {/*</div>*/}
       </div>
     );
   }

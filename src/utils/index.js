@@ -13,6 +13,7 @@ import {
   MESSAGE_TYPE_POSEARRAY,
   MESSAGE_TYPE_PATH,
   MESSAGE_TYPE_IMAGE,
+  MESSAGE_TYPE_MARKER,
 } from 'amphion/src/utils/constants';
 
 export const ROS_SOCKET_STATUSES = {
@@ -34,6 +35,13 @@ export const vizOptions = [
   {
     name: 'Map',
     messageTypes: [MESSAGE_TYPE_OCCUPANCYGRID],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+  },
+  {
+    name: 'Markers',
+    messageTypes: [MESSAGE_TYPE_MARKER],
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',

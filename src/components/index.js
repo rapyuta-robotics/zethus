@@ -68,6 +68,8 @@ class Wrapper extends React.Component {
     };
     this.ros = new ROSLIB.Ros();
     this.scene = new THREE.Scene();
+    window.scene = this.scene;
+    this.scene.name = 'odom';
     this.addLights();
     this.addCamera();
 
