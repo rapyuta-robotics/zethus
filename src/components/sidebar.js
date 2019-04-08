@@ -15,7 +15,7 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rosEndpoint: 'ws://10.81.1.116:9090',
+      rosEndpoint: 'ws://localhost:9090',
     };
     this.onRosSubmit = this.onRosSubmit.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
@@ -24,6 +24,16 @@ class Sidebar extends React.Component {
     this.nav2DBtnBlur = this.nav2DBtnBlur.bind(this);
     this.navGoal2DClicked = this.navGoal2DClicked.bind(this);
     this.navEstimate2DClicked = this.navEstimate2DClicked.bind(this);
+  }
+
+  componentDidMount() {
+    const endpoint = localStorage.getItem('endpoint');
+    const { connectRos } = this.props;
+
+    if (endpoint) {
+      connectRos(endpoint);
+      this.setState({ rosEndpoint: endpoint });
+    }
   }
 
   onRosSubmit(e) {
@@ -39,6 +49,8 @@ class Sidebar extends React.Component {
     ) {
       connectRos(rosEndpoint);
     }
+
+    localStorage.setItem('endpoint', rosEndpoint);
   }
 
   updateRosEndpoint(e) {

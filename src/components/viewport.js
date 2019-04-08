@@ -5,11 +5,8 @@ import {
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_POSECOVARIANCE,
 } from 'amphion/src/utils/constants';
-import { Quaternion } from 'three';
 
 const { THREE, devicePixelRatio } = window;
-
-const SIDEBAR_WIDTH = 400;
 
 class Viewport extends React.Component {
   constructor(props) {
@@ -39,7 +36,7 @@ class Viewport extends React.Component {
   }
 
   componentDidMount() {
-    const { camera } = this.props;
+    const { camera, onRef } = this.props;
     const container = this.container.current;
 
     this.initStats();
@@ -52,12 +49,14 @@ class Viewport extends React.Component {
     requestAnimationFrame(this.animate);
     this.onWindowResize();
 
-    this.props.onRef(this);
+    onRef(this);
   }
 
   componentWillUnmount() {
+    const { onRef } = this.props;
+
     window.removeEventListener('resize', this.onWindowResize);
-    this.props.onRef(undefined);
+    onRef(undefined);
   }
 
   onWindowResize() {

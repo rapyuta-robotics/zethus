@@ -83,6 +83,31 @@ class Wrapper extends React.Component {
     this.publishNavMessages = this.publishNavMessages.bind(this);
   }
 
+  setPrevConfig() {
+    let visualizations = localStorage.getItem('visualizations');
+
+    if (!visualizations) {
+      return;
+    }
+
+    visualizations = JSON.parse(visualizations);
+    visualizations.forEach((viz, idx) => {
+      const { name, type, isDisplay } = viz;
+      const vizObject = this.getVisualization(name, type, isDisplay, null);
+
+      if (!isDisplay) {
+        this.scene.add(vizObject.object);
+      }
+      if (vizObject.subscribe) {
+        vizObject.subscribe();
+      }
+
+      visualizations[idx].rosObject = vizObject;
+    });
+
+    this.setState({ visualizations });
+  }
+
   componentDidMount() {
     this.ros.on('error', () => {
       this.setState({
@@ -104,6 +129,16 @@ class Wrapper extends React.Component {
         rosStatus: ROS_SOCKET_STATUSES.INITIAL,
       });
     });
+
+    this.setPrevConfig();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { visualizations } = this.state;
+
+    if (this.state !== prevState) {
+      localStorage.setItem('visualizations', JSON.stringify(visualizations));
+    }
   }
 
   getVisualization(name, messageType, isDisplay, options) {
@@ -202,6 +237,7 @@ class Wrapper extends React.Component {
           name,
           type,
           displayName,
+          isDisplay,
         },
       ],
     });

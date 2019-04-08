@@ -19,9 +19,11 @@ class VizListItem extends React.Component {
 
   componentDidMount() {
     const {
+      ros,
       details: { type },
     } = this.props;
-    this.props.ros.getTopicsForType(type, data => {
+
+    ros.getTopicsForType(type, data => {
       this.setState({
         topicTypes: [...data],
         hidden: false,
