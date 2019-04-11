@@ -23,6 +23,8 @@ export const ROS_SOCKET_STATUSES = {
   CONNECTION_ERROR: 'Error in connection',
 };
 
+export const FIXED_FRAME = 'FixedFrame';
+
 export const vizOptions = [
   {
     name: 'Laser Scan',

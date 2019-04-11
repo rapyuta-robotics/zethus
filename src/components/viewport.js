@@ -5,6 +5,7 @@ import {
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_POSECOVARIANCE,
 } from 'amphion/src/utils/constants';
+import { FIXED_FRAME } from '../utils';
 
 const { THREE, devicePixelRatio } = window;
 
@@ -42,6 +43,7 @@ class Viewport extends React.Component {
     this.initStats();
     this.initRenderer();
     this.initGrid();
+    this.initVizFrame();
 
     this.controls = new THREE.EditorControls(camera, container);
     // this.controls.enabled = false;
@@ -107,6 +109,14 @@ class Viewport extends React.Component {
         array[i + j] = 0.26;
       }
     }
+  }
+
+  initVizFrame() {
+    const { scene } = this.props;
+    const fixedFrame = new THREE.Group();
+
+    fixedFrame.name = FIXED_FRAME;
+    scene.add(fixedFrame);
   }
 
   setMouse(event) {

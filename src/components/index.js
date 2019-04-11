@@ -22,7 +22,7 @@ import {
 import shortid from 'shortid';
 
 import Sidebar from './sidebar';
-import { ROS_SOCKET_STATUSES } from '../utils';
+import { ROS_SOCKET_STATUSES, FIXED_FRAME } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
 import Cylinder from 'amphion/src/primitives/Cylinder';
@@ -213,6 +213,7 @@ class Wrapper extends React.Component {
   }
 
   addVisualization(types, isDisplay, displayName, options) {
+    const vizScene = this.scene.getObjectByName(FIXED_FRAME);
     const {
       visualizations,
       rosTopics: { topics, types: messageTypes },
@@ -226,7 +227,7 @@ class Wrapper extends React.Component {
     ];
     const vizObject = this.getVisualization(name, type, isDisplay, options);
     if (!isDisplay) {
-      this.scene.add(vizObject.object);
+      vizScene.add(vizObject.object);
     }
     if (vizObject.subscribe) {
       vizObject.subscribe();
@@ -336,6 +337,7 @@ class Wrapper extends React.Component {
           />
         )}
         <Sidebar
+          scene={this.scene}
           rosStatus={rosStatus}
           connectRos={this.connectRos}
           disconnectRos={this.disconnectRos}
