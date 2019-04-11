@@ -1,20 +1,16 @@
 import React from 'react';
-import Amphion from 'amphion';
-import * as THREE from 'three';
-
-import { FIXED_FRAME } from '../utils';
-import { MESSAGE_TYPE_TF } from 'amphion/src/utils/constants';
+import _ from 'lodash';
+import ROSLIB from 'roslib';
+import { MESSAGE_TYPE_TF, MESSAGE_TYPE_TF2 } from 'amphion/src/utils/constants';
 
 class GlobalOptions extends React.Component {
   constructor(props) {
     super(props);
 
-    const { scene } = props;
-    this.frameGroup = scene.getObjectByName(FIXED_FRAME);
     this.getTFMessages = this.getTFMessages.bind(this);
-    this.tempFixedFrame = 'rotating_frame';
     this.state = {
-      frameMap: {},
+      framesList: [],
+      selectedFrame: '',
     };
 
     this.changeFrame = this.changeFrame.bind(this);
@@ -23,89 +19,93 @@ class GlobalOptions extends React.Component {
   componentDidMount() {
     const { ros } = this.props;
 
-    this.frameMap = {};
-    this.tfGlobal = new Amphion.Tf(
+    this.tfTopic = new ROSLIB.Topic({
       ros,
-      '/tf',
-      { messageType: MESSAGE_TYPE_TF },
-      this.getTFMessages,
-    );
-    this.tfStaticGlobal = new Amphion.Tf(ros, '/tf_static', this.getTFMessages);
-    this.tfGlobal.subscribe();
-    this.tfStaticGlobal.subscribe();
+      name: '/tf',
+      messageType: MESSAGE_TYPE_TF,
+    });
+    this.tf2Topic = new ROSLIB.Topic({
+      ros,
+      name: '/tf',
+      messageType: MESSAGE_TYPE_TF2,
+    });
+    this.tfStaticTopic = new ROSLIB.Topic({
+      ros,
+      name: '/tf_static',
+      messageType: MESSAGE_TYPE_TF,
+    });
+    this.tf2StaticTopic = new ROSLIB.Topic({
+      ros,
+      name: '/tf_static',
+      messageType: MESSAGE_TYPE_TF2,
+    });
+
+    this.tfTopic.subscribe(this.getTFMessages);
+    this.tf2Topic.subscribe(this.getTFMessages);
+    this.tfStaticTopic.subscribe(this.getTFMessages);
+    this.tf2StaticTopic.subscribe(this.getTFMessages);
   }
 
-  getTFMessages(message) {
-    const { transforms } = message;
-    const { frameMap } = this.state;
-    const currentMap = { ...frameMap };
-    const tempArr = [];
+  getTFMessages({ transforms }) {
+    const { framesList, selectedFrame } = this.state;
 
-    transforms.forEach(
+    _.each(
+      transforms,
       ({
         header: { frame_id: parentFrameId },
         child_frame_id: childFrameId,
       }) => {
-        if (!this.frameMap.hasOwnProperty(parentFrameId)) {
-          tempArr.push(parentFrameId);
-        }
-        if (!this.frameMap.hasOwnProperty(childFrameId)) {
-          tempArr.push(childFrameId);
-        }
+        _.each([parentFrameId, childFrameId], frame => {
+          if (!_.includes(framesList, frame)) {
+            this.setState({
+              framesList: [...framesList, frame],
+            });
+          }
+        });
       },
     );
 
-    tempArr.forEach(id => {
-      currentMap[id] = true;
-    });
+    // const { scene } = this.props;
+    // const frameObject = scene.getObjectByName(FIXED_FRAME);
+    // const currentFrameObject = frameObject.getObjectByName(this.currentFrame);
 
-    if (tempArr.length > 0) {
-      this.setState({ frameMap: currentMap });
-    }
-
-    if (!this.allow) {
-      return;
-    }
-
-    const { scene } = this.props;
-    const frameObject = scene.getObjectByName(FIXED_FRAME);
-    const currentFrameObject = frameObject.getObjectByName(this.currentFrame);
-    const zeroVector = new THREE.Vector3();
-    const oppPos = zeroVector.sub(currentFrameObject.position);
-    const {
-      x: quatx,
-      y: quaty,
-      z: quatz,
-      w: quatw,
-    } = currentFrameObject.quaternion;
-
-    frameObject.position.set(oppPos.x, oppPos.y, oppPos.z);
-    frameObject.quaternion.set(-quatx, -quaty, -quatz, quatw);
+    // if (currentFrameObject) {
+    //   const zeroVector = new THREE.Vector3();
+    //   const oppPos = zeroVector.sub(currentFrameObject.position);
+    //   const {
+    //     x: quatx,
+    //     y: quaty,
+    //     z: quatz,
+    //     w: quatw,
+    //   } = currentFrameObject.quaternion;
+    //
+    //   frameObject.position.set(oppPos.x, oppPos.y, oppPos.z);
+    //   frameObject.quaternion.set(-quatx, -quaty, -quatz, quatw);
+    // }
   }
 
   changeFrame(event) {
-    event.persist();
     this.currentFrame = event.target.value;
 
-    const { scene } = this.props;
-    const frameObject = scene.getObjectByName(FIXED_FRAME);
-    frameObject.position.set(0, 0, 0);
-    frameObject.quaternion.set(0, 0, 0, 1);
-    this.allow = true;
+    const { vizWrapper } = this.props;
+    vizWrapper.position.set(0, 0, 0);
+    vizWrapper.quaternion.set(0, 0, 0, 1);
   }
 
   render() {
-    const { frameMap } = this.state;
+    const { framesList, selectedFrame } = this.state;
 
     return (
       <div>
-        <select onChange={this.changeFrame}>
-          {Object.keys(frameMap).map(frame => (
-            <option key={frame} value={frame}>
-              {frame}
-            </option>
-          ))}
-        </select>
+        {selectedFrame ? (
+          <select onChange={this.changeFrame} value={selectedFrame}>
+            {_.map(framesList, frame => (
+              <option key={frame} value={frame}>
+                {frame}
+              </option>
+            ))}
+          </select>
+        ) : null}
       </div>
     );
   }
