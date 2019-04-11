@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import { ROS_SOCKET_STATUSES } from '../utils';
 import VizListItem from './vizListItem';
+import GlobalOptions from './globalOptions';
 
 export const CONNECTION_DOT_CLASSES = {
   [ROS_SOCKET_STATUSES.INITIAL]: 'initial',
@@ -71,7 +72,13 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    const { ros, rosStatus, visualizations, toggleAddModal } = this.props;
+    const {
+      scene,
+      ros,
+      rosStatus,
+      visualizations,
+      toggleAddModal,
+    } = this.props;
 
     const { rosEndpoint } = this.state;
     return (
@@ -107,6 +114,7 @@ class Sidebar extends React.Component {
               </button>
             </form>
           </div>
+          <GlobalOptions scene={scene} ros={ros} />
           <div id="visualzation-list">
             <button
               type="button"
