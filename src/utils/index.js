@@ -14,6 +14,7 @@ import {
   MESSAGE_TYPE_PATH,
   MESSAGE_TYPE_IMAGE,
   MESSAGE_TYPE_MARKER,
+  MESSAGE_TYPE_TF2,
 } from 'amphion/src/utils/constants';
 
 export const ROS_SOCKET_STATUSES = {
@@ -99,7 +100,7 @@ export const vizOptions = [
   },
   {
     name: 'Tf',
-    messageTypes: [MESSAGE_TYPE_TF],
+    messageTypes: [MESSAGE_TYPE_TF, MESSAGE_TYPE_TF2],
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',

@@ -1,10 +1,12 @@
 import React from 'react';
+import withGracefulUnmount from 'react-graceful-unmount';
 import _ from 'lodash';
 import ROSLIB from 'roslib';
 import Amphion from 'amphion';
 // import URDFLoader from 'urdf-loader';
 import {
   MESSAGE_TYPE_TF,
+  MESSAGE_TYPE_TF2,
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_LASERSCAN,
@@ -25,7 +27,6 @@ import Sidebar from './sidebar';
 import { ROS_SOCKET_STATUSES, FIXED_FRAME } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
-import Cylinder from 'amphion/src/primitives/Cylinder';
 
 const { THREE } = window;
 
@@ -71,7 +72,6 @@ class Wrapper extends React.Component {
     this.ros = new ROSLIB.Ros();
     this.scene = new THREE.Scene();
     window.scene = this.scene;
-    this.scene.name = 'odom';
     this.addLights();
     this.addCamera();
 
@@ -94,8 +94,13 @@ class Wrapper extends React.Component {
 
     visualizations = JSON.parse(visualizations);
     visualizations.forEach((viz, idx) => {
-      const { name, type, isDisplay } = viz;
-      const vizObject = this.getVisualization(name, type, isDisplay, null);
+      const { name, type, isDisplay, options } = viz;
+      const vizObject = this.getVisualization(
+        name,
+        type,
+        isDisplay,
+        options || {},
+      );
 
       if (!isDisplay) {
         this.scene.add(vizObject.object);
@@ -135,12 +140,25 @@ class Wrapper extends React.Component {
     this.setPrevConfig();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentWillUnmount() {
     const { visualizations } = this.state;
-
-    if (this.state !== prevState) {
-      localStorage.setItem('visualizations', JSON.stringify(visualizations));
-    }
+    localStorage.setItem(
+      'visualizations',
+      JSON.stringify(
+        _.map(
+          visualizations,
+          ({ visible, id, name, type, displayName, isDisplay, options }) => ({
+            visible,
+            id,
+            name,
+            type,
+            displayName,
+            isDisplay,
+            options,
+          }),
+        ),
+      ),
+    );
   }
 
   getVisualization(name, messageType, isDisplay, options) {
@@ -181,7 +199,8 @@ class Wrapper extends React.Component {
         return robotModel;
       }
       case MESSAGE_TYPE_TF:
-        return new Amphion.Tf(this.ros, name);
+      case MESSAGE_TYPE_TF2:
+        return new Amphion.Tf(this.ros, name, { messageType });
       case MESSAGE_TYPE_OCCUPANCYGRID:
         return new Amphion.Map(this.ros, name);
       case MESSAGE_TYPE_POSESTAMPED:
@@ -243,6 +262,7 @@ class Wrapper extends React.Component {
           type,
           displayName,
           isDisplay,
+          options,
         },
       ],
     });
@@ -251,16 +271,12 @@ class Wrapper extends React.Component {
   removeDisplayType(id) {
     const { visualizations } = this.state;
 
-    let vizArrayClone = [...visualizations];
-    vizArrayClone = _.reject(vizArrayClone, vizObject => {
-      if (vizObject.id === id) {
-        vizObject.rosObject.destroy();
-        return true;
-      }
-      return false;
-    });
+    const viz = _.find(visualizations, v => v.id === id);
+    viz.rosObject.destroy();
 
-    this.setState({ visualizations: vizArrayClone });
+    this.setState({
+      visualizations: _.filter(visualizations, v => v.id !== id),
+    });
   }
 
   addLights() {
@@ -360,4 +376,4 @@ class Wrapper extends React.Component {
   }
 }
 
-export default Wrapper;
+export default withGracefulUnmount(Wrapper);
