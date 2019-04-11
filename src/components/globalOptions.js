@@ -1,9 +1,8 @@
 import React from 'react';
+import _ from 'lodash';
 import Amphion from 'amphion';
 import * as THREE from 'three';
-
 import { FIXED_FRAME } from '../utils';
-import { MESSAGE_TYPE_TF } from 'amphion/src/utils/constants';
 
 class GlobalOptions extends React.Component {
   constructor(props) {
@@ -12,7 +11,6 @@ class GlobalOptions extends React.Component {
     const { scene } = props;
     this.frameGroup = scene.getObjectByName(FIXED_FRAME);
     this.getTFMessages = this.getTFMessages.bind(this);
-    this.tempFixedFrame = 'rotating_frame';
     this.state = {
       frameMap: {},
     };
@@ -23,15 +21,39 @@ class GlobalOptions extends React.Component {
   componentDidMount() {
     const { ros } = this.props;
 
+    ros.getTopics(rosTopics => {
+      const { topics, types: messageTypes } = rosTopics;
+      const tfTopicIndex = _.findIndex(topics, topic => topic === '/tf');
+      const tfStaticTopicIndex = _.findIndex(
+        topics,
+        topic => topic === '/tf_static',
+      );
+
+      this.initFrameListing(
+        messageTypes[tfTopicIndex],
+        messageTypes[tfStaticTopicIndex],
+      );
+    });
+  }
+
+  initFrameListing(tfMsgType, tfStaticMsgType) {
+    const { ros } = this.props;
+
     this.frameMap = {};
     this.tfGlobal = new Amphion.Tf(
       ros,
       '/tf',
-      { messageType: MESSAGE_TYPE_TF },
+      { messageType: tfMsgType },
       this.getTFMessages,
     );
-    this.tfStaticGlobal = new Amphion.Tf(ros, '/tf_static', this.getTFMessages);
     this.tfGlobal.subscribe();
+
+    this.tfStaticGlobal = new Amphion.Tf(
+      ros,
+      '/tf_static',
+      { messageType: tfStaticMsgType },
+      this.getTFMessages,
+    );
     this.tfStaticGlobal.subscribe();
   }
 
@@ -70,6 +92,12 @@ class GlobalOptions extends React.Component {
     const { scene } = this.props;
     const frameObject = scene.getObjectByName(FIXED_FRAME);
     const currentFrameObject = frameObject.getObjectByName(this.currentFrame);
+
+    if (!currentFrameObject) {
+      console.warn(`${this.currentFrame}: Frame is misssing in the 3D Scene`);
+      return;
+    }
+
     const zeroVector = new THREE.Vector3();
     const oppPos = zeroVector.sub(currentFrameObject.position);
     const {
@@ -98,14 +126,19 @@ class GlobalOptions extends React.Component {
     const { frameMap } = this.state;
 
     return (
-      <div>
-        <select onChange={this.changeFrame}>
-          {Object.keys(frameMap).map(frame => (
-            <option key={frame} value={frame}>
-              {frame}
-            </option>
-          ))}
-        </select>
+      <div className="display-type-form-content">
+        <div className="dislay-type-form-wrapper">
+          <div className="display-type-form-content">
+            Fixed Frame:
+            <select onChange={this.changeFrame}>
+              {Object.keys(frameMap).map(frame => (
+                <option key={frame} value={frame}>
+                  {frame}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
       </div>
     );
   }

@@ -90,6 +90,7 @@ class Sidebar extends React.Component {
       rosStatus,
       visualizations,
       toggleAddModal,
+      rosTopics,
     } = this.props;
 
     const { rosEndpoint } = this.state;
@@ -126,44 +127,50 @@ class Sidebar extends React.Component {
               </button>
             </form>
           </div>
-          <GlobalOptions scene={scene} ros={ros} />
-          <div id="visualzation-list">
+          {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ? (
+            <React.Fragment>
+              <GlobalOptions scene={scene} ros={ros} rosTopics={rosTopics} />
+              <div id="visualzation-list">
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={toggleAddModal}
+                >
+                  Add Visualization
+                </button>
+                {_.size(visualizations) === 0 && (
+                  <p>No visualizations added to the scene</p>
+                )}
+                {_.map(visualizations, viz => (
+                  <VizListItem
+                    key={viz.id}
+                    details={viz}
+                    ros={ros}
+                    removeDisplayType={this.removeDisplayType}
+                  />
+                ))}
+              </div>
+            </React.Fragment>
+          ) : null}
+        </div>
+        {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ? (
+          <div className="sidebar-bottom-btn" onBlur={this.nav2DBtnBlur}>
             <button
               type="button"
               className="btn-primary"
-              onClick={toggleAddModal}
+              onClick={this.navGoal2DClicked}
             >
-              Add Visualization
+              2D Nav Goal
             </button>
-            {_.size(visualizations) === 0 && (
-              <p>No visualizations added to the scene</p>
-            )}
-            {_.map(visualizations, viz => (
-              <VizListItem
-                key={viz.id}
-                details={viz}
-                ros={ros}
-                removeDisplayType={this.removeDisplayType}
-              />
-            ))}
+            <button
+              type="button"
+              className="btn-primary"
+              onClick={this.navEstimate2DClicked}
+            >
+              2D Nav Estimate
+            </button>
           </div>
-        </div>
-        <div className="sidebar-bottom-btn" onBlur={this.nav2DBtnBlur}>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={this.navGoal2DClicked}
-          >
-            2D Nav Goal
-          </button>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={this.navEstimate2DClicked}
-          >
-            2D Nav Estimate
-          </button>
-        </div>
+        ) : null}
       </div>
     );
   }

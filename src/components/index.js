@@ -240,6 +240,8 @@ class Wrapper extends React.Component {
     const defaultTopicIndex = _.findIndex(messageTypes, type =>
       _.includes(types, type),
     );
+
+    console.log(topics, messageTypes);
     const [name, type] = [
       topics[defaultTopicIndex],
       messageTypes[defaultTopicIndex] || types[0],
@@ -362,6 +364,7 @@ class Wrapper extends React.Component {
           toggleAddModal={this.toggleAddModal}
           removeDisplayType={this.removeDisplayType}
           toggleEditorControls={this.toggleEditorControls}
+          rosTopics={rosTopics}
         />
         <Viewport
           camera={this.camera}
