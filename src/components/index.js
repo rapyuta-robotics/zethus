@@ -17,6 +17,7 @@ import {
   MESSAGE_TYPE_ODOMETRY,
   MESSAGE_TYPE_PATH,
   MESSAGE_TYPE_IMAGE,
+  MESSAGE_TYPE_MARKER,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
@@ -24,6 +25,7 @@ import Sidebar from './sidebar';
 import { ROS_SOCKET_STATUSES } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
+import Cylinder from 'amphion/src/primitives/Cylinder';
 
 const { THREE } = window;
 
@@ -186,6 +188,8 @@ class Wrapper extends React.Component {
         return new Amphion.Pose(this.ros, name);
       case MESSAGE_TYPE_POSEARRAY:
         return new Amphion.PoseArray(this.ros, name);
+      case MESSAGE_TYPE_MARKER:
+        return new Amphion.Marker(this.ros, name);
       case MESSAGE_TYPE_MARKERARRAY:
         return new Amphion.MarkerArray(this.ros, name);
       case MESSAGE_TYPE_LASERSCAN:
