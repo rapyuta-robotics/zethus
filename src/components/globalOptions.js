@@ -48,23 +48,35 @@ class GlobalOptions extends React.Component {
     this.tf2StaticTopic.subscribe(this.getTFMessages);
   }
 
+  resetFrameTransform() {
+    const { vizWrapper } = this.props;
+
+    vizWrapper.position.set(0, 0, 0);
+    vizWrapper.quaternion.set(0, 0, 0, 1);
+  }
+
   setFrameTransform() {
     const { vizWrapper } = this.props;
     const { selectedFrame } = this.state;
     const currentFrameObject = vizWrapper.getObjectByName(selectedFrame);
 
     if (currentFrameObject) {
+      this.resetFrameTransform();
+      vizWrapper.updateMatrixWorld();
+
       const worldPos = new THREE.Vector3();
       const worldQuat = new THREE.Quaternion();
 
-      currentFrameObject.getWorldPosition(worldPos);
+      // currentFrameObject.getWorldQuaternion(worldQuat);
       currentFrameObject.getWorldQuaternion(worldQuat);
-
       const { x: quatx, y: quaty, z: quatz, w: quatw } = worldQuat;
-      const oppPos = worldPos.negate();
-
-      vizWrapper.position.set(oppPos.x, oppPos.y, oppPos.z);
       vizWrapper.quaternion.set(-quatx, -quaty, -quatz, quatw);
+
+      vizWrapper.updateMatrixWorld();
+
+      currentFrameObject.getWorldPosition(worldPos);
+      const oppPos = worldPos.negate();
+      vizWrapper.position.set(oppPos.x, oppPos.y, oppPos.z);
     }
   }
 
@@ -110,9 +122,7 @@ class GlobalOptions extends React.Component {
 
   changeFrame(event) {
     this.setState({ selectedFrame: event.target.value });
-    const { vizWrapper } = this.props;
-    vizWrapper.position.set(0, 0, 0);
-    vizWrapper.quaternion.set(0, 0, 0, 1);
+    this.resetFrameTransform();
   }
 
   render() {

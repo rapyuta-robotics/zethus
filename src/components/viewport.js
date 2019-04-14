@@ -5,7 +5,6 @@ import {
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_POSECOVARIANCE,
 } from 'amphion/src/utils/constants';
-import { FIXED_FRAME } from '../utils';
 
 const { THREE, devicePixelRatio } = window;
 
