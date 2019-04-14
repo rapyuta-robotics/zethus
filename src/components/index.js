@@ -3,7 +3,6 @@ import withGracefulUnmount from 'react-graceful-unmount';
 import _ from 'lodash';
 import ROSLIB from 'roslib';
 import Amphion from 'amphion';
-// import URDFLoader from 'urdf-loader';
 import {
   MESSAGE_TYPE_TF,
   MESSAGE_TYPE_TF2,
@@ -11,7 +10,6 @@ import {
   MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_LASERSCAN,
   MESSAGE_TYPE_POINTCLOUD2,
-  MESSAGE_TYPE_DISPLAYTF,
   MESSAGE_TYPE_DISPLAYJOINTSTATE,
   MESSAGE_TYPE_ROBOT_MODEL,
   MESSAGE_TYPE_OCCUPANCYGRID,
@@ -24,7 +22,7 @@ import {
 import shortid from 'shortid';
 
 import Sidebar from './sidebar';
-import { ROS_SOCKET_STATUSES, FIXED_FRAME } from '../utils';
+import { ROS_SOCKET_STATUSES } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
 
@@ -71,6 +69,8 @@ class Wrapper extends React.Component {
     };
     this.ros = new ROSLIB.Ros();
     this.scene = new THREE.Scene();
+    this.vizWrapper = new THREE.Group();
+    this.scene.add(this.vizWrapper);
     window.scene = this.scene;
     this.addLights();
     this.addCamera();
@@ -83,15 +83,11 @@ class Wrapper extends React.Component {
     this.removeDisplayType = this.removeDisplayType.bind(this);
     this.toggleEditorControls = this.toggleEditorControls.bind(this);
     this.publishNavMessages = this.publishNavMessages.bind(this);
+    this.updateTopic = this.updateTopic.bind(this);
   }
 
   setPrevConfig() {
-    let visualizations = localStorage.getItem('visualizations');
-
-    if (!visualizations) {
-      return;
-    }
-
+    let visualizations = localStorage.getItem('visualizations') || '[]';
     visualizations = JSON.parse(visualizations);
     visualizations.forEach((viz, idx) => {
       const { name, type, isDisplay, options } = viz;
@@ -103,7 +99,7 @@ class Wrapper extends React.Component {
       );
 
       if (!isDisplay) {
-        this.scene.add(vizObject.object);
+        this.vizWrapper.add(vizObject.object);
       }
       if (vizObject.subscribe) {
         vizObject.subscribe();
@@ -129,6 +125,9 @@ class Wrapper extends React.Component {
           rosTopics,
         });
       });
+
+      const displayTfObject = new Amphion.DisplayTf(this.ros, this.vizWrapper);
+      displayTfObject.subscribe();
     });
 
     this.ros.on('close', () => {
@@ -161,11 +160,20 @@ class Wrapper extends React.Component {
     );
   }
 
+  updateTopic(id, name) {
+    const { visualizations } = this.state;
+    this.setState({
+      visualizations: _.map(visualizations, viz =>
+        viz.id === id ? { ...viz, name } : viz,
+      ),
+    });
+  }
+
   getVisualization(name, messageType, isDisplay, options) {
     if (isDisplay) {
       switch (messageType) {
-        case MESSAGE_TYPE_DISPLAYTF:
-          return new Amphion.DisplayTf(this.ros, name, this.scene);
+        // case MESSAGE_TYPE_DISPLAYTF:
+        //   return new Amphion.DisplayTf(this.ros, name, this.vizWrapper);
         case MESSAGE_TYPE_DISPLAYJOINTSTATE:
           return new Amphion.DisplayJointState(this.ros, name, this.robot);
         default:
@@ -200,7 +208,7 @@ class Wrapper extends React.Component {
       }
       case MESSAGE_TYPE_TF:
       case MESSAGE_TYPE_TF2:
-        return new Amphion.Tf(this.ros, name, { messageType });
+        return new Amphion.Tf(this.ros);
       case MESSAGE_TYPE_OCCUPANCYGRID:
         return new Amphion.Map(this.ros, name);
       case MESSAGE_TYPE_POSESTAMPED:
@@ -232,7 +240,6 @@ class Wrapper extends React.Component {
   }
 
   addVisualization(types, isDisplay, displayName, options) {
-    const vizScene = this.scene.getObjectByName(FIXED_FRAME);
     const {
       visualizations,
       rosTopics: { topics, types: messageTypes },
@@ -241,14 +248,13 @@ class Wrapper extends React.Component {
       _.includes(types, type),
     );
 
-    console.log(topics, messageTypes);
     const [name, type] = [
       topics[defaultTopicIndex],
       messageTypes[defaultTopicIndex] || types[0],
     ];
     const vizObject = this.getVisualization(name, type, isDisplay, options);
     if (!isDisplay) {
-      vizScene.add(vizObject.object);
+      this.vizWrapper.add(vizObject.object);
     }
     if (vizObject.subscribe) {
       vizObject.subscribe();
@@ -356,6 +362,8 @@ class Wrapper extends React.Component {
         )}
         <Sidebar
           scene={this.scene}
+          vizWrapper={this.vizWrapper}
+          updateTopic={this.updateTopic}
           rosStatus={rosStatus}
           connectRos={this.connectRos}
           disconnectRos={this.disconnectRos}

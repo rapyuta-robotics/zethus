@@ -1,145 +1,142 @@
 import React from 'react';
-import _ from 'lodash';
-import Amphion from 'amphion';
 import * as THREE from 'three';
-import { FIXED_FRAME } from '../utils';
+import _ from 'lodash';
+import ROSLIB from 'roslib';
+import { MESSAGE_TYPE_TF, MESSAGE_TYPE_TF2 } from 'amphion/src/utils/constants';
 
 class GlobalOptions extends React.Component {
   constructor(props) {
     super(props);
 
-    const { scene } = props;
-    this.frameGroup = scene.getObjectByName(FIXED_FRAME);
     this.getTFMessages = this.getTFMessages.bind(this);
     this.state = {
-      frameMap: {},
+      framesList: [],
+      selectedFrame: '',
     };
 
     this.changeFrame = this.changeFrame.bind(this);
+    this.setFrameTransform = this.setFrameTransform.bind(this);
   }
 
   componentDidMount() {
     const { ros } = this.props;
 
-    ros.getTopics(rosTopics => {
-      const { topics, types: messageTypes } = rosTopics;
-      const tfTopicIndex = _.findIndex(topics, topic => topic === '/tf');
-      const tfStaticTopicIndex = _.findIndex(
-        topics,
-        topic => topic === '/tf_static',
-      );
-
-      this.initFrameListing(
-        messageTypes[tfTopicIndex],
-        messageTypes[tfStaticTopicIndex],
-      );
+    this.tfTopic = new ROSLIB.Topic({
+      ros,
+      name: '/tf',
+      messageType: MESSAGE_TYPE_TF,
     });
+    this.tf2Topic = new ROSLIB.Topic({
+      ros,
+      name: '/tf',
+      messageType: MESSAGE_TYPE_TF2,
+    });
+    this.tfStaticTopic = new ROSLIB.Topic({
+      ros,
+      name: '/tf_static',
+      messageType: MESSAGE_TYPE_TF,
+    });
+    this.tf2StaticTopic = new ROSLIB.Topic({
+      ros,
+      name: '/tf_static',
+      messageType: MESSAGE_TYPE_TF2,
+    });
+
+    this.tfTopic.subscribe(this.getTFMessages);
+    this.tf2Topic.subscribe(this.getTFMessages);
+    this.tfStaticTopic.subscribe(this.getTFMessages);
+    this.tf2StaticTopic.subscribe(this.getTFMessages);
   }
 
-  initFrameListing(tfMsgType, tfStaticMsgType) {
-    const { ros } = this.props;
+  setFrameTransform() {
+    const { vizWrapper } = this.props;
+    const { selectedFrame } = this.state;
+    const currentFrameObject = vizWrapper.getObjectByName(selectedFrame);
 
-    this.frameMap = {};
-    this.tfGlobal = new Amphion.Tf(
-      ros,
-      '/tf',
-      { messageType: tfMsgType },
-      this.getTFMessages,
-    );
-    this.tfGlobal.subscribe();
+    if (currentFrameObject) {
+      const worldPos = new THREE.Vector3();
+      const worldQuat = new THREE.Quaternion();
 
-    this.tfStaticGlobal = new Amphion.Tf(
-      ros,
-      '/tf_static',
-      { messageType: tfStaticMsgType },
-      this.getTFMessages,
-    );
-    this.tfStaticGlobal.subscribe();
+      currentFrameObject.getWorldPosition(worldPos);
+      currentFrameObject.getWorldQuaternion(worldQuat);
+
+      const { x: quatx, y: quaty, z: quatz, w: quatw } = worldQuat;
+      const oppPos = worldPos.negate();
+
+      vizWrapper.position.set(oppPos.x, oppPos.y, oppPos.z);
+      vizWrapper.quaternion.set(-quatx, -quaty, -quatz, quatw);
+    }
   }
 
-  getTFMessages(message) {
-    const { transforms } = message;
-    const { frameMap } = this.state;
-    const currentMap = { ...frameMap };
-    const tempArr = [];
+  getTFMessages({ transforms }) {
+    const { framesList, selectedFrame } = this.state;
+    const { vizWrapper } = this.props;
 
-    transforms.forEach(
+    _.each(
+      transforms,
       ({
         header: { frame_id: parentFrameId },
         child_frame_id: childFrameId,
       }) => {
-        if (!this.frameMap.hasOwnProperty(parentFrameId)) {
-          tempArr.push(parentFrameId);
+        _.each([parentFrameId, childFrameId], frame => {
+          if (!_.includes(framesList, frame)) {
+            this.setState({
+              framesList: [...framesList, frame],
+            });
+          }
+        });
+
+        if (selectedFrame === '') {
+          return;
         }
-        if (!this.frameMap.hasOwnProperty(childFrameId)) {
-          tempArr.push(childFrameId);
+
+        if (selectedFrame === childFrameId || selectedFrame === parentFrameId) {
+          this.setFrameTransform();
+          return;
+        }
+
+        const parentFrameObject = vizWrapper.getObjectByName(parentFrameId);
+        const childFrameObject = vizWrapper.getObjectByName(childFrameId);
+
+        if (
+          parentFrameObject.getObjectByName(selectedFrame) ||
+          childFrameObject.getObjectByName(selectedFrame)
+        ) {
+          this.setFrameTransform();
         }
       },
     );
-
-    tempArr.forEach(id => {
-      currentMap[id] = true;
-    });
-
-    if (tempArr.length > 0) {
-      this.setState({ frameMap: currentMap });
-    }
-
-    if (!this.allow) {
-      return;
-    }
-
-    const { scene } = this.props;
-    const frameObject = scene.getObjectByName(FIXED_FRAME);
-    const currentFrameObject = frameObject.getObjectByName(this.currentFrame);
-
-    if (!currentFrameObject) {
-      console.warn(`${this.currentFrame}: Frame is misssing in the 3D Scene`);
-      return;
-    }
-
-    const zeroVector = new THREE.Vector3();
-    const oppPos = zeroVector.sub(currentFrameObject.position);
-    const {
-      x: quatx,
-      y: quaty,
-      z: quatz,
-      w: quatw,
-    } = currentFrameObject.quaternion;
-
-    frameObject.position.set(oppPos.x, oppPos.y, oppPos.z);
-    frameObject.quaternion.set(-quatx, -quaty, -quatz, quatw);
   }
 
   changeFrame(event) {
-    event.persist();
-    this.currentFrame = event.target.value;
-
-    const { scene } = this.props;
-    const frameObject = scene.getObjectByName(FIXED_FRAME);
-    frameObject.position.set(0, 0, 0);
-    frameObject.quaternion.set(0, 0, 0, 1);
-    this.allow = true;
+    this.setState({ selectedFrame: event.target.value });
+    const { vizWrapper } = this.props;
+    vizWrapper.position.set(0, 0, 0);
+    vizWrapper.quaternion.set(0, 0, 0, 1);
   }
 
   render() {
-    const { frameMap } = this.state;
+    const { framesList, selectedFrame } = this.state;
 
     return (
-      <div className="display-type-form-content">
-        <div className="dislay-type-form-wrapper">
+      <React.Fragment>
+        {framesList.length > 0 ? (
           <div className="display-type-form-content">
-            Fixed Frame:
-            <select onChange={this.changeFrame}>
-              {Object.keys(frameMap).map(frame => (
-                <option key={frame} value={frame}>
-                  {frame}
-                </option>
-              ))}
-            </select>
+            <div className="dislay-type-form-wrapper">
+              <div className="display-type-form-content">
+                Fixed Frame:
+                <select onChange={this.changeFrame} value={selectedFrame}>
+                  {_.map(framesList, frame => (
+                    <option key={frame} value={frame}>
+                      {frame}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        ) : null}
+      </React.Fragment>
     );
   }
 }

@@ -16,7 +16,7 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rosEndpoint: 'ws://10.91.1.186:9090',
+      rosEndpoint: localStorage.getItem('endpoint') || 'ws://192.168.1.9:9090',
     };
     this.onRosSubmit = this.onRosSubmit.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
@@ -25,16 +25,6 @@ class Sidebar extends React.Component {
     this.nav2DBtnBlur = this.nav2DBtnBlur.bind(this);
     this.navGoal2DClicked = this.navGoal2DClicked.bind(this);
     this.navEstimate2DClicked = this.navEstimate2DClicked.bind(this);
-  }
-
-  componentDidMount() {
-    const endpoint = localStorage.getItem('endpoint');
-    const { connectRos } = this.props;
-
-    if (endpoint) {
-      connectRos(endpoint);
-      this.setState({ rosEndpoint: endpoint });
-    }
   }
 
   onRosSubmit(e) {
@@ -86,11 +76,12 @@ class Sidebar extends React.Component {
   render() {
     const {
       scene,
+      vizWrapper,
+      updateTopic,
       ros,
       rosStatus,
       visualizations,
       toggleAddModal,
-      rosTopics,
     } = this.props;
 
     const { rosEndpoint } = this.state;
@@ -127,50 +118,47 @@ class Sidebar extends React.Component {
               </button>
             </form>
           </div>
-          {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ? (
-            <React.Fragment>
-              <GlobalOptions scene={scene} ros={ros} rosTopics={rosTopics} />
-              <div id="visualzation-list">
-                <button
-                  type="button"
-                  className="btn-primary"
-                  onClick={toggleAddModal}
-                >
-                  Add Visualization
-                </button>
-                {_.size(visualizations) === 0 && (
-                  <p>No visualizations added to the scene</p>
-                )}
-                {_.map(visualizations, viz => (
-                  <VizListItem
-                    key={viz.id}
-                    details={viz}
-                    ros={ros}
-                    removeDisplayType={this.removeDisplayType}
-                  />
-                ))}
-              </div>
-            </React.Fragment>
-          ) : null}
+          <GlobalOptions vizWrapper={vizWrapper} scene={scene} ros={ros} />
+          {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
+            <div id="visualzation-list">
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={toggleAddModal}
+              >
+                Add Visualization
+              </button>
+              {_.size(visualizations) === 0 && (
+                <p>No visualizations added to the scene</p>
+              )}
+              {_.map(visualizations, viz => (
+                <VizListItem
+                  updateTopic={updateTopic}
+                  key={viz.id}
+                  details={viz}
+                  ros={ros}
+                  removeDisplayType={this.removeDisplayType}
+                />
+              ))}
+            </div>
+          )}
         </div>
-        {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ? (
-          <div className="sidebar-bottom-btn" onBlur={this.nav2DBtnBlur}>
-            <button
-              type="button"
-              className="btn-primary"
-              onClick={this.navGoal2DClicked}
-            >
-              2D Nav Goal
-            </button>
-            <button
-              type="button"
-              className="btn-primary"
-              onClick={this.navEstimate2DClicked}
-            >
-              2D Nav Estimate
-            </button>
-          </div>
-        ) : null}
+        <div className="sidebar-bottom-btn" onBlur={this.nav2DBtnBlur}>
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={this.navGoal2DClicked}
+          >
+            2D Nav Goal
+          </button>
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={this.navEstimate2DClicked}
+          >
+            2D Nav Estimate
+          </button>
+        </div>
       </div>
     );
   }
