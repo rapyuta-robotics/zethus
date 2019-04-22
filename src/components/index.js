@@ -84,6 +84,7 @@ class Wrapper extends React.Component {
     this.toggleEditorControls = this.toggleEditorControls.bind(this);
     this.publishNavMessages = this.publishNavMessages.bind(this);
     this.updateTopic = this.updateTopic.bind(this);
+    this.updateOptions = this.updateOptions.bind(this);
   }
 
   setPrevConfig() {
@@ -166,6 +167,20 @@ class Wrapper extends React.Component {
       visualizations: _.map(visualizations, viz =>
         viz.id === id ? { ...viz, name } : viz,
       ),
+    });
+  }
+
+  updateOptions(id, options) {
+    const { visualizations } = this.state;
+    this.setState({
+      visualizations: _.map(visualizations, viz => {
+        if (viz.id === id) {
+          viz.rosObject.updateOptions(options);
+          return { ...viz, options };
+        }
+
+        return viz;
+      }),
     });
   }
 
@@ -364,6 +379,7 @@ class Wrapper extends React.Component {
           scene={this.scene}
           vizWrapper={this.vizWrapper}
           updateTopic={this.updateTopic}
+          updateOptions={this.updateOptions}
           rosStatus={rosStatus}
           connectRos={this.connectRos}
           disconnectRos={this.disconnectRos}

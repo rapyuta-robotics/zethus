@@ -78,6 +78,7 @@ class Sidebar extends React.Component {
       scene,
       vizWrapper,
       updateTopic,
+      updateOptions,
       ros,
       rosStatus,
       visualizations,
@@ -134,6 +135,7 @@ class Sidebar extends React.Component {
               {_.map(visualizations, viz => (
                 <VizListItem
                   updateTopic={updateTopic}
+                  updateOptions={updateOptions}
                   key={viz.id}
                   details={viz}
                   ros={ros}

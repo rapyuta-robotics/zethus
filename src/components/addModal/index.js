@@ -66,13 +66,13 @@ class AddModal extends React.Component {
   onSubmit(e) {
     e.preventDefault();
     const {
-      selectedViz: { messageTypes, isDisplay, name },
+      selectedViz: { messageTypes, isDisplay, name, defaultOptions },
     } = this.state;
     if (hasAdditionalOptions(messageTypes[0])) {
       this.toggleOptionsForm();
       return;
     }
-    this.addVisualization(messageTypes, isDisplay, name);
+    this.addVisualization(messageTypes, isDisplay, name, defaultOptions);
   }
 
   toggleOptionsForm() {

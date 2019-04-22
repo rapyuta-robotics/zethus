@@ -22,6 +22,7 @@ class Viewport extends React.Component {
     this.rayIntersection = new THREE.Vector3();
     this.plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
     this.arrow = new Arrow();
+    this.setupNavArrow();
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.animate = this.animate.bind(this);
@@ -73,6 +74,15 @@ class Viewport extends React.Component {
       this.previousWidth = offsetWidth;
       this.previousHeight = offsetHeight;
     }
+  }
+
+  setupNavArrow() {
+    this.arrow.setShaft({ radius: 0.15, length: 2 });
+    this.arrow.setHead({ radius: 0.4, length: 0.5 });
+    this.arrow.setColor({
+      cone: new THREE.Color('#7FFF00'),
+      cylinder: new THREE.Color('#7FFF00'),
+    });
   }
 
   animate() {

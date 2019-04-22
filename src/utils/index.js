@@ -15,7 +15,24 @@ import {
   MESSAGE_TYPE_IMAGE,
   MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_TF2,
+  OBJECT_TYPE_ARROW,
 } from 'amphion/src/utils/constants';
+
+const FlatArrow = {
+  arrowLength: 0.3,
+};
+
+const Arrow = {
+  shaftLength: 1,
+  shaftRadius: 0.05,
+  headLength: 0.3,
+  headRadius: 0.1,
+};
+
+const Axes = {
+  axesLength: 1,
+  axesRadius: 0.1,
+};
 
 export const ROS_SOCKET_STATUSES = {
   INITIAL: 'Idle. Not Connected',
@@ -69,6 +86,14 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      color: '#fff',
+      alpha: 1,
+      ...Arrow,
+      ...Axes,
+      type: OBJECT_TYPE_ARROW,
+      unreliable: false,
+    },
   },
   {
     name: 'Pose Array',
@@ -76,6 +101,15 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      color: '#fff',
+      alpha: 1,
+      ...Arrow,
+      ...Axes,
+      ...FlatArrow,
+      type: OBJECT_TYPE_ARROW,
+      unreliable: false,
+    },
   },
   {
     name: 'Path',

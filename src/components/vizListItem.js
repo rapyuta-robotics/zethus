@@ -1,17 +1,19 @@
 import React from 'react';
+import VizCompMap from './vizComponents';
 
 class VizListItem extends React.Component {
   constructor(props) {
     super(props);
 
     const {
-      details: { type },
+      details: { type, displayName },
     } = this.props;
     this.state = {
       type,
       topicTypes: [],
     };
     this.changeTopic = this.changeTopic.bind(this);
+    this.updateOptions = this.updateOptions.bind(this);
     this.hide = this.hide.bind(this);
     this.show = this.show.bind(this);
     this.delete = this.delete.bind(this);
@@ -69,11 +71,24 @@ class VizListItem extends React.Component {
     rosObject.show();
   }
 
+  updateOptions(options) {
+    const {
+      details: { id },
+    } = this.props;
+    const { updateOptions } = this.props;
+    updateOptions(id, options);
+  }
+
   render() {
     const {
-      details: { displayName, name },
+      details: { displayName, name, options },
     } = this.props;
     const { topicTypes, hidden } = this.state;
+    const newProps = {
+      options,
+      updateOptions: this.updateOptions,
+    };
+    const vizComp = VizCompMap(newProps)[displayName];
 
     return (
       <div className="dislay-type-form-wrapper">
@@ -89,12 +104,12 @@ class VizListItem extends React.Component {
             ))}
           </select>
         </div>
+        {vizComp}
         <div className="display-type-form-button-section">
           <button type="button" onClick={this.delete}>
             <i className="fa fa-trash" aria-hidden="true" />
             Delete
           </button>
-
           {!hidden ? (
             <button type="button" onClick={this.hide}>
               <i className="fa fa-eye-slash" aria-hidden="true" />
