@@ -162,6 +162,17 @@ export const vizOptions = [
     exampleLink: '',
     docsLink: '',
     isDisplay: false,
+    defaultOptions: {
+      unreliable: false,
+      type: OBJECT_TYPE_ARROW,
+      alpha: 1,
+      ...Arrow,
+      ...Axes,
+      ...FlatArrow,
+      positionTolerance: 0.1,
+      angleTolerance: 0.1,
+      keep: 100,
+    },
   },
 ];
 

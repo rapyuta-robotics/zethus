@@ -248,6 +248,33 @@ p {
     margin-top: 8px;
   }
 
+  .shape-section {
+    span {
+      padding-left: 15px;
+    }
+  }
+
+  .option-section {
+    display: flex;
+
+    * {
+      flex: 0 0 50%;
+      width: 100%;
+    }
+
+    select {
+      margin: 0;
+      border: 1px solid black;
+    }
+
+    input {
+      background: #383838;
+      color: white;
+      padding: 1px 2px;
+      border: 1px solid black;
+    }
+  }
+
   .display-type-form-button-section {
     margin-top: 8px;
 

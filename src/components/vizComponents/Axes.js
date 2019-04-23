@@ -18,25 +18,23 @@ class Axes extends React.Component {
 
     return (
       <React.Fragment>
-        <div>
-          <div>
-            shaftLength:
-            <input
-              name="axesLength"
-              type="number"
-              value={axesLength}
-              onChange={this.updateOptions}
-            />
-          </div>
-          <div>
-            shaftRadius:
-            <input
-              name="axesRadius"
-              type="number"
-              value={axesRadius}
-              onChange={this.updateOptions}
-            />
-          </div>
+        <div className="option-section">
+          <span>axesLength:</span>
+          <input
+            name="axesLength"
+            type="number"
+            value={axesLength}
+            onChange={this.updateOptions}
+          />
+        </div>
+        <div className="option-section">
+          <span>axesRadius:</span>
+          <input
+            name="axesRadius"
+            type="number"
+            value={axesRadius}
+            onChange={this.updateOptions}
+          />
         </div>
       </React.Fragment>
     );

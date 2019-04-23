@@ -225,23 +225,23 @@ class Wrapper extends React.Component {
       case MESSAGE_TYPE_TF2:
         return new Amphion.Tf(this.ros);
       case MESSAGE_TYPE_OCCUPANCYGRID:
-        return new Amphion.Map(this.ros, name);
+        return new Amphion.Map(this.ros, name, options);
       case MESSAGE_TYPE_POSESTAMPED:
-        return new Amphion.Pose(this.ros, name);
+        return new Amphion.Pose(this.ros, name, options);
       case MESSAGE_TYPE_POSEARRAY:
-        return new Amphion.PoseArray(this.ros, name);
+        return new Amphion.PoseArray(this.ros, name, options);
       case MESSAGE_TYPE_MARKER:
-        return new Amphion.Marker(this.ros, name);
+        return new Amphion.Marker(this.ros, name, options);
       case MESSAGE_TYPE_MARKERARRAY:
-        return new Amphion.MarkerArray(this.ros, name);
+        return new Amphion.MarkerArray(this.ros, name, options);
       case MESSAGE_TYPE_LASERSCAN:
-        return new Amphion.LaserScan(this.ros, name);
+        return new Amphion.LaserScan(this.ros, name, options);
       case MESSAGE_TYPE_POINTCLOUD2:
-        return new Amphion.PointCloud(this.ros, name);
+        return new Amphion.PointCloud(this.ros, name, options);
       case MESSAGE_TYPE_ODOMETRY:
-        return new Amphion.DisplayOdometry(this.ros, name);
+        return new Amphion.DisplayOdometry(this.ros, name, options);
       case MESSAGE_TYPE_PATH:
-        return new Amphion.Path(this.ros, name);
+        return new Amphion.Path(this.ros, name, options);
       case MESSAGE_TYPE_IMAGE:
         return new Amphion.Image(this.ros, name, this.getImageElement());
       default:

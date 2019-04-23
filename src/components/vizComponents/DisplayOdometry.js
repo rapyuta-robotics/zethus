@@ -8,7 +8,7 @@ import Arrow from './Arrow';
 import FlatArrow from './FlatArrow';
 import Axes from './Axes';
 
-class Pose extends React.Component {
+class DisplayOdometry extends React.Component {
   constructor(props) {
     super(props);
 
@@ -48,7 +48,13 @@ class Pose extends React.Component {
 
   render() {
     const {
-      options: { type: shapeType, unreliable },
+      options: {
+        type: shapeType,
+        unreliable,
+        positionTolerance,
+        angleTolerance,
+        keep,
+      },
     } = this.props;
 
     return (
@@ -63,6 +69,33 @@ class Pose extends React.Component {
           />
         </div>
         <div className="option-section">
+          <span>Position Tolerance:</span>
+          <input
+            name="positionTolerance"
+            type="number"
+            value={positionTolerance}
+            onChange={this.updateOptions}
+          />
+        </div>
+        <div className="option-section">
+          <span>Angle Tolerance:</span>
+          <input
+            name="angleTolerance"
+            type="number"
+            value={angleTolerance}
+            onChange={this.updateOptions}
+          />
+        </div>
+        <div className="option-section">
+          <span>Keep:</span>
+          <input
+            name="keep"
+            type="number"
+            value={keep}
+            onChange={this.updateOptions}
+          />
+        </div>
+        <div className="option-section">
           <span>Shape:</span>
           <select name="type" onChange={this.changeShape} value={shapeType}>
             <option key={OBJECT_TYPE_ARROW} value={OBJECT_TYPE_ARROW}>
@@ -71,9 +104,6 @@ class Pose extends React.Component {
             <option key={OBJECT_TYPE_AXES} value={OBJECT_TYPE_AXES}>
               {OBJECT_TYPE_AXES}
             </option>
-            {/*<option key={OBJECT_TYPE_FLAT_ARROW} value={OBJECT_TYPE_FLAT_ARROW}>*/}
-            {/*{OBJECT_TYPE_FLAT_ARROW}*/}
-            {/*</option>*/}
           </select>
         </div>
         <div className="shape-section">{this.getShape()}</div>
@@ -82,4 +112,4 @@ class Pose extends React.Component {
   }
 }
 
-export default Pose;
+export default DisplayOdometry;
