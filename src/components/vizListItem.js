@@ -81,10 +81,11 @@ class VizListItem extends React.Component {
 
   render() {
     const {
-      details: { displayName, name, options },
+      details: { displayName, name, options, rosObject },
     } = this.props;
     const { topicTypes, hidden } = this.state;
     const newProps = {
+      rosObject,
       options,
       updateOptions: this.updateOptions,
     };
@@ -97,12 +98,16 @@ class VizListItem extends React.Component {
           {displayName}
         </div>
         <div className="display-type-form-content">
-          Topic:
-          <select onChange={this.changeTopic} value={name}>
-            {topicTypes.map(topic => (
-              <option key={topic}>{topic}</option>
-            ))}
-          </select>
+          <div className="option-section">
+            <span>Topic:</span>
+            <span>
+              <select onChange={this.changeTopic} value={name}>
+                {topicTypes.map(topic => (
+                  <option key={topic}>{topic}</option>
+                ))}
+              </select>
+            </span>
+          </div>
         </div>
         {vizComp}
         <div className="display-type-form-button-section">

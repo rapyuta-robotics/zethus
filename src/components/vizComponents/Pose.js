@@ -71,12 +71,9 @@ class Pose extends React.Component {
             <option key={OBJECT_TYPE_AXES} value={OBJECT_TYPE_AXES}>
               {OBJECT_TYPE_AXES}
             </option>
-            {/*<option key={OBJECT_TYPE_FLAT_ARROW} value={OBJECT_TYPE_FLAT_ARROW}>*/}
-            {/*{OBJECT_TYPE_FLAT_ARROW}*/}
-            {/*</option>*/}
           </select>
         </div>
-        <div className="shape-section">{this.getShape()}</div>
+        <div className="sub-section">{this.getShape()}</div>
       </React.Fragment>
     );
   }

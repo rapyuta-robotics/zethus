@@ -65,6 +65,11 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      queueSize: 100,
+      namespaces: [],
+    },
   },
   {
     name: 'Marker Array',
@@ -72,6 +77,11 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      queueSize: 100,
+      namespaces: [],
+    },
   },
   {
     name: 'Point Cloud',
