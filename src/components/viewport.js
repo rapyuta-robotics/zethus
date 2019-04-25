@@ -45,7 +45,7 @@ class Viewport extends React.Component {
     this.initGrid();
 
     this.controls = new THREE.EditorControls(camera, container);
-    // this.controls.enabled = false;
+    this.controls.enableDamping = true;
     window.addEventListener('resize', this.onWindowResize);
     requestAnimationFrame(this.animate);
     this.onWindowResize();
@@ -109,6 +109,8 @@ class Viewport extends React.Component {
   initGrid() {
     const { scene } = this.props;
     const grid = new THREE.GridHelper(30, 30, 0x333333, 0x222222);
+
+    scene.background = new THREE.Color(0x303030);
     grid.geometry.rotateX(Math.PI / 2);
     scene.add(grid);
     const { array } = grid.geometry.attributes.color;

@@ -313,6 +313,7 @@ class Wrapper extends React.Component {
     this.scene.add(ambientLight);
 
     const axesHelper = new THREE.AxesHelper(5);
+    axesHelper.material.linewidth = 2;
     this.scene.add(axesHelper);
   }
 

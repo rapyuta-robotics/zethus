@@ -32,7 +32,10 @@ class Sidebar extends React.Component {
     const { rosEndpoint } = this.state;
     const { connectRos, disconnectRos, rosStatus } = this.props;
 
-    if (rosStatus === ROS_SOCKET_STATUSES.CONNECTED) {
+    if (
+      rosStatus === ROS_SOCKET_STATUSES.CONNECTED ||
+      rosStatus === ROS_SOCKET_STATUSES.CONNECTING
+    ) {
       disconnectRos();
     } else if (
       rosStatus === ROS_SOCKET_STATUSES.INITIAL ||
@@ -73,6 +76,19 @@ class Sidebar extends React.Component {
     toggleEditorControls(true);
   }
 
+  disableEndpointInput() {
+    const { rosStatus } = this.props;
+
+    if (
+      rosStatus === ROS_SOCKET_STATUSES.CONNECTED ||
+      rosStatus === ROS_SOCKET_STATUSES.CONNECTING
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
   render() {
     const {
       scene,
@@ -106,14 +122,15 @@ class Sidebar extends React.Component {
                 id="ros-input"
                 value={rosEndpoint}
                 onChange={this.updateRosEndpoint}
+                disabled={this.disableEndpointInput()}
               />
               <button
                 id="ros-connect-button"
                 className="btn-primary"
                 type="submit"
-                disabled={rosStatus === ROS_SOCKET_STATUSES.CONNECTING}
               >
-                {rosStatus === ROS_SOCKET_STATUSES.CONNECTED
+                {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ||
+                rosStatus === ROS_SOCKET_STATUSES.CONNECTING
                   ? 'Disconnect'
                   : 'Connect'}
               </button>

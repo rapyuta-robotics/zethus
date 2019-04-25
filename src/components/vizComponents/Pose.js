@@ -52,7 +52,7 @@ class Pose extends React.Component {
       options: { type: shapeType, unreliable },
       rosObject: { messageType },
     } = this.props;
-    console.log(this.props);
+
     return (
       <React.Fragment>
         <div className="option-section">
