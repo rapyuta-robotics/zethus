@@ -9,5 +9,6 @@ export default props => {
     'Display Odometry': <DisplayOdometry {...props} />,
     Markers: <Marker {...props} />,
     'Marker Array': <Marker {...props} />,
+    'Pose Array': <Pose {...props} />,
   };
 };

@@ -19,29 +19,27 @@ class FlatArrow extends React.Component {
 
     return (
       <React.Fragment>
-        <div>
-          <div>
-            Color:
-            <input name="color" type="color" onChange={this.updateOptions} />
-          </div>
-          <div>
-            alpha:
-            <input
-              name="alpha"
-              type="number"
-              value={alpha}
-              onChange={this.updateOptions}
-            />
-          </div>
-          <div>
-            Arrow Length:
-            <input
-              name="arrowLength"
-              type="number"
-              value={arrowLength}
-              onChange={this.updateOptions}
-            />
-          </div>
+        <div className="option-section">
+          <span>Color:</span>
+          <input name="color" type="color" onChange={this.updateOptions} />
+        </div>
+        <div className="option-section">
+          <span>alpha:</span>
+          <input
+            name="alpha"
+            type="number"
+            value={alpha}
+            onChange={this.updateOptions}
+          />
+        </div>
+        <div className="option-section">
+          <span>Arrow Length:</span>
+          <input
+            name="arrowLength"
+            type="number"
+            value={arrowLength}
+            onChange={this.updateOptions}
+          />
         </div>
       </React.Fragment>
     );

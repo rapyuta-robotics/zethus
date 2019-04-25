@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  MESSAGE_TYPE_POSESTAMPED,
   OBJECT_TYPE_ARROW,
   OBJECT_TYPE_AXES,
   OBJECT_TYPE_FLAT_ARROW,
@@ -49,8 +50,9 @@ class Pose extends React.Component {
   render() {
     const {
       options: { type: shapeType, unreliable },
+      rosObject: { messageType },
     } = this.props;
-
+    console.log(this.props);
     return (
       <React.Fragment>
         <div className="option-section">
@@ -68,6 +70,14 @@ class Pose extends React.Component {
             <option key={OBJECT_TYPE_ARROW} value={OBJECT_TYPE_ARROW}>
               {OBJECT_TYPE_ARROW}
             </option>
+            {messageType !== MESSAGE_TYPE_POSESTAMPED ? (
+              <option
+                key={OBJECT_TYPE_FLAT_ARROW}
+                value={OBJECT_TYPE_FLAT_ARROW}
+              >
+                {OBJECT_TYPE_FLAT_ARROW}
+              </option>
+            ) : null}
             <option key={OBJECT_TYPE_AXES} value={OBJECT_TYPE_AXES}>
               {OBJECT_TYPE_AXES}
             </option>
