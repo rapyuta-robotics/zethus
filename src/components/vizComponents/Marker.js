@@ -5,7 +5,7 @@ class Marker extends React.Component {
     super(props);
 
     this.setNamespaces = this.setNamespaces.bind(this);
-    this.onChangeQueueSize = this.onChangeQueueSize.bind(this);
+    this.updateOptions = this.updateOptions.bind(this);
     this.updateNamespace = this.updateNamespace.bind(this);
 
     const { rosObject } = props;
@@ -38,7 +38,7 @@ class Marker extends React.Component {
     updateOptions(newOptions);
   }
 
-  onChangeQueueSize(e) {
+  updateOptions(e) {
     const { updateOptions } = this.props;
     const { options } = this.props;
     const newOptions = { ...options };
@@ -69,7 +69,7 @@ class Marker extends React.Component {
             name="queueSize"
             type="input"
             value={queueSize}
-            onChange={this.onChangeQueueSize}
+            onChange={this.updateOptions}
           />
         </div>
         Namespaces:
