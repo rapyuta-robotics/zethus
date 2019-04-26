@@ -13,6 +13,7 @@ class VizListItem extends React.Component {
       topicTypes: [],
     };
     this.changeTopic = this.changeTopic.bind(this);
+    this.getTopics = this.getTopics.bind(this);
     this.updateOptions = this.updateOptions.bind(this);
     this.hide = this.hide.bind(this);
     this.show = this.show.bind(this);
@@ -20,6 +21,10 @@ class VizListItem extends React.Component {
   }
 
   componentDidMount() {
+    this.getTopics();
+  }
+
+  getTopics() {
     const {
       ros,
       details: { type },
@@ -92,13 +97,13 @@ class VizListItem extends React.Component {
     const vizComp = VizCompMap(newProps)[displayName];
 
     return (
-      <div className="dislay-type-form-wrapper">
+      <div className="display-type-form-wrapper">
         <div className="display-type-form-header">
           <span className="type-image" />
           {displayName}
         </div>
         <div className="display-type-form-content">
-          <div className="option-section">
+          <div className="option-section" onClick={this.getTopics}>
             <span>Topic:</span>
             <span>
               <select onChange={this.changeTopic} value={name}>
@@ -108,8 +113,8 @@ class VizListItem extends React.Component {
               </select>
             </span>
           </div>
+          {vizComp}
         </div>
-        {vizComp}
         <div className="display-type-form-button-section">
           <button type="button" onClick={this.delete}>
             <i className="fa fa-trash" aria-hidden="true" />

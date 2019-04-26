@@ -271,7 +271,8 @@ class Wrapper extends React.Component {
     if (!isDisplay) {
       this.vizWrapper.add(vizObject.object);
     }
-    if (vizObject.subscribe) {
+
+    if (vizObject.topic) {
       vizObject.subscribe();
     }
     this.setState({

@@ -20,52 +20,64 @@ class Arrow extends React.Component {
       <React.Fragment>
         <div className="option-section">
           <span>Color:</span>
-          <input name="color" type="color" onChange={this.updateOptions} />
+          <span>
+            <input name="color" type="color" onChange={this.updateOptions} />
+          </span>
         </div>
         <div className="option-section">
           <span>alpha:</span>
-          <input
-            name="alpha"
-            type="number"
-            value={alpha}
-            onChange={this.updateOptions}
-          />
+          <span>
+            <input
+              name="alpha"
+              type="number"
+              value={alpha}
+              onChange={this.updateOptions}
+            />
+          </span>
         </div>
         <div className="option-section">
           <span>shaftLength:</span>
-          <input
-            name="shaftLength"
-            type="number"
-            value={shaftLength}
-            onChange={this.updateOptions}
-          />
+          <span>
+            <input
+              name="shaftLength"
+              type="number"
+              value={shaftLength}
+              onChange={this.updateOptions}
+            />
+          </span>
         </div>
         <div className="option-section">
           <span>shaftRadius:</span>
-          <input
-            name="shaftRadius"
-            type="number"
-            value={shaftRadius}
-            onChange={this.updateOptions}
-          />
+          <span>
+            <input
+              name="shaftRadius"
+              type="number"
+              value={shaftRadius}
+              onChange={this.updateOptions}
+            />
+          </span>
         </div>
         <div className="option-section">
           <span>HeadLength:</span>
-          <input
-            name="headLength"
-            type="number"
-            value={headLength}
-            onChange={this.updateOptions}
-          />
+          <span>
+            <input
+              name="headLength"
+              type="number"
+              value={headLength}
+              onChange={this.updateOptions}
+            />
+          </span>
         </div>
         <div className="option-section">
           <span>headRadius:</span>
-          <input
-            name="headRadius"
-            type="number"
-            value={headRadius}
-            onChange={this.updateOptions}
-          />
+          <span>
+            <input
+              name="headRadius"
+              type="number"
+              value={headRadius}
+              onChange={this.updateOptions}
+            />
+          </span>
         </div>
       </React.Fragment>
     );
