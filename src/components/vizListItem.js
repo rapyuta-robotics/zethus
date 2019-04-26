@@ -1,15 +1,11 @@
 import React from 'react';
-import VizCompMap from './vizComponents';
+import VizOptionsMap from './sidebarOptions';
 
 class VizListItem extends React.Component {
   constructor(props) {
     super(props);
 
-    const {
-      details: { type, displayName },
-    } = this.props;
     this.state = {
-      type,
       topicTypes: [],
     };
     this.changeTopic = this.changeTopic.bind(this);
@@ -94,7 +90,7 @@ class VizListItem extends React.Component {
       options,
       updateOptions: this.updateOptions,
     };
-    const vizComp = VizCompMap(newProps)[displayName];
+    const vizComp = VizOptionsMap(newProps)[displayName];
 
     return (
       <div className="display-type-form-wrapper">

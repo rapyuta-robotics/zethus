@@ -18,21 +18,9 @@ import {
   OBJECT_TYPE_ARROW,
 } from 'amphion/src/utils/constants';
 
-const FlatArrow = {
-  arrowLength: 0.3,
-};
-
-const Arrow = {
-  shaftLength: 1,
-  shaftRadius: 0.05,
-  headLength: 0.3,
-  headRadius: 0.1,
-};
-
-const Axes = {
-  axesLength: 1,
-  axesRadius: 0.1,
-};
+import { ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/ArrowOptions';
+import { AXES_OPTIONS_DEFAULTS } from '../components/sidebarOptions/AxesOptions';
+import { FLAT_ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/FlatArrowOptions';
 
 export const ROS_SOCKET_STATUSES = {
   INITIAL: 'Idle. Not Connected',
@@ -99,8 +87,8 @@ export const vizOptions = [
     defaultOptions: {
       color: '#fff',
       alpha: 1,
-      ...Arrow,
-      ...Axes,
+      ...ARROW_OPTIONS_DEFAULTS,
+      ...AXES_OPTIONS_DEFAULTS,
       type: OBJECT_TYPE_ARROW,
       unreliable: false,
     },
@@ -114,9 +102,9 @@ export const vizOptions = [
     defaultOptions: {
       color: '#fff',
       alpha: 1,
-      ...Arrow,
-      ...Axes,
-      ...FlatArrow,
+      ...ARROW_OPTIONS_DEFAULTS,
+      ...AXES_OPTIONS_DEFAULTS,
+      ...FLAT_ARROW_OPTIONS_DEFAULTS,
       type: OBJECT_TYPE_ARROW,
       unreliable: false,
     },
@@ -176,9 +164,9 @@ export const vizOptions = [
       unreliable: false,
       type: OBJECT_TYPE_ARROW,
       alpha: 1,
-      ...Arrow,
-      ...Axes,
-      ...FlatArrow,
+      ...ARROW_OPTIONS_DEFAULTS,
+      ...AXES_OPTIONS_DEFAULTS,
+      ...FLAT_ARROW_OPTIONS_DEFAULTS,
       positionTolerance: 0.1,
       angleTolerance: 0.1,
       keep: 100,

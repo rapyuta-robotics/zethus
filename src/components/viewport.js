@@ -5,6 +5,7 @@ import {
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_POSECOVARIANCE,
 } from 'amphion/src/utils/constants';
+import { NAV_ARROW_COLOR, NAV_ARROW_CONFIG } from '../utils/defaults';
 
 const { THREE, devicePixelRatio } = window;
 
@@ -77,11 +78,11 @@ class Viewport extends React.Component {
   }
 
   setupNavArrow() {
-    this.arrow.setShaft({ radius: 0.15, length: 2 });
-    this.arrow.setHead({ radius: 0.4, length: 0.5 });
+    this.arrow.setShaft(NAV_ARROW_CONFIG.shaft);
+    this.arrow.setHead(NAV_ARROW_CONFIG.head);
     this.arrow.setColor({
-      cone: new THREE.Color('#7FFF00'),
-      cylinder: new THREE.Color('#7FFF00'),
+      cone: new THREE.Color(NAV_ARROW_COLOR),
+      cylinder: new THREE.Color(NAV_ARROW_COLOR),
     });
   }
 

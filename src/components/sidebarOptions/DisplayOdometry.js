@@ -4,9 +4,9 @@ import {
   OBJECT_TYPE_AXES,
   OBJECT_TYPE_FLAT_ARROW,
 } from 'amphion/src/utils/constants';
-import Arrow from './Arrow';
-import FlatArrow from './FlatArrow';
-import Axes from './Axes';
+import Arrow from './ArrowOptions';
+import FlatArrow from './FlatArrowOptions';
+import Axes from './AxesOptions';
 
 class DisplayOdometry extends React.Component {
   constructor(props) {
@@ -106,7 +106,7 @@ class DisplayOdometry extends React.Component {
             </option>
           </select>
         </div>
-        <div className="shape-section">{this.getShape()}</div>
+        <div className="sub-section">{this.getShape()}</div>
       </React.Fragment>
     );
   }
