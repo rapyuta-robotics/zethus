@@ -21,6 +21,7 @@ import {
 import { ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/ArrowOptions';
 import { AXES_OPTIONS_DEFAULTS } from '../components/sidebarOptions/AxesOptions';
 import { FLAT_ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/FlatArrowOptions';
+import { DEFAULT_COLOR_X_AXIS } from 'amphion/src/utils/defaults';
 
 export const ROS_SOCKET_STATUSES = {
   INITIAL: 'Idle. Not Connected',
@@ -85,7 +86,7 @@ export const vizOptions = [
     exampleLink: '',
     docsLink: '',
     defaultOptions: {
-      color: '#fff',
+      color: DEFAULT_COLOR_X_AXIS,
       alpha: 1,
       ...ARROW_OPTIONS_DEFAULTS,
       ...AXES_OPTIONS_DEFAULTS,
@@ -100,7 +101,7 @@ export const vizOptions = [
     exampleLink: '',
     docsLink: '',
     defaultOptions: {
-      color: '#fff',
+      color: DEFAULT_COLOR_X_AXIS,
       alpha: 1,
       ...ARROW_OPTIONS_DEFAULTS,
       ...AXES_OPTIONS_DEFAULTS,

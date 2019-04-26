@@ -1,15 +1,12 @@
 import React from 'react';
 
 export const FLAT_ARROW_OPTIONS_DEFAULTS = {
-  shaftLength: 1,
-  shaftRadius: 0.05,
-  headLength: 0.3,
-  headRadius: 0.1,
+  arrowLength: 0.3,
 };
 
 const FlatArrow = props => {
   const {
-    options: { alpha, arrowLength },
+    options: { alpha, arrowLength, color },
     updateOptions,
   } = props;
 
@@ -18,7 +15,12 @@ const FlatArrow = props => {
       <div className="option-section">
         <span>Color:</span>
         <span>
-          <input name="color" type="color" onChange={updateOptions} />
+          <input
+            name="color"
+            type="color"
+            value={color}
+            onChange={updateOptions}
+          />
         </span>
       </div>
       <div className="option-section">

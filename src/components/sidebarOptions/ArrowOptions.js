@@ -1,12 +1,15 @@
 import React from 'react';
 
 export const ARROW_OPTIONS_DEFAULTS = {
-  arrowLength: 0.3,
+  shaftLength: 1,
+  shaftRadius: 0.05,
+  headLength: 0.3,
+  headRadius: 0.1,
 };
 
 const Arrow = props => {
   const {
-    options: { alpha, shaftLength, shaftRadius, headLength, headRadius },
+    options: { alpha, color, shaftLength, shaftRadius, headLength, headRadius },
     updateOptions,
   } = props;
 
@@ -15,7 +18,12 @@ const Arrow = props => {
       <div className="option-section">
         <span>Color:</span>
         <span>
-          <input name="color" type="color" onChange={updateOptions} />
+          <input
+            name="color"
+            type="color"
+            value={color}
+            onChange={updateOptions}
+          />
         </span>
       </div>
       <div className="option-section">
