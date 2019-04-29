@@ -22,6 +22,7 @@ import { ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/ArrowOption
 import { AXES_OPTIONS_DEFAULTS } from '../components/sidebarOptions/AxesOptions';
 import { FLAT_ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/FlatArrowOptions';
 import { DEFAULT_COLOR_X_AXIS } from 'amphion/src/utils/defaults';
+import { COLOR_SCHEMES } from 'amphion/src/viz/Map';
 
 export const ROS_SOCKET_STATUSES = {
   INITIAL: 'Idle. Not Connected',
@@ -47,6 +48,12 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      alpha: 1,
+      colorScheme: COLOR_SCHEMES.MAP,
+      drawBehind: false,
+    },
   },
   {
     name: 'Markers',

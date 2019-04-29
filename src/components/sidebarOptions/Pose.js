@@ -30,9 +30,9 @@ class Pose extends React.Component {
         );
       case OBJECT_TYPE_AXES:
         return <Axes updateOptions={this.updateOptions} options={options} />;
+      default:
+        return null;
     }
-
-    return <div>Something went wrong - Check Type</div>;
   }
 
   changeShape(e) {
