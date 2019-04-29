@@ -13,6 +13,7 @@ RUN npm run build
 
 RUN rm /etc/nginx/conf.d/default.conf
 RUN cd ../ \
+    mkdir -p /usr/share/nginx/html/demo && \
     cp -R website/build/zethus/* /usr/share/nginx/html/ && \
     cp -R build/* /usr/share/nginx/html/demo/ && \
     cp /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf && \
