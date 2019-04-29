@@ -164,6 +164,7 @@ export const vizOptions = [
     defaultOptions: {
       unreliable: false,
       type: OBJECT_TYPE_ARROW,
+      color: DEFAULT_COLOR_X_AXIS,
       alpha: 1,
       ...ARROW_OPTIONS_DEFAULTS,
       ...AXES_OPTIONS_DEFAULTS,

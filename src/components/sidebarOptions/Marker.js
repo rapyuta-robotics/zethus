@@ -9,7 +9,7 @@ class Marker extends React.Component {
     this.updateNamespace = this.updateNamespace.bind(this);
 
     const { rosObject } = props;
-    rosObject.setCallback(this.setNamespaces);
+    rosObject.onNamespaceChange(this.setNamespaces);
   }
 
   setNamespaces() {
@@ -56,21 +56,25 @@ class Marker extends React.Component {
       <React.Fragment>
         <div className="option-section">
           <span>Unreliable:</span>
-          <input
-            name="unreliable"
-            type="checkbox"
-            value={unreliable}
-            onChange={this.updateOptions}
-          />
+          <span>
+            <input
+              name="unreliable"
+              type="checkbox"
+              value={unreliable}
+              onChange={this.updateOptions}
+            />
+          </span>
         </div>
         <div className="option-section">
           <span>Queue Size:</span>
-          <input
-            name="queueSize"
-            type="input"
-            value={queueSize}
-            onChange={this.updateOptions}
-          />
+          <span>
+            <input
+              name="queueSize"
+              type="input"
+              value={queueSize}
+              onChange={this.updateOptions}
+            />
+          </span>
         </div>
         Namespaces:
         <div className="sub-section">

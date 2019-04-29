@@ -78,8 +78,8 @@ class Viewport extends React.Component {
   }
 
   setupNavArrow() {
-    this.arrow.setShaft(NAV_ARROW_CONFIG.shaft);
-    this.arrow.setHead(NAV_ARROW_CONFIG.head);
+    this.arrow.setShaftDimensions(NAV_ARROW_CONFIG.shaft);
+    this.arrow.setHeadDimensions(NAV_ARROW_CONFIG.head);
     this.arrow.setColor({
       cone: new THREE.Color(NAV_ARROW_COLOR),
       cylinder: new THREE.Color(NAV_ARROW_COLOR),
