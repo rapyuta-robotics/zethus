@@ -3,23 +3,31 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "Documentation for Zethus, RViz for the web",
+    "tagline": "RViz for the web",
     "docs": {
-      "doc1": {
-        "title": "Latin-ish",
-        "sidebar_label": "Example Page"
+      "about-vs-existing": {
+        "title": "Zethus vs existing libraries"
       },
-      "doc2": {
-        "title": "document number 2"
+      "about-what-is-zethus": {
+        "title": "What is Zethus?"
       },
-      "doc3": {
-        "title": "This is document number 3"
+      "misc-contribution-guidelines": {
+        "title": "Contribution guidelines"
       },
-      "doc4": {
-        "title": "Other Document"
+      "misc-related-projects": {
+        "title": "Related projects"
       },
-      "doc5": {
-        "title": "Fifth Document"
+      "usage-configuring-visualizations": {
+        "title": "Configuring visualizations"
+      },
+      "usage-getting-started": {
+        "title": "Getting started"
+      },
+      "usage-requirements": {
+        "title": "Requirements"
+      },
+      "usage-running-locally": {
+        "title": "Running locally"
       }
     },
     "links": {
@@ -29,9 +37,9 @@
       "Blog": "Blog"
     },
     "categories": {
-      "Docusaurus": "Docusaurus",
-      "First Category": "First Category",
-      "Second Category": "Second Category"
+      "About": "About",
+      "Usage": "Usage",
+      "Miscellaneous": "Miscellaneous"
     }
   },
   "pages-strings": {

@@ -1,10 +1,7 @@
 {
   "docs": {
-    "Docusaurus": ["doc1"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"]
-  },
-  "docs-other": {
-    "First Category": ["doc4", "doc5"]
+    "About": ["about-what-is-zethus", "about-vs-existing"],
+    "Usage": ["usage-requirements", "usage-getting-started", "usage-configuring-visualizations", "usage-running-locally"],
+    "Miscellaneous": ["misc-contribution-guidelines", "misc-related-projects"]
   }
 }
