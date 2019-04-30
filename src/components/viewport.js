@@ -5,6 +5,7 @@ import {
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_POSECOVARIANCE,
 } from 'amphion/src/utils/constants';
+import { NAV_ARROW_COLOR, NAV_ARROW_CONFIG } from '../utils/defaults';
 
 const { THREE, devicePixelRatio } = window;
 
@@ -22,6 +23,7 @@ class Viewport extends React.Component {
     this.rayIntersection = new THREE.Vector3();
     this.plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
     this.arrow = new Arrow();
+    this.setupNavArrow();
 
     this.onWindowResize = this.onWindowResize.bind(this);
     this.animate = this.animate.bind(this);
@@ -44,7 +46,7 @@ class Viewport extends React.Component {
     this.initGrid();
 
     this.controls = new THREE.EditorControls(camera, container);
-    // this.controls.enabled = false;
+    this.controls.enableDamping = true;
     window.addEventListener('resize', this.onWindowResize);
     requestAnimationFrame(this.animate);
     this.onWindowResize();
@@ -75,6 +77,15 @@ class Viewport extends React.Component {
     }
   }
 
+  setupNavArrow() {
+    this.arrow.setShaftDimensions(NAV_ARROW_CONFIG.shaft);
+    this.arrow.setHeadDimensions(NAV_ARROW_CONFIG.head);
+    this.arrow.setColor({
+      cone: new THREE.Color(NAV_ARROW_COLOR),
+      cylinder: new THREE.Color(NAV_ARROW_COLOR),
+    });
+  }
+
   animate() {
     const { scene, camera } = this.props;
     this.stats.begin();
@@ -99,6 +110,8 @@ class Viewport extends React.Component {
   initGrid() {
     const { scene } = this.props;
     const grid = new THREE.GridHelper(30, 30, 0x333333, 0x222222);
+
+    scene.background = new THREE.Color(0x303030);
     grid.geometry.rotateX(Math.PI / 2);
     scene.add(grid);
     const { array } = grid.geometry.attributes.color;

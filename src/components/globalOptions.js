@@ -131,17 +131,21 @@ class GlobalOptions extends React.Component {
     return (
       <React.Fragment>
         {framesList.length > 0 ? (
-          <div className="display-type-form-content">
-            <div className="dislay-type-form-wrapper">
+          <div className="display-type-global-options">
+            <div className="display-type-form-wrapper">
               <div className="display-type-form-content">
-                Fixed Frame:
-                <select onChange={this.changeFrame} value={selectedFrame}>
-                  {_.map(framesList, frame => (
-                    <option key={frame} value={frame}>
-                      {frame}
-                    </option>
-                  ))}
-                </select>
+                <div className="option-section">
+                  <span>Fixed Frame:</span>
+                  <span>
+                    <select onChange={this.changeFrame} value={selectedFrame}>
+                      {_.map(framesList, frame => (
+                        <option key={frame} value={frame}>
+                          {frame}
+                        </option>
+                      ))}
+                    </select>
+                  </span>
+                </div>
               </div>
             </div>
           </div>

@@ -1,23 +1,26 @@
 import React from 'react';
+import VizOptionsMap from './sidebarOptions';
 
 class VizListItem extends React.Component {
   constructor(props) {
     super(props);
 
-    const {
-      details: { type },
-    } = this.props;
     this.state = {
-      type,
       topicTypes: [],
     };
     this.changeTopic = this.changeTopic.bind(this);
+    this.getTopics = this.getTopics.bind(this);
+    this.updateOptions = this.updateOptions.bind(this);
     this.hide = this.hide.bind(this);
     this.show = this.show.bind(this);
     this.delete = this.delete.bind(this);
   }
 
   componentDidMount() {
+    this.getTopics();
+  }
+
+  getTopics() {
     const {
       ros,
       details: { type },
@@ -69,32 +72,50 @@ class VizListItem extends React.Component {
     rosObject.show();
   }
 
+  updateOptions(options) {
+    const {
+      details: { id },
+    } = this.props;
+    const { updateOptions } = this.props;
+    updateOptions(id, options);
+  }
+
   render() {
     const {
-      details: { displayName, name },
+      details: { displayName, name, options, rosObject },
     } = this.props;
     const { topicTypes, hidden } = this.state;
+    const newProps = {
+      rosObject,
+      options,
+      updateOptions: this.updateOptions,
+    };
+    const vizComp = VizOptionsMap(newProps)[displayName];
 
     return (
-      <div className="dislay-type-form-wrapper">
+      <div className="display-type-form-wrapper">
         <div className="display-type-form-header">
           <span className="type-image" />
           {displayName}
         </div>
         <div className="display-type-form-content">
-          Topic:
-          <select onChange={this.changeTopic} value={name}>
-            {topicTypes.map(topic => (
-              <option key={topic}>{topic}</option>
-            ))}
-          </select>
+          <div className="option-section" onClick={this.getTopics}>
+            <span>Topic:</span>
+            <span>
+              <select onChange={this.changeTopic} value={name}>
+                {topicTypes.map(topic => (
+                  <option key={topic}>{topic}</option>
+                ))}
+              </select>
+            </span>
+          </div>
+          {vizComp}
         </div>
         <div className="display-type-form-button-section">
           <button type="button" onClick={this.delete}>
             <i className="fa fa-trash" aria-hidden="true" />
             Delete
           </button>
-
           {!hidden ? (
             <button type="button" onClick={this.hide}>
               <i className="fa fa-eye-slash" aria-hidden="true" />

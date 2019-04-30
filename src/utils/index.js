@@ -15,7 +15,14 @@ import {
   MESSAGE_TYPE_IMAGE,
   MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_TF2,
+  OBJECT_TYPE_ARROW,
 } from 'amphion/src/utils/constants';
+
+import { ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/ArrowOptions';
+import { AXES_OPTIONS_DEFAULTS } from '../components/sidebarOptions/AxesOptions';
+import { FLAT_ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/FlatArrowOptions';
+import { DEFAULT_COLOR_X_AXIS } from 'amphion/src/utils/defaults';
+import { COLOR_SCHEMES } from 'amphion/src/viz/Map';
 
 export const ROS_SOCKET_STATUSES = {
   INITIAL: 'Idle. Not Connected',
@@ -41,6 +48,12 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      alpha: 1,
+      colorScheme: COLOR_SCHEMES.MAP,
+      drawBehind: false,
+    },
   },
   {
     name: 'Markers',
@@ -48,6 +61,11 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      queueSize: 100,
+      namespaces: [],
+    },
   },
   {
     name: 'Marker Array',
@@ -55,6 +73,11 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      queueSize: 100,
+      namespaces: [],
+    },
   },
   {
     name: 'Point Cloud',
@@ -69,6 +92,14 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      color: DEFAULT_COLOR_X_AXIS,
+      alpha: 1,
+      ...ARROW_OPTIONS_DEFAULTS,
+      ...AXES_OPTIONS_DEFAULTS,
+      type: OBJECT_TYPE_ARROW,
+      unreliable: false,
+    },
   },
   {
     name: 'Pose Array',
@@ -76,6 +107,15 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      color: DEFAULT_COLOR_X_AXIS,
+      alpha: 1,
+      ...ARROW_OPTIONS_DEFAULTS,
+      ...AXES_OPTIONS_DEFAULTS,
+      ...FLAT_ARROW_OPTIONS_DEFAULTS,
+      type: OBJECT_TYPE_ARROW,
+      unreliable: false,
+    },
   },
   {
     name: 'Path',
@@ -128,6 +168,18 @@ export const vizOptions = [
     exampleLink: '',
     docsLink: '',
     isDisplay: false,
+    defaultOptions: {
+      unreliable: false,
+      type: OBJECT_TYPE_ARROW,
+      color: DEFAULT_COLOR_X_AXIS,
+      alpha: 1,
+      ...ARROW_OPTIONS_DEFAULTS,
+      ...AXES_OPTIONS_DEFAULTS,
+      ...FLAT_ARROW_OPTIONS_DEFAULTS,
+      positionTolerance: 0.1,
+      angleTolerance: 0.1,
+      keep: 100,
+    },
   },
 ];
 
