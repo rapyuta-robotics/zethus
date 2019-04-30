@@ -3,6 +3,7 @@ import Pose from './Pose';
 import DisplayOdometry from './DisplayOdometry';
 import Marker from './Marker';
 import Map from './Map';
+import LaserScan from './LaserScan';
 
 export default props => {
   return {
@@ -12,5 +13,6 @@ export default props => {
     'Marker Array': <Marker {...props} />,
     'Pose Array': <Pose {...props} />,
     Map: <Map {...props} />,
+    'Laser Scan': <LaserScan {...props} />,
   };
 };
