@@ -38,6 +38,11 @@ export const ROS_SOCKET_STATUSES = {
   CONNECTION_ERROR: 'Error in connection',
 };
 
+export const LINE_STYLES = {
+  LINES: 'Lines',
+  BILLBOARDS: 'Billboards',
+};
+
 const intensityOptions = {
   channelName: INTENSITY_CHANNEL_OPTIONS.Intensity,
   useRainbow: false,
@@ -162,6 +167,16 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      lineStyle: LINE_STYLES.LINES,
+      color: '#ffffff',
+      alpha: 1,
+      poseStyle: 'None',
+      bufferLength: 0,
+      ...AXES_OPTIONS_DEFAULTS,
+      ...ARROW_OPTIONS_DEFAULTS,
+    },
   },
   {
     name: 'Image',
