@@ -4,16 +4,10 @@ RUN apk update \
     build-base
 COPY . /usr/src/app/
 ENV PUBLIC_URL=/demo/
+RUN (cd  /usr/src/app && npm ci && npm run build) && \
+   ( cd /usr/src/app/website && npm ci && npm run build)
 WORKDIR /usr/src/app
-RUN npm ci
-RUN npm run build
-WORKDIR /usr/src/app/website
-RUN npm ci
-RUN npm run build
-
-RUN rm /etc/nginx/conf.d/default.conf
-RUN cd ../ \
-  cp -R website/build/zethus/* /usr/share/nginx/html/ && \
+RUN cp -R website/build/zethus/* /usr/share/nginx/html/ && \
   mkdir -p /usr/share/nginx/html/demo/ && \
   cp -R build/* /usr/share/nginx/html/demo/ && \
   cp /usr/src/app/nginx.conf /etc/nginx/conf.d/default.conf && \
