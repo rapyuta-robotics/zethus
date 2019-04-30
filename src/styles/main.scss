@@ -115,6 +115,12 @@ p {
 
   .sidebar-display {
     overflow-y: auto;
+
+    .display-type-global-options {
+      .display-type-form-content {
+        margin-left: 0;
+      }
+    }
   }
 
   .sidebar-bottom-btn {
@@ -235,7 +241,7 @@ p {
   padding: 10px 20px;
 }
 
-.dislay-type-form-wrapper {
+.display-type-form-wrapper {
   padding: 20px 10px 10px 20px;
   border-bottom: 1px solid black;
 
@@ -246,6 +252,39 @@ p {
 
   .display-type-form-content {
     margin-top: 8px;
+    margin-left: 30px;
+  }
+
+  .sub-section {
+    span:first-child {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding-left: 15px;
+    }
+  }
+
+  .option-section {
+    display: flex;
+
+    > * {
+      flex: 0 0 50%;
+      width: 100%;
+    }
+
+    select {
+      margin: 0;
+      border: 1px solid black;
+      width: 100%;
+    }
+
+    input {
+      width: 100%;
+      background: #383838;
+      color: white;
+      padding: 1px 2px;
+      border: 1px solid black;
+    }
   }
 
   .display-type-form-button-section {
