@@ -1,6 +1,6 @@
 ---
-id: about-vs-existing
-title: Zethus vs existing libraries
+id: about-vs-rviz
+title: Zethus vs RViz
 ---
 
 Lorem ipsum

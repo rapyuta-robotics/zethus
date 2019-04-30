@@ -1,6 +1,6 @@
 ---
-id: usage-configuring-visualizations
-title: Configuring visualizations
+id: visualizations-markers
+title: Markers
 ---
 
 Lorem ipsum

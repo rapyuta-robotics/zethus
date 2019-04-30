@@ -28,11 +28,15 @@ const siteConfig = {
     primaryColor: '#222222',
     secondaryColor: '#444444',
   },
+  disableHeaderTitle: true,
   copyright: `Copyright © ${new Date().getFullYear()} Rapyuta Robotics Pvt. Ltd`,
   highlight: {
     theme: 'javascript',
   },
-  scripts: ['https://buttons.github.io/buttons.js'],
+  scripts: [
+    'https://buttons.github.io/buttons.js',
+    '/script/particles.min.js',
+  ],
   onPageNav: 'separate',
   cleanUrl: true,
   // ogImage: 'img/undraw_online.svg',

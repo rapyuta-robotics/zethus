@@ -12,13 +12,15 @@ class Footer extends React.Component {
     const baseUrl = this.props.config.baseUrl;
     const docsUrl = this.props.config.docsUrl;
     const docsPart = `${docsUrl ? `${docsUrl}/` : ''}`;
-    const langPart = `${language ? `${language}/` : ''}`;
+    const langPart = ''; // `${language ? `${language}/` : ''}`;
     return `${baseUrl}${docsPart}${langPart}${doc}`;
   }
 
   pageUrl(doc, language) {
     const baseUrl = this.props.config.baseUrl;
-    return baseUrl + (language ? `${language}/` : '') + doc;
+    return baseUrl +
+      // (language ? `${language}/` : '') +
+      doc;
   }
 
   render() {
@@ -37,13 +39,13 @@ class Footer extends React.Component {
           </a>
           <div>
             <h5>Documentation</h5>
-            <a href={this.docUrl('doc1.html', this.props.language)}>
+            <a href={this.docUrl('usage-getting-started', this.props.language)}>
               Getting Started
             </a>
-            <a href={this.docUrl('doc2.html', this.props.language)}>
+            <a href={this.docUrl('misc-faqs', this.props.language)}>
               FAQs
             </a>
-            <a href={this.docUrl('doc3.html', this.props.language)}>
+            <a href={this.docUrl('misc-related-projects', this.props.language)}>
               Related projects
             </a>
           </div>
@@ -76,6 +78,7 @@ class Footer extends React.Component {
           </div>
         </section>
         <section className="copyright">{this.props.config.copyright}</section>
+        <script src="/script/main.js"></script>
       </footer>
     );
   }

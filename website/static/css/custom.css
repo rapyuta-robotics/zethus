@@ -9,8 +9,56 @@ pre {
   overflow-x: scroll;
   padding-bottom: 20px;
 }
-.headerTitleWithLogo {
-  display: none !important;
+.flexGap {
+  flex-grow: 1;
+}
+#homeGridBlock {
+  display: flex;
+  align-items: center;
+  padding: 10px 0;
+}
+.homeContainer {
+  background-color: #000000;  /* fallback for old browsers */
+}
+#particles-js {
+  position: relative;
+  overflow: hidden;
+}
+.particles-js-canvas-el {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /*bottom: 0;*/
+  /*height: auto !important;*/
+}
+.homeContainer .homeWrapper {
+  color: #ffffff;
+  padding-top: 100px;
+  padding-bottom: 100px;
+}
+.homeBlockIcon {
+  width: 100px;
+  height: 100px;
+  background-color: #eaeaea;
+  margin-top: 40px;
+  border-radius: 4px;
+}
+#home .mainContainer {
+  padding: 0;
+}
+.projectTitle {
+  color: inherit;
+}
+.promoSection a {
+  color: inherit;
+  text-decoration: underline;
+}
+.promoSection a:hover {
+  text-decoration: none;
+}
+.container .gridBlock .blockContent p {
+  margin: 0;
+  padding: 0;
 }
 @media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
 }

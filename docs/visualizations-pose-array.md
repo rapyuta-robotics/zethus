@@ -1,9 +1,9 @@
 ---
-id: usage-requirements
-title: Requirements
+id: visualizations-pose-array
+title: Pose array
 ---
 
-Since Zethus is a web interface, it does not require a local installation of ROS.
+Lorem ipsum
 
 ## Lorem
 
