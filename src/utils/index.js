@@ -18,17 +18,48 @@ import {
   OBJECT_TYPE_ARROW,
 } from 'amphion/src/utils/constants';
 
+import { DEFAULT_COLOR_X_AXIS } from 'amphion/src/utils/defaults';
+import { COLOR_SCHEMES } from 'amphion/src/viz/Map';
+import {
+  COLOR_TRANSFORMERS,
+  INTENSITY_CHANNEL_OPTIONS,
+  STYLE,
+  AXIS_OPTIONS,
+} from 'amphion/src/viz/LaserScan';
+
 import { ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/ArrowOptions';
 import { AXES_OPTIONS_DEFAULTS } from '../components/sidebarOptions/AxesOptions';
 import { FLAT_ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/FlatArrowOptions';
-import { DEFAULT_COLOR_X_AXIS } from 'amphion/src/utils/defaults';
-import { COLOR_SCHEMES } from 'amphion/src/viz/Map';
 
 export const ROS_SOCKET_STATUSES = {
   INITIAL: 'Idle. Not Connected',
   CONNECTING: 'Connecting',
   CONNECTED: 'Connected successfully',
   CONNECTION_ERROR: 'Error in connection',
+};
+
+export const LINE_STYLES = {
+  LINES: 'Lines',
+  BILLBOARDS: 'Billboards',
+};
+
+const intensityOptions = {
+  channelName: INTENSITY_CHANNEL_OPTIONS.Intensity,
+  useRainbow: false,
+  invertRainbow: false,
+  minColor: 0,
+  maxColor: 0,
+  autocomputeIntensityBounds: false,
+  maxIntensity: 0,
+  minIntensity: 0,
+};
+
+const axisColorOptions = {
+  axis: AXIS_OPTIONS.X,
+  autocomputeValueBounds: false,
+  useFixedFrame: false,
+  minAxisValue: 0,
+  maxAxisValue: 0,
 };
 
 export const FIXED_FRAME = 'FixedFrame';
@@ -41,6 +72,19 @@ export const vizOptions = [
 ![](/image/sc_pointcloud.png)`,
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      selectable: false,
+      style: STYLE.FLAT_SQUARES,
+      size: 0.01,
+      alpha: 1,
+      decayTime: 0,
+      queueSize: 10,
+      colorTransformer: COLOR_TRANSFORMERS.INTENSITY,
+      flatColor: '#ffffff',
+      ...intensityOptions,
+      ...axisColorOptions,
+    },
   },
   {
     name: 'Map',
@@ -123,6 +167,16 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      lineStyle: LINE_STYLES.LINES,
+      color: '#ffffff',
+      alpha: 1,
+      poseStyle: 'None',
+      bufferLength: 0,
+      ...AXES_OPTIONS_DEFAULTS,
+      ...ARROW_OPTIONS_DEFAULTS,
+    },
   },
   {
     name: 'Image',

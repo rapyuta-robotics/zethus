@@ -58,12 +58,20 @@ class Footer extends React.Component {
             >
               Stack Overflow
             </a>
-            <a href="https://discordapp.com/channels/572418205176430602/">Project Chat</a>
+            <a href="https://discordapp.com/channels/572418205176430602/">
+              Project Chat
+            </a>
           </div>
           <div>
             <h5>More</h5>
             <a href={`${this.props.config.baseUrl}blog`}>Blog</a>
-            <a href="https://github.com/rapyuta-robotics/zethus" target="_blank" rel="noreferrer noopener">GitHub</a>
+            <a
+              href="https://github.com/rapyuta-robotics/zethus"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              GitHub
+            </a>
             <a
               className="github-button"
               href={this.props.config.repoUrl}
