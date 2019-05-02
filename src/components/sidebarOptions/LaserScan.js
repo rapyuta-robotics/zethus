@@ -337,7 +337,7 @@ class LaserScan extends React.Component {
               type="number"
               name="size"
               value={size}
-              onChange={this.updateCheckbox}
+              onChange={this.updateOptions}
             />
           </span>
         </div>
@@ -348,7 +348,7 @@ class LaserScan extends React.Component {
               type="number"
               name="alpha"
               value={alpha}
-              onChange={this.updateCheckbox}
+              onChange={this.updateOptions}
             />
           </span>
         </div>
@@ -359,7 +359,7 @@ class LaserScan extends React.Component {
               type="number"
               name="decayTime"
               value={decayTime}
-              onChange={this.updateCheckbox}
+              onChange={this.updateOptions}
             />
           </span>
         </div>
@@ -370,7 +370,7 @@ class LaserScan extends React.Component {
               type="number"
               name="queueSize"
               value={queueSize}
-              onChange={this.updateCheckbox}
+              onChange={this.updateOptions}
             />
           </span>
         </div>

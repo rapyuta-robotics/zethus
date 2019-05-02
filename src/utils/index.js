@@ -44,14 +44,14 @@ export const LINE_STYLES = {
 };
 
 const intensityOptions = {
-  channelName: INTENSITY_CHANNEL_OPTIONS.Intensity,
+  channelName: INTENSITY_CHANNEL_OPTIONS.INTENSITY,
   useRainbow: false,
   invertRainbow: false,
-  minColor: 0,
-  maxColor: 0,
+  minColor: '#000000',
+  maxColor: '#ffffff',
   autocomputeIntensityBounds: false,
-  maxIntensity: 0,
-  minIntensity: 0,
+  maxIntensity: 3730,
+  minIntensity: 388,
 };
 
 const axisColorOptions = {
