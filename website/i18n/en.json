@@ -30,10 +30,10 @@
         "title": "Running locally"
       },
       "visualizations-image": {
-        "title": "Image"
+        "title": "Image (Not done)"
       },
       "visualizations-laser-scan": {
-        "title": "Laser scan"
+        "title": "Laser scan (WIP)"
       },
       "visualizations-map": {
         "title": "Map"
