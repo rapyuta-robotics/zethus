@@ -1,6 +1,6 @@
 ---
-id: usage-configuring-visualizations
-title: Configuring visualizations
+id: visualizations-pose
+title: Pose
 ---
 
 Lorem ipsum

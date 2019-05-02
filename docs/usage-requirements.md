@@ -3,8 +3,10 @@ id: usage-requirements
 title: Requirements
 ---
 
-Lorem ipsum
+Since Zethus is a web interface, it does not require a local installation of ROS.  
+It can run on any device with a modern browser. Although the performance can vary depending on the hardware of the device
 
-## Lorem
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.
+## Recommended requirements
+* A discrete graphics card with at least 512 MB of video memory  
+* A modern browser that [supports WebGL](https://caniuse.com/#search=webgl)  
+* An unauthenticated [rosbridge server](http://wiki.ros.org/rosbridge_server) endpoint for subscribing to sensor data

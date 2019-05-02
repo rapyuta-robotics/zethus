@@ -5,8 +5,8 @@
     "previous": "Previous",
     "tagline": "RViz for the web",
     "docs": {
-      "about-vs-existing": {
-        "title": "Zethus vs existing libraries"
+      "about-vs-rviz": {
+        "title": "Zethus vs RViz"
       },
       "about-what-is-zethus": {
         "title": "What is Zethus?"
@@ -14,11 +14,11 @@
       "misc-contribution-guidelines": {
         "title": "Contribution guidelines"
       },
+      "misc-faqs": {
+        "title": "Frequently asked questions"
+      },
       "misc-related-projects": {
         "title": "Related projects"
-      },
-      "usage-configuring-visualizations": {
-        "title": "Configuring visualizations"
       },
       "usage-getting-started": {
         "title": "Getting started"
@@ -28,6 +28,45 @@
       },
       "usage-running-locally": {
         "title": "Running locally"
+      },
+      "visualizations-image": {
+        "title": "Image"
+      },
+      "visualizations-laser-scan": {
+        "title": "Laser scan"
+      },
+      "visualizations-map": {
+        "title": "Map"
+      },
+      "visualizations-markers": {
+        "title": "Markers"
+      },
+      "visualizations-odometry": {
+        "title": "Odometry"
+      },
+      "visualizations-path": {
+        "title": "Path"
+      },
+      "visualizations-point-cloud": {
+        "title": "Point cloud"
+      },
+      "visualizations-point": {
+        "title": "Point"
+      },
+      "visualizations-polygon": {
+        "title": "Polygon"
+      },
+      "visualizations-pose-array": {
+        "title": "Pose array"
+      },
+      "visualizations-pose": {
+        "title": "Pose"
+      },
+      "visualizations-robot-model": {
+        "title": "Robot model"
+      },
+      "visualizations-tf": {
+        "title": "Tf"
       }
     },
     "links": {
@@ -39,6 +78,7 @@
     "categories": {
       "About": "About",
       "Usage": "Usage",
+      "Visualizations": "Visualizations",
       "Miscellaneous": "Miscellaneous"
     }
   },

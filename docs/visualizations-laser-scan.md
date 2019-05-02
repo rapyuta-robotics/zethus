@@ -1,6 +1,6 @@
 ---
-id: about-vs-existing
-title: Zethus vs existing libraries
+id: visualizations-laser-scan
+title: Laser scan (WIP)
 ---
 
 Lorem ipsum
