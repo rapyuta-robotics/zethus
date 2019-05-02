@@ -3,7 +3,7 @@ id: about-vs-rviz
 title: Zethus vs RViz
 ---
 
-Lorem ipsum
+RViz is a desktop application for visualizing ros sensor data.
 
 ## Lorem
 

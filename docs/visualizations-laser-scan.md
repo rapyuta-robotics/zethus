@@ -1,6 +1,6 @@
 ---
 id: visualizations-laser-scan
-title: Laser scan
+title: Laser scan (WIP)
 ---
 
 Lorem ipsum

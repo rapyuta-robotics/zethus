@@ -5,6 +5,38 @@ title: Getting started
 
 Lorem ipsum
 
-## Lorem
+### Connecting to websocket
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.
+Lorem ipsum
+
+### Global options
+
+Lorem ipsum
+
+### Adding a robot model
+
+Lorem ipsum
+
+### Adding visualizations
+
+Lorem ipsum
+
+### Hiding a visualization
+
+Lorem ipsum
+
+### Modifying the topic for a visualization
+
+Lorem ipsum
+
+### 2D nav pose and 2D goal estimate
+
+Lorem ipsum
+
+### Changing the fixed frame
+
+Lorem ipsum
+
+### Saving the visualizations
+
+Lorem ipsum

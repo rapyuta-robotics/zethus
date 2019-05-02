@@ -3,8 +3,17 @@ id: visualizations-markers
 title: Markers
 ---
 
-Lorem ipsum
+Adds a visualization represented by a `visualization_msgs/Marker` or `visualization_msgs/MarkerArray` topic to the scene.
 
-## Lorem
+## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.
+\[ Insert image here]  
+> Subscribing to \<topic> will automatically also subscribe to \<topic>_array, assuming it is a visualization_msgs/MarkerArray topic.
+
+## Options
+
+Name | Description | Valid values | Default  
+--- | --- | --- | ---
+Topic | The visualization_msgs/Marker topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+
+The options are inspired from RViz and work very similar to it.

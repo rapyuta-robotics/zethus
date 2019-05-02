@@ -3,8 +3,18 @@ id: visualizations-map
 title: Map
 ---
 
-Lorem ipsum
+Adds a visualization represented by a `nav_msgs/OccupancyGrid` topic to the scene.
 
-## Lorem
+## Overview
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.
+\[ Insert image here]  
+Currently only supports BGR8 encoding. Adding the image visualization opens a new draggable resizable container inside the same browser tab.  
+
+## Options
+
+Name | Description | Valid values | Default  
+--- | --- | --- | ---
+Alpha | The amount of transparency to apply to the map | \[0-1] | 1  
+Topic | The nav_msgs/OccupancyGrid topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+
+The options are inspired from RViz and work very similar to it.

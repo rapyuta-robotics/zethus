@@ -18,7 +18,7 @@ pre {
   padding: 10px 0;
 }
 .homeContainer {
-  background-color: #000000;  /* fallback for old browsers */
+  background-color: #222222;
 }
 #particles-js {
   position: relative;
@@ -33,8 +33,8 @@ pre {
 }
 .homeContainer .homeWrapper {
   color: #ffffff;
-  padding-top: 100px;
-  padding-bottom: 100px;
+  padding-top: 150px;
+  padding-bottom: 150px;
 }
 .homeBlockIcon {
   width: 100px;
