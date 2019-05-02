@@ -99,6 +99,7 @@ class Sidebar extends React.Component {
       rosStatus,
       visualizations,
       toggleAddModal,
+      updateVisibilty,
     } = this.props;
 
     const { rosEndpoint } = this.state;
@@ -153,6 +154,7 @@ class Sidebar extends React.Component {
                 <VizListItem
                   updateTopic={updateTopic}
                   updateOptions={updateOptions}
+                  updateVisibilty={updateVisibilty}
                   key={viz.id}
                   details={viz}
                   ros={ros}

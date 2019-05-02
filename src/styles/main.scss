@@ -85,6 +85,7 @@ button {
 a {
   color: #34b7ee;
 }
+
 p {
   line-height: 1.5;
 }
@@ -146,17 +147,22 @@ p {
   width: 100%;
   height: 100%;
   position: relative;
+}
 
-  .viz-image-container {
+.viz-image-container {
+  display: flex;
+  position: absolute;
+  background: black;
+  flex-direction: column;
+
+  div {
     display: flex;
-    position: absolute;
-    background: black;
-    bottom: 0;
+    justify-content: flex-end;
+  }
 
-    #myCanvas {
-      width: 320px;
-      height: 240px;
-    }
+  canvas {
+    width: 320px;
+    height: 240px;
   }
 }
 
@@ -386,12 +392,15 @@ p {
       padding: 10px;
       display: flex;
       align-items: center;
+
       &:hover {
         background-color: #000;
       }
+
       &.selected {
         background-color: #000;
       }
+
       &.inactive {
         opacity: 0.2;
         cursor: not-allowed;
@@ -425,6 +434,7 @@ p {
   display: flex;
   flex-shrink: 0;
   padding: 10px 0 0;
+
   button {
     margin-left: 10px;
   }
@@ -434,6 +444,7 @@ p {
   border-bottom: 1px solid #000;
   flex-shrink: 0;
 }
+
 .tabs-button {
   margin: 0 10px -1px;
   background-color: transparent;
@@ -442,9 +453,9 @@ p {
   border-radius: 4px 4px 0 0;
   color: inherit;
   padding: 5px 10px 10px;
+
   &.selected {
     border: 1px solid #000;
     border-bottom: 1px solid #222;
-
   }
 }

@@ -58,17 +58,21 @@ class VizListItem extends React.Component {
 
   hide() {
     const {
-      details: { rosObject },
+      details: { rosObject, id },
+      updateVisibilty,
     } = this.props;
-    this.setState({ hidden: true });
+
+    updateVisibilty(id, false);
     rosObject.hide();
   }
 
   show() {
     const {
-      details: { rosObject },
+      details: { rosObject, id },
+      updateVisibilty,
     } = this.props;
-    this.setState({ hidden: false });
+
+    updateVisibilty(id, true);
     rosObject.show();
   }
 
@@ -82,9 +86,9 @@ class VizListItem extends React.Component {
 
   render() {
     const {
-      details: { displayName, name, options, rosObject },
+      details: { displayName, name, options, rosObject, visible },
     } = this.props;
-    const { topicTypes, hidden } = this.state;
+    const { topicTypes } = this.state;
     const newProps = {
       rosObject,
       options,
@@ -116,7 +120,7 @@ class VizListItem extends React.Component {
             <i className="fa fa-trash" aria-hidden="true" />
             Delete
           </button>
-          {!hidden ? (
+          {visible ? (
             <button type="button" onClick={this.hide}>
               <i className="fa fa-eye-slash" aria-hidden="true" />
               Hide

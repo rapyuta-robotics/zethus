@@ -25,6 +25,7 @@ import Sidebar from './sidebar';
 import { ROS_SOCKET_STATUSES } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
+import ImageHolder from './ImageHolder';
 
 const { THREE } = window;
 
@@ -85,6 +86,7 @@ class Wrapper extends React.Component {
     this.publishNavMessages = this.publishNavMessages.bind(this);
     this.updateTopic = this.updateTopic.bind(this);
     this.updateOptions = this.updateOptions.bind(this);
+    this.updateVisibilty = this.updateVisibilty.bind(this);
   }
 
   setPrevConfig() {
@@ -125,6 +127,7 @@ class Wrapper extends React.Component {
           rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
           rosTopics,
         });
+        this.setPrevConfig();
       });
 
       const displayTfObject = new Amphion.DisplayTf(this.ros, this.vizWrapper);
@@ -136,8 +139,6 @@ class Wrapper extends React.Component {
         rosStatus: ROS_SOCKET_STATUSES.INITIAL,
       });
     });
-
-    this.setPrevConfig();
   }
 
   componentWillUnmount() {
@@ -166,6 +167,15 @@ class Wrapper extends React.Component {
     this.setState({
       visualizations: _.map(visualizations, viz =>
         viz.id === id ? { ...viz, name } : viz,
+      ),
+    });
+  }
+
+  updateVisibilty(id, visible) {
+    const { visualizations } = this.state;
+    this.setState({
+      visualizations: _.map(visualizations, viz =>
+        viz.id === id ? { ...viz, visible } : viz,
       ),
     });
   }
@@ -243,15 +253,10 @@ class Wrapper extends React.Component {
       case MESSAGE_TYPE_PATH:
         return new Amphion.Path(this.ros, name, options);
       case MESSAGE_TYPE_IMAGE:
-        return new Amphion.Image(this.ros, name, this.getImageElement());
+        return new Amphion.Image(this.ros, name);
       default:
         return null;
     }
-  }
-
-  getImageElement() {
-    // Image dislay type
-    return document.getElementById('myCanvas');
   }
 
   addVisualization(types, isDisplay, displayName, options) {
@@ -382,6 +387,7 @@ class Wrapper extends React.Component {
           vizWrapper={this.vizWrapper}
           updateTopic={this.updateTopic}
           updateOptions={this.updateOptions}
+          updateVisibilty={this.updateVisibilty}
           rosStatus={rosStatus}
           connectRos={this.connectRos}
           disconnectRos={this.disconnectRos}
@@ -399,6 +405,10 @@ class Wrapper extends React.Component {
           onRef={ref => {
             this.viewportRef = ref;
           }}
+        />
+        <ImageHolder
+          visualizations={visualizations}
+          updateVisibilty={this.updateVisibilty}
         />
       </div>
     );
