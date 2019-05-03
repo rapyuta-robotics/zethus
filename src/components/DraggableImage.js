@@ -39,10 +39,11 @@ class DraggableImage extends React.Component {
   }
 
   moveDiv(e) {
+    e.preventDefault();
     const { clientX, clientY } = e;
     this.style = {
-      left: `${clientX}px`,
-      top: `${clientY}px`,
+      left: `${clientX - this.elementRef.current.clientWidth / 2}px`,
+      top: `${clientY - this.elementRef.current.clientHeight / 2}px`,
     };
     this.setDivPosition();
   }
@@ -76,13 +77,15 @@ class DraggableImage extends React.Component {
         onMouseUp={this.removeDragEvents}
         style={{ display: visible ? 'flex' : 'none' }}
       >
-        <div>
-          <span onClick={this.hide}>CLOSE</span>
+        <div className="img-header">
+          <span className="img-close-btn" onClick={this.hide}>
+            CLOSE
+          </span>
         </div>
         <canvas
-          id="myCanvas"
-          width="640"
-          height="480"
+          id="id"
+          width="320"
+          height="240"
           style={{ border: '1px solid #d3d3d3' }}
         >
           Your browser does not support the HTML5 canvas tag.

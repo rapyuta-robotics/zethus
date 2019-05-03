@@ -154,10 +154,15 @@ p {
   position: absolute;
   background: black;
   flex-direction: column;
+  cursor: move;
 
-  div {
+  .img-header {
     display: flex;
     justify-content: flex-end;
+
+    .img-close-btn {
+      cursor: pointer;
+    }
   }
 
   canvas {
