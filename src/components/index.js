@@ -72,18 +72,19 @@ class Wrapper extends React.Component {
     this.scene = new THREE.Scene();
     this.vizWrapper = new THREE.Group();
     this.scene.add(this.vizWrapper);
-    window.scene = this.scene;
     this.addLights();
     this.addCamera();
 
     this.connectRos = this.connectRos.bind(this);
     this.disconnectRos = this.disconnectRos.bind(this);
+    this.addVizObjectToScene = this.addVizObjectToScene.bind(this);
     this.addVisualization = this.addVisualization.bind(this);
     this.toggleAddModal = this.toggleAddModal.bind(this);
     this.getVisualization = this.getVisualization.bind(this);
     this.removeDisplayType = this.removeDisplayType.bind(this);
     this.toggleEditorControls = this.toggleEditorControls.bind(this);
     this.publishNavMessages = this.publishNavMessages.bind(this);
+    this.setPrevConfig = this.setPrevConfig.bind(this);
     this.updateTopic = this.updateTopic.bind(this);
     this.updateOptions = this.updateOptions.bind(this);
     this.updateVisibilty = this.updateVisibilty.bind(this);
@@ -102,7 +103,7 @@ class Wrapper extends React.Component {
       );
 
       if (!isDisplay) {
-        this.vizWrapper.add(vizObject.object);
+        this.addVizObjectToScene(vizObject.object);
       }
       if (vizObject.subscribe) {
         vizObject.subscribe();
@@ -197,8 +198,6 @@ class Wrapper extends React.Component {
   getVisualization(name, messageType, isDisplay, options) {
     if (isDisplay) {
       switch (messageType) {
-        // case MESSAGE_TYPE_DISPLAYTF:
-        //   return new Amphion.DisplayTf(this.ros, name, this.vizWrapper);
         case MESSAGE_TYPE_DISPLAYJOINTSTATE:
           return new Amphion.DisplayJointState(this.ros, name, this.robot);
         default:
@@ -214,6 +213,14 @@ class Wrapper extends React.Component {
         robotModel.load(
           object => {
             removeExcludedObjects(object);
+            _.each(object.children[0].links, o => {
+              const existingObject = this.vizWrapper.getObjectByName(o.name);
+              if (existingObject) {
+                o.children.forEach(child => {
+                  existingObject.add(child);
+                });
+              }
+            });
           },
           {
             packages: _.mapValues(
@@ -274,9 +281,16 @@ class Wrapper extends React.Component {
     ];
     const vizObject = this.getVisualization(name, type, isDisplay, options);
     if (!isDisplay) {
-      this.vizWrapper.add(vizObject.object);
+      this.addVizObjectToScene(vizObject.object);
     }
-
+    vizObject.onHeaderChange = newFrameId => {
+      let frameObject = this.vizWrapper.getObjectByName(newFrameId);
+      if (!frameObject) {
+        frameObject = new THREE.Group();
+        this.vizWrapper.add(frameObject);
+      }
+      frameObject.add(vizObject.object);
+    };
     if (vizObject.topic) {
       vizObject.subscribe();
     }
@@ -295,6 +309,12 @@ class Wrapper extends React.Component {
         },
       ],
     });
+  }
+
+  addVizObjectToScene(object) {
+    if (!this.vizWrapper.getObjectById(object.id)) {
+      this.vizWrapper.add(object);
+    }
   }
 
   removeDisplayType(id) {

@@ -13,9 +13,9 @@ const getOptionsForMessageType = messageType => {
         paramName: 'robot_description',
         packages: [
           {
-            name: 'hitachi_forklift_description',
+            name: 'franka_description',
             value:
-              'https://storage.googleapis.com/kompose-artifacts/hitachi_forklift_description',
+              'https://storage.googleapis.com/kompose-artifacts/franka_description',
             key: shortid.generate(),
           },
         ],
