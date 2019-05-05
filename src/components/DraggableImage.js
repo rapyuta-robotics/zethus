@@ -39,7 +39,7 @@ class DraggableImage extends React.Component {
   moveDiv({ clientX, clientY }) {
     const { x: initialX, y: initialY } = this.mouseDown;
     const { left: divInitialLeft, top: divInitialTop } = this.divMouseDown;
-    console.log(initialX, initialY, divInitialLeft, divInitialTop);
+
     this.setDivPosition(
       `${divInitialLeft + clientX - initialX}px`,
       `${divInitialTop + clientY - initialY}px`,
@@ -84,9 +84,9 @@ class DraggableImage extends React.Component {
         onMouseUp={this.onMouseUp}
       >
         <div className="img-header" onMouseDown={this.onMouseDown}>
-          <div className="img-name">{ name }</div>
+          <div className="img-name">{name}</div>
           <div className="flex-gap" />
-          <button className="img-close-btn" onClick={this.hide}>
+          <button type="button" className="img-close-btn" onClick={this.hide}>
             CLOSE
           </button>
         </div>

@@ -9,7 +9,7 @@ import Path from './Path';
 export default props => {
   return {
     Pose: <Pose {...props} />,
-    'Odometry': <Odometry {...props} />,
+    Odometry: <Odometry {...props} />,
     Markers: <Marker {...props} />,
     'Marker Array': <Marker {...props} />,
     'Pose Array': <Pose {...props} />,
