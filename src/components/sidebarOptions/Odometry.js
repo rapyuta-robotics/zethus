@@ -8,7 +8,7 @@ import Arrow from './ArrowOptions';
 import FlatArrow from './FlatArrowOptions';
 import Axes from './AxesOptions';
 
-class DisplayOdometry extends React.Component {
+class Odometry extends React.Component {
   constructor(props) {
     super(props);
 
@@ -112,4 +112,4 @@ class DisplayOdometry extends React.Component {
   }
 }
 
-export default DisplayOdometry;
+export default Odometry;

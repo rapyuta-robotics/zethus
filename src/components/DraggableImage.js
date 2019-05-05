@@ -1,19 +1,19 @@
 import React from 'react';
+import _ from 'lodash';
 
 class DraggableImage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.style = {
-      left: '0px',
-      top: '0px',
-    };
-
     this.elementRef = React.createRef();
+
+    this.mouseDown = { x: 0, y: 0 };
+    this.divMouseDown = { left: 0, top: 0 };
+
     this.hide = this.hide.bind(this);
     this.moveDiv = this.moveDiv.bind(this);
-    this.initDragDiv = this.initDragDiv.bind(this);
-    this.removeDragEvents = this.removeDragEvents.bind(this);
+    this.onMouseDown = this.onMouseDown.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
   }
 
   componentDidMount() {
@@ -24,8 +24,6 @@ class DraggableImage extends React.Component {
     rosObject.setImageRef(
       this.elementRef.current.getElementsByTagName('canvas')[0],
     );
-
-    this.setDivPosition();
   }
 
   hide() {
@@ -38,58 +36,61 @@ class DraggableImage extends React.Component {
     rosObject.hide();
   }
 
-  moveDiv(e) {
-    e.preventDefault();
-    const { clientX, clientY } = e;
-    this.style = {
-      left: `${clientX - this.elementRef.current.clientWidth / 2}px`,
-      top: `${clientY - this.elementRef.current.clientHeight / 2}px`,
-    };
-    this.setDivPosition();
+  moveDiv({ clientX, clientY }) {
+    const { x: initialX, y: initialY } = this.mouseDown;
+    const { left: divInitialLeft, top: divInitialTop } = this.divMouseDown;
+    console.log(initialX, initialY, divInitialLeft, divInitialTop);
+    this.setDivPosition(
+      `${divInitialLeft + clientX - initialX}px`,
+      `${divInitialTop + clientY - initialY}px`,
+    );
   }
 
-  initDragDiv() {
+  onMouseDown({ clientX, clientY }) {
+    const { left, top } = this.elementRef.current.style;
+    this.mouseDown = {
+      x: clientX,
+      y: clientY,
+    };
+    this.divMouseDown = {
+      left: _.parseInt(left) || 0,
+      top: _.parseInt(top) || 0,
+    };
     window.addEventListener('mousemove', this.moveDiv);
   }
 
-  removeDragEvents() {
+  onMouseUp() {
     window.removeEventListener('mousemove', this.moveDiv);
   }
 
-  setDivPosition() {
-    const { left, top } = this.style;
-
+  setDivPosition(left, top) {
     this.elementRef.current.style.top = top;
     this.elementRef.current.style.left = left;
   }
 
   render() {
     const {
-      viz: { id, visible },
+      viz: { visible, name },
     } = this.props;
+
+    if (!visible) {
+      return null;
+    }
 
     return (
       <div
         ref={this.elementRef}
         className="viz-image-container"
-        id={id}
-        onMouseDown={this.initDragDiv}
-        onMouseUp={this.removeDragEvents}
-        style={{ display: visible ? 'flex' : 'none' }}
+        onMouseUp={this.onMouseUp}
       >
-        <div className="img-header">
-          <span className="img-close-btn" onClick={this.hide}>
+        <div className="img-header" onMouseDown={this.onMouseDown}>
+          <div className="img-name">{ name }</div>
+          <div className="flex-gap" />
+          <button className="img-close-btn" onClick={this.hide}>
             CLOSE
-          </span>
+          </button>
         </div>
-        <canvas
-          id="id"
-          width="320"
-          height="240"
-          style={{ border: '1px solid #d3d3d3' }}
-        >
-          Your browser does not support the HTML5 canvas tag.
-        </canvas>
+        <canvas />
       </div>
     );
   }

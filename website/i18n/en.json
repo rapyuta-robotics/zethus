@@ -30,7 +30,7 @@
         "title": "Running locally"
       },
       "visualizations-image": {
-        "title": "Image (Not done)"
+        "title": "Image"
       },
       "visualizations-laser-scan": {
         "title": "Laser scan (WIP)"
@@ -38,8 +38,11 @@
       "visualizations-map": {
         "title": "Map"
       },
-      "visualizations-markers": {
-        "title": "Markers"
+      "visualizations-marker-array": {
+        "title": "Marker array"
+      },
+      "visualizations-marker": {
+        "title": "Marker"
       },
       "visualizations-odometry": {
         "title": "Odometry"

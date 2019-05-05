@@ -1,14 +1,14 @@
 ---
 id: visualizations-image
-title: Image (Not done) 
+title: Image
 ---
 
 Creates a container to visualize the image data represented by a `sensor_msgs/Image` topic.
 
 ## Overview
-
-\[ Insert image here]  
-Currently only supports BGR8 encoding. Adding the image visualization opens a new draggable resizable container inside the same browser tab.  
+Adding the image visualization opens a new draggable resizable container inside the same browser tab.
+Click on Close to hide the container which can be reopened from the sidebar options.
+![](/img/viz/viz-image.png)
 
 ## Options
 

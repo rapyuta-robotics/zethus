@@ -158,10 +158,23 @@ p {
 
   .img-header {
     display: flex;
-    justify-content: flex-end;
-
-    .img-close-btn {
-      cursor: pointer;
+    font-size: 14px;
+    padding: 5px;
+  }
+  .img-name {
+    pointer-events: none;
+    user-select: none;
+  }
+  .img-close-btn {
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    color: inherit;
+    text-decoration: underline;
+    font-size: inherit;
+    font-family: inherit;
+    &:hover {
+      text-decoration: none;
     }
   }
 

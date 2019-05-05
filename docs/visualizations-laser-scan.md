@@ -1,10 +1,24 @@
 ---
 id: visualizations-laser-scan
-title: Laser scan (WIP)
+title: Laser scan
 ---
 
-Lorem ipsum
+Adds a visualization represented by a `sensor_msgs/LaserScan` topic to the scene.
 
-## Lorem
+## Overview
+![](/img/viz/viz-laserscan.png)
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus elementum massa eget nulla aliquet sagittis. Proin odio tortor, vulputate ut odio in, ultrices ultricies augue. Cras ornare ultrices lorem malesuada iaculis. Etiam sit amet libero tempor, pulvinar mauris sed, sollicitudin sapien.
+## Options
+
+Name | Description | Valid values | Default  
+--- | --- | --- | ---
+Channel name | The amount of transparency to apply to the image overlay | [0-1] | 1  
+Use rainbow | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Invert rainbow | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Min color| The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Max color | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Autocompute intensity bounds | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Min intensity | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Max intensity | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+
+The options are inspired from RViz and work very similar to it.

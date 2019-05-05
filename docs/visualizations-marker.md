@@ -1,6 +1,6 @@
 ---
-id: visualizations-markers
-title: Markers
+id: visualizations-marker
+title: Marker
 ---
 
 Adds a visualization represented by a `visualization_msgs/Marker` or `visualization_msgs/MarkerArray` topic to the scene.

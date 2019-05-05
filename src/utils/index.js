@@ -214,7 +214,7 @@ export const vizOptions = [
   //   isDisplay: true,
   // },
   {
-    name: 'Display Odometry',
+    name: 'Odometry',
     messageTypes: [MESSAGE_TYPE_ODOMETRY],
     description: 'Lorem ipsum',
     exampleLink: '',
