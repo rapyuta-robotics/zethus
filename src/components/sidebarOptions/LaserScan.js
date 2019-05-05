@@ -267,7 +267,7 @@ class LaserScan extends React.Component {
                   type="color"
                   name="flatColor"
                   value={flatColor}
-                  onChange={this.updateCheckbox}
+                  onChange={this.updateOptions}
                 />
               </span>
             </div>
