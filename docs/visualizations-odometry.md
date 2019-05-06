@@ -7,7 +7,7 @@ Adds a visualization represented by a `nav_msgs/Odometry` topic to the scene.
 
 ## Overview
 
-\[ Insert image here]  
+![](/img/viz/viz-odometry.png)
 The objects representing each odometry message are kept in the scene based on the value of the `keep` option.
 
 ## Options
@@ -20,4 +20,4 @@ Angle tolerance | The angle in radians by which the odometry must change to caus
 Keep | The number of arrows to keep before new arrows start causing old ones to disappear. 0 means an infinite number (dangerous) | 0+ | 100   
 Shape | Shape of the object represented by each message | (Arrow, Axes) | Arrow  
 
-The options are inspired from RViz and work very similar to it.
+The options are [inspired from RViz](http://wiki.ros.org/rviz/DisplayTypes/Odometry) and work very similar to it.

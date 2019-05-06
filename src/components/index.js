@@ -65,7 +65,7 @@ class Wrapper extends React.Component {
     this.state = {
       rosStatus: ROS_SOCKET_STATUSES.INITIAL,
       visualizations: [],
-      addModalOpen: false,
+      addModalOpen: true,
       rosTopics: {},
     };
     this.ros = new ROSLIB.Ros();

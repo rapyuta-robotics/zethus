@@ -7,7 +7,7 @@ Adds a visualization represented by a `nav_msgs/Path` topic to the scene.
 
 ## Overview
 
-\[ Insert image here]  
+![](/img/viz/viz-path.png)
 The objects representing each odometry message are kept in the scene based on the value of the `keep` option.
 
 ## Options
@@ -21,4 +21,4 @@ Buffer length | The number of arrows to keep before new arrows start causing old
 Line style | Shape of the object for line segments joining the points | (Lines, Billboards) | Lines  
 Pose style | Shape of the object for each point representing the path | (Arrow, Axes) | Arrow  
 
-The options are inspired from RViz and work very similar to it.
+The options are [inspired from RViz](http://wiki.ros.org/rviz/DisplayTypes/Path) and work very similar to it.

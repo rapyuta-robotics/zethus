@@ -12,7 +12,7 @@ Adds a visualization represented by a `sensor_msgs/LaserScan` topic to the scene
 
 Name | Description | Valid values | Default  
 --- | --- | --- | ---
-Channel name | The amount of transparency to apply to the image overlay | [0-1] | 1  
+Channel | The amount of transparency to apply to the image overlay | [0-1] | 1  
 Use rainbow | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
 Invert rainbow | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
 Min color| The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
@@ -21,4 +21,4 @@ Autocompute intensity bounds | The sensor_msgs/Image topic to subscribe to. | An
 Min intensity | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
 Max intensity | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
 
-The options are inspired from RViz and work very similar to it.
+The options are [inspired from RViz](http://wiki.ros.org/rviz/DisplayTypes/LaserScan) and work very similar to it.

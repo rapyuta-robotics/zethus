@@ -9,6 +9,9 @@ pre {
   overflow-x: scroll;
   padding-bottom: 20px;
 }
+a {
+  color: #0050b3;
+}
 .flexGap {
   flex-grow: 1;
 }
