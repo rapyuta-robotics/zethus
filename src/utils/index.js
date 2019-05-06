@@ -69,6 +69,10 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      queueSize: 100,
+    },
   },
   {
     name: 'Laser Scan',

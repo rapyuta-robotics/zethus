@@ -260,7 +260,7 @@ class Wrapper extends React.Component {
       case MESSAGE_TYPE_PATH:
         return new Amphion.Path(this.ros, name, options);
       case MESSAGE_TYPE_IMAGE:
-        return new Amphion.Image(this.ros, name);
+        return new Amphion.Image(this.ros, name, options);
       default:
         return null;
     }
