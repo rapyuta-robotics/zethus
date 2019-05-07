@@ -18,7 +18,7 @@ class Sidebar extends React.Component {
     this.state = {
       rosEndpoint:
         localStorage.getItem('endpoint') ||
-        'wss://inst-fwdtohjiuvobyarnyctgkklb-fwwqpy.apps.rapyuta.io:9090',
+        'wss://inst-fwdtohjiuvobyarnyctgkklb-fwwqpy.apps.rapyuta.io:443',
     };
     this.onRosSubmit = this.onRosSubmit.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
