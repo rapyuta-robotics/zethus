@@ -120,7 +120,7 @@ export const vizOptions = [
     },
   },
   {
-    name: 'Marker array',
+    name: 'Marker Array',
     messageTypes: [MESSAGE_TYPE_MARKERARRAY],
     description: 'Lorem ipsum',
     exampleLink: '',

@@ -11,7 +11,7 @@ export default props => {
   return {
     Pose: <Pose {...props} />,
     Odometry: <Odometry {...props} />,
-    Markers: <Marker {...props} />,
+    Marker: <Marker {...props} />,
     'Marker Array': <Marker {...props} />,
     'Pose Array': <Pose {...props} />,
     Map: <Map {...props} />,

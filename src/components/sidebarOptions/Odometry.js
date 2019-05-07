@@ -59,15 +59,15 @@ class Odometry extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="option-section">
-          <span>Unreliable:</span>
-          <input
-            name="unreliable"
-            type="checkbox"
-            value={unreliable}
-            onChange={this.updateOptions}
-          />
-        </div>
+        {/*<div className="option-section">*/}
+        {/*<span>Unreliable:</span>*/}
+        {/*<input*/}
+        {/*name="unreliable"*/}
+        {/*type="checkbox"*/}
+        {/*value={unreliable}*/}
+        {/*onChange={this.updateOptions}*/}
+        {/*/>*/}
+        {/*</div>*/}
         <div className="option-section">
           <span>Position Tolerance:</span>
           <input

@@ -52,33 +52,33 @@ class Path extends React.Component {
     } = this.props;
     return (
       <React.Fragment>
-        <div className="option-section">
-          <span>Unreliable:</span>
-          <input
-            name="unreliable"
-            type="checkbox"
-            value={unreliable}
-            onChange={this.updateOptions}
-          />
-        </div>
-        <div className="option-section">
-          <span>Line Style:</span>
-          <span>
-            <select
-              name="lineStyle"
-              onChange={this.updateOptions}
-              value={lineStyle}
-            >
-              {Object.keys(LINE_STYLES).map(key => {
-                return (
-                  <option key={key} value={LINE_STYLES[key]}>
-                    {LINE_STYLES[key]}
-                  </option>
-                );
-              })}
-            </select>
-          </span>
-        </div>
+        {/*<div className="option-section">*/}
+        {/*<span>Unreliable:</span>*/}
+        {/*<input*/}
+        {/*name="unreliable"*/}
+        {/*type="checkbox"*/}
+        {/*value={unreliable}*/}
+        {/*onChange={this.updateOptions}*/}
+        {/*/>*/}
+        {/*</div>*/}
+        {/*<div className="option-section">*/}
+        {/*<span>Line Style:</span>*/}
+        {/*<span>*/}
+        {/*<select*/}
+        {/*name="lineStyle"*/}
+        {/*onChange={this.updateOptions}*/}
+        {/*value={lineStyle}*/}
+        {/*>*/}
+        {/*{Object.keys(LINE_STYLES).map(key => {*/}
+        {/*return (*/}
+        {/*<option key={key} value={LINE_STYLES[key]}>*/}
+        {/*{LINE_STYLES[key]}*/}
+        {/*</option>*/}
+        {/*);*/}
+        {/*})}*/}
+        {/*</select>*/}
+        {/*</span>*/}
+        {/*</div>*/}
         <div className="option-section">
           <span>Color:</span>
           <span>
@@ -101,38 +101,38 @@ class Path extends React.Component {
             />
           </span>
         </div>
-        <div className="option-section">
-          <span>Buffer Length:</span>
-          <span>
-            <input
-              type="number"
-              name="bufferLength"
-              value={bufferLength}
-              onChange={this.updateOptions}
-            />
-          </span>
-        </div>
-        <div className="option-section">
-          <span>Pose Style:</span>
-          <span>
-            <select
-              name="poseStyle"
-              onChange={this.updateOptions}
-              value={poseStyle}
-            >
-              <option key="None" value="None">
-                None
-              </option>
-              <option key={OBJECT_TYPE_ARROW} value={OBJECT_TYPE_ARROW}>
-                {OBJECT_TYPE_ARROW}
-              </option>
-              <option key={OBJECT_TYPE_AXES} value={OBJECT_TYPE_AXES}>
-                {OBJECT_TYPE_AXES}
-              </option>
-            </select>
-          </span>
-        </div>
-        <div className="sub-section">{this.getShape()}</div>
+        {/*<div className="option-section">*/}
+        {/*<span>Buffer Length:</span>*/}
+        {/*<span>*/}
+        {/*<input*/}
+        {/*type="number"*/}
+        {/*name="bufferLength"*/}
+        {/*value={bufferLength}*/}
+        {/*onChange={this.updateOptions}*/}
+        {/*/>*/}
+        {/*</span>*/}
+        {/*</div>*/}
+        {/*<div className="option-section">*/}
+        {/*<span>Pose Style:</span>*/}
+        {/*<span>*/}
+        {/*<select*/}
+        {/*name="poseStyle"*/}
+        {/*onChange={this.updateOptions}*/}
+        {/*value={poseStyle}*/}
+        {/*>*/}
+        {/*<option key="None" value="None">*/}
+        {/*None*/}
+        {/*</option>*/}
+        {/*<option key={OBJECT_TYPE_ARROW} value={OBJECT_TYPE_ARROW}>*/}
+        {/*{OBJECT_TYPE_ARROW}*/}
+        {/*</option>*/}
+        {/*<option key={OBJECT_TYPE_AXES} value={OBJECT_TYPE_AXES}>*/}
+        {/*{OBJECT_TYPE_AXES}*/}
+        {/*</option>*/}
+        {/*</select>*/}
+        {/*</span>*/}
+        {/*</div>*/}
+        {/*<div className="sub-section">{this.getShape()}</div>*/}
       </React.Fragment>
     );
   }

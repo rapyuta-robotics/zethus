@@ -55,15 +55,15 @@ class Pose extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="option-section">
-          <span>Unreliable:</span>
-          <input
-            name="unreliable"
-            type="checkbox"
-            value={unreliable}
-            onChange={this.updateOptions}
-          />
-        </div>
+        {/*<div className="option-section">*/}
+        {/*<span>Unreliable:</span>*/}
+        {/*<input*/}
+        {/*name="unreliable"*/}
+        {/*type="checkbox"*/}
+        {/*value={unreliable}*/}
+        {/*onChange={this.updateOptions}*/}
+        {/*/>*/}
+        {/*</div>*/}
         <div className="option-section">
           <span>Shape:</span>
           <select name="type" onChange={this.changeShape} value={shapeType}>
