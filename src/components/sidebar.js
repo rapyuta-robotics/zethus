@@ -38,8 +38,10 @@ class Sidebar extends React.Component {
     ) {
       disconnectRos();
     } else if (
-      rosStatus === ROS_SOCKET_STATUSES.INITIAL ||
-      rosStatus === ROS_SOCKET_STATUSES.CONNECTION_ERROR
+      _.includes(
+        [ROS_SOCKET_STATUSES.INITIAL, ROS_SOCKET_STATUSES.CONNECTION_ERROR],
+        rosStatus,
+      )
     ) {
       connectRos(rosEndpoint);
     }
@@ -78,24 +80,19 @@ class Sidebar extends React.Component {
 
   disableEndpointInput() {
     const { rosStatus } = this.props;
-
-    if (
-      rosStatus === ROS_SOCKET_STATUSES.CONNECTED ||
-      rosStatus === ROS_SOCKET_STATUSES.CONNECTING
-    ) {
-      return true;
-    }
-
-    return false;
+    return _.includes(
+      [ROS_SOCKET_STATUSES.CONNECTED, ROS_SOCKET_STATUSES.CONNECTING],
+      rosStatus,
+    );
   }
 
   render() {
     const {
-      scene,
       vizWrapper,
       updateTopic,
       updateOptions,
       ros,
+      rosTopics,
       rosStatus,
       visualizations,
       toggleAddModal,
@@ -130,14 +127,11 @@ class Sidebar extends React.Component {
                 className="btn-primary"
                 type="submit"
               >
-                {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ||
-                rosStatus === ROS_SOCKET_STATUSES.CONNECTING
-                  ? 'Disconnect'
-                  : 'Connect'}
+                {this.disableEndpointInput() ? 'Disconnect' : 'Connect'}
               </button>
             </form>
           </div>
-          <GlobalOptions vizWrapper={vizWrapper} scene={scene} ros={ros} />
+          <GlobalOptions vizWrapper={vizWrapper} ros={ros} />
           {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
             <div id="visualzation-list">
               <button
@@ -152,6 +146,7 @@ class Sidebar extends React.Component {
               )}
               {_.map(visualizations, viz => (
                 <VizListItem
+                  rosTopics={rosTopics}
                   updateTopic={updateTopic}
                   updateOptions={updateOptions}
                   updateVisibilty={updateVisibilty}
@@ -164,22 +159,22 @@ class Sidebar extends React.Component {
             </div>
           )}
         </div>
-        <div className="sidebar-bottom-btn" onBlur={this.nav2DBtnBlur}>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={this.navGoal2DClicked}
-          >
-            2D Nav Goal
-          </button>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={this.navEstimate2DClicked}
-          >
-            2D Nav Estimate
-          </button>
-        </div>
+        {/* <div className="sidebar-bottom-btn" onBlur={this.nav2DBtnBlur}> */}
+        {/* <button */}
+        {/* type="button" */}
+        {/* className="btn-primary" */}
+        {/* onClick={this.navGoal2DClicked} */}
+        {/* > */}
+        {/* 2D Nav Goal */}
+        {/* </button> */}
+        {/* <button */}
+        {/* type="button" */}
+        {/* className="btn-primary" */}
+        {/* onClick={this.navEstimate2DClicked} */}
+        {/* > */}
+        {/* 2D Nav Estimate */}
+        {/* </button> */}
+        {/* </div> */}
       </div>
     );
   }
