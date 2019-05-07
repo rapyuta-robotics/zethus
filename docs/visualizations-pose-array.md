@@ -13,7 +13,7 @@ Adds a visualization represented by a `geometry_msgs/PoseArray` topic to the sce
 
 Name | Description | Valid values | Default  
 --- | --- | --- | ---
-Topic | The nav_msgs/Path topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Topic | The `geometry_msgs/PoseArray` topic to subscribe to. | Any valid Graph Resource Name | Empty String  
 Color | The color of the line | (\[0-255], \[0-255], \[0-255]) | (25, 255, 0)  
 Alpha | The amount of transparency to apply to the line | \[0-1] | 1  
 Shape | Shape of the object for line segments joining the points | (Lines, Billboards) | Lines  

@@ -7,6 +7,8 @@ Creates a container to visualize the image data represented by a `sensor_msgs/Im
 
 ## Overview
 ![](/img/viz/viz-image.png)
+> Only Mono8, BRG8 and RGB8 encodings are currently supported
+
 Adding the image visualization opens a new draggable container inside the same browser tab.
 Click on Close to hide the container which can be reopened from the sidebar options.
 
@@ -19,4 +21,3 @@ Topic | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource 
 
 The options are [inspired from RViz](http://wiki.ros.org/rviz/DisplayTypes/Image) and work very similar to it.
 
-Currently supported image encodings are Mono8, BRG8, RGB8.

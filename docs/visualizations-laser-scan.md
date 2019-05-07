@@ -13,7 +13,7 @@ Options to set different color channels
 
 Name | Description | Valid values | Default  
 --- | --- | --- | ---
-Topic | The  sensor_msgs/LaserScan topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Topic | The  `sensor_msgs/LaserScan` topic to subscribe to. | Any valid Graph Resource Name | Empty String  
 Style | Type of primitive to show for each laser scan point | Points, Squares, Flat Squares, Sphere, Cube | Points
 Size | The size for the selected Style | 0.01
 Alpha | The amount of transparency to apply to the image overlay | \[0-1] | 1
