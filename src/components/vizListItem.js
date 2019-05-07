@@ -107,7 +107,7 @@ class VizListItem extends React.Component {
             })}
             onClick={this.toggleCollapsed}
           >
-            <img src="/image/chevron.png" alt="" />
+            <img src="./image/chevron.png" alt="" />
           </button>
           <span className="type-image" />
           {displayName}

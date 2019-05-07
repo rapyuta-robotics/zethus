@@ -104,7 +104,7 @@ class Sidebar extends React.Component {
       <div id="sidebar">
         <div className="sidebar-display">
           <div id="logo-wrapper">
-            <img draggable={false} id="logo" src="/logo.svg" alt="Zethus" />
+            <img draggable={false} id="logo" src="./logo.svg" alt="Zethus" />
           </div>
           <div id="ros-input-section">
             <div id="ros-status">
