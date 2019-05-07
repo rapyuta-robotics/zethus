@@ -1,5 +1,9 @@
 import React from 'react';
+import _ from 'lodash';
+
+import { MESSAGE_TYPE_ROBOT_MODEL } from 'amphion/src/utils/constants';
 import VizOptionsMap from './sidebarOptions';
+import { vizOptions } from '../utils';
 
 class VizListItem extends React.Component {
   constructor(props) {
@@ -7,6 +11,7 @@ class VizListItem extends React.Component {
 
     this.state = {
       topicTypes: [],
+      hidden: false,
     };
     this.changeTopic = this.changeTopic.bind(this);
     this.getTopics = this.getTopics.bind(this);
@@ -29,11 +34,9 @@ class VizListItem extends React.Component {
     ros.getTopicsForType(type, data => {
       this.setState({
         topicTypes: [...data],
-        hidden: false,
       });
     });
   }
-
   changeTopic(event) {
     const {
       updateTopic,
@@ -86,9 +89,17 @@ class VizListItem extends React.Component {
 
   render() {
     const {
-      details: { displayName, name, options, rosObject, visible },
+      rosTopics: { topics: availableTopics, types: availableTopicTypes },
+      details: { displayName, name, options, rosObject, visible, type },
     } = this.props;
+
     const { topicTypes } = this.state;
+
+    const vizType = _.find(vizOptions, vo => vo.name === displayName);
+    const supportedAvailableTopics = _.filter(availableTopics, (topic, index) =>
+      _.includes(vizType.messageTypes, availableTopicTypes[index]),
+    );
+
     const newProps = {
       rosObject,
       options,
@@ -102,19 +113,21 @@ class VizListItem extends React.Component {
           <span className="type-image" />
           {displayName}
         </div>
-        <div className="display-type-form-content">
-          <div className="option-section" onClick={this.getTopics}>
-            <span>Topic:</span>
-            <span>
-              <select onChange={this.changeTopic} value={name}>
-                {topicTypes.map(topic => (
-                  <option key={topic}>{topic}</option>
-                ))}
-              </select>
-            </span>
+        {type !== MESSAGE_TYPE_ROBOT_MODEL && (
+          <div className="display-type-form-content">
+            <div className="option-section" onClick={this.getTopics}>
+              <span>Topic:</span>
+              <span>
+                <select onChange={this.changeTopic} value={name}>
+                  {_.map(supportedAvailableTopics, topic => (
+                    <option key={topic}>{topic}</option>
+                  ))}
+                </select>
+              </span>
+            </div>
+            {vizComp}
           </div>
-          {vizComp}
-        </div>
+        )}
         <div className="display-type-form-button-section">
           <button type="button" onClick={this.delete}>
             <i className="fa fa-trash" aria-hidden="true" />

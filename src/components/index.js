@@ -65,7 +65,7 @@ class Wrapper extends React.Component {
     this.state = {
       rosStatus: ROS_SOCKET_STATUSES.INITIAL,
       visualizations: [],
-      addModalOpen: true,
+      addModalOpen: false,
       rosTopics: {},
     };
     this.ros = new ROSLIB.Ros();
@@ -403,7 +403,6 @@ class Wrapper extends React.Component {
           />
         )}
         <Sidebar
-          scene={this.scene}
           vizWrapper={this.vizWrapper}
           updateTopic={this.updateTopic}
           updateOptions={this.updateOptions}
