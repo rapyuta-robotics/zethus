@@ -53,12 +53,6 @@
       "visualizations-point-cloud": {
         "title": "Point cloud"
       },
-      "visualizations-point": {
-        "title": "Point"
-      },
-      "visualizations-polygon": {
-        "title": "Polygon"
-      },
       "visualizations-pose-array": {
         "title": "Pose array"
       },

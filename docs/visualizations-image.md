@@ -14,7 +14,9 @@ Click on Close to hide the container which can be reopened from the sidebar opti
 
 Name | Description | Valid values | Default  
 --- | --- | --- | ---
-Alpha | The amount of transparency to apply to the image overlay | [0-1] | 1  
-Topic | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Topic | The sensor_msgs/Image topic to subscribe to. | Any valid Graph Resource Name | Empty String
+
 
 The options are [inspired from RViz](http://wiki.ros.org/rviz/DisplayTypes/Image) and work very similar to it.
+
+Currently supported image encodings are Mono8, BRG8, RGB8.

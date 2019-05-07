@@ -69,6 +69,10 @@ export const vizOptions = [
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      queueSize: 100,
+    },
   },
   {
     name: 'Laser Scan',
@@ -116,7 +120,7 @@ export const vizOptions = [
     },
   },
   {
-    name: 'Marker array',
+    name: 'Marker Array',
     messageTypes: [MESSAGE_TYPE_MARKERARRAY],
     description: 'Lorem ipsum',
     exampleLink: '',

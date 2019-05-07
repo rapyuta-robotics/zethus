@@ -42,30 +42,30 @@ const Intensity = props => {
           </select>
         </span>
       </div>
-      <div className="option-section">
-        <span>Use Rainbow:</span>
-        <span>
-          <input
-            type="checkbox"
-            name="useRainbow"
-            value={useRainbow}
-            onChange={updateCheckbox}
-          />
-        </span>
-      </div>
-      {useRainbow && (
-        <div className="option-section">
-          <span>Invert Rainbow:</span>
-          <span>
-            <input
-              type="checkbox"
-              name="invertRainbow"
-              value={invertRainbow}
-              onChange={updateCheckbox}
-            />
-          </span>
-        </div>
-      )}
+      {/*<div className="option-section">*/}
+      {/*<span>Use Rainbow:</span>*/}
+      {/*<span>*/}
+      {/*<input*/}
+      {/*type="checkbox"*/}
+      {/*name="useRainbow"*/}
+      {/*value={useRainbow}*/}
+      {/*onChange={updateCheckbox}*/}
+      {/*/>*/}
+      {/*</span>*/}
+      {/*</div>*/}
+      {/*{useRainbow && (*/}
+      {/*<div className="option-section">*/}
+      {/*<span>Invert Rainbow:</span>*/}
+      {/*<span>*/}
+      {/*<input*/}
+      {/*type="checkbox"*/}
+      {/*name="invertRainbow"*/}
+      {/*value={invertRainbow}*/}
+      {/*onChange={updateCheckbox}*/}
+      {/*/>*/}
+      {/*</span>*/}
+      {/*</div>*/}
+      {/*)}*/}
       {!useRainbow && (
         <React.Fragment>
           <div className="option-section">
@@ -92,17 +92,17 @@ const Intensity = props => {
           </div>
         </React.Fragment>
       )}
-      <div className="option-section">
-        <span>Autocompute Intensity Bounds:</span>
-        <span>
-          <input
-            type="checkbox"
-            name="autocomputeIntensityBounds"
-            value={autocomputeIntensityBounds}
-            onChange={updateCheckbox}
-          />
-        </span>
-      </div>
+      {/*<div className="option-section">*/}
+      {/*<span>Autocompute Intensity Bounds:</span>*/}
+      {/*<span>*/}
+      {/*<input*/}
+      {/*type="checkbox"*/}
+      {/*name="autocomputeIntensityBounds"*/}
+      {/*value={autocomputeIntensityBounds}*/}
+      {/*onChange={updateCheckbox}*/}
+      {/*/>*/}
+      {/*</span>*/}
+      {/*</div>*/}
       {!autocomputeIntensityBounds && (
         <React.Fragment>
           <div className="option-section">
@@ -162,17 +162,17 @@ const AxisColor = props => {
           </select>
         </span>
       </div>
-      <div className="option-section">
-        <span>Autocompute Value Bounds:</span>
-        <span>
-          <input
-            type="checkbox"
-            name="autocomputeValueBounds"
-            value={autocomputeValueBounds}
-            onChange={updateCheckbox}
-          />
-        </span>
-      </div>
+      {/*<div className="option-section">*/}
+      {/*<span>Autocompute Value Bounds:</span>*/}
+      {/*<span>*/}
+      {/*<input*/}
+      {/*type="checkbox"*/}
+      {/*name="autocomputeValueBounds"*/}
+      {/*value={autocomputeValueBounds}*/}
+      {/*onChange={updateCheckbox}*/}
+      {/*/>*/}
+      {/*</span>*/}
+      {/*</div>*/}
       {!autocomputeValueBounds && (
         <React.Fragment>
           <div className="sub-section">
@@ -201,17 +201,17 @@ const AxisColor = props => {
           </div>
         </React.Fragment>
       )}
-      <div className="option-section">
-        <span>use Fixed Frame:</span>
-        <span>
-          <input
-            type="checkbox"
-            name="useFixedFrame"
-            value={useFixedFrame}
-            onChange={updateCheckbox}
-          />
-        </span>
-      </div>
+      {/*<div className="option-section">*/}
+      {/*<span>use Fixed Frame:</span>*/}
+      {/*<span>*/}
+      {/*<input*/}
+      {/*type="checkbox"*/}
+      {/*name="useFixedFrame"*/}
+      {/*value={useFixedFrame}*/}
+      {/*onChange={updateCheckbox}*/}
+      {/*/>*/}
+      {/*</span>*/}
+      {/*</div>*/}
     </React.Fragment>
   );
 };
@@ -261,7 +261,7 @@ class LaserScan extends React.Component {
         return (
           <React.Fragment>
             <div className="option-section">
-              <span>use Fixed Frame:</span>
+              <span>Flat Color:</span>
               <span>
                 <input
                   type="color"
@@ -294,28 +294,28 @@ class LaserScan extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="option-section">
-          <span>Unreliable:</span>
-          <span>
-            <input
-              type="checkbox"
-              name="unreliable"
-              value={unreliable}
-              onChange={this.updateCheckbox}
-            />
-          </span>
-        </div>
-        <div className="option-section">
-          <span>Selectable:</span>
-          <span>
-            <input
-              type="checkbox"
-              name="selectable"
-              value={selectable}
-              onChange={this.updateCheckbox}
-            />
-          </span>
-        </div>
+        {/*<div className="option-section">*/}
+        {/*<span>Unreliable:</span>*/}
+        {/*<span>*/}
+        {/*<input*/}
+        {/*type="checkbox"*/}
+        {/*name="unreliable"*/}
+        {/*value={unreliable}*/}
+        {/*onChange={this.updateCheckbox}*/}
+        {/*/>*/}
+        {/*</span>*/}
+        {/*</div>*/}
+        {/*<div className="option-section">*/}
+        {/*<span>Selectable:</span>*/}
+        {/*<span>*/}
+        {/*<input*/}
+        {/*type="checkbox"*/}
+        {/*name="selectable"*/}
+        {/*value={selectable}*/}
+        {/*onChange={this.updateCheckbox}*/}
+        {/*/>*/}
+        {/*</span>*/}
+        {/*</div>*/}
         <div className="option-section">
           <span>Style:</span>
           <span>
@@ -352,28 +352,28 @@ class LaserScan extends React.Component {
             />
           </span>
         </div>
-        <div className="option-section">
-          <span>Decay Time:</span>
-          <span>
-            <input
-              type="number"
-              name="decayTime"
-              value={decayTime}
-              onChange={this.updateOptions}
-            />
-          </span>
-        </div>
-        <div className="option-section">
-          <span>Queue Size:</span>
-          <span>
-            <input
-              type="number"
-              name="queueSize"
-              value={queueSize}
-              onChange={this.updateOptions}
-            />
-          </span>
-        </div>
+        {/*<div className="option-section">*/}
+        {/*<span>Decay Time:</span>*/}
+        {/*<span>*/}
+        {/*<input*/}
+        {/*type="number"*/}
+        {/*name="decayTime"*/}
+        {/*value={decayTime}*/}
+        {/*onChange={this.updateOptions}*/}
+        {/*/>*/}
+        {/*</span>*/}
+        {/*</div>*/}
+        {/*<div className="option-section">*/}
+        {/*<span>Queue Size:</span>*/}
+        {/*<span>*/}
+        {/*<input*/}
+        {/*type="number"*/}
+        {/*name="queueSize"*/}
+        {/*value={queueSize}*/}
+        {/*onChange={this.updateOptions}*/}
+        {/*/>*/}
+        {/*</span>*/}
+        {/*</div>*/}
         <div className="option-section">
           <span>Color Transformer:</span>
           <span>
