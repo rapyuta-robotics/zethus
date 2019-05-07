@@ -8,13 +8,11 @@ Adds a visualization represented by a `tf/tfMessage` and `tf2_msgs/TFMessage` to
 ## Overview
 
 ![](/img/viz/viz-tf.png)
-The objects representing each odometry message are kept in the scene based on the value of the `keep` option.
+The tf tree is constructed from `/tf` and `/tf_static` topics.  
+There is currently no option to change the topic names.
 
 ## Options
-
-Name | Description | Valid values | Default  
---- | --- | --- | ---
-Currently no options
+There are currently no options available for this visualization
 
 [//]: # ( 
 Topic | The nav_msgs/Path topic to subscribe to. | Any valid Graph Resource Name | Empty String  
