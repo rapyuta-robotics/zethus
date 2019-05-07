@@ -70,6 +70,8 @@ class Wrapper extends React.Component {
     };
     this.ros = new ROSLIB.Ros();
     this.scene = new THREE.Scene();
+    this.robotMeshes = [];
+    window.scene = this.scene;
     this.vizWrapper = new THREE.Group();
     this.scene.add(this.vizWrapper);
     this.addLights();
@@ -230,6 +232,7 @@ class Wrapper extends React.Component {
             loadMeshCb: (path, ext, done) => {
               robotModel.defaultMeshLoader(path, ext, mesh => {
                 removeExcludedObjects(mesh);
+                this.robotMeshes.push(mesh);
                 done(mesh);
               });
             },
@@ -321,6 +324,12 @@ class Wrapper extends React.Component {
     const { visualizations } = this.state;
 
     const viz = _.find(visualizations, v => v.id === id);
+    if (viz.type === MESSAGE_TYPE_ROBOT_MODEL) {
+      _.each(this.robotMeshes, mesh => {
+        mesh.parent.remove(mesh);
+      });
+      this.robotMeshes = [];
+    }
     viz.rosObject.destroy();
 
     this.setState({
