@@ -8,7 +8,6 @@ Adds a visualization represented by a `visualization_msgs/Marker` or `visualizat
 ## Overview
 
 ![](/img/viz/viz-markerarray.png)
-> Subscribing to \<topic> will automatically also subscribe to \<topic>_array, assuming it is a visualization_msgs/MarkerArray topic.
 
 ## Options
 

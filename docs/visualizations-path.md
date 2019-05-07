@@ -8,7 +8,6 @@ Adds a visualization represented by a `nav_msgs/Path` topic to the scene.
 ## Overview
 
 ![](/img/viz/viz-path.png)
-> The objects representing each odometry message are kept in the scene based on the value of the `keep` option.
 
 ## Options
 
