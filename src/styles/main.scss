@@ -277,6 +277,21 @@ input[disabled] {
     align-items: center;
   }
 
+  .display-type-collapse {
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    margin: 0 10px 0 0;
+    width: 20px;
+    height: 20px;
+    img {
+      width: 14px;
+    }
+    &.collapsed {
+      transform: rotate(-90deg);
+    }
+  }
+
   .display-type-form-content {
     margin-top: 8px;
     margin-left: 30px;

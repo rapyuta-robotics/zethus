@@ -1,5 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import { MESSAGE_TYPE_ROBOT_MODEL } from 'amphion/src/utils/constants';
 import VizOptionsMap from './sidebarOptions';
@@ -10,33 +11,16 @@ class VizListItem extends React.Component {
     super(props);
 
     this.state = {
-      topicTypes: [],
-      hidden: false,
+      collapsed: false,
     };
     this.changeTopic = this.changeTopic.bind(this);
-    this.getTopics = this.getTopics.bind(this);
     this.updateOptions = this.updateOptions.bind(this);
     this.hide = this.hide.bind(this);
     this.show = this.show.bind(this);
     this.delete = this.delete.bind(this);
+    this.toggleCollapsed = this.toggleCollapsed.bind(this);
   }
 
-  componentDidMount() {
-    this.getTopics();
-  }
-
-  getTopics() {
-    const {
-      ros,
-      details: { type },
-    } = this.props;
-
-    ros.getTopicsForType(type, data => {
-      this.setState({
-        topicTypes: [...data],
-      });
-    });
-  }
   changeTopic(event) {
     const {
       updateTopic,
@@ -79,6 +63,13 @@ class VizListItem extends React.Component {
     rosObject.show();
   }
 
+  toggleCollapsed() {
+    const { collapsed } = this.state;
+    this.setState({
+      collapsed: !collapsed,
+    });
+  }
+
   updateOptions(options) {
     const {
       details: { id },
@@ -92,8 +83,7 @@ class VizListItem extends React.Component {
       rosTopics: { topics: availableTopics, types: availableTopicTypes },
       details: { displayName, name, options, rosObject, visible, type },
     } = this.props;
-
-    const { topicTypes } = this.state;
+    const { collapsed } = this.state;
 
     const vizType = _.find(vizOptions, vo => vo.name === displayName);
     const supportedAvailableTopics = _.filter(availableTopics, (topic, index) =>
@@ -110,41 +100,52 @@ class VizListItem extends React.Component {
     return (
       <div className="display-type-form-wrapper">
         <div className="display-type-form-header">
+          <button
+            className={classNames({
+              'display-type-collapse': true,
+              collapsed,
+            })}
+            onClick={this.toggleCollapsed}
+          >
+            <img src="/image/chevron.png" alt="" />
+          </button>
           <span className="type-image" />
           {displayName}
         </div>
-        {type !== MESSAGE_TYPE_ROBOT_MODEL && (
+        {!collapsed && (
           <div className="display-type-form-content">
-            <div className="option-section" onClick={this.getTopics}>
-              <span>Topic:</span>
-              <span>
-                <select onChange={this.changeTopic} value={name}>
-                  {_.map(supportedAvailableTopics, topic => (
-                    <option key={topic}>{topic}</option>
-                  ))}
-                </select>
-              </span>
-            </div>
+            {type !== MESSAGE_TYPE_ROBOT_MODEL && (
+              <div className="option-section" onClick={this.getTopics}>
+                <span>Topic:</span>
+                <span>
+                  <select onChange={this.changeTopic} value={name}>
+                    {_.map(supportedAvailableTopics, topic => (
+                      <option key={topic}>{topic}</option>
+                    ))}
+                  </select>
+                </span>
+              </div>
+            )}
             {vizComp}
+            <div className="display-type-form-button-section">
+              <button type="button" onClick={this.delete}>
+                <i className="fa fa-trash" aria-hidden="true" />
+                Delete
+              </button>
+              {visible ? (
+                <button type="button" onClick={this.hide}>
+                  <i className="fa fa-eye-slash" aria-hidden="true" />
+                  Hide
+                </button>
+              ) : (
+                <button type="button" onClick={this.show}>
+                  <i className="fa fa-eye" aria-hidden="true" />
+                  Show
+                </button>
+              )}
+            </div>
           </div>
         )}
-        <div className="display-type-form-button-section">
-          <button type="button" onClick={this.delete}>
-            <i className="fa fa-trash" aria-hidden="true" />
-            Delete
-          </button>
-          {visible ? (
-            <button type="button" onClick={this.hide}>
-              <i className="fa fa-eye-slash" aria-hidden="true" />
-              Hide
-            </button>
-          ) : (
-            <button type="button" onClick={this.show}>
-              <i className="fa fa-eye" aria-hidden="true" />
-              Show
-            </button>
-          )}
-        </div>
       </div>
     );
   }
