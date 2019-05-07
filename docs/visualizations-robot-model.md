@@ -11,9 +11,7 @@ Adds a visualization represented by a `tf/tfMessage` and `tf2_msgs/TFMessage` to
 
 ## Options
 
-Name | Description | Valid values | Default  
---- | --- | --- | ---
-Currently no options
+Currently there are no options available for this display type.
 
 [//]: # ( 
 Topic | The nav_msgs/Path topic to subscribe to. | Any valid Graph Resource Name | Empty String  

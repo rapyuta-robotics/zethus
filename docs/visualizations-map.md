@@ -15,7 +15,7 @@ Adds a visualization represented by a `nav_msgs/OccupancyGrid` topic to the scen
 
 Name | Description | Valid values | Default  
 --- | --- | --- | ---
-Topic | The nav_msgs/OccupancyGrid topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Topic | The `nav_msgs/OccupancyGrid` topic to subscribe to. | Any valid Graph Resource Name | Empty String  
 Alpha | The amount of transparency to apply to the map | \[0-1] | 1  
 Color Scheme | Different color scheme to parse the map data. | map, constmap, raw | map
 Draw Behind | Draw behind the map plane, visible on both faces. | boolean | false

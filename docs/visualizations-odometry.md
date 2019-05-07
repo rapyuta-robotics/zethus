@@ -14,7 +14,7 @@ The objects representing each odometry message are kept in the scene based on th
 
 Name | Description | Valid values | Default  
 --- | --- | --- | ---
-Topic | The visualization_msgs/Marker topic to subscribe to. | Any valid Graph Resource Name | Empty String  
+Topic | The `nav_msgs/Odometry` topic to subscribe to. | Any valid Graph Resource Name | Empty String  
 Position tolerance | The linear distance, in meters, by which the odometry must change to cause a new arrow to spawn | 0.0001+ | 0.1  
 Angle tolerance | The angle in radians by which the odometry must change to cause a new arrow to spawn | 0.0001+ | 0.1  
 Shape | Shape of the object represented by each message | (Arrow, Axes) | Arrow  

@@ -12,9 +12,7 @@ The objects representing each odometry message are kept in the scene based on th
 
 ## Options
 
-Name | Description | Valid values | Default  
---- | --- | --- | ---
-Currently no options
+Currently there are no options available for this display type.
 
 [//]: # ( 
 Topic | The nav_msgs/Path topic to subscribe to. | Any valid Graph Resource Name | Empty String  
