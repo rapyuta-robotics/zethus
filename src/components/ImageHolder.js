@@ -6,7 +6,7 @@ import DraggableImage from './DraggableImage';
 const ImageHolder = ({ visualizations, updateVisibilty }) => {
   const imageVisualizations = _.filter(
     visualizations,
-    viz => viz.type === MESSAGE_TYPE_IMAGE,
+    viz => viz.type === MESSAGE_TYPE_IMAGE && viz.visible,
   );
 
   return _.map(imageVisualizations, imageViz => (
