@@ -170,7 +170,14 @@ export const vizOptions = [
   },
   {
     name: 'Point Cloud',
-    messageTypes: [MESSAGE_TYPE_POINTCLOUD2, MESSAGE_TYPE_POINTCLOUD],
+    messageTypes: [MESSAGE_TYPE_POINTCLOUD],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+  },
+  {
+    name: 'Point Cloud 2',
+    messageTypes: [MESSAGE_TYPE_POINTCLOUD2],
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',

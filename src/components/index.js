@@ -18,6 +18,7 @@ import {
   MESSAGE_TYPE_PATH,
   MESSAGE_TYPE_IMAGE,
   MESSAGE_TYPE_MARKER,
+  MESSAGE_TYPE_POINTCLOUD,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
@@ -257,7 +258,8 @@ class Wrapper extends React.Component {
       case MESSAGE_TYPE_LASERSCAN:
         return new Amphion.LaserScan(this.ros, name, options);
       case MESSAGE_TYPE_POINTCLOUD2:
-        return new Amphion.PointCloud(this.ros, name, options);
+      case MESSAGE_TYPE_POINTCLOUD:
+        return new Amphion.PointCloud(this.ros, name, messageType, options);
       case MESSAGE_TYPE_ODOMETRY:
         return new Amphion.DisplayOdometry(this.ros, name, options);
       case MESSAGE_TYPE_PATH:
