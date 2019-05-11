@@ -169,9 +169,14 @@ class Wrapper extends React.Component {
   updateTopic(id, name) {
     const { visualizations } = this.state;
     this.setState({
-      visualizations: _.map(visualizations, viz =>
-        viz.id === id ? { ...viz, name } : viz,
-      ),
+      visualizations: _.map(visualizations, viz => {
+        if (viz.id === id) {
+          viz.name = name;
+          return { ...viz };
+        }
+
+        return viz;
+      }),
     });
   }
 
