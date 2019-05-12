@@ -133,32 +133,34 @@ class Sidebar extends React.Component {
               </button>
             </form>
           </div>
-          <GlobalOptions vizWrapper={vizWrapper} ros={ros} />
           {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
-            <div id="visualzation-list">
-              <button
-                type="button"
-                className="btn-primary"
-                onClick={toggleAddModal}
-              >
-                Add Visualization
-              </button>
-              {_.size(visualizations) === 0 && (
-                <p>No visualizations added to the scene</p>
-              )}
-              {_.map(visualizations, viz => (
-                <VizListItem
-                  rosTopics={rosTopics}
-                  updateTopic={updateTopic}
-                  updateOptions={updateOptions}
-                  updateVisibilty={updateVisibilty}
-                  key={viz.id}
-                  details={viz}
-                  ros={ros}
-                  removeDisplayType={this.removeDisplayType}
-                />
-              ))}
-            </div>
+            <React.Fragment>
+              <GlobalOptions vizWrapper={vizWrapper} ros={ros} />
+              <div id="visualzation-list">
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={toggleAddModal}
+                >
+                  Add Visualization
+                </button>
+                {_.size(visualizations) === 0 && (
+                  <p>No visualizations added to the scene</p>
+                )}
+                {_.map(visualizations, viz => (
+                  <VizListItem
+                    rosTopics={rosTopics}
+                    updateTopic={updateTopic}
+                    updateOptions={updateOptions}
+                    updateVisibilty={updateVisibilty}
+                    key={viz.id}
+                    details={viz}
+                    ros={ros}
+                    removeDisplayType={this.removeDisplayType}
+                  />
+                ))}
+              </div>
+            </React.Fragment>
           )}
         </div>
         {/* <div className="sidebar-bottom-btn" onBlur={this.nav2DBtnBlur}> */}

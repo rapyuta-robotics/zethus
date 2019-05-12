@@ -118,6 +118,14 @@ class Wrapper extends React.Component {
     this.setState({ visualizations });
   }
 
+  destroyVizOnDisconnect() {
+    const { visualizations } = this.state;
+    visualizations.forEach(viz => {
+      const { rosObject } = viz;
+      rosObject.destroy();
+    });
+  }
+
   componentDidMount() {
     this.ros.on('error', () => {
       this.setState({
@@ -139,6 +147,7 @@ class Wrapper extends React.Component {
     });
 
     this.ros.on('close', () => {
+      this.destroyVizOnDisconnect();
       this.setState({
         rosStatus: ROS_SOCKET_STATUSES.INITIAL,
       });
