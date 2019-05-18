@@ -34,20 +34,17 @@ class Sidebar extends React.Component {
     const { rosEndpoint } = this.state;
     const { connectRos, disconnectRos, rosStatus } = this.props;
 
-    if (
-      rosStatus === ROS_SOCKET_STATUSES.CONNECTED ||
-      rosStatus === ROS_SOCKET_STATUSES.CONNECTING
-    ) {
-      disconnectRos();
-    } else if (
-      _.includes(
-        [ROS_SOCKET_STATUSES.INITIAL, ROS_SOCKET_STATUSES.CONNECTION_ERROR],
-        rosStatus,
-      )
-    ) {
-      connectRos(rosEndpoint);
+    switch (rosStatus) {
+      case ROS_SOCKET_STATUSES.CONNECTED:
+      case ROS_SOCKET_STATUSES.CONNECTING:
+        disconnectRos();
+        break;
+      case ROS_SOCKET_STATUSES.INITIAL:
+      case ROS_SOCKET_STATUSES.CONNECTION_ERROR:
+        connectRos(rosEndpoint);
+        break;
+      default:
     }
-
     localStorage.setItem('endpoint', rosEndpoint);
   }
 
