@@ -1,14 +1,12 @@
 import {
   MESSAGE_TYPE_TF,
   MESSAGE_TYPE_POSESTAMPED,
-  MESSAGE_TYPE_DISPLAYJOINTSTATE,
   MESSAGE_TYPE_POINTCLOUD2,
   MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_LASERSCAN,
   MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_ODOMETRY,
   MESSAGE_TYPE_POINTCLOUD,
-  // MESSAGE_TYPE_DISPLAYTF,
   MESSAGE_TYPE_ROBOT_MODEL,
   MESSAGE_TYPE_POSEARRAY,
   MESSAGE_TYPE_PATH,
@@ -16,6 +14,7 @@ import {
   MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_TF2,
   OBJECT_TYPE_ARROW,
+  MESSAGE_TYPE_INTERACTIVEMARKER,
 } from 'amphion/src/utils/constants';
 
 import { DEFAULT_COLOR_X_AXIS } from 'amphion/src/utils/defaults';
@@ -122,6 +121,18 @@ export const vizOptions = [
   {
     name: 'Marker Array',
     messageTypes: [MESSAGE_TYPE_MARKERARRAY],
+    description: 'Lorem ipsum',
+    exampleLink: '',
+    docsLink: '',
+    defaultOptions: {
+      unreliable: false,
+      queueSize: 100,
+      namespaces: [],
+    },
+  },
+  {
+    name: 'Interactive Marker',
+    messageTypes: [MESSAGE_TYPE_INTERACTIVEMARKER],
     description: 'Lorem ipsum',
     exampleLink: '',
     docsLink: '',
