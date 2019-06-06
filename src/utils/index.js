@@ -131,18 +131,6 @@ export const vizOptions = [
     },
   },
   {
-    name: 'Interactive Marker',
-    messageTypes: [MESSAGE_TYPE_INTERACTIVEMARKER],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
-    defaultOptions: {
-      unreliable: false,
-      queueSize: 100,
-      namespaces: [],
-    },
-  },
-  {
     name: 'Odometry',
     messageTypes: [MESSAGE_TYPE_ODOMETRY],
     description: 'Lorem ipsum',
@@ -179,13 +167,13 @@ export const vizOptions = [
       ...ARROW_OPTIONS_DEFAULTS,
     },
   },
-  {
-    name: 'Point Cloud',
-    messageTypes: [MESSAGE_TYPE_POINTCLOUD],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
-  },
+  // {
+  //   name: 'Point Cloud',
+  //   messageTypes: [MESSAGE_TYPE_POINTCLOUD],
+  //   description: 'Lorem ipsum',
+  //   exampleLink: '',
+  //   docsLink: '',
+  // },
   {
     name: 'Point Cloud 2',
     messageTypes: [MESSAGE_TYPE_POINTCLOUD2],
