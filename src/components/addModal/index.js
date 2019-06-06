@@ -80,7 +80,7 @@ class AddModal extends React.Component {
   }
 
   render() {
-    const { closeModal, rosTopics } = this.props;
+    const { closeModal, rosTopics, addVisualizationByTopic } = this.props;
     const { selectedViz, tabType, optionsForm } = this.state;
     return (
       <div className="modal-wrapper" onClick={closeModal}>
@@ -121,7 +121,11 @@ class AddModal extends React.Component {
                   selectViz={this.selectViz}
                 />
               ) : (
-                <TopicName rosTopics={rosTopics} />
+                <TopicName
+                  rosTopics={rosTopics}
+                  addVisualizationByTopic={addVisualizationByTopic}
+                  closeModal={closeModal}
+                />
               )}
             </div>
             <div className="modal-actions">

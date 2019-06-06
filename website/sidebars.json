@@ -10,7 +10,7 @@
       "visualizations-marker-array",
       "visualizations-odometry",
       "visualizations-path",
-      "visualizations-point-cloud",
+      "visualizations-point-cloud2",
       "visualizations-pose",
       "visualizations-pose-array",
       "visualizations-robot-model",

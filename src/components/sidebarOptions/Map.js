@@ -59,7 +59,12 @@ class Map extends React.Component {
 
   render() {
     const {
-      options: { unreliable, alpha, colorScheme, drawBehind },
+      options: {
+        // unreliable,
+        alpha,
+        colorScheme,
+        drawBehind,
+      },
     } = this.props;
     const {
       resolution,

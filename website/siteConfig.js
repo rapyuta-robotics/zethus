@@ -19,7 +19,7 @@ const siteConfig = {
     { href: '/demo/', label: 'Demo' },
     { doc: 'about-what-is-zethus', label: 'Docs' },
     { page: 'help', label: 'Help' },
-    { blog: true, label: 'Blog' },
+    // { blog: false, label: 'Blog' },
   ],
   headerIcon: 'img/zethus_logo.svg',
   footerIcon: 'img/zethus_mark_white.png',
@@ -33,10 +33,7 @@ const siteConfig = {
   highlight: {
     theme: 'javascript',
   },
-  scripts: [
-    'https://buttons.github.io/buttons.js',
-    '/script/particles.min.js',
-  ],
+  scripts: ['https://buttons.github.io/buttons.js', '/script/particles.min.js'],
   onPageNav: 'separate',
   cleanUrl: true,
   // ogImage: 'img/undraw_online.svg',

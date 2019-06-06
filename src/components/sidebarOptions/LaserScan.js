@@ -11,7 +11,7 @@ const Intensity = props => {
     options: {
       channelName,
       useRainbow,
-      invertRainbow,
+      // invertRainbow,
       minColor,
       maxColor,
       autocomputeIntensityBounds,
@@ -19,7 +19,7 @@ const Intensity = props => {
       minIntensity,
     },
     updateOptions,
-    updateCheckbox,
+    // updateCheckbox,
   } = props;
 
   return (
@@ -138,12 +138,12 @@ const AxisColor = props => {
     options: {
       axis,
       autocomputeValueBounds,
-      useFixedFrame,
+      // useFixedFrame,
       minAxisValue,
       maxAxisValue,
     },
     updateOptions,
-    updateCheckbox,
+    // updateCheckbox,
   } = props;
 
   return (
@@ -281,13 +281,13 @@ class LaserScan extends React.Component {
   render() {
     const {
       options: {
-        unreliable,
-        selectable,
+        // unreliable,
+        // selectable,
         style,
         size,
         alpha,
-        decayTime,
-        queueSize,
+        // decayTime,
+        // queueSize,
         colorTransformer,
       },
     } = this.props;

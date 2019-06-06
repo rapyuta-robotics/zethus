@@ -32,8 +32,8 @@ const VizType = ({ modalVizOptions, selectedViz, selectViz }) => (
           <h4>{selectedViz.name}</h4>
           <ReactMarkdown source={selectedViz.description} />
           <p>
-            <a href={selectedViz.exampleLink}>View example</a>
-            <br />
+            {/*<a href={selectedViz.exampleLink}>View example</a>*/}
+            {/*<br />*/}
             <a href={selectedViz.docsLink}>View docs</a>
           </p>
         </React.Fragment>

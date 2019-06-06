@@ -92,10 +92,11 @@ class Wrapper extends React.Component {
     this.updateTopic = this.updateTopic.bind(this);
     this.updateOptions = this.updateOptions.bind(this);
     this.updateVisibilty = this.updateVisibilty.bind(this);
+    this.addVisualizationByTopic = this.addVisualizationByTopic.bind(this);
   }
 
   setPrevConfig() {
-    let visualizations = localStorage.getItem('visualizations') || '[]';
+    let visualizations = '[]'; // localStorage.getItem('visualizations') || '[]';
     visualizations = JSON.parse(visualizations);
     visualizations.forEach((viz, idx) => {
       const { name, type, isDisplay, options } = viz;
@@ -302,7 +303,6 @@ class Wrapper extends React.Component {
 
   addVisualization(types, isDisplay, displayName, options) {
     const {
-      visualizations,
       rosTopics: { topics, types: messageTypes },
     } = this.state;
     const defaultTopicIndex = _.findIndex(messageTypes, type =>
@@ -313,6 +313,12 @@ class Wrapper extends React.Component {
       topics[defaultTopicIndex],
       messageTypes[defaultTopicIndex] || types[0],
     ];
+    this.addVisualizationByTopic(name, type, isDisplay, displayName, options);
+  }
+
+  addVisualizationByTopic(name, type, isDisplay, displayName, options) {
+    const { visualizations } = this.state;
+
     const vizObject = this.getVisualization(name, type, isDisplay, options);
     if (!isDisplay) {
       this.addVizObjectToScene(vizObject.object);
@@ -440,6 +446,7 @@ class Wrapper extends React.Component {
             rosTopics={rosTopics}
             closeModal={this.toggleAddModal}
             addVisualization={this.addVisualization}
+            addVisualizationByTopic={this.addVisualizationByTopic}
           />
         )}
         <Sidebar

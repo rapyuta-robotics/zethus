@@ -101,6 +101,26 @@ input[disabled] {
   flex-grow: 1;
 }
 
+.link {
+  color: #34b7ee;
+  background: transparent;
+  padding: 0;
+  border: 0;
+  margin: 0 0 0 20px;
+}
+.input {
+  background-color: #444444;
+  border: 0;
+  color: #fff;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: inherit;
+  width: 250px;
+  &.wide {
+    width: 400px;
+  }
+}
+
 #wrapper {
   display: flex;
   background-color: #000;

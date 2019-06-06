@@ -6,7 +6,7 @@ import {
   MESSAGE_TYPE_POSECOVARIANCE,
 } from 'amphion/src/utils/constants';
 import { NAV_ARROW_COLOR, NAV_ARROW_CONFIG } from '../utils/defaults';
-import ViewPortTransformControls from './transformControls';
+// import ViewPortTransformControls from './transformControls';
 
 const { THREE, devicePixelRatio } = window;
 

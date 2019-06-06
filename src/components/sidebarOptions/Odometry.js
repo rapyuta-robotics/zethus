@@ -50,7 +50,7 @@ class Odometry extends React.Component {
     const {
       options: {
         type: shapeType,
-        unreliable,
+        // unreliable,
         positionTolerance,
         angleTolerance,
         keep,

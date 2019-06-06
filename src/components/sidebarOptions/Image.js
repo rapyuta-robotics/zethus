@@ -27,9 +27,9 @@ class Image extends React.Component {
   }
 
   render() {
-    const {
-      options: { unreliable, queueSize },
-    } = this.props;
+    // const {
+    //   options: { unreliable, queueSize },
+    // } = this.props;
 
     return (
       <React.Fragment>

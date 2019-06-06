@@ -5,7 +5,7 @@ import {
 } from 'amphion/src/utils/constants';
 import Arrow from './ArrowOptions';
 import Axes from './AxesOptions';
-import { LINE_STYLES } from '../../utils';
+// import { LINE_STYLES } from '../../utils';
 
 class Path extends React.Component {
   constructor(props) {
@@ -48,7 +48,12 @@ class Path extends React.Component {
 
   render() {
     const {
-      options: { unreliable, lineStyle, color, alpha, bufferLength, poseStyle },
+      options: {
+        // unreliable, lineStyle,
+        color,
+        alpha,
+        // bufferLength, poseStyle
+      },
     } = this.props;
     return (
       <React.Fragment>

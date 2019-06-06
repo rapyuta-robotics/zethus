@@ -119,6 +119,7 @@ class SelectedVizOptionsForm extends React.Component {
               <h4>Parameter name</h4>
               <input
                 type="text"
+                className="input"
                 value={options.paramName}
                 onChange={e => this.updateValue('paramName', e.target.value)}
               />
@@ -126,7 +127,7 @@ class SelectedVizOptionsForm extends React.Component {
               <h4>
                 Packages
                 <button
-                  type="button"
+                  className="link"
                   onClick={e =>
                     this.handleAdd(e, 'packages', 'robot_model_package')
                   }
@@ -138,6 +139,7 @@ class SelectedVizOptionsForm extends React.Component {
                 <div key={key} className="inputWrapper">
                   <input
                     type="text"
+                    className="input"
                     value={name}
                     onChange={e =>
                       this.updateValue(
@@ -151,6 +153,7 @@ class SelectedVizOptionsForm extends React.Component {
                   :{' '}
                   <input
                     type="text"
+                    className="input wide"
                     value={value}
                     onChange={e =>
                       this.updateValue(
@@ -162,7 +165,7 @@ class SelectedVizOptionsForm extends React.Component {
                     placeholder="URL to package description"
                   />
                   <button
-                    type="button"
+                    className="link"
                     onClick={e => this.handleRemove(e, `packages`, key)}
                   >
                     Remove

@@ -49,7 +49,10 @@ class Marker extends React.Component {
 
   render() {
     const {
-      options: { unreliable, queueSize, namespaces },
+      options: {
+        // unreliable, queueSize,
+        namespaces,
+      },
     } = this.props;
 
     return (

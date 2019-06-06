@@ -6,7 +6,7 @@ import {
   MESSAGE_TYPE_LASERSCAN,
   MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_ODOMETRY,
-  MESSAGE_TYPE_POINTCLOUD,
+  // MESSAGE_TYPE_POINTCLOUD,
   MESSAGE_TYPE_ROBOT_MODEL,
   MESSAGE_TYPE_POSEARRAY,
   MESSAGE_TYPE_PATH,
@@ -14,7 +14,7 @@ import {
   MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_TF2,
   OBJECT_TYPE_ARROW,
-  MESSAGE_TYPE_INTERACTIVEMARKER,
+  // MESSAGE_TYPE_INTERACTIVEMARKER,
 } from 'amphion/src/utils/constants';
 
 import { DEFAULT_COLOR_X_AXIS } from 'amphion/src/utils/defaults';
@@ -61,13 +61,15 @@ const axisColorOptions = {
   maxAxisValue: 0,
 };
 
+const DOCS_ROOT_URL = 'https://zethus.rapyuta.io/docs/';
+
 export const vizOptions = [
   {
     name: 'Image',
     messageTypes: [MESSAGE_TYPE_IMAGE],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Creates a container to visualize the image data represented by a sensor_msgs/Image topic.
+    ![](/image/viz/viz-image.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-image`,
     defaultOptions: {
       unreliable: false,
       queueSize: 100,
@@ -76,9 +78,9 @@ export const vizOptions = [
   {
     name: 'Laser Scan',
     messageTypes: [MESSAGE_TYPE_LASERSCAN],
-    description: ``,
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a visualization represented by a sensor_msgs/LaserScan topic to the scene.
+    ![](/image/viz/viz-laserscan.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-laser-scan`,
     defaultOptions: {
       unreliable: false,
       selectable: false,
@@ -96,9 +98,9 @@ export const vizOptions = [
   {
     name: 'Map',
     messageTypes: [MESSAGE_TYPE_OCCUPANCYGRID],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a visualization represented by a nav_msgs/OccupancyGrid topic to the scene.
+    ![](/image/viz/viz-map.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-map`,
     defaultOptions: {
       unreliable: false,
       alpha: 1,
@@ -109,9 +111,9 @@ export const vizOptions = [
   {
     name: 'Marker',
     messageTypes: [MESSAGE_TYPE_MARKER],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a visualization represented by a visualization_msgs/Marker or visualization_msgs/MarkerArray topic to the scene.
+    ![](/image/viz/viz-marker.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-marker`,
     defaultOptions: {
       unreliable: false,
       queueSize: 100,
@@ -121,9 +123,9 @@ export const vizOptions = [
   {
     name: 'Marker Array',
     messageTypes: [MESSAGE_TYPE_MARKERARRAY],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a visualization represented by a visualization_msgs/Marker or visualization_msgs/MarkerArray topic to the scene.
+    ![](/image/viz/viz-markerarray.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-marker-array`,
     defaultOptions: {
       unreliable: false,
       queueSize: 100,
@@ -133,9 +135,9 @@ export const vizOptions = [
   {
     name: 'Odometry',
     messageTypes: [MESSAGE_TYPE_ODOMETRY],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a visualization represented by a nav_msgs/Odometry topic to the scene.
+    ![](/image/viz/viz-odometry.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-odometry`,
     isDisplay: false,
     defaultOptions: {
       unreliable: false,
@@ -153,9 +155,9 @@ export const vizOptions = [
   {
     name: 'Path',
     messageTypes: [MESSAGE_TYPE_PATH],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a visualization represented by a nav_msgs/Path topic to the scene.
+    ![](/image/viz/viz-path.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-path`,
     defaultOptions: {
       unreliable: false,
       lineStyle: LINE_STYLES.LINES,
@@ -167,26 +169,19 @@ export const vizOptions = [
       ...ARROW_OPTIONS_DEFAULTS,
     },
   },
-  // {
-  //   name: 'Point Cloud',
-  //   messageTypes: [MESSAGE_TYPE_POINTCLOUD],
-  //   description: 'Lorem ipsum',
-  //   exampleLink: '',
-  //   docsLink: '',
-  // },
   {
     name: 'Point Cloud 2',
     messageTypes: [MESSAGE_TYPE_POINTCLOUD2],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a visualization represented by a sensor_msgs/PointCloud2 topic to the scene.
+    ![](/image/viz/viz-pointcloud.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-point-cloud2`,
   },
   {
     name: 'Pose',
     messageTypes: [MESSAGE_TYPE_POSESTAMPED],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a visualization represented by a geometry_msgs/PoseStamped topic to the scene.
+    ![](/image/viz/viz-pose.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-pose`,
     defaultOptions: {
       color: DEFAULT_COLOR_X_AXIS,
       alpha: 1,
@@ -199,9 +194,9 @@ export const vizOptions = [
   {
     name: 'Pose Array',
     messageTypes: [MESSAGE_TYPE_POSEARRAY],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a visualization represented by a geometry_msgs/PoseArray topic to the scene. An array of pose is added to the scene based on the Shape type selected.
+    ![](/image/viz/viz-posearray.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-pose-array`,
     defaultOptions: {
       color: DEFAULT_COLOR_X_AXIS,
       alpha: 1,
@@ -215,31 +210,15 @@ export const vizOptions = [
   {
     name: 'Robot Model',
     messageTypes: [MESSAGE_TYPE_ROBOT_MODEL],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a robot model to the scene from a ros parameter.
+    ![](/image/viz/viz-robotmodel.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-robot-model`,
   },
   {
     name: 'Tf',
     messageTypes: [MESSAGE_TYPE_TF, MESSAGE_TYPE_TF2],
-    description: 'Lorem ipsum',
-    exampleLink: '',
-    docsLink: '',
+    description: `Adds a visualization represented by a tf/tfMessage and tf2_msgs/TFMessage topic to the scene.
+    ![](/image/viz/viz-tf.png "")`,
+    docsLink: `${DOCS_ROOT_URL}visualizations-tf`,
   },
-  // {
-  //   name: 'Display Joint state',
-  //   messageTypes: [MESSAGE_TYPE_DISPLAYJOINTSTATE],
-  //   description: 'Lorem ipsum',
-  //   exampleLink: '',
-  //   docsLink: '',
-  //   isDisplay: true,
-  // },
-  // {
-  //   name: 'Display Tf',
-  //   messageTypes: [MESSAGE_TYPE_DISPLAYTF],
-  //   description: 'Lorem ipsum',
-  //   exampleLink: '',
-  //   docsLink: '',
-  //   isDisplay: true,
-  // },
 ];

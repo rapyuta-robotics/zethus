@@ -17,8 +17,7 @@ class Sidebar extends React.Component {
     super(props);
     this.state = {
       rosEndpoint:
-        localStorage.getItem('endpoint') ||
-        'wss://inst-fwdtohjiuvobyarnyctgkklb-fwwqpy.apps.rapyuta.io:443',
+        localStorage.getItem('endpoint') || 'ws://192.168.0.103:9090',
     };
     this.onRosSubmit = this.onRosSubmit.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
@@ -46,6 +45,10 @@ class Sidebar extends React.Component {
       default:
     }
     localStorage.setItem('endpoint', rosEndpoint);
+  }
+
+  componentDidMount() {
+    this.onRosSubmit({ preventDefault: () => {} });
   }
 
   updateRosEndpoint(e) {
