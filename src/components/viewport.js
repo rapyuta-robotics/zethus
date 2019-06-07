@@ -6,6 +6,7 @@ import {
   MESSAGE_TYPE_POSECOVARIANCE,
 } from 'amphion/src/utils/constants';
 import { NAV_ARROW_COLOR, NAV_ARROW_CONFIG } from '../utils/defaults';
+// import ViewPortTransformControls from './transformControls';
 
 const { THREE, devicePixelRatio } = window;
 
@@ -35,12 +36,16 @@ class Viewport extends React.Component {
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
+
+    this.enableEditorControls = this.enableEditorControls.bind(this);
+    this.disableEditorControls = this.disableEditorControls.bind(this);
   }
 
   componentDidMount() {
-    const { camera, onRef } = this.props;
+    const { camera, onRef, scene } = this.props;
     const container = this.container.current;
 
+    window.scene = scene;
     this.initStats();
     this.initRenderer();
     this.initGrid();
@@ -111,7 +116,7 @@ class Viewport extends React.Component {
     const { scene } = this.props;
     const grid = new THREE.GridHelper(30, 30, 0x333333, 0x222222);
 
-    scene.background = new THREE.Color(0x303030);
+    scene.background = new THREE.Color(0x000000);
     grid.geometry.rotateX(Math.PI / 2);
     scene.add(grid);
     const { array } = grid.geometry.attributes.color;
@@ -185,7 +190,7 @@ class Viewport extends React.Component {
   }
 
   onMouseDown(event) {
-    if (this.controls.enabled) {
+    if (this.controls.enabled || this.transformControlEnabled) {
       return;
     }
 
@@ -236,18 +241,7 @@ class Viewport extends React.Component {
         onMouseUp={this.onMouseUp}
         className="Panel"
         id="viewport"
-      >
-        {/*<div className="viz-image-container">*/}
-        {/*<canvas*/}
-        {/*id="myCanvas"*/}
-        {/*width="640"*/}
-        {/*style={{ border: '1px solid #d3d3d3' }}*/}
-        {/*height="480"*/}
-        {/*>*/}
-        {/*Your browser does not support the HTML5 canvas tag.*/}
-        {/*</canvas>*/}
-        {/*</div>*/}
-      </div>
+      />
     );
   }
 }

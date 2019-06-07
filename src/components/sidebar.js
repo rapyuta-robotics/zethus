@@ -16,7 +16,8 @@ class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      rosEndpoint: localStorage.getItem('endpoint') || 'ws://192.168.1.9:9090',
+      rosEndpoint:
+        localStorage.getItem('endpoint') || 'ws://192.168.0.103:9090',
     };
     this.onRosSubmit = this.onRosSubmit.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
@@ -32,19 +33,22 @@ class Sidebar extends React.Component {
     const { rosEndpoint } = this.state;
     const { connectRos, disconnectRos, rosStatus } = this.props;
 
-    if (
-      rosStatus === ROS_SOCKET_STATUSES.CONNECTED ||
-      rosStatus === ROS_SOCKET_STATUSES.CONNECTING
-    ) {
-      disconnectRos();
-    } else if (
-      rosStatus === ROS_SOCKET_STATUSES.INITIAL ||
-      rosStatus === ROS_SOCKET_STATUSES.CONNECTION_ERROR
-    ) {
-      connectRos(rosEndpoint);
+    switch (rosStatus) {
+      case ROS_SOCKET_STATUSES.CONNECTED:
+      case ROS_SOCKET_STATUSES.CONNECTING:
+        disconnectRos();
+        break;
+      case ROS_SOCKET_STATUSES.INITIAL:
+      case ROS_SOCKET_STATUSES.CONNECTION_ERROR:
+        connectRos(rosEndpoint);
+        break;
+      default:
     }
-
     localStorage.setItem('endpoint', rosEndpoint);
+  }
+
+  componentDidMount() {
+    this.onRosSubmit({ preventDefault: () => {} });
   }
 
   updateRosEndpoint(e) {
@@ -78,27 +82,23 @@ class Sidebar extends React.Component {
 
   disableEndpointInput() {
     const { rosStatus } = this.props;
-
-    if (
-      rosStatus === ROS_SOCKET_STATUSES.CONNECTED ||
-      rosStatus === ROS_SOCKET_STATUSES.CONNECTING
-    ) {
-      return true;
-    }
-
-    return false;
+    return _.includes(
+      [ROS_SOCKET_STATUSES.CONNECTED, ROS_SOCKET_STATUSES.CONNECTING],
+      rosStatus,
+    );
   }
 
   render() {
     const {
-      scene,
       vizWrapper,
       updateTopic,
       updateOptions,
       ros,
+      rosTopics,
       rosStatus,
       visualizations,
       toggleAddModal,
+      updateVisibilty,
     } = this.props;
 
     const { rosEndpoint } = this.state;
@@ -106,7 +106,7 @@ class Sidebar extends React.Component {
       <div id="sidebar">
         <div className="sidebar-display">
           <div id="logo-wrapper">
-            <img id="logo" src="/logo.svg" alt="Zethus" />
+            <img draggable={false} id="logo" src="./logo.svg" alt="Zethus" />
           </div>
           <div id="ros-input-section">
             <div id="ros-status">
@@ -129,55 +129,56 @@ class Sidebar extends React.Component {
                 className="btn-primary"
                 type="submit"
               >
-                {rosStatus === ROS_SOCKET_STATUSES.CONNECTED ||
-                rosStatus === ROS_SOCKET_STATUSES.CONNECTING
-                  ? 'Disconnect'
-                  : 'Connect'}
+                {this.disableEndpointInput() ? 'Disconnect' : 'Connect'}
               </button>
             </form>
           </div>
-          <GlobalOptions vizWrapper={vizWrapper} scene={scene} ros={ros} />
           {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
-            <div id="visualzation-list">
-              <button
-                type="button"
-                className="btn-primary"
-                onClick={toggleAddModal}
-              >
-                Add Visualization
-              </button>
-              {_.size(visualizations) === 0 && (
-                <p>No visualizations added to the scene</p>
-              )}
-              {_.map(visualizations, viz => (
-                <VizListItem
-                  updateTopic={updateTopic}
-                  updateOptions={updateOptions}
-                  key={viz.id}
-                  details={viz}
-                  ros={ros}
-                  removeDisplayType={this.removeDisplayType}
-                />
-              ))}
-            </div>
+            <React.Fragment>
+              <GlobalOptions vizWrapper={vizWrapper} ros={ros} />
+              <div id="visualzation-list">
+                <button
+                  type="button"
+                  className="btn-primary"
+                  onClick={toggleAddModal}
+                >
+                  Add Visualization
+                </button>
+                {_.size(visualizations) === 0 && (
+                  <p>No visualizations added to the scene</p>
+                )}
+                {_.map(visualizations, viz => (
+                  <VizListItem
+                    rosTopics={rosTopics}
+                    updateTopic={updateTopic}
+                    updateOptions={updateOptions}
+                    updateVisibilty={updateVisibilty}
+                    key={viz.id}
+                    details={viz}
+                    ros={ros}
+                    removeDisplayType={this.removeDisplayType}
+                  />
+                ))}
+              </div>
+            </React.Fragment>
           )}
         </div>
-        <div className="sidebar-bottom-btn" onBlur={this.nav2DBtnBlur}>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={this.navGoal2DClicked}
-          >
-            2D Nav Goal
-          </button>
-          <button
-            type="button"
-            className="btn-primary"
-            onClick={this.navEstimate2DClicked}
-          >
-            2D Nav Estimate
-          </button>
-        </div>
+        {/* <div className="sidebar-bottom-btn" onBlur={this.nav2DBtnBlur}> */}
+        {/* <button */}
+        {/* type="button" */}
+        {/* className="btn-primary" */}
+        {/* onClick={this.navGoal2DClicked} */}
+        {/* > */}
+        {/* 2D Nav Goal */}
+        {/* </button> */}
+        {/* <button */}
+        {/* type="button" */}
+        {/* className="btn-primary" */}
+        {/* onClick={this.navEstimate2DClicked} */}
+        {/* > */}
+        {/* 2D Nav Estimate */}
+        {/* </button> */}
+        {/* </div> */}
       </div>
     );
   }

@@ -1,0 +1,24 @@
+{
+  "docs": {
+    "About": ["about-what-is-zethus", "about-vs-rviz"],
+    "Usage": ["usage-requirements", "usage-getting-started", "usage-running-locally"],
+    "Visualizations": [
+      "visualizations-image",
+      "visualizations-laser-scan",
+      "visualizations-map",
+      "visualizations-marker",
+      "visualizations-marker-array",
+      "visualizations-odometry",
+      "visualizations-path",
+      "visualizations-point-cloud2",
+      "visualizations-pose",
+      "visualizations-pose-array",
+      "visualizations-robot-model",
+      "visualizations-tf"
+    ],
+    "Miscellaneous": ["misc-faqs", "misc-contribution-guidelines", "misc-related-projects"]
+  }
+}
+
+
+

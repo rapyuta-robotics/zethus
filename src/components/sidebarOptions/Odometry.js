@@ -8,7 +8,7 @@ import Arrow from './ArrowOptions';
 import FlatArrow from './FlatArrowOptions';
 import Axes from './AxesOptions';
 
-class DisplayOdometry extends React.Component {
+class Odometry extends React.Component {
   constructor(props) {
     super(props);
 
@@ -50,7 +50,7 @@ class DisplayOdometry extends React.Component {
     const {
       options: {
         type: shapeType,
-        unreliable,
+        // unreliable,
         positionTolerance,
         angleTolerance,
         keep,
@@ -59,15 +59,15 @@ class DisplayOdometry extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="option-section">
-          <span>Unreliable:</span>
-          <input
-            name="unreliable"
-            type="checkbox"
-            value={unreliable}
-            onChange={this.updateOptions}
-          />
-        </div>
+        {/*<div className="option-section">*/}
+        {/*<span>Unreliable:</span>*/}
+        {/*<input*/}
+        {/*name="unreliable"*/}
+        {/*type="checkbox"*/}
+        {/*value={unreliable}*/}
+        {/*onChange={this.updateOptions}*/}
+        {/*/>*/}
+        {/*</div>*/}
         <div className="option-section">
           <span>Position Tolerance:</span>
           <input
@@ -112,4 +112,4 @@ class DisplayOdometry extends React.Component {
   }
 }
 
-export default DisplayOdometry;
+export default Odometry;

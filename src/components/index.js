@@ -18,6 +18,8 @@ import {
   MESSAGE_TYPE_PATH,
   MESSAGE_TYPE_IMAGE,
   MESSAGE_TYPE_MARKER,
+  MESSAGE_TYPE_POINTCLOUD,
+  MESSAGE_TYPE_INTERACTIVEMARKER,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
@@ -25,6 +27,7 @@ import Sidebar from './sidebar';
 import { ROS_SOCKET_STATUSES } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
+import ImageHolder from './ImageHolder';
 
 const { THREE } = window;
 
@@ -69,26 +72,31 @@ class Wrapper extends React.Component {
     };
     this.ros = new ROSLIB.Ros();
     this.scene = new THREE.Scene();
+    this.robotMeshes = [];
+    window.scene = this.scene;
     this.vizWrapper = new THREE.Group();
     this.scene.add(this.vizWrapper);
-    window.scene = this.scene;
     this.addLights();
     this.addCamera();
 
     this.connectRos = this.connectRos.bind(this);
     this.disconnectRos = this.disconnectRos.bind(this);
+    this.addVizObjectToScene = this.addVizObjectToScene.bind(this);
     this.addVisualization = this.addVisualization.bind(this);
     this.toggleAddModal = this.toggleAddModal.bind(this);
     this.getVisualization = this.getVisualization.bind(this);
     this.removeDisplayType = this.removeDisplayType.bind(this);
     this.toggleEditorControls = this.toggleEditorControls.bind(this);
     this.publishNavMessages = this.publishNavMessages.bind(this);
+    this.setPrevConfig = this.setPrevConfig.bind(this);
     this.updateTopic = this.updateTopic.bind(this);
     this.updateOptions = this.updateOptions.bind(this);
+    this.updateVisibilty = this.updateVisibilty.bind(this);
+    this.addVisualizationByTopic = this.addVisualizationByTopic.bind(this);
   }
 
   setPrevConfig() {
-    let visualizations = localStorage.getItem('visualizations') || '[]';
+    let visualizations = '[]'; // localStorage.getItem('visualizations') || '[]';
     visualizations = JSON.parse(visualizations);
     visualizations.forEach((viz, idx) => {
       const { name, type, isDisplay, options } = viz;
@@ -100,7 +108,7 @@ class Wrapper extends React.Component {
       );
 
       if (!isDisplay) {
-        this.vizWrapper.add(vizObject.object);
+        this.addVizObjectToScene(vizObject.object);
       }
       if (vizObject.subscribe) {
         vizObject.subscribe();
@@ -110,6 +118,14 @@ class Wrapper extends React.Component {
     });
 
     this.setState({ visualizations });
+  }
+
+  destroyVizOnDisconnect() {
+    const { visualizations } = this.state;
+    visualizations.forEach(viz => {
+      const { rosObject } = viz;
+      rosObject.destroy();
+    });
   }
 
   componentDidMount() {
@@ -125,6 +141,7 @@ class Wrapper extends React.Component {
           rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
           rosTopics,
         });
+        this.setPrevConfig();
       });
 
       const displayTfObject = new Amphion.DisplayTf(this.ros, this.vizWrapper);
@@ -132,12 +149,11 @@ class Wrapper extends React.Component {
     });
 
     this.ros.on('close', () => {
+      this.destroyVizOnDisconnect();
       this.setState({
         rosStatus: ROS_SOCKET_STATUSES.INITIAL,
       });
     });
-
-    this.setPrevConfig();
   }
 
   componentWillUnmount() {
@@ -164,8 +180,22 @@ class Wrapper extends React.Component {
   updateTopic(id, name) {
     const { visualizations } = this.state;
     this.setState({
+      visualizations: _.map(visualizations, viz => {
+        if (viz.id === id) {
+          viz.name = name;
+          return { ...viz };
+        }
+
+        return viz;
+      }),
+    });
+  }
+
+  updateVisibilty(id, visible) {
+    const { visualizations } = this.state;
+    this.setState({
       visualizations: _.map(visualizations, viz =>
-        viz.id === id ? { ...viz, name } : viz,
+        viz.id === id ? { ...viz, visible } : viz,
       ),
     });
   }
@@ -187,8 +217,6 @@ class Wrapper extends React.Component {
   getVisualization(name, messageType, isDisplay, options) {
     if (isDisplay) {
       switch (messageType) {
-        // case MESSAGE_TYPE_DISPLAYTF:
-        //   return new Amphion.DisplayTf(this.ros, name, this.vizWrapper);
         case MESSAGE_TYPE_DISPLAYJOINTSTATE:
           return new Amphion.DisplayJointState(this.ros, name, this.robot);
         default:
@@ -204,6 +232,14 @@ class Wrapper extends React.Component {
         robotModel.load(
           object => {
             removeExcludedObjects(object);
+            _.each(object.children[0].links, o => {
+              const existingObject = this.vizWrapper.getObjectByName(o.name);
+              if (existingObject) {
+                o.children.forEach(child => {
+                  existingObject.add(child);
+                });
+              }
+            });
           },
           {
             packages: _.mapValues(
@@ -213,6 +249,7 @@ class Wrapper extends React.Component {
             loadMeshCb: (path, ext, done) => {
               robotModel.defaultMeshLoader(path, ext, mesh => {
                 removeExcludedObjects(mesh);
+                this.robotMeshes.push(mesh);
                 done(mesh);
               });
             },
@@ -237,26 +274,35 @@ class Wrapper extends React.Component {
       case MESSAGE_TYPE_LASERSCAN:
         return new Amphion.LaserScan(this.ros, name, options);
       case MESSAGE_TYPE_POINTCLOUD2:
-        return new Amphion.PointCloud(this.ros, name, options);
+      case MESSAGE_TYPE_POINTCLOUD:
+        return new Amphion.PointCloud(this.ros, name, messageType, options);
       case MESSAGE_TYPE_ODOMETRY:
         return new Amphion.DisplayOdometry(this.ros, name, options);
       case MESSAGE_TYPE_PATH:
         return new Amphion.Path(this.ros, name, options);
       case MESSAGE_TYPE_IMAGE:
-        return new Amphion.Image(this.ros, name, this.getImageElement());
+        return new Amphion.Image(this.ros, name, options);
+      case MESSAGE_TYPE_INTERACTIVEMARKER: {
+        const interactiveMarkerOptions = {
+          camera: this.camera,
+          scene: this.scene,
+          orbitControls: this.viewportRef.controls,
+          domElement: this.viewportRef.container,
+          ...options,
+        };
+        return new Amphion.InteractiveMarker(
+          this.ros,
+          name,
+          interactiveMarkerOptions,
+        );
+      }
       default:
         return null;
     }
   }
 
-  getImageElement() {
-    // Image dislay type
-    return document.getElementById('myCanvas');
-  }
-
   addVisualization(types, isDisplay, displayName, options) {
     const {
-      visualizations,
       rosTopics: { topics, types: messageTypes },
     } = this.state;
     const defaultTopicIndex = _.findIndex(messageTypes, type =>
@@ -267,11 +313,24 @@ class Wrapper extends React.Component {
       topics[defaultTopicIndex],
       messageTypes[defaultTopicIndex] || types[0],
     ];
+    this.addVisualizationByTopic(name, type, isDisplay, displayName, options);
+  }
+
+  addVisualizationByTopic(name, type, isDisplay, displayName, options) {
+    const { visualizations } = this.state;
+
     const vizObject = this.getVisualization(name, type, isDisplay, options);
     if (!isDisplay) {
-      this.vizWrapper.add(vizObject.object);
+      this.addVizObjectToScene(vizObject.object);
     }
-
+    vizObject.onHeaderChange = newFrameId => {
+      let frameObject = this.vizWrapper.getObjectByName(newFrameId);
+      if (!frameObject) {
+        frameObject = new THREE.Group();
+        this.vizWrapper.add(frameObject);
+      }
+      frameObject.add(vizObject.object);
+    };
     if (vizObject.topic) {
       vizObject.subscribe();
     }
@@ -292,10 +351,22 @@ class Wrapper extends React.Component {
     });
   }
 
+  addVizObjectToScene(object) {
+    if (!this.vizWrapper.getObjectById(object.id)) {
+      this.vizWrapper.add(object);
+    }
+  }
+
   removeDisplayType(id) {
     const { visualizations } = this.state;
 
     const viz = _.find(visualizations, v => v.id === id);
+    if (viz.type === MESSAGE_TYPE_ROBOT_MODEL) {
+      _.each(this.robotMeshes, mesh => {
+        mesh.parent.remove(mesh);
+      });
+      this.robotMeshes = [];
+    }
     viz.rosObject.destroy();
 
     this.setState({
@@ -375,13 +446,14 @@ class Wrapper extends React.Component {
             rosTopics={rosTopics}
             closeModal={this.toggleAddModal}
             addVisualization={this.addVisualization}
+            addVisualizationByTopic={this.addVisualizationByTopic}
           />
         )}
         <Sidebar
-          scene={this.scene}
           vizWrapper={this.vizWrapper}
           updateTopic={this.updateTopic}
           updateOptions={this.updateOptions}
+          updateVisibilty={this.updateVisibilty}
           rosStatus={rosStatus}
           connectRos={this.connectRos}
           disconnectRos={this.disconnectRos}
@@ -399,6 +471,10 @@ class Wrapper extends React.Component {
           onRef={ref => {
             this.viewportRef = ref;
           }}
+        />
+        <ImageHolder
+          visualizations={visualizations}
+          updateVisibilty={this.updateVisibilty}
         />
       </div>
     );

@@ -59,7 +59,12 @@ class Map extends React.Component {
 
   render() {
     const {
-      options: { unreliable, alpha, colorScheme, drawBehind },
+      options: {
+        // unreliable,
+        alpha,
+        colorScheme,
+        drawBehind,
+      },
     } = this.props;
     const {
       resolution,
@@ -78,17 +83,17 @@ class Map extends React.Component {
 
     return (
       <React.Fragment>
-        <div className="option-section">
-          <span>Unreliable:</span>
-          <span>
-            <input
-              type="checkbox"
-              name="unreliable"
-              value={unreliable}
-              onChange={this.updateCheckbox}
-            />
-          </span>
-        </div>
+        {/*<div className="option-section">*/}
+        {/*<span>Unreliable:</span>*/}
+        {/*<span>*/}
+        {/*<input*/}
+        {/*type="checkbox"*/}
+        {/*name="unreliable"*/}
+        {/*value={unreliable}*/}
+        {/*onChange={this.updateCheckbox}*/}
+        {/*/>*/}
+        {/*</span>*/}
+        {/*</div>*/}
         <div className="option-section">
           <span>Alpha:</span>
           <span>
