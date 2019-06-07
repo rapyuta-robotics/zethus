@@ -17,7 +17,7 @@ Name | Description | Valid values | Default
 --- | --- | --- | ---
 Topic | The `nav_msgs/OccupancyGrid` topic to subscribe to. | Any valid Graph Resource Name | Empty String  
 Alpha | The amount of transparency to apply to the map | \[0-1] | 1  
-Color Scheme | Different color scheme to parse the map data. | map, constmap, raw | map
+Color Scheme | Different color scheme to parse the map data. | map, costmap, raw | map
 Draw Behind | Draw behind the map plane, visible on both faces. | boolean | false
 
 The options are [inspired from RViz](http://wiki.ros.org/rviz/DisplayTypes/Map) and work very similar to it.
