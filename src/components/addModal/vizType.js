@@ -19,7 +19,7 @@ const VizType = ({ modalVizOptions, selectedViz, selectViz }) => (
               disabled={!vizAvailable}
               onClick={() => selectViz(op)}
             >
-              <span className="type-image" />
+              <img className="vizItemIcon" src={op.icon} alt="" />
               {op.name}
             </button>
           </div>
@@ -31,11 +31,7 @@ const VizType = ({ modalVizOptions, selectedViz, selectViz }) => (
         <React.Fragment>
           <h4>{selectedViz.name}</h4>
           <ReactMarkdown source={selectedViz.description} />
-          <p>
-            {/*<a href={selectedViz.exampleLink}>View example</a>*/}
-            {/*<br />*/}
-            <a href={selectedViz.docsLink}>View docs</a>
-          </p>
+          <a href={selectedViz.docsLink}>View docs</a>
         </React.Fragment>
       ) : (
         <p>

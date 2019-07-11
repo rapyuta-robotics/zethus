@@ -1,26 +1,40 @@
 {
-  "name": "@rapyuta-robotics/zethus",
-  "version": "0.1.0",
-  "private": true,
+  "name": "zethus",
+  "version": "0.1.3",
+  "description": "Realtime robot data visualization in the browser",
+  "main": "./src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rapyuta-robotics/zethus.git"
+  },
+  "keywords": [
+    "ros",
+    "robotics",
+    "riz",
+    "javascript",
+    "threejs"
+  ],
+  "author": "Rapyuta Robotics <support@rapyuta-robotics.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/rapyuta-robotics/zethus/issues"
+  },
   "dependencies": {
-    "amphion": "^0.0.3",
+    "amphion": "^0.1.3",
     "classnames": "^2.2.6",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "mousetrap": "^1.6.3",
     "node-sass": "^4.11.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-graceful-unmount": "^1.0.7",
-    "react-intl": "^2.8.0",
     "react-markdown": "^4.0.6",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.3",
     "roslib": "^1.0.1",
     "shortid": "^2.2.14",
     "stats-js": "^1.0.0",
-    "three": "^0.101.1",
-    "undo-manager": "^1.0.5",
-    "urdf-loader": "^0.6.1"
+    "three": "^0.106.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -29,9 +43,6 @@
     "eject": "react-scripts eject",
     "stylelint": "prettier-stylelint --write 'src/**/*.{css,scss}' ",
     "lint": "prettier 'src/**/*.js' --write --single-quote --trailing-comma all"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": [
     ">0.2%",
@@ -48,10 +59,8 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
-    "install-peers": "^1.0.3",
     "prettier": "^1.16.4",
     "prettier-stylelint": "^0.4.2",
-    "stylelint-config-standard": "^18.2.0",
-    "worker-loader": "^2.0.0"
+    "stylelint-config-standard": "^18.2.0"
   }
 }

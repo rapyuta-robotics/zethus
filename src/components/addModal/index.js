@@ -47,7 +47,12 @@ class AddModal extends React.Component {
 
   addVisualization(messageTypes, isDisplay, displayName, options) {
     const { addVisualization, closeModal } = this.props;
-    addVisualization(messageTypes, isDisplay, displayName, options);
+    addVisualization({
+      types: messageTypes,
+      isDisplay,
+      displayName,
+      options,
+    });
     closeModal();
   }
 
@@ -76,7 +81,8 @@ class AddModal extends React.Component {
   }
 
   toggleOptionsForm() {
-    this.setState({ optionsForm: !this.state.optionsForm });
+    const { optionsForm } = this.state;
+    this.setState({ optionsForm: !optionsForm });
   }
 
   render() {
@@ -129,7 +135,7 @@ class AddModal extends React.Component {
               )}
             </div>
             <div className="modal-actions">
-              <div className="flex-gap" />
+              <div className="flexGrow" />
               <button
                 type="submit"
                 className="btn-primary"

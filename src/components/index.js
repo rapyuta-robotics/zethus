@@ -1,4 +1,5 @@
 import React from 'react';
+import * as THREE from 'three';
 import withGracefulUnmount from 'react-graceful-unmount';
 import _ from 'lodash';
 import ROSLIB from 'roslib';
@@ -19,17 +20,17 @@ import {
   MESSAGE_TYPE_IMAGE,
   MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_POINTCLOUD,
-  MESSAGE_TYPE_INTERACTIVEMARKER,
+  // MESSAGE_TYPE_INTERACTIVEMARKER,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
 
-import Sidebar from './sidebar';
-import { ROS_SOCKET_STATUSES } from '../utils';
+import '../styles/main.scss';
+
+import Sidebar from '../views/sidebar';
+import { ROS_SOCKET_STATUSES, vizOptions } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
 import ImageHolder from './ImageHolder';
-
-const { THREE } = window;
 
 const excludedObjects = [
   'PerspectiveCamera',
@@ -75,6 +76,7 @@ class Wrapper extends React.Component {
     this.robotMeshes = [];
     window.scene = this.scene;
     this.vizWrapper = new THREE.Group();
+    this.vizWrapper.rotateX(-Math.PI / 2);
     this.scene.add(this.vizWrapper);
     this.addLights();
     this.addCamera();
@@ -96,8 +98,7 @@ class Wrapper extends React.Component {
   }
 
   setPrevConfig() {
-    let visualizations = '[]'; // localStorage.getItem('visualizations') || '[]';
-    visualizations = JSON.parse(visualizations);
+    const visualizations = [];
     visualizations.forEach((viz, idx) => {
       const { name, type, isDisplay, options } = viz;
       const vizObject = this.getVisualization(
@@ -146,6 +147,11 @@ class Wrapper extends React.Component {
 
       const displayTfObject = new Amphion.DisplayTf(this.ros, this.vizWrapper);
       displayTfObject.subscribe();
+
+      const robotModel = new Amphion.RobotModel(this.ros, 'robot_description');
+      robotModel.getPackages(packages => {
+        console.log(packages);
+      });
     });
 
     this.ros.on('close', () => {
@@ -282,26 +288,12 @@ class Wrapper extends React.Component {
         return new Amphion.Path(this.ros, name, options);
       case MESSAGE_TYPE_IMAGE:
         return new Amphion.Image(this.ros, name, options);
-      case MESSAGE_TYPE_INTERACTIVEMARKER: {
-        const interactiveMarkerOptions = {
-          camera: this.camera,
-          scene: this.scene,
-          orbitControls: this.viewportRef.controls,
-          domElement: this.viewportRef.container,
-          ...options,
-        };
-        return new Amphion.InteractiveMarker(
-          this.ros,
-          name,
-          interactiveMarkerOptions,
-        );
-      }
       default:
         return null;
     }
   }
 
-  addVisualization(types, isDisplay, displayName, options) {
+  addVisualization({ types, isDisplay, displayName, options }) {
     const {
       rosTopics: { topics, types: messageTypes },
     } = this.state;
@@ -313,10 +305,16 @@ class Wrapper extends React.Component {
       topics[defaultTopicIndex],
       messageTypes[defaultTopicIndex] || types[0],
     ];
-    this.addVisualizationByTopic(name, type, isDisplay, displayName, options);
+    this.addVisualizationByTopic({
+      name,
+      type,
+      isDisplay,
+      displayName,
+      options,
+    });
   }
 
-  addVisualizationByTopic(name, type, isDisplay, displayName, options) {
+  addVisualizationByTopic({ name, type, isDisplay, displayName, options }) {
     const { visualizations } = this.state;
 
     const vizObject = this.getVisualization(name, type, isDisplay, options);
@@ -346,6 +344,7 @@ class Wrapper extends React.Component {
           displayName,
           isDisplay,
           options,
+          icon: _.find(vizOptions, v => v.name === displayName).icon,
         },
       ],
     });
@@ -377,22 +376,17 @@ class Wrapper extends React.Component {
   addLights() {
     [[-1, 0], [1, 0], [0, -1], [0, 1]].forEach(positions => {
       const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
-      [directionalLight.position.x, directionalLight.position.y] = positions;
-      directionalLight.position.z = 1;
+      [directionalLight.position.x, directionalLight.position.z] = positions;
+      directionalLight.position.y = 1;
       this.scene.add(directionalLight);
     });
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
     this.scene.add(ambientLight);
-
-    const axesHelper = new THREE.AxesHelper(5);
-    axesHelper.material.linewidth = 2;
-    this.scene.add(axesHelper);
   }
 
   addCamera() {
     this.camera = new THREE.PerspectiveCamera(50, 1, 0.01, 1000);
     this.camera.position.set(0, 5, 10);
-    this.camera.up.set(0, 0, 1);
     this.camera.lookAt(new THREE.Vector3());
 
     this.scene.add(this.camera);

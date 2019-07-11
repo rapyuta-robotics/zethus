@@ -1,6 +1,5 @@
 import React from 'react';
 import _ from 'lodash';
-// import { } from 'amphion';
 import { SUPPORTED_MESSAGE_TYPES } from 'amphion/src/utils/constants';
 import { vizOptions } from '../../utils';
 
@@ -31,18 +30,18 @@ const TopicName = ({
             className="flex"
             key={name}
             onClick={() => {
-              addVisualizationByTopic(
+              addVisualizationByTopic({
                 name,
                 type,
-                false,
-                vizOption.name,
-                vizOption.defaultOptions,
-              );
+                isDisplay: false,
+                displayName: vizOption.name,
+                options: vizOption.defaultOptions,
+              });
               closeModal();
             }}
           >
             {name}
-            <span className="flex-gap" />({type})
+            <span className="flexGrow" />({type})
           </button>
         );
       })}

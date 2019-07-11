@@ -1,14 +1,16 @@
 import React from 'react';
+import * as THREE from 'three';
 import Stats from 'stats-js';
 import Arrow from 'amphion/src/primitives/Arrow';
 import {
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_POSECOVARIANCE,
 } from 'amphion/src/utils/constants';
+import { EditorControls } from 'three/examples/jsm/controls/EditorControls';
+// import { EditorControls } from '../utils/editorControls';
 import { NAV_ARROW_COLOR, NAV_ARROW_CONFIG } from '../utils/defaults';
-// import ViewPortTransformControls from './transformControls';
 
-const { THREE, devicePixelRatio } = window;
+const { devicePixelRatio } = window;
 
 class Viewport extends React.Component {
   constructor(props) {
@@ -42,15 +44,14 @@ class Viewport extends React.Component {
   }
 
   componentDidMount() {
-    const { camera, onRef, scene } = this.props;
+    const { camera, onRef } = this.props;
     const container = this.container.current;
 
-    window.scene = scene;
     this.initStats();
     this.initRenderer();
     this.initGrid();
 
-    this.controls = new THREE.EditorControls(camera, container);
+    this.controls = new EditorControls(camera, container);
     this.controls.enableDamping = true;
     window.addEventListener('resize', this.onWindowResize);
     requestAnimationFrame(this.animate);
@@ -117,7 +118,7 @@ class Viewport extends React.Component {
     const grid = new THREE.GridHelper(30, 30, 0x333333, 0x222222);
 
     scene.background = new THREE.Color(0x000000);
-    grid.geometry.rotateX(Math.PI / 2);
+    // grid.geometry.rotateX(Math.PI / 2);
     scene.add(grid);
     const { array } = grid.geometry.attributes.color;
     for (let i = 0; i < array.length; i += 60) {
@@ -190,7 +191,7 @@ class Viewport extends React.Component {
   }
 
   onMouseDown(event) {
-    if (this.controls.enabled || this.transformControlEnabled) {
+    if (this.controls.enabled) {
       return;
     }
 

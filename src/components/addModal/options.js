@@ -176,7 +176,7 @@ class SelectedVizOptionsForm extends React.Component {
             </div>
           </div>
           <div className="modal-actions">
-            <div className="flex-gap" />
+            <div className="flexGrow" />
             <button type="submit" className="btn-primary">
               Add Visualization
             </button>
