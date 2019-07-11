@@ -3,7 +3,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { MESSAGE_TYPE_ROBOT_MODEL } from 'amphion/src/utils/constants';
-import VizOptionsMap from './sidebarOptions';
+import VizOptionsMap from '../views/sidebar/sidebarOptions';
 import { vizOptions } from '../utils';
 
 class VizListItem extends React.Component {
@@ -81,7 +81,7 @@ class VizListItem extends React.Component {
   render() {
     const {
       rosTopics: { topics: availableTopics, types: availableTopicTypes },
-      details: { displayName, name, options, rosObject, visible, type },
+      details: { displayName, name, options, rosObject, visible, type, icon },
     } = this.props;
     const { collapsed } = this.state;
 
@@ -98,50 +98,44 @@ class VizListItem extends React.Component {
     const vizComp = VizOptionsMap(newProps)[displayName];
 
     return (
-      <div className="display-type-form-wrapper">
-        <div className="display-type-form-header">
+      <div className="vizItem">
+        <div className="optionRow">
           <button
-            className={classNames({
-              'display-type-collapse': true,
+            className={classNames('vizItemCollapse', {
               collapsed,
             })}
             onClick={this.toggleCollapsed}
           >
-            <img src="./image/chevron.png" alt="" />
+            <img src="./image/chevron.svg" alt="" />
           </button>
-          <span className="type-image" />
+          <img className="vizItemIcon" src={icon} alt="" />
           {displayName}
         </div>
         {!collapsed && (
-          <div className="display-type-form-content">
+          <div className="vizItemContent">
             {type !== MESSAGE_TYPE_ROBOT_MODEL && (
-              <div className="option-section" onClick={this.getTopics}>
-                <span>Topic:</span>
-                <span>
-                  <select onChange={this.changeTopic} value={name}>
+              <div className="optionRow" onClick={this.getTopics}>
+                <div className="halfWidth">Topic:</div>
+                <div className="halfWidth">
+                  <select
+                    className="input"
+                    onChange={this.changeTopic}
+                    value={name}
+                  >
                     {_.map(supportedAvailableTopics, topic => (
                       <option key={topic}>{topic}</option>
                     ))}
                   </select>
-                </span>
+                </div>
               </div>
             )}
             {vizComp}
-            <div className="display-type-form-button-section">
-              <button type="button" onClick={this.delete}>
-                <i className="fa fa-trash" aria-hidden="true" />
-                Delete
-              </button>
+            <div className="vizItemActions">
+              <button onClick={this.delete}>Delete</button>
               {visible ? (
-                <button type="button" onClick={this.hide}>
-                  <i className="fa fa-eye-slash" aria-hidden="true" />
-                  Hide
-                </button>
+                <button onClick={this.hide}>Hide</button>
               ) : (
-                <button type="button" onClick={this.show}>
-                  <i className="fa fa-eye" aria-hidden="true" />
-                  Show
-                </button>
+                <button onClick={this.show}>Show</button>
               )}
             </div>
           </div>

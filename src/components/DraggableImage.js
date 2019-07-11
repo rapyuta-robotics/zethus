@@ -80,13 +80,13 @@ class DraggableImage extends React.Component {
     return (
       <div
         ref={this.elementRef}
-        className="viz-image-container"
+        className="vizImageContainer"
         onMouseUp={this.onMouseUp}
       >
-        <div className="img-header" onMouseDown={this.onMouseDown}>
-          <div className="img-name">{name}</div>
-          <div className="flex-gap" />
-          <button type="button" className="img-close-btn" onClick={this.hide}>
+        <div className="vizImageHeader" onMouseDown={this.onMouseDown}>
+          <div className="vizImageName">{name}</div>
+          <div className="flexGrow" />
+          <button type="button" className="vizImageClose" onClick={this.hide}>
             CLOSE
           </button>
         </div>

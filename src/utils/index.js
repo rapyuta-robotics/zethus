@@ -26,9 +26,9 @@ import {
   AXIS_OPTIONS,
 } from 'amphion/src/viz/LaserScan';
 
-import { ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/ArrowOptions';
-import { AXES_OPTIONS_DEFAULTS } from '../components/sidebarOptions/AxesOptions';
-import { FLAT_ARROW_OPTIONS_DEFAULTS } from '../components/sidebarOptions/FlatArrowOptions';
+import { ARROW_OPTIONS_DEFAULTS } from '../views/sidebar/sidebarOptions/ArrowOptions';
+import { AXES_OPTIONS_DEFAULTS } from '../views/sidebar/sidebarOptions/AxesOptions';
+import { FLAT_ARROW_OPTIONS_DEFAULTS } from '../views/sidebar/sidebarOptions/FlatArrowOptions';
 
 export const ROS_SOCKET_STATUSES = {
   INITIAL: 'Idle. Not Connected',
@@ -66,23 +66,23 @@ const DOCS_ROOT_URL = 'https://zethus.rapyuta.io/docs/';
 export const vizOptions = [
   {
     name: 'Image',
+    icon: '/image/icons/icon_image.svg',
     messageTypes: [MESSAGE_TYPE_IMAGE],
     description: `Creates a container to visualize the image data represented by a sensor_msgs/Image topic.
     ![](/image/viz/viz-image.png "")`,
     docsLink: `${DOCS_ROOT_URL}visualizations-image`,
     defaultOptions: {
-      unreliable: false,
       queueSize: 100,
     },
   },
   {
     name: 'Laser Scan',
+    icon: '/image/icons/icon_laser_scan.svg',
     messageTypes: [MESSAGE_TYPE_LASERSCAN],
     description: `Adds a visualization represented by a sensor_msgs/LaserScan topic to the scene.
     ![](/image/viz/viz-laserscan.png "")`,
     docsLink: `${DOCS_ROOT_URL}visualizations-laser-scan`,
     defaultOptions: {
-      unreliable: false,
       selectable: false,
       style: STYLE.FLAT_SQUARES,
       size: 0.01,
@@ -97,12 +97,12 @@ export const vizOptions = [
   },
   {
     name: 'Map',
+    icon: '/image/icons/icon_map.svg',
     messageTypes: [MESSAGE_TYPE_OCCUPANCYGRID],
     description: `Adds a visualization represented by a nav_msgs/OccupancyGrid topic to the scene.
     ![](/image/viz/viz-map.png "")`,
     docsLink: `${DOCS_ROOT_URL}visualizations-map`,
     defaultOptions: {
-      unreliable: false,
       alpha: 1,
       colorScheme: COLOR_SCHEMES.MAP,
       drawBehind: false,
@@ -110,37 +110,37 @@ export const vizOptions = [
   },
   {
     name: 'Marker',
+    icon: '/image/icons/icon_marker.svg',
     messageTypes: [MESSAGE_TYPE_MARKER],
     description: `Adds a visualization represented by a visualization_msgs/Marker or visualization_msgs/MarkerArray topic to the scene.
     ![](/image/viz/viz-marker.png "")`,
     docsLink: `${DOCS_ROOT_URL}visualizations-marker`,
     defaultOptions: {
-      unreliable: false,
       queueSize: 100,
       namespaces: [],
     },
   },
   {
     name: 'Marker Array',
+    icon: '/image/icons/icon_marker_array.svg',
     messageTypes: [MESSAGE_TYPE_MARKERARRAY],
     description: `Adds a visualization represented by a visualization_msgs/Marker or visualization_msgs/MarkerArray topic to the scene.
     ![](/image/viz/viz-markerarray.png "")`,
     docsLink: `${DOCS_ROOT_URL}visualizations-marker-array`,
     defaultOptions: {
-      unreliable: false,
       queueSize: 100,
       namespaces: [],
     },
   },
   {
     name: 'Odometry',
+    icon: '/image/icons/icon_odometry.svg',
     messageTypes: [MESSAGE_TYPE_ODOMETRY],
     description: `Adds a visualization represented by a nav_msgs/Odometry topic to the scene.
     ![](/image/viz/viz-odometry.png "")`,
     docsLink: `${DOCS_ROOT_URL}visualizations-odometry`,
     isDisplay: false,
     defaultOptions: {
-      unreliable: false,
       type: OBJECT_TYPE_ARROW,
       color: DEFAULT_COLOR_X_AXIS,
       alpha: 1,
@@ -154,12 +154,12 @@ export const vizOptions = [
   },
   {
     name: 'Path',
+    icon: '/image/icons/icon_path.svg',
     messageTypes: [MESSAGE_TYPE_PATH],
     description: `Adds a visualization represented by a nav_msgs/Path topic to the scene.
     ![](/image/viz/viz-path.png "")`,
     docsLink: `${DOCS_ROOT_URL}visualizations-path`,
     defaultOptions: {
-      unreliable: false,
       lineStyle: LINE_STYLES.LINES,
       color: '#ffffff',
       alpha: 1,
@@ -171,6 +171,7 @@ export const vizOptions = [
   },
   {
     name: 'Point Cloud 2',
+    icon: '/image/icons/icon_pointcloud_2.svg',
     messageTypes: [MESSAGE_TYPE_POINTCLOUD2],
     description: `Adds a visualization represented by a sensor_msgs/PointCloud2 topic to the scene.
     ![](/image/viz/viz-pointcloud.png "")`,
@@ -178,6 +179,7 @@ export const vizOptions = [
   },
   {
     name: 'Pose',
+    icon: '/image/icons/icon_pose.svg',
     messageTypes: [MESSAGE_TYPE_POSESTAMPED],
     description: `Adds a visualization represented by a geometry_msgs/PoseStamped topic to the scene.
     ![](/image/viz/viz-pose.png "")`,
@@ -188,11 +190,11 @@ export const vizOptions = [
       ...ARROW_OPTIONS_DEFAULTS,
       ...AXES_OPTIONS_DEFAULTS,
       type: OBJECT_TYPE_ARROW,
-      unreliable: false,
     },
   },
   {
     name: 'Pose Array',
+    icon: '/image/icons/icon_pose_array.svg',
     messageTypes: [MESSAGE_TYPE_POSEARRAY],
     description: `Adds a visualization represented by a geometry_msgs/PoseArray topic to the scene. An array of pose is added to the scene based on the Shape type selected.
     ![](/image/viz/viz-posearray.png "")`,
@@ -204,11 +206,11 @@ export const vizOptions = [
       ...AXES_OPTIONS_DEFAULTS,
       ...FLAT_ARROW_OPTIONS_DEFAULTS,
       type: OBJECT_TYPE_ARROW,
-      unreliable: false,
     },
   },
   {
     name: 'Robot Model',
+    icon: '/image/icons/icon_robot_model.svg',
     messageTypes: [MESSAGE_TYPE_ROBOT_MODEL],
     description: `Adds a robot model to the scene from a ros parameter.
     ![](/image/viz/viz-robotmodel.png "")`,
@@ -216,6 +218,7 @@ export const vizOptions = [
   },
   {
     name: 'Tf',
+    icon: '/image/icons/icon_tf.svg',
     messageTypes: [MESSAGE_TYPE_TF, MESSAGE_TYPE_TF2],
     description: `Adds a visualization represented by a tf/tfMessage and tf2_msgs/TFMessage topic to the scene.
     ![](/image/viz/viz-tf.png "")`,
