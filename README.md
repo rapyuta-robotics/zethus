@@ -1,4 +1,8 @@
 # Zethus
+[![NPM package][npm]][npm-url]
+[![Dependencies][dependencies]][dependencies-url]
+[![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
+[![Language Grade][lgtm]][lgtm-url]
 
 ### Getting started
 #### Development version
@@ -30,3 +34,13 @@ PRs, bug reports, and feature requests are welcome! Please observe [CONTRIBUTING
 
 ### Maintenance Status
 Active: Rapyuta Robotics is actively working on this project, and we expect to continue for work for the foreseeable future.
+
+[npm]: https://badge.fury.io/js/zethus.svg
+[npm-url]: https://www.npmjs.com/package/zethus
+[dependencies]: https://img.shields.io/david/rapyuta-robotics/zethus.svg
+[dependencies-url]: https://david-dm.org/rapyuta-robotics/zethus
+[dev-dependencies]: https://img.shields.io/david/dev/rapyuta-robotics/zethus.svg
+[dev-dependencies-url]: https://david-dm.org/rapyuta-robotics/zethus#info=devDependencies
+[lgtm]: https://img.shields.io/lgtm/grade/javascript/g/rapyuta-robotics/zethus.svg?label=code%20quality
+[lgtm-url]: https://lgtm.com/projects/g/rapyuta-robotics/zethus
+
