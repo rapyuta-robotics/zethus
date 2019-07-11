@@ -1,11 +1,11 @@
 {
   "name": "zethus",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Realtime robot data visualization in the browser",
   "main": "./src/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rapyuta-robotics/amphion.git"
+    "url": "git+https://github.com/rapyuta-robotics/zethus.git"
   },
   "keywords": [
     "ros",
@@ -22,7 +22,7 @@
   "dependencies": {
     "amphion": "^0.1.1",
     "classnames": "^2.2.6",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "mousetrap": "^1.6.3",
     "node-sass": "^4.11.0",
     "react": "^16.7.0",
