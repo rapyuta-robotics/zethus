@@ -3,8 +3,8 @@ import {
   OBJECT_TYPE_ARROW,
   OBJECT_TYPE_AXES,
 } from 'amphion/src/utils/constants';
-import Arrow from './ArrowOptions';
-import Axes from './AxesOptions';
+import Arrow from './arrow';
+import Axes from './axes';
 import OptionRow from '../optionRow';
 
 class Path extends React.Component {

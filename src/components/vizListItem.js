@@ -3,7 +3,7 @@ import _ from 'lodash';
 import classNames from 'classnames';
 
 import { MESSAGE_TYPE_ROBOT_MODEL } from 'amphion/src/utils/constants';
-import VizOptionsMap from '../views/sidebar/sidebarOptions';
+import VizComp from '../views/sidebar/sidebarOptions';
 import { vizOptions } from '../utils';
 
 class VizListItem extends React.Component {
@@ -95,7 +95,6 @@ class VizListItem extends React.Component {
       options,
       updateOptions: this.updateOptions,
     };
-    const vizComp = VizOptionsMap(newProps)[displayName];
 
     return (
       <div className="vizItem">
@@ -129,7 +128,7 @@ class VizListItem extends React.Component {
                 </div>
               </div>
             )}
-            {vizComp}
+            <VizComp {...newProps} />
             <div className="vizItemActions">
               <button onClick={this.delete}>Delete</button>
               {visible ? (

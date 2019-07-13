@@ -6,6 +6,8 @@ import VizListItem from '../../components/vizListItem';
 import GlobalOptions from './globalOptions';
 import ConnectionDot from '../../components/connectionDot';
 
+import '../../styles/sidebar.scss';
+
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
@@ -15,10 +17,6 @@ class Sidebar extends React.Component {
     this.onRosSubmit = this.onRosSubmit.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
     this.removeDisplayType = this.removeDisplayType.bind(this);
-
-    this.nav2DBtnBlur = this.nav2DBtnBlur.bind(this);
-    this.navGoal2DClicked = this.navGoal2DClicked.bind(this);
-    this.navEstimate2DClicked = this.navEstimate2DClicked.bind(this);
   }
 
   onRosSubmit(e) {
@@ -55,24 +53,6 @@ class Sidebar extends React.Component {
     removeDisplayType(id);
   }
 
-  navGoal2DClicked() {
-    // disable editor controls and publish the topic /goal
-    const { toggleEditorControls } = this.props;
-    toggleEditorControls(false, '/move_base_simple/goal');
-  }
-
-  navEstimate2DClicked() {
-    // disable editor controls and publish the topic /initialpose
-    const { toggleEditorControls } = this.props;
-    toggleEditorControls(false, 'initialpose');
-  }
-
-  nav2DBtnBlur() {
-    // enable the editor controls here.
-    const { toggleEditorControls } = this.props;
-    toggleEditorControls(true);
-  }
-
   disableEndpointInput() {
     const { rosStatus } = this.props;
     return _.includes(
@@ -83,7 +63,7 @@ class Sidebar extends React.Component {
 
   render() {
     const {
-      vizWrapper,
+      viewer,
       updateTopic,
       updateOptions,
       ros,
@@ -128,7 +108,7 @@ class Sidebar extends React.Component {
         <hr className="separator" />
         {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
           <React.Fragment>
-            <GlobalOptions vizWrapper={vizWrapper} ros={ros} />
+            <GlobalOptions viewer={viewer} />
             <hr className="separator" />
             <div className="container">
               <button

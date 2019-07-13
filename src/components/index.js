@@ -1,9 +1,9 @@
 import React from 'react';
-import * as THREE from 'three';
 import withGracefulUnmount from 'react-graceful-unmount';
 import _ from 'lodash';
 import ROSLIB from 'roslib';
 import Amphion from 'amphion';
+
 import {
   MESSAGE_TYPE_TF,
   MESSAGE_TYPE_TF2,
@@ -20,47 +20,14 @@ import {
   MESSAGE_TYPE_IMAGE,
   MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_POINTCLOUD,
-  // MESSAGE_TYPE_INTERACTIVEMARKER,
 } from 'amphion/src/utils/constants';
 import shortid from 'shortid';
-
-import '../styles/main.scss';
 
 import Sidebar from '../views/sidebar';
 import { ROS_SOCKET_STATUSES, vizOptions } from '../utils';
 import Viewport from './viewport';
 import AddModal from './addModal';
 import ImageHolder from './ImageHolder';
-
-const excludedObjects = [
-  'PerspectiveCamera',
-  'OrthographicCamera',
-  'AmbientLight',
-  'DirectionalLight',
-  'HemisphereLight',
-  'Light',
-  'RectAreaLight',
-  'SpotLight',
-  'PointLight',
-];
-
-const removeExcludedObjects = mesh => {
-  const objectArray = [mesh];
-  while (_.size(objectArray) > 0) {
-    const currentItem = objectArray.shift();
-    _.each(currentItem.children, child => {
-      if (!child) {
-        return;
-      }
-      if (_.includes(excludedObjects, child.type)) {
-        const { parent } = child;
-        parent.children = _.filter(parent.children, c => c !== child);
-      } else {
-        objectArray.push(child);
-      }
-    });
-  }
-};
 
 class Wrapper extends React.Component {
   constructor(props) {
@@ -72,24 +39,15 @@ class Wrapper extends React.Component {
       rosTopics: {},
     };
     this.ros = new ROSLIB.Ros();
-    this.scene = new THREE.Scene();
-    this.robotMeshes = [];
-    window.scene = this.scene;
-    this.vizWrapper = new THREE.Group();
-    this.vizWrapper.rotateX(-Math.PI / 2);
-    this.scene.add(this.vizWrapper);
-    this.addLights();
-    this.addCamera();
+    this.viewer = new Amphion.Viewer3d(this.ros);
 
     this.connectRos = this.connectRos.bind(this);
     this.disconnectRos = this.disconnectRos.bind(this);
-    this.addVizObjectToScene = this.addVizObjectToScene.bind(this);
+    this.addVizObjectToViewer = this.addVizObjectToViewer.bind(this);
     this.addVisualization = this.addVisualization.bind(this);
     this.toggleAddModal = this.toggleAddModal.bind(this);
     this.getVisualization = this.getVisualization.bind(this);
     this.removeDisplayType = this.removeDisplayType.bind(this);
-    this.toggleEditorControls = this.toggleEditorControls.bind(this);
-    this.publishNavMessages = this.publishNavMessages.bind(this);
     this.setPrevConfig = this.setPrevConfig.bind(this);
     this.updateTopic = this.updateTopic.bind(this);
     this.updateOptions = this.updateOptions.bind(this);
@@ -109,7 +67,7 @@ class Wrapper extends React.Component {
       );
 
       if (!isDisplay) {
-        this.addVizObjectToScene(vizObject.object);
+        this.addVizObjectToViewer(vizObject.object);
       }
       if (vizObject.subscribe) {
         vizObject.subscribe();
@@ -144,14 +102,6 @@ class Wrapper extends React.Component {
         });
         this.setPrevConfig();
       });
-
-      const displayTfObject = new Amphion.DisplayTf(this.ros, this.vizWrapper);
-      displayTfObject.subscribe();
-
-      const robotModel = new Amphion.RobotModel(this.ros, 'robot_description');
-      robotModel.getPackages(packages => {
-        console.log(packages);
-      });
     });
 
     this.ros.on('close', () => {
@@ -181,6 +131,7 @@ class Wrapper extends React.Component {
         ),
       ),
     );
+    this.viewer.destroy();
   }
 
   updateTopic(id, name) {
@@ -235,33 +186,7 @@ class Wrapper extends React.Component {
           this.ros,
           options.paramName || 'robot_description',
         );
-        robotModel.load(
-          object => {
-            removeExcludedObjects(object);
-            _.each(object.children[0].links, o => {
-              const existingObject = this.vizWrapper.getObjectByName(o.name);
-              if (existingObject) {
-                o.children.forEach(child => {
-                  existingObject.add(child);
-                });
-              }
-            });
-          },
-          {
-            packages: _.mapValues(
-              _.keyBy(options.packages || {}, 'name'),
-              'value',
-            ),
-            loadMeshCb: (path, ext, done) => {
-              robotModel.defaultMeshLoader(path, ext, mesh => {
-                removeExcludedObjects(mesh);
-                this.robotMeshes.push(mesh);
-                done(mesh);
-              });
-            },
-            fetchOptions: { mode: 'cors', credentials: 'same-origin' },
-          },
-        );
+        this.viewer.addRobot(robotModel, options);
         return robotModel;
       }
       case MESSAGE_TYPE_TF:
@@ -318,17 +243,9 @@ class Wrapper extends React.Component {
     const { visualizations } = this.state;
 
     const vizObject = this.getVisualization(name, type, isDisplay, options);
-    if (!isDisplay) {
-      this.addVizObjectToScene(vizObject.object);
+    if (type !== MESSAGE_TYPE_ROBOT_MODEL) {
+      this.addVizObjectToViewer(vizObject);
     }
-    vizObject.onHeaderChange = newFrameId => {
-      let frameObject = this.vizWrapper.getObjectByName(newFrameId);
-      if (!frameObject) {
-        frameObject = new THREE.Group();
-        this.vizWrapper.add(frameObject);
-      }
-      frameObject.add(vizObject.object);
-    };
     if (vizObject.topic) {
       vizObject.subscribe();
     }
@@ -350,10 +267,8 @@ class Wrapper extends React.Component {
     });
   }
 
-  addVizObjectToScene(object) {
-    if (!this.vizWrapper.getObjectById(object.id)) {
-      this.vizWrapper.add(object);
-    }
+  addVizObjectToViewer(vizObject) {
+    this.viewer.addVisualization(vizObject);
   }
 
   removeDisplayType(id) {
@@ -371,25 +286,6 @@ class Wrapper extends React.Component {
     this.setState({
       visualizations: _.filter(visualizations, v => v.id !== id),
     });
-  }
-
-  addLights() {
-    [[-1, 0], [1, 0], [0, -1], [0, 1]].forEach(positions => {
-      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.4);
-      [directionalLight.position.x, directionalLight.position.z] = positions;
-      directionalLight.position.y = 1;
-      this.scene.add(directionalLight);
-    });
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
-    this.scene.add(ambientLight);
-  }
-
-  addCamera() {
-    this.camera = new THREE.PerspectiveCamera(50, 1, 0.01, 1000);
-    this.camera.position.set(0, 5, 10);
-    this.camera.lookAt(new THREE.Vector3());
-
-    this.scene.add(this.camera);
   }
 
   connectRos(endpoint) {
@@ -410,27 +306,6 @@ class Wrapper extends React.Component {
     });
   }
 
-  toggleEditorControls(enabled, topicName) {
-    if (enabled) {
-      this.viewportRef.enableEditorControls();
-    } else {
-      this.viewportRef.disableEditorControls(topicName);
-    }
-  }
-
-  publishNavMessages(msg, topic, messageType) {
-    const nav2D = new ROSLIB.Topic({
-      ros: this.ros,
-      name: topic,
-      messageType,
-    });
-    const poseMsg = new ROSLIB.Message({
-      ...msg,
-    });
-
-    nav2D.publish(poseMsg);
-  }
-
   render() {
     const { addModalOpen, rosStatus, visualizations, rosTopics } = this.state;
     return (
@@ -444,7 +319,7 @@ class Wrapper extends React.Component {
           />
         )}
         <Sidebar
-          vizWrapper={this.vizWrapper}
+          viewer={this.viewer}
           updateTopic={this.updateTopic}
           updateOptions={this.updateOptions}
           updateVisibilty={this.updateVisibilty}
@@ -455,17 +330,9 @@ class Wrapper extends React.Component {
           ros={this.ros}
           toggleAddModal={this.toggleAddModal}
           removeDisplayType={this.removeDisplayType}
-          toggleEditorControls={this.toggleEditorControls}
           rosTopics={rosTopics}
         />
-        <Viewport
-          camera={this.camera}
-          scene={this.scene}
-          publishNavMessages={this.publishNavMessages}
-          onRef={ref => {
-            this.viewportRef = ref;
-          }}
-        />
+        <Viewport viewer={this.viewer} />
         <ImageHolder
           visualizations={visualizations}
           updateVisibilty={this.updateVisibilty}

@@ -26,7 +26,7 @@ Don't modify existing commits when responding to PR comments. New commits make i
 
 ## Code Style
 
-Follow the `.editorconfig`, `.eslintrc`, `.prettierrc`, and `.stylelintrc` style configurations included in the repo to keep the code looking consistent.
+Follow the `.editorconfig`, `.eslintrc` and `.prettierrc` style configurations included in the repo to keep the code looking consistent.
 
 Try to keep code as clear as possible! Code for readability! For example longer, descriptive variable names are preferred to short ones. If a line of code includes a lot of nested statements (even just one or two) consider breaking the line up into multiple variables to improve the clarity of what's happening. 
 
