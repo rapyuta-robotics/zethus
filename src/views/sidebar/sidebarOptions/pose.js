@@ -1,15 +1,18 @@
 import React from 'react';
+import _ from 'lodash';
+
 import {
+  MESSAGE_TYPE_POSESTAMPED,
   OBJECT_TYPE_ARROW,
   OBJECT_TYPE_AXES,
   OBJECT_TYPE_FLAT_ARROW,
 } from 'amphion/src/utils/constants';
-import Arrow from './ArrowOptions';
-import FlatArrow from './FlatArrowOptions';
-import Axes from './AxesOptions';
+import Arrow from './arrow';
+import FlatArrow from './flatArrow';
+import Axes from './axes';
 import OptionRow from '../optionRow';
 
-class Odometry extends React.Component {
+class Pose extends React.Component {
   constructor(props) {
     super(props);
 
@@ -49,36 +52,20 @@ class Odometry extends React.Component {
 
   render() {
     const {
-      options: { type: shapeType, positionTolerance, angleTolerance, keep },
+      options: { type: shapeType },
+      rosObject: { messageType },
     } = this.props;
+
+    const dropdownOptions = [
+      OBJECT_TYPE_ARROW,
+      ...(messageType !== MESSAGE_TYPE_POSESTAMPED
+        ? [OBJECT_TYPE_FLAT_ARROW]
+        : []),
+      OBJECT_TYPE_AXES,
+    ];
 
     return (
       <React.Fragment>
-        <OptionRow label="Position Tolerance">
-          <input
-            name="positionTolerance"
-            type="number"
-            value={positionTolerance}
-            onChange={this.updateOptions}
-          />
-        </OptionRow>
-        <OptionRow label="Angle Tolerance">
-          <input
-            name="angleTolerance"
-            type="number"
-            value={angleTolerance}
-            onChange={this.updateOptions}
-          />
-        </OptionRow>
-        <OptionRow label="Keep">
-          <input
-            name="keep"
-            type="number"
-            value={keep}
-            onChange={this.updateOptions}
-          />
-        </OptionRow>
-
         <OptionRow label="Shape">
           <select
             name="type"
@@ -86,19 +73,17 @@ class Odometry extends React.Component {
             onChange={this.changeShape}
             value={shapeType}
           >
-            <option key={OBJECT_TYPE_ARROW} value={OBJECT_TYPE_ARROW}>
-              {OBJECT_TYPE_ARROW}
-            </option>
-            <option key={OBJECT_TYPE_AXES} value={OBJECT_TYPE_AXES}>
-              {OBJECT_TYPE_AXES}
-            </option>
+            {_.map(dropdownOptions, o => (
+              <option key={o} value={o}>
+                {o}
+              </option>
+            ))}
           </select>
         </OptionRow>
-
         <div className="optionContainer">{this.getShape()}</div>
       </React.Fragment>
     );
   }
 }
 
-export default Odometry;
+export default Pose;

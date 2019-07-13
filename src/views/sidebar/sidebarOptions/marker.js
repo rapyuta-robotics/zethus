@@ -55,8 +55,6 @@ class Marker extends React.Component {
       options: { namespaces },
     } = this.props;
 
-    console.log(namespaces);
-
     if (_.size(_.compact(_.keys(namespaces))) === 0) {
       return null;
     }

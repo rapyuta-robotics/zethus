@@ -49,9 +49,5 @@
       }
     ]
   },
-  "globals": {
-    "sails": true,
-    "Cells": true,
-    "Dashboards": true
-  }
+  "globals": {}
 }

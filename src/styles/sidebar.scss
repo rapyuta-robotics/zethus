@@ -1,0 +1,106 @@
+@import './common';
+
+@keyframes twinkle {
+  from,
+  to {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes twinkle {
+  from,
+  to {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes twinkle {
+  from,
+  to {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@-ms-keyframes twinkle {
+  from,
+  to {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes twinkle {
+  from,
+  to {
+    opacity: 0;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+#logo {
+  height: 40px;
+  display: block;
+}
+
+#sidebar {
+  background-color: #fff;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+#rosStatus {
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+#rosStatusIndicator {
+  width: 8px;
+  height: 8px;
+  background-color: #000000;
+  border-radius: 4px;
+  margin: 0 10px -2px 0;
+
+  &.connected {
+    background-color: #3e991c;
+  }
+
+  &.connecting {
+    background-color: #f9c351;
+    animation: twinkle normal 1s infinite ease-in-out;
+  }
+
+  &.error {
+    background-color: #ff3e3c;
+  }
+}
+
+.optionRow {
+  display: flex;
+  min-height: 30px;
+  align-items: center;
+  padding: 3px 0;
+  font-size: $font-size-s;
+  .input {
+    height: 26px;
+  }
+}

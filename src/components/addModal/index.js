@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import classNames from 'classnames';
 
+import '../../styles/modal.scss';
+
 import {
   MESSAGE_TYPE_ROBOT_MODEL,
   SUPPORTED_MESSAGE_TYPES,

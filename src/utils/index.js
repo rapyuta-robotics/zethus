@@ -26,9 +26,9 @@ import {
   AXIS_OPTIONS,
 } from 'amphion/src/viz/LaserScan';
 
-import { ARROW_OPTIONS_DEFAULTS } from '../views/sidebar/sidebarOptions/ArrowOptions';
-import { AXES_OPTIONS_DEFAULTS } from '../views/sidebar/sidebarOptions/AxesOptions';
-import { FLAT_ARROW_OPTIONS_DEFAULTS } from '../views/sidebar/sidebarOptions/FlatArrowOptions';
+import { ARROW_OPTIONS_DEFAULTS } from '../views/sidebar/sidebarOptions/arrow';
+import { AXES_OPTIONS_DEFAULTS } from '../views/sidebar/sidebarOptions/axes';
+import { FLAT_ARROW_OPTIONS_DEFAULTS } from '../views/sidebar/sidebarOptions/flatArrow';
 
 export const ROS_SOCKET_STATUSES = {
   INITIAL: 'Idle. Not Connected',
