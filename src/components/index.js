@@ -39,7 +39,7 @@ class Wrapper extends React.Component {
       rosTopics: {},
     };
     this.ros = new ROSLIB.Ros();
-    this.viewer = new Amphion.Viewer3d(this.ros);
+    this.viewer = new Amphion.TfViewer(this.ros);
 
     this.connectRos = this.connectRos.bind(this);
     this.disconnectRos = this.disconnectRos.bind(this);
@@ -185,8 +185,14 @@ class Wrapper extends React.Component {
         const robotModel = new Amphion.RobotModel(
           this.ros,
           options.paramName || 'robot_description',
+          {
+            packages: {
+              franka_description:
+                'https://storage.googleapis.com/kompose-artifacts/franka_description',
+            },
+          },
         );
-        this.viewer.addRobot(robotModel, options);
+        this.viewer.addRobot(robotModel);
         return robotModel;
       }
       case MESSAGE_TYPE_TF:
@@ -208,7 +214,7 @@ class Wrapper extends React.Component {
       case MESSAGE_TYPE_POINTCLOUD:
         return new Amphion.PointCloud(this.ros, name, messageType, options);
       case MESSAGE_TYPE_ODOMETRY:
-        return new Amphion.DisplayOdometry(this.ros, name, options);
+        return new Amphion.Odometry(this.ros, name, options);
       case MESSAGE_TYPE_PATH:
         return new Amphion.Path(this.ros, name, options);
       case MESSAGE_TYPE_IMAGE:

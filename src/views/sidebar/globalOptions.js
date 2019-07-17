@@ -46,7 +46,7 @@ class GlobalOptions extends React.Component {
         )}
         <div className="optionRow">
           <div className="halfWidth">Background Color:</div>
-          <div className="halfWidth">#FFFFFF</div>
+          <div className="halfWidth">#222222</div>
         </div>
         <div className="optionRow">
           <div className="halfWidth">Grid size:</div>

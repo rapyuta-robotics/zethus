@@ -57,6 +57,7 @@ class Odometry extends React.Component {
         <OptionRow label="Position Tolerance">
           <input
             name="positionTolerance"
+            className="input"
             type="number"
             value={positionTolerance}
             onChange={this.updateOptions}
@@ -65,6 +66,7 @@ class Odometry extends React.Component {
         <OptionRow label="Angle Tolerance">
           <input
             name="angleTolerance"
+            className="input"
             type="number"
             value={angleTolerance}
             onChange={this.updateOptions}
@@ -73,6 +75,7 @@ class Odometry extends React.Component {
         <OptionRow label="Keep">
           <input
             name="keep"
+            className="input"
             type="number"
             value={keep}
             onChange={this.updateOptions}

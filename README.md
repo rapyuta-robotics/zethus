@@ -1,10 +1,13 @@
-# Zethus
+# <img src="./public/zethus_full.svg" alt="Zethus" height="70"/>
+
 [![NPM package][npm]][npm-url]
 [![Dependencies][dependencies]][dependencies-url]
 [![Dev Dependencies][dev-dependencies]][dev-dependencies-url]
 [![Language Grade][lgtm]][lgtm-url]
 
 Realtime robot data visualization in the browser
+
+<img src="./public/screenshot.png" alt="Zethus Screenshot" />
 
 ### Getting started
 #### Development version
@@ -29,7 +32,7 @@ npm run build
 Then start a server in `build` directory. You can use [serve](https://www.npmjs.com/package/serve) npm package or any similar software
 
 ### Visualizations and Documentation
-Available options for each visualization on the [Github Wiki page](https://github.com/rapyuta-robotics/zethus/wiki)
+Available options for each visualization are on the [Github Wiki page](https://github.com/rapyuta-robotics/zethus/wiki)
 
 ### Contributing
 PRs, bug reports, and feature requests are welcome! Please observe [CONTRIBUTING.md](https://github.com/rapyuta-robotics/zethus/blob/devel/CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](https://github.com/rapyuta-robotics/zethus/blob/devel/CODE_OF_CONDUCT.md) when making a contribution.

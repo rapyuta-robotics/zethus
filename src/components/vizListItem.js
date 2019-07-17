@@ -128,7 +128,7 @@ class VizListItem extends React.Component {
                 </div>
               </div>
             )}
-            <VizComp {...newProps} />
+            <VizComp {...newProps} vizType={vizType} />
             <div className="vizItemActions">
               <button onClick={this.delete}>Delete</button>
               {visible ? (

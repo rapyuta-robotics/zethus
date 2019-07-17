@@ -12,8 +12,8 @@ class Viewport extends React.Component {
     const { viewer } = this.props;
     const container = this.container.current;
     viewer.setContainer(container);
-    viewer.stats.dom.id = 'viewportStats';
-    container.appendChild(viewer.stats.dom);
+    viewer.scene.stats.dom.id = 'viewportStats';
+    container.appendChild(viewer.scene.stats.dom);
   }
 
   componentWillUnmount() {

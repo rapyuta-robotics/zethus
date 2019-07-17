@@ -141,13 +141,14 @@ input[disabled] {
 #wrapper {
   display: flex;
   background-color: #000;
-  width: 100%;
+  width: 100vw;
   height: 100vh;
   overflow-y: hidden;
 }
 
 #viewport {
-  width: 100%;
+  width: 0;
+  flex-grow: 1;
   height: 100%;
   position: relative;
 }
