@@ -1,6 +1,6 @@
 {
   "name": "zethus",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Realtime robot data visualization in the browser",
   "main": "./src/index.js",
   "repository": {
@@ -20,7 +20,7 @@
     "url": "https://github.com/rapyuta-robotics/zethus/issues"
   },
   "dependencies": {
-    "amphion": "^0.1.3",
+    "amphion": "^0.1.4",
     "classnames": "^2.2.6",
     "lodash": "^4.17.13",
     "mousetrap": "^1.6.3",
