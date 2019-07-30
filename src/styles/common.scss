@@ -147,7 +147,7 @@ input[disabled] {
 }
 
 #viewport {
-  width: 0;
+  width: 100%;
   flex-grow: 1;
   height: 100%;
   position: relative;
@@ -161,4 +161,10 @@ input[disabled] {
   color: white;
   background-color: $color-primary;
   font-size: 16px;
+}
+
+#content {
+  width: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
 }

@@ -1,5 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Wrapper from './components';
+import Wrapper from './panels';
 
-ReactDOM.render(<Wrapper />, document.getElementById('root'));
+import { DEFAULT_CONFIG } from './utils';
+
+ReactDOM.render(
+  <Wrapper configuration={DEFAULT_CONFIG} />,
+  document.getElementById('root'),
+);

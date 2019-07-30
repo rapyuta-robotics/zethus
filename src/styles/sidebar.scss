@@ -56,8 +56,10 @@
 }
 
 #logo {
-  height: 40px;
-  display: block;
+  svg {
+    height: 40px;
+    display: block;
+  }
 }
 
 #sidebar {

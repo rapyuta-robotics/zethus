@@ -22,7 +22,7 @@ class Viewport extends React.Component {
   }
 
   render() {
-    return <div ref={this.container} className="Panel" id="viewport" />;
+    return <div ref={this.container} id="viewport" />;
   }
 }
 
