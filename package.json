@@ -1,8 +1,8 @@
 {
   "name": "zethus",
-  "version": "0.1.4",
+  "version": "0.1.9",
   "description": "Realtime robot data visualization in the browser",
-  "main": "./src/index.js",
+  "main": "src/zethus.jsx",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rapyuta-robotics/zethus.git"
@@ -20,7 +20,7 @@
     "url": "https://github.com/rapyuta-robotics/zethus/issues"
   },
   "dependencies": {
-    "amphion": "^0.1.4",
+    "amphion": "^0.1.9",
     "classnames": "^2.2.6",
     "lodash": "^4.17.13",
     "mousetrap": "^1.6.3",
@@ -34,6 +34,7 @@
     "roslib": "^1.0.1",
     "shortid": "^2.2.14",
     "stats-js": "^1.0.0",
+    "styled-components": "^4.3.2",
     "three": "^0.106.2"
   },
   "scripts": {
@@ -42,7 +43,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "stylelint": "prettier-stylelint --write 'src/**/*.{css,scss}' ",
-    "lint": "prettier 'src/**/*.js' --write --single-quote --trailing-comma all"
+    "lint": "prettier 'src/**/*.{js,jsx}' --write --single-quote --trailing-comma all"
   },
   "browserslist": [
     ">0.2%",

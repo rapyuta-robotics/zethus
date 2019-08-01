@@ -1,6 +1,21 @@
 import React from 'react';
+import OptionRow from '../../components/optionRow';
 
-class GlobalOptions extends React.Component {
+class GlobalOptions extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.updateOptions = this.updateOptions.bind(this);
+  }
+
+  updateOptions(e) {
+    const { updateGlobalOptions } = this.props;
+    const {
+      value,
+      dataset: { id: optionId },
+    } = e.target;
+    updateGlobalOptions(optionId, value);
+  }
+
   render() {
     const {
       globalOptions: {
@@ -19,10 +34,17 @@ class GlobalOptions extends React.Component {
     return (
       <div className="container">
         {displayBackgroundColor && (
-          <div className="optionRow">
-            <div className="halfWidth">Background Color:</div>
-            <div className="halfWidth">{valueBackgroundColor.join(',')}</div>
-          </div>
+          <OptionRow label="Background Color">
+            <div className="optionRow">
+              <input
+                type="color"
+                data-id="backgroundColor.value"
+                className="input"
+                value={valueBackgroundColor}
+                onChange={this.updateOptions}
+              />
+            </div>
+          </OptionRow>
         )}
         {displayGrid && (
           <div className="optionRow">

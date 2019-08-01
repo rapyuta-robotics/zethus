@@ -16,12 +16,20 @@ class Sidebar extends React.Component {
       rosInput: props.rosEndpoint,
     };
     this.updateRosInput = this.updateRosInput.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   }
 
   updateRosInput(e) {
     this.setState({
       rosInput: e.target.value,
     });
+  }
+
+  onSubmit(e) {
+    const { updateRosEndpoint } = this.props;
+    const { rosInput } = this.state;
+    e.preventDefault();
+    updateRosEndpoint(rosInput);
   }
 
   render() {
@@ -33,6 +41,8 @@ class Sidebar extends React.Component {
       rosTopics,
       viewer,
       rosInstance,
+      updateVizOptions,
+      updateGlobalOptions,
     } = this.props;
 
     const { rosInput } = this.state;
@@ -47,7 +57,7 @@ class Sidebar extends React.Component {
             <ConnectionDot status={rosStatus} />
             <span>{rosStatus}</span>
           </div>
-          <form>
+          <form onSubmit={this.onSubmit}>
             <div className="inputLabel">ROS Endpoint</div>
             <div className="flex">
               <input
@@ -68,9 +78,12 @@ class Sidebar extends React.Component {
         <hr className="separator" />
         {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
           <React.Fragment>
-            <GlobalOptions globalOptions={globalOptions} />
+            <GlobalOptions
+              globalOptions={globalOptions}
+              updateGlobalOptions={updateGlobalOptions}
+            />
             <hr className="separator" />
-            <div className="container">
+            <div className="container" id="sidebarVizContainer">
               <button
                 type="button"
                 className="btn-primary"
@@ -94,12 +107,13 @@ class Sidebar extends React.Component {
                 );
                 return (
                   <VizOptions
-                    data={vizItem}
+                    options={vizItem}
                     key={vizItem.key}
                     viewer={viewer}
                     topics={topics}
                     vizObject={vizObject}
                     rosInstance={rosInstance}
+                    updateVizOptions={updateVizOptions}
                   />
                 );
               })}

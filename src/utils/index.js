@@ -24,6 +24,7 @@ import {
   VIZ_TYPE_POSEARRAY,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
+  DEFAULT_OPTIONS_SCENE,
 } from 'amphion/src/utils/constants';
 import _ from 'lodash';
 
@@ -165,13 +166,13 @@ export const DEFAULT_CONFIG = {
     //   key: '1',
     //   visible: true,
     // },
-    {
-      vizType: 'Tf',
-      topicName: '',
-      name: 'Tf',
-      key: '2',
-      visible: true,
-    },
+    // {
+    //   vizType: 'Tf',
+    //   topicName: '',
+    //   name: 'Tf',
+    //   key: '2',
+    //   visible: true,
+    // },
     // {
     //   vizType: 'Marker',
     //   topicName: '/cube_list',
@@ -232,20 +233,20 @@ export const DEFAULT_CONFIG = {
     //   key: '8',
     //   visible: true,
     // },
-    {
-      vizType: 'PoseArray',
-      topicName: '/pose_array_rosbag',
-      messageType: 'geometry_msgs/PoseArray',
-      name: 'Posearray',
-      key: '9',
-      visible: true,
-    },
+    // {
+    //   vizType: 'PoseArray',
+    //   topicName: '/pose_array_rosbag',
+    //   messageType: 'geometry_msgs/PoseArray',
+    //   name: 'Posearray',
+    //   key: '9',
+    //   visible: true,
+    // },
   ],
   globalOptions: {
     display: true,
     backgroundColor: {
       display: true,
-      value: [28, 28, 28],
+      value: DEFAULT_OPTIONS_SCENE.backgroundColor,
     },
     fixedFrame: {
       display: true,
@@ -253,9 +254,10 @@ export const DEFAULT_CONFIG = {
     },
     grid: {
       display: true,
-      size: 3,
-      count: 10,
-      color: [48, 48, 48],
+      size: DEFAULT_OPTIONS_SCENE.gridSize,
+      divisions: DEFAULT_OPTIONS_SCENE.gridDivisions,
+      color: DEFAULT_OPTIONS_SCENE.gridColor,
+      centerlineColor: DEFAULT_OPTIONS_SCENE.gridCenterlineColor,
     },
   },
   tools: {
@@ -281,3 +283,18 @@ export const DEFAULT_CONFIG = {
     ],
   },
 };
+
+export function updateOptionsUtil(e) {
+  const {
+    options: { key },
+    updateVizOptions,
+  } = this.props;
+  const {
+    checked,
+    value,
+    dataset: { id: optionId },
+  } = e.target;
+  updateVizOptions(key, {
+    [optionId]: _.has(e.target, 'checked') ? checked : value,
+  });
+}

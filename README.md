@@ -1,4 +1,4 @@
-# <img src="./public/zethus_full.svg" alt="Zethus" height="70"/>
+# <img src="https://github.com/rapyuta-robotics/zethus/blob/devel/public/zethus_full.svg" alt="Zethus" height="70"/>
 
 [![NPM package][npm]][npm-url]
 [![Dependencies][dependencies]][dependencies-url]
@@ -7,7 +7,7 @@
 
 Realtime robot data visualization in the browser
 
-<img src="./public/screenshot.png" alt="Zethus Screenshot" />
+<img src="https://github.com/rapyuta-robotics/zethus/blob/devel/public/screenshot.png" alt="Zethus Screenshot" />
 
 ### Getting started
 #### Development version

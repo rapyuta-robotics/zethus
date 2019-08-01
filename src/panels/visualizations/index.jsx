@@ -17,7 +17,7 @@ import {
 import _ from 'lodash';
 import { getTfTopics } from '../../utils';
 
-class Visualization extends React.Component {
+class Visualization extends React.PureComponent {
   constructor(props) {
     super(props);
     this.vizInstance = null;
@@ -59,10 +59,12 @@ class Visualization extends React.Component {
 
   componentDidUpdate(prevProps) {
     const {
-      data: { vizType, topicName },
+      options: { vizType, topicName },
+      options,
       rosTopics,
     } = this.props;
-    if (vizType !== prevProps.data.vizType) {
+    console.log('Component update: ', vizType, options === prevProps.options);
+    if (vizType !== prevProps.options.vizType) {
       this.resetVisualization();
     }
     if (vizType === VIZ_TYPE_TF) {
@@ -80,16 +82,20 @@ class Visualization extends React.Component {
     ) {
       this.vizInstance.changeTopic(topicName);
     }
+    if (this.vizInstance) {
+      this.vizInstance.updateOptions(options);
+    }
   }
 
   resetVisualization() {
     const {
-      data,
-      data: { vizType, topicName },
+      options,
+      options: { vizType, topicName },
       viewer,
       rosInstance,
       rosTopics,
     } = this.props;
+    console.log('Reset: ', vizType);
     if (this.vizInstance) {
       this.vizInstance.destroy();
     }
@@ -97,7 +103,7 @@ class Visualization extends React.Component {
       vizType,
       rosInstance,
       vizType === VIZ_TYPE_TF ? getTfTopics(rosTopics) : topicName,
-      data,
+      options,
     );
     if (!this.vizInstance) {
       return;

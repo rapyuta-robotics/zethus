@@ -4,11 +4,11 @@ import _ from 'lodash';
 import ROSLIB from 'roslib';
 import Amphion from 'amphion';
 
-import { ROS_SOCKET_STATUSES } from '../utils';
+import { DEFAULT_CONFIG, ROS_SOCKET_STATUSES } from '../utils';
 
 import AddModal from './addModal';
 import Sidebar from './sidebar';
-import Viewport from '../components/viewport';
+import Viewport from './viewer';
 import Info from './info';
 import Tools from './tools';
 import Visualization from './visualizations';
@@ -115,6 +115,9 @@ class Wrapper extends React.Component {
         globalOptions,
         visualizations,
       },
+      updateVizOptions,
+      updateGlobalOptions,
+      updateRosEndpoint,
     } = this.props;
     return (
       <div id="wrapper">
@@ -128,22 +131,25 @@ class Wrapper extends React.Component {
         {displaySidebar && (
           <Sidebar
             globalOptions={globalOptions}
+            updateGlobalOptions={updateGlobalOptions}
             rosEndpoint={rosEndpoint}
             rosStatus={rosStatus}
             visualizations={visualizations}
             viewer={this.viewer}
             rosTopics={rosTopics}
             rosInstance={this.ros}
+            updateVizOptions={updateVizOptions}
+            updateRosEndpoint={updateRosEndpoint}
           />
         )}
         <div id="content">
           {displayTools && <Tools />}
-          <Viewport viewer={this.viewer} />
+          <Viewport viewer={this.viewer} globalOptions={globalOptions} />
           {displayInfo && <Info />}
         </div>
         {_.map(visualizations, vizItem => (
           <Visualization
-            data={vizItem}
+            options={vizItem}
             key={vizItem.key}
             viewer={this.viewer}
             rosTopics={rosTopics}
@@ -154,5 +160,9 @@ class Wrapper extends React.Component {
     );
   }
 }
+
+Wrapper.defaultProps = {
+  configuration: DEFAULT_CONFIG,
+};
 
 export default withGracefulUnmount(Wrapper);
