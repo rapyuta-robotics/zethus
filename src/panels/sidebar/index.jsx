@@ -43,6 +43,8 @@ class Sidebar extends React.Component {
       rosInstance,
       updateVizOptions,
       updateGlobalOptions,
+      removeVisualization,
+      toggleVisibility,
     } = this.props;
 
     const { rosInput } = this.state;
@@ -114,6 +116,8 @@ class Sidebar extends React.Component {
                     vizObject={vizObject}
                     rosInstance={rosInstance}
                     updateVizOptions={updateVizOptions}
+                    removeVisualization={removeVisualization}
+                    toggleVisibility={toggleVisibility}
                   />
                 );
               })}

@@ -35,32 +35,6 @@
   .type-selection {
     flex: 1 0 50%;
     overflow-y: auto;
-
-    button {
-      text-align: left;
-      width: 100%;
-      font-size: 18px;
-      border: 0;
-      background: transparent;
-      padding: 10px;
-      display: flex;
-      align-items: center;
-
-      &:hover {
-        color: $color-primary;
-        background-color: $color-grey-light-1;
-      }
-
-      &.selected {
-        color: $color-primary;
-        background-color: $color-grey-light-1;
-      }
-
-      &.inactive {
-        opacity: 0.2;
-        cursor: not-allowed;
-      }
-    }
   }
 
   .type-info {
@@ -83,6 +57,14 @@
       margin-bottom: 8px;
     }
   }
+}
+
+.addVizForm {
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 1;
+  height: 0;
+  flex-direction: column;
 }
 
 .modal-actions {
@@ -113,4 +95,52 @@
     border: 1px solid $color-grey-light-2;
     border-bottom: 1px solid #fff;
   }
+}
+
+.typeRow, .topicRow {
+  text-align: left;
+  width: 100%;
+  font-size: 16px;
+  border: 0;
+  background: transparent;
+  padding: 10px 10px 10px 30px;
+  display: flex;
+  align-items: center;
+
+  .reactSelect {
+    color: $color-grey-text-2;
+  }
+
+  &:hover {
+    color: $color-primary;
+    background-color: $color-grey-light-1;
+    .reactSelect {
+      color: $color-grey-text-2;
+    }
+  }
+
+  &.selected {
+    color: $color-primary;
+    background-color: $color-grey-light-1;
+  }
+
+  &.inactive {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
+.topicRow {
+  padding-left: 10px;
+}
+
+.typeUnsupported {
+  padding: 10px;
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.typeEmpty {
+  padding-left: 30px;
+  font-style: italic;
 }

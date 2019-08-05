@@ -1,5 +1,5 @@
-import React from 'react';
 import _ from 'lodash';
+import React from 'react';
 
 class DraggableImage extends React.Component {
   constructor(props) {
@@ -7,8 +7,8 @@ class DraggableImage extends React.Component {
 
     this.elementRef = React.createRef();
 
-    this.mouseDown = { x: 0, y: 0 };
     this.divMouseDown = { left: 0, top: 0 };
+    this.mouseDown = { x: 0, y: 0 };
 
     this.hide = this.hide.bind(this);
     this.moveDiv = this.moveDiv.bind(this);
@@ -28,8 +28,8 @@ class DraggableImage extends React.Component {
 
   hide() {
     const {
-      viz: { id, rosObject },
       updateVisibilty,
+      viz: { id, rosObject },
     } = this.props;
 
     updateVisibilty(id, false);

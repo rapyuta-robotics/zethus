@@ -173,14 +173,14 @@ export const DEFAULT_CONFIG = {
     //   key: '2',
     //   visible: true,
     // },
-    // {
-    //   vizType: 'Marker',
-    //   topicName: '/cube_list',
-    //   messageType: 'visualization_msgs/Marker',
-    //   name: 'Marker',
-    //   key: '3',
-    //   visible: true,
-    // },
+    {
+      vizType: 'Marker',
+      topicName: '/cube_list',
+      messageType: 'visualization_msgs/Marker',
+      name: 'Marker',
+      key: '3',
+      visible: true,
+    },
     // {
     //   vizType: 'MarkerArray',
     //   topicName: '/markers_demo',
@@ -219,7 +219,8 @@ export const DEFAULT_CONFIG = {
     // },
     // {
     //   vizType: 'Map',
-    //   topicName: '/occupancy_grid',
+    //   topicName: '/map',
+    //   colorScheme: 'raw',
     //   messageType: 'nav_msgs/OccupancyGrid',
     //   name: 'Map',
     //   key: '7',

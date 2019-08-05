@@ -21,6 +21,7 @@ class Wrapper extends React.Component {
       rosStatus: ROS_SOCKET_STATUSES.INITIAL,
       addModalOpen: false,
       rosTopics: [],
+      rosParams: [],
     };
     this.ros = new ROSLIB.Ros();
     this.viewer = new Amphion.TfViewer(this.ros);
@@ -28,6 +29,7 @@ class Wrapper extends React.Component {
     this.connectRos = this.connectRos.bind(this);
     this.disconnectRos = this.disconnectRos.bind(this);
     this.toggleAddModal = this.toggleAddModal.bind(this);
+    this.refreshRosData = this.refreshRosData.bind(this);
     this.addVisualization = this.addVisualization.bind(this);
   }
 
@@ -53,17 +55,7 @@ class Wrapper extends React.Component {
       });
     });
 
-    this.ros.on('connection', () => {
-      this.ros.getTopics(rosTopics => {
-        this.setState({
-          rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
-          rosTopics: _.map(rosTopics.topics, (name, index) => ({
-            name,
-            messageType: rosTopics.types[index],
-          })),
-        });
-      });
-    });
+    this.ros.on('connection', this.refreshRosData);
 
     this.ros.on('close', () => {
       this.setState({
@@ -74,6 +66,21 @@ class Wrapper extends React.Component {
     if (rosEndpoint) {
       this.connectRos();
     }
+  }
+
+  refreshRosData() {
+    this.ros.getTopics(rosTopics => {
+      this.setState({
+        rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
+        rosTopics: _.map(rosTopics.topics, (name, index) => ({
+          name,
+          messageType: rosTopics.types[index],
+        })),
+      });
+    });
+    this.ros.getParams(rosParams => {
+      this.setState({ rosParams: _.map(rosParams, p => _.trimStart(p, '/')) });
+    });
   }
 
   componentWillUnmount() {
@@ -101,10 +108,22 @@ class Wrapper extends React.Component {
     });
   }
 
-  addVisualization() {}
+  addVisualization(options) {
+    const { addVisualization } = this.props;
+    addVisualization(options);
+    this.setState({
+      addModalOpen: false,
+    });
+  }
 
   render() {
-    const { addModalOpen, rosStatus, rosTopics, rosEndpoint } = this.state;
+    const {
+      addModalOpen,
+      rosStatus,
+      rosTopics,
+      rosParams,
+      rosEndpoint,
+    } = this.state;
     const {
       configuration: {
         panels: {
@@ -118,12 +137,16 @@ class Wrapper extends React.Component {
       updateVizOptions,
       updateGlobalOptions,
       updateRosEndpoint,
+      removeVisualization,
+      toggleVisibility,
     } = this.props;
     return (
       <div id="wrapper">
         {addModalOpen && (
           <AddModal
+            ros={this.ros}
             rosTopics={rosTopics}
+            rosParams={rosParams}
             closeModal={this.toggleAddModal}
             addVisualization={this.addVisualization}
           />
@@ -140,6 +163,9 @@ class Wrapper extends React.Component {
             rosInstance={this.ros}
             updateVizOptions={updateVizOptions}
             updateRosEndpoint={updateRosEndpoint}
+            toggleAddModal={this.toggleAddModal}
+            removeVisualization={removeVisualization}
+            toggleVisibility={toggleVisibility}
           />
         )}
         <div id="content">
