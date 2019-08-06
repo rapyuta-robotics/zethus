@@ -31,9 +31,11 @@
     "react-markdown": "^4.0.6",
     "react-router-dom": "^5.0.1",
     "react-scripts": "^3.0.1",
+    "react-select": "^3.0.4",
     "roslib": "^1.0.1",
     "shortid": "^2.2.14",
     "stats-js": "^1.0.0",
+    "store": "^2.0.12",
     "styled-components": "^4.3.2",
     "three": "^0.106.2"
   },

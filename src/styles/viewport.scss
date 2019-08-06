@@ -54,11 +54,6 @@
   padding: 10px 0;
   border-bottom: 1px solid $color-grey-light-1;
 
-  .vizItemIcon {
-    width: 20px;
-    height: 20px;
-  }
-
 }
 
 .vizItemContent {
@@ -103,10 +98,17 @@
 }
 
 .vizItemIcon {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
   display: inline-block;
   background-color: $color-grey-light-1;
   margin-right: 10px;
   border-radius: 4px;
+}
+
+.typeHeading {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+  margin-bottom: 5px;
 }

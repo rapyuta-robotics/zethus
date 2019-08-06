@@ -59,11 +59,10 @@ class Visualization extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     const {
-      options: { vizType, topicName },
+      options: { vizType, topicName, visible },
       options,
       rosTopics,
     } = this.props;
-    console.log('Component update: ', vizType, options === prevProps.options);
     if (vizType !== prevProps.options.vizType) {
       this.resetVisualization();
     }
@@ -85,17 +84,19 @@ class Visualization extends React.PureComponent {
     if (this.vizInstance) {
       this.vizInstance.updateOptions(options);
     }
+    if (visible !== prevProps.options.visible) {
+      this.updateVisibility(visible);
+    }
   }
 
   resetVisualization() {
     const {
       options,
-      options: { vizType, topicName },
+      options: { vizType, topicName, visible },
       viewer,
       rosInstance,
       rosTopics,
     } = this.props;
-    console.log('Reset: ', vizType);
     if (this.vizInstance) {
       this.vizInstance.destroy();
     }
@@ -113,6 +114,21 @@ class Visualization extends React.PureComponent {
     } else {
       viewer.addVisualization(this.vizInstance);
       this.vizInstance.subscribe();
+    }
+    this.updateVisibility(!_.isBoolean(visible) || visible);
+  }
+
+  updateVisibility(visible) {
+    if (visible) {
+      this.vizInstance.show();
+    } else {
+      this.vizInstance.hide();
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.vizInstance) {
+      this.vizInstance.destroy();
     }
   }
 

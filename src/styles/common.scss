@@ -161,7 +161,11 @@ input[disabled] {
   color: white;
   background-color: $color-primary;
   font-size: 16px;
+  &[disabled] {
+    background-color: $color-grey-light-2;
+  }
 }
+
 
 #content {
   width: 0;

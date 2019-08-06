@@ -11,6 +11,8 @@ const VizOptions = ({
   topics,
   vizObject: { icon },
   updateVizOptions,
+  removeVisualization,
+  toggleVisibility,
 }) => {
   const [collapsed, toggleCollapsed] = useState(false);
 
@@ -56,8 +58,12 @@ const VizOptions = ({
             updateVizOptions={updateVizOptions}
           />
           <div className="vizItemActions">
-            <button>Delete</button>
-            {visible ? <button>Hide</button> : <button>Show</button>}
+            <button data-id={key} onClick={removeVisualization}>
+              Delete
+            </button>
+            <button data-id={key} onClick={toggleVisibility}>
+              {_.isBoolean(visible) && !visible ? 'Show' : 'Hide'}
+            </button>
           </div>
         </div>
       )}
