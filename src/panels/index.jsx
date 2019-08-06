@@ -22,15 +22,20 @@ class Wrapper extends React.Component {
       addModalOpen: false,
       rosTopics: [],
       rosParams: [],
+      framesList: [],
     };
-    this.ros = new ROSLIB.Ros();
-    this.viewer = new Amphion.TfViewer(this.ros);
 
     this.connectRos = this.connectRos.bind(this);
     this.disconnectRos = this.disconnectRos.bind(this);
     this.toggleAddModal = this.toggleAddModal.bind(this);
     this.refreshRosData = this.refreshRosData.bind(this);
     this.addVisualization = this.addVisualization.bind(this);
+    this.updateFramesList = this.updateFramesList.bind(this);
+
+    this.ros = new ROSLIB.Ros();
+    this.viewer = new Amphion.TfViewer(this.ros, {
+      onFramesListUpdate: this.updateFramesList,
+    });
   }
 
   static getDerivedStateFromProps({ configuration }) {
@@ -66,6 +71,12 @@ class Wrapper extends React.Component {
     if (rosEndpoint) {
       this.connectRos();
     }
+  }
+
+  updateFramesList(framesList) {
+    this.setState({
+      framesList: [...framesList],
+    });
   }
 
   refreshRosData() {
@@ -119,6 +130,7 @@ class Wrapper extends React.Component {
   render() {
     const {
       addModalOpen,
+      framesList,
       rosStatus,
       rosTopics,
       rosParams,
@@ -153,6 +165,7 @@ class Wrapper extends React.Component {
         )}
         {displaySidebar && (
           <Sidebar
+            framesList={framesList}
             globalOptions={globalOptions}
             updateGlobalOptions={updateGlobalOptions}
             rosEndpoint={rosEndpoint}

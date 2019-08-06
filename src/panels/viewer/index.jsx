@@ -19,6 +19,7 @@ class Viewport extends React.PureComponent {
           color: gridColor,
           centerlineColor: gridCenterlineColor,
         },
+        fixedFrame: { value: fixedFrame },
       },
     } = this.props;
     viewer.updateOptions({
@@ -28,12 +29,21 @@ class Viewport extends React.PureComponent {
       gridColor,
       gridCenterlineColor,
     });
+    if (fixedFrame !== prevProps.globalOptions.fixedFrame.value) {
+      viewer.updateSelectedFrame(fixedFrame);
+    }
   }
 
   componentDidMount() {
-    const { viewer } = this.props;
+    const {
+      viewer,
+      globalOptions: {
+        fixedFrame: { value: fixedFrame },
+      },
+    } = this.props;
     const container = this.container.current;
     viewer.setContainer(container);
+    viewer.updateSelectedFrame(fixedFrame);
     viewer.scene.stats.dom.id = 'viewportStats';
     container.appendChild(viewer.scene.stats.dom);
   }

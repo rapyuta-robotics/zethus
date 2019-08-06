@@ -34,6 +34,7 @@ class Sidebar extends React.Component {
 
   render() {
     const {
+      framesList,
       globalOptions,
       rosStatus,
       visualizations,
@@ -81,6 +82,7 @@ class Sidebar extends React.Component {
         {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
           <React.Fragment>
             <GlobalOptions
+              framesList={framesList}
               globalOptions={globalOptions}
               updateGlobalOptions={updateGlobalOptions}
             />

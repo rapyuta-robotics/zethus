@@ -1,4 +1,5 @@
 import React from 'react';
+import _ from 'lodash';
 import OptionRow from '../../components/optionRow';
 
 class GlobalOptions extends React.PureComponent {
@@ -18,6 +19,7 @@ class GlobalOptions extends React.PureComponent {
 
   render() {
     const {
+      framesList,
       globalOptions: {
         display: displayOptions,
         backgroundColor: {
@@ -59,9 +61,14 @@ class GlobalOptions extends React.PureComponent {
               <select
                 value={valueFixedFrame}
                 className="input"
-                onChange={() => {}}
+                data-id="fixedFrame.value"
+                onChange={this.updateOptions}
               >
-                <option value={valueFixedFrame}>{valueFixedFrame}</option>
+                {_.map(framesList, f => (
+                  <option key={f} value={f}>
+                    {f}
+                  </option>
+                ))}
               </select>
             </div>
           </div>

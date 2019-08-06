@@ -141,9 +141,9 @@ input[disabled] {
 #wrapper {
   display: flex;
   background-color: #000;
-  width: 100vw;
   height: 100vh;
   overflow-y: hidden;
+  width: 100%;
 }
 
 #viewport {
