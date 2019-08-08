@@ -3,6 +3,7 @@ import _ from 'lodash';
 import ReactMarkdown from 'react-markdown';
 
 import { vizOptions } from '../../utils';
+import { Anchor } from '../../components/styled';
 
 class VizTypeDetails extends React.PureComponent {
   render() {
@@ -15,7 +16,7 @@ class VizTypeDetails extends React.PureComponent {
       <React.Fragment>
         <h4>{type}</h4>
         <ReactMarkdown source={description} />
-        <a href={docsLink}>View docs</a>
+        <Anchor href={docsLink}>View docs</Anchor>
       </React.Fragment>
     );
   }

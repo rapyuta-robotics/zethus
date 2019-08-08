@@ -1,4 +1,12 @@
 import React from 'react';
+import {
+  ButtonPrimary,
+  FlexGrow,
+  Input,
+  InputLabel,
+  InputWrapper,
+} from '../../components/styled';
+import { ModalActions } from '../../components/styled/modal';
 
 class GenericOptions extends React.Component {
   constructor(props) {
@@ -31,20 +39,18 @@ class GenericOptions extends React.Component {
     const { back } = this.props;
     return (
       <form onSubmit={this.onSubmit}>
-        <div className="inputWrapper">
-          <label>Visualization name</label>
-          <input className="input" value={name} onChange={this.updateName} />
-        </div>
+        <InputWrapper>
+          <InputLabel>Visualization name</InputLabel>
+          <Input value={name} onChange={this.updateName} />
+        </InputWrapper>
 
-        <div className="modal-actions">
-          <div className="flexGrow" />
-          <button type="submit" className="btn-primary">
-            Add visualization
-          </button>
-          <button type="button" className="btn-primary" onClick={back}>
+        <ModalActions>
+          <FlexGrow />
+          <ButtonPrimary type="submit">Add visualization</ButtonPrimary>
+          <ButtonPrimary type="button" onClick={back}>
             Back
-          </button>
-        </div>
+          </ButtonPrimary>
+        </ModalActions>
       </form>
     );
   }

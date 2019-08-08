@@ -6,6 +6,7 @@ import Amphion from 'amphion';
 
 import { DEFAULT_CONFIG, ROS_SOCKET_STATUSES } from '../utils';
 
+import { PanelWrapper, PanelContent } from '../components/styled';
 import AddModal from './addModal';
 import Sidebar from './sidebar';
 import Viewport from './viewer';
@@ -153,7 +154,7 @@ class Wrapper extends React.Component {
       toggleVisibility,
     } = this.props;
     return (
-      <div id="wrapper">
+      <PanelWrapper>
         {addModalOpen && (
           <AddModal
             ros={this.ros}
@@ -181,11 +182,11 @@ class Wrapper extends React.Component {
             toggleVisibility={toggleVisibility}
           />
         )}
-        <div id="content">
+        <PanelContent>
           {displayTools && <Tools />}
           <Viewport viewer={this.viewer} globalOptions={globalOptions} />
           {displayInfo && <Info />}
-        </div>
+        </PanelContent>
         {_.map(visualizations, vizItem => (
           <Visualization
             options={vizItem}
@@ -195,7 +196,7 @@ class Wrapper extends React.Component {
             rosInstance={this.ros}
           />
         ))}
-      </div>
+      </PanelWrapper>
     );
   }
 }

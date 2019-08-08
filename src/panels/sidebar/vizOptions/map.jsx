@@ -7,6 +7,7 @@ import {
 } from 'amphion/src/utils/constants';
 import OptionRow from '../../../components/optionRow';
 import { updateOptionsUtil } from '../../../utils';
+import { Input, Select } from '../../../components/styled';
 
 class MapOptions extends React.Component {
   constructor(props) {
@@ -24,20 +25,18 @@ class MapOptions extends React.Component {
     return (
       <React.Fragment>
         <OptionRow label="Alpha">
-          <input
+          <Input
             type="number"
             name="alpha"
             data-id="alpha"
-            className="input"
             value={alpha}
             onChange={this.updateOptions}
           />
         </OptionRow>
         <OptionRow label="Color Scheme">
-          <select
+          <Select
             name="colorScheme"
             data-id="colorScheme"
-            className="input"
             onChange={this.updateOptions}
             value={colorScheme}
           >
@@ -48,13 +47,12 @@ class MapOptions extends React.Component {
                 </option>
               );
             })}
-          </select>
+          </Select>
         </OptionRow>
         <OptionRow label="Draw Behind">
-          <input
+          <Input
             type="checkbox"
             name="drawBehind"
-            className="input"
             data-id="drawBehind"
             value={drawBehind}
             onChange={this.updateOptions}

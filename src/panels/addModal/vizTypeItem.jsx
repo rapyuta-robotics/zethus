@@ -1,8 +1,9 @@
 import React from 'react';
-import classNames from 'classnames';
 import _ from 'lodash';
 import { VIZ_TYPE_ROBOTMODEL } from 'amphion/src/utils/constants';
 import Select from 'react-select';
+import { TypeEmpty, TypeHeading, TypeRow } from '../../components/styled/modal';
+import { VizItemIcon } from '../../components/styled/viz';
 
 const customStyles = {
   container: provided => ({
@@ -30,17 +31,11 @@ class VizTypeItem extends React.PureComponent {
     if (vizDetails.type === VIZ_TYPE_ROBOTMODEL) {
       return (
         <div>
-          <h4 className="typeHeading">
-            <img className="vizItemIcon" src={vizDetails.icon} alt="" />
+          <TypeHeading>
+            <VizItemIcon src={vizDetails.icon} alt="" />
             {vizDetails.type}
-          </h4>
-          <div
-            type="button"
-            className={classNames({
-              typeRow: true,
-              selected: isRobotmodel,
-            })}
-          >
+          </TypeHeading>
+          <TypeRow type="button" selected={isRobotmodel}>
             <Select
               isSearchable
               className="reactSelect"
@@ -55,35 +50,30 @@ class VizTypeItem extends React.PureComponent {
                 selectViz(vizDetails.type, value, '');
               }}
             />
-          </div>
+          </TypeRow>
         </div>
       );
     }
     return (
       <div>
-        <h4 className="typeHeading">
-          <img className="vizItemIcon" src={vizDetails.icon} alt="" />
+        <TypeHeading>
+          <VizItemIcon src={vizDetails.icon} alt="" />
           {vizDetails.type}
-        </h4>
+        </TypeHeading>
         {_.map(topics, topic => (
-          <button
+          <TypeRow
             type="button"
             key={topic.name}
-            className={classNames({
-              typeRow: true,
-              selected: _.get(selectedViz, 'topicName') === topic.name,
-            })}
+            selected={_.get(selectedViz, 'topicName') === topic.name}
             onClick={() =>
               selectViz(vizDetails.type, topic.name, topic.messageType)
             }
           >
             {topic.name}
-          </button>
+          </TypeRow>
         ))}
         {_.size(topics) === 0 && (
-          <p className="typeEmpty">
-            No topics available for the visualization type
-          </p>
+          <TypeEmpty>No topics available for the visualization type</TypeEmpty>
         )}
       </div>
     );

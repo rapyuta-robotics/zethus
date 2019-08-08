@@ -1,9 +1,12 @@
 import React from 'react';
 import _ from 'lodash';
-import classNames from 'classnames';
 
-import '../../styles/modal.scss';
-
+import { TabsButton, TabsHeader } from '../../components/styled';
+import {
+  ModalWrapper,
+  ModalContents,
+  ModalTitle,
+} from '../../components/styled/modal';
 import TabVizType from './tabVizType';
 import TabTopicName from './tabTopicName';
 import SelectedVizOptionsForm from './options';
@@ -55,9 +58,9 @@ class AddModal extends React.Component {
     } = this.props;
     const { tabType, selectedViz } = this.state;
     return (
-      <div className="modal-wrapper" onClick={closeModal}>
-        <div className="modal-contents" onClick={stopPropagation}>
-          <h2 className="modal-title">Add Visualization</h2>
+      <ModalWrapper onClick={closeModal}>
+        <ModalContents onClick={stopPropagation}>
+          <ModalTitle>Add Visualization</ModalTitle>
           {selectedViz ? (
             <SelectedVizOptionsForm
               addVisualization={addVisualization}
@@ -67,21 +70,18 @@ class AddModal extends React.Component {
             />
           ) : (
             <React.Fragment>
-              <div className="flex tabs-header">
+              <TabsHeader>
                 {_.map(tabs, tabText => (
-                  <button
+                  <TabsButton
                     key={tabText}
                     type="button"
-                    className={classNames({
-                      selected: tabType === tabText,
-                      'tabs-button': true,
-                    })}
+                    selected={tabType === tabText}
                     onClick={() => this.updateTab(tabText)}
                   >
                     {tabText}
-                  </button>
+                  </TabsButton>
                 ))}
-              </div>
+              </TabsHeader>
               {tabType === tabs.vizType ? (
                 <TabVizType
                   selectViz={this.selectViz}
@@ -98,8 +98,8 @@ class AddModal extends React.Component {
               )}
             </React.Fragment>
           )}
-        </div>
-      </div>
+        </ModalContents>
+      </ModalWrapper>
     );
   }
 }

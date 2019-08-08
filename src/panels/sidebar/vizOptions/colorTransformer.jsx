@@ -7,6 +7,7 @@ import {
 import _ from 'lodash';
 
 import OptionRow from '../../../components/optionRow';
+import { Input, OptionContainer, Select } from '../../../components/styled';
 
 const Intensity = props => {
   const {
@@ -25,9 +26,8 @@ const Intensity = props => {
   return (
     <React.Fragment>
       <OptionRow label="Channel Name">
-        <select
+        <Select
           name="channelName"
-          className="input"
           data-id="channelName"
           onChange={updateOptions}
           value={channelName}
@@ -39,25 +39,23 @@ const Intensity = props => {
               </option>
             );
           })}
-        </select>
+        </Select>
       </OptionRow>
       {!useRainbow && (
         <React.Fragment>
           <OptionRow label="Min Color">
-            <input
+            <Input
               name="minColor"
               type="color"
               data-id="minColor"
-              className="input"
               value={minColor}
               onChange={updateOptions}
             />
           </OptionRow>
           <OptionRow label="Max Color">
-            <input
+            <Input
               name="maxColor"
               type="color"
-              className="input"
               data-id="maxColor"
               value={maxColor}
               onChange={updateOptions}
@@ -68,20 +66,18 @@ const Intensity = props => {
       {!autocomputeIntensityBounds && (
         <React.Fragment>
           <OptionRow label="Min Intensity">
-            <input
+            <Input
               type="number"
               name="minIntensity"
-              className="input"
               data-id="minIntensity"
               value={minIntensity}
               onChange={updateOptions}
             />
           </OptionRow>
           <OptionRow label="Max Intensity">
-            <input
+            <Input
               type="number"
               name="maxIntensity"
-              className="input"
               data-id="maxIntensity"
               value={maxIntensity}
               onChange={updateOptions}
@@ -102,9 +98,8 @@ const AxisColor = props => {
   return (
     <React.Fragment>
       <OptionRow label="Axis">
-        <select
+        <Select
           name="axis"
-          className="input"
           data-id="axis"
           onChange={updateOptions}
           value={axis}
@@ -116,32 +111,30 @@ const AxisColor = props => {
               </option>
             );
           })}
-        </select>
+        </Select>
       </OptionRow>
       {!autocomputeValueBounds && (
-        <div className="optionContainer">
+        <OptionContainer>
           <OptionRow label="Min Value">
-            <input
+            <Input
               type="number"
               name="minAxisValue"
               data-id="minAxisValue"
-              className="input"
               value={minAxisValue}
               onChange={updateOptions}
             />
           </OptionRow>
 
           <OptionRow label="Max Value">
-            <input
+            <Input
               type="number"
               name="maxAxisValue"
               data-id="maxAxisValue"
-              className="input"
               value={maxAxisValue}
               onChange={updateOptions}
             />
           </OptionRow>
-        </div>
+        </OptionContainer>
       )}
     </React.Fragment>
   );
@@ -163,11 +156,10 @@ class ColorTransformer extends React.PureComponent {
       case COLOR_TRANSFORMERS.FLAT_COLOR:
         return (
           <OptionRow label="Flat Color">
-            <input
+            <Input
               type="color"
               name="flatColor"
               data-id="flatColor"
-              className="input"
               value={flatColor}
               onChange={updateOptions}
             />

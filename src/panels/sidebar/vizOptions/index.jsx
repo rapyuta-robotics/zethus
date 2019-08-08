@@ -1,9 +1,22 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-import classNames from 'classnames';
 
 import { VIZ_TYPE_ROBOTMODEL, VIZ_TYPE_TF } from 'amphion/src/utils/constants';
 import VizSpecificOptions from './vizSpecificOption';
+import {
+  Button,
+  HalfWidth,
+  Select,
+  StyledOptionRow,
+} from '../../../components/styled';
+import OptionRow from '../../../components/optionRow';
+import {
+  VizItem,
+  VizItemActions,
+  VizItemCollapse,
+  VizItemContent,
+  VizItemIcon,
+} from '../../../components/styled/viz';
 
 const VizOptions = ({
   options: { vizType, name, topicName, key, visible, display },
@@ -20,54 +33,48 @@ const VizOptions = ({
     return null;
   }
   return (
-    <div className="vizItem">
-      <div className="optionRow">
-        <button
-          className={classNames('vizItemCollapse', {
-            collapsed,
-          })}
-          onClick={toggleCollapsed}
+    <VizItem>
+      <StyledOptionRow>
+        <VizItemCollapse
+          collapsed={collapsed}
+          onClick={() => toggleCollapsed(!collapsed)}
         >
           <img src="./image/chevron.svg" alt="" />
-        </button>
-        <img className="vizItemIcon" src={icon} alt="" />
+        </VizItemCollapse>
+        <VizItemIcon src={icon} alt="" />
         {name}
-      </div>
+      </StyledOptionRow>
       {!collapsed && (
-        <div className="vizItemContent">
+        <VizItemContent>
           {!_.includes([VIZ_TYPE_ROBOTMODEL, VIZ_TYPE_TF], vizType) && (
-            <div className="optionRow">
-              <div className="halfWidth">Topic:</div>
-              <div className="halfWidth">
-                <select
-                  className="input"
-                  value={topicName}
-                  onChange={e =>
-                    updateVizOptions(key, { topicName: e.target.value })
-                  }
-                >
-                  {_.map(topics, topic => (
-                    <option key={topic.name}>{topic.name}</option>
-                  ))}
-                </select>
-              </div>
-            </div>
+            <OptionRow label="Topic">
+              <Select
+                value={topicName}
+                onChange={e =>
+                  updateVizOptions(key, { topicName: e.target.value })
+                }
+              >
+                {_.map(topics, topic => (
+                  <option key={topic.name}>{topic.name}</option>
+                ))}
+              </Select>
+            </OptionRow>
           )}
           <VizSpecificOptions
             options={options}
             updateVizOptions={updateVizOptions}
           />
-          <div className="vizItemActions">
-            <button data-id={key} onClick={removeVisualization}>
+          <VizItemActions>
+            <Button data-id={key} onClick={removeVisualization}>
               Delete
-            </button>
-            <button data-id={key} onClick={toggleVisibility}>
+            </Button>
+            <Button data-id={key} onClick={toggleVisibility}>
               {_.isBoolean(visible) && !visible ? 'Show' : 'Hide'}
-            </button>
-          </div>
-        </div>
+            </Button>
+          </VizItemActions>
+        </VizItemContent>
       )}
-    </div>
+    </VizItem>
   );
 };
 

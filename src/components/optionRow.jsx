@@ -1,10 +1,11 @@
 import React from 'react';
+import { HalfWidth, StyledOptionRow } from './styled';
 
 const OptionRow = ({ label, children }) => (
-  <div className="optionRow">
-    <div className="halfWidth">{label}:</div>
-    <div className="halfWidth">{children}</div>
-  </div>
+  <StyledOptionRow>
+    <HalfWidth>{label}:</HalfWidth>
+    <HalfWidth>{children}</HalfWidth>
+  </StyledOptionRow>
 );
 
 export default OptionRow;
