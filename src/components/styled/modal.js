@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import { Button, Flex, Paragraph } from './index';
-import { COLOR_GREY_LIGHT_1, COLOR_GREY_LIGHT_2, COLOR_GREY_TEXT_2, COLOR_PRIMARY } from './constants';
+import {
+  COLOR_GREY_LIGHT_1,
+  COLOR_GREY_LIGHT_2,
+  COLOR_GREY_TEXT_2,
+  COLOR_PRIMARY,
+} from './constants';
 
 export const ModalWrapper = styled.div`
   position: absolute;
@@ -118,12 +123,13 @@ export const TopicRow = styled(Button)`
       color: ${COLOR_GREY_TEXT_2};
     }
   }
-  
-  ${({ selected }) => selected && `
+
+  ${({ selected }) =>
+    selected &&
+    `
     color: ${COLOR_PRIMARY};
     background-color: ${COLOR_GREY_LIGHT_1};
-  `
-  }
+  `}
 `;
 
 export const TypeRow = styled(TopicRow)`

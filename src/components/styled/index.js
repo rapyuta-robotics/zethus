@@ -4,8 +4,10 @@ import {
   COLOR_GREY_LIGHT_1,
   COLOR_GREY_LIGHT_2,
   COLOR_GREY_TEXT_2,
-  COLOR_GREY_TEXT_3, COLOR_PRIMARY,
-  COLOR_RED, FONT_SIZE_S,
+  COLOR_GREY_TEXT_3,
+  COLOR_PRIMARY,
+  COLOR_RED,
+  FONT_SIZE_S,
 } from './constants';
 import { ROS_SOCKET_STATUSES } from '../../utils';
 
@@ -80,10 +82,12 @@ export const TabsButton = styled(Button)`
   border-radius: 4px 4px 0 0;
   color: inherit;
   padding: 5px 10px 10px;
-  ${({ selected }) => selected && css`
-    border: 1px solid ${COLOR_GREY_LIGHT_2};
-    border-bottom: 1px solid #fff;
-  `}
+  ${({ selected }) =>
+    selected &&
+    css`
+      border: 1px solid ${COLOR_GREY_LIGHT_2};
+      border-bottom: 1px solid #fff;
+    `}
 `;
 
 export const ButtonPrimary = styled(Button)`
@@ -97,7 +101,6 @@ export const ButtonPrimary = styled(Button)`
   &[disabled] {
     background-color: ${COLOR_GREY_LIGHT_2};
   }
-
 `;
 
 export const InputWrapper = styled.div`
@@ -134,9 +137,11 @@ const inputStyles = `
     outline: 0;
     border: 1px solid ${COLOR_BLUE};
   }
-  ${({ error }) => error && css`
-    border: 1px solid ${COLOR_RED};
-  `}
+  ${({ error }) =>
+    error &&
+    css`
+      border: 1px solid ${COLOR_RED};
+    `}
   [disabled] {
     cursor: not-allowed;
   }
@@ -185,18 +190,24 @@ export const RosStatusIndicator = styled.span`
   border-radius: 4px;
   margin: 0 10px -2px 0;
   ${({ status }) => {
-    switch(status) {
+    switch (status) {
       case ROS_SOCKET_STATUSES.CONNECTED:
-        return css`background-color: #3e991c;`;
+        return css`
+          background-color: #3e991c;
+        `;
       case ROS_SOCKET_STATUSES.CONNECTING:
         return css`
           background-color: #f9c351;
           animation: ${twinkle} normal 1s infinite ease-in-out;
         `;
       case ROS_SOCKET_STATUSES.CONNECTION_ERROR:
-        return css`background-color: #ff3e3c;`;
+        return css`
+          background-color: #ff3e3c;
+        `;
       default:
-        return css`background-color: #000000;`;
+        return css`
+          background-color: #000000;
+        `;
     }
   }}
 `;
@@ -215,4 +226,3 @@ export const StyledLogo = styled(Container)`
     display: block;
   }
 `;
-

@@ -1,6 +1,11 @@
 import styled, { css } from 'styled-components';
 import { Button, Container, Flex } from './index';
-import { COLOR_GREY_LIGHT_1, COLOR_GREY_LIGHT_2, COLOR_GREY_TEXT_4, COLOR_PRIMARY } from './constants';
+import {
+  COLOR_GREY_LIGHT_1,
+  COLOR_GREY_LIGHT_2,
+  COLOR_GREY_TEXT_4,
+  COLOR_PRIMARY,
+} from './constants';
 
 export const VizImageClose = styled(Button)`
   cursor: pointer;
@@ -81,11 +86,11 @@ export const VizItemActions = styled.div`
     color: ${COLOR_GREY_TEXT_4};
     padding: 5px 10px;
     font-size: 0.6rem;
-  &:hover {
+    &:hover {
       background-color: ${COLOR_PRIMARY};
       color: #ffffff;
     }
-  & + button {
+    & + button {
       margin-left: 10px;
     }
   }
@@ -101,6 +106,9 @@ export const VizItemCollapse = styled(Button)`
   img {
     width: 14px;
   }
-  ${({ collapsed }) => collapsed && css`transform: rotate(-90deg);`}
+  ${({ collapsed }) =>
+    collapsed &&
+    css`
+      transform: rotate(-90deg);
+    `}
 `;
-
