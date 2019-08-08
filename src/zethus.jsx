@@ -63,6 +63,7 @@ class Zethus extends React.Component {
       visualizations: _.filter(visualizations, v => v.key !== vizId),
     });
   }
+
   toggleVisibility(e) {
     const {
       dataset: { id: vizId },

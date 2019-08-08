@@ -12,13 +12,13 @@ import { Input, OptionContainer, Select } from '../../../components/styled';
 const Intensity = props => {
   const {
     options: {
-      channelName,
-      useRainbow,
-      minColor,
-      maxColor,
       autocomputeIntensityBounds,
+      channelName,
+      maxColor,
       maxIntensity,
+      minColor,
       minIntensity,
+      useRainbow,
     },
     updateOptions,
   } = props;
@@ -91,7 +91,7 @@ const Intensity = props => {
 
 const AxisColor = props => {
   const {
-    options: { axis, autocomputeValueBounds, minAxisValue, maxAxisValue },
+    options: { autocomputeValueBounds, axis, maxAxisValue, minAxisValue },
     updateOptions,
   } = props;
 

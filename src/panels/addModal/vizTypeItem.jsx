@@ -20,11 +20,11 @@ const customStyles = {
 class VizTypeItem extends React.PureComponent {
   render() {
     const {
-      vizDetails,
-      topics,
       rosParams,
       selectedViz,
       selectViz,
+      topics,
+      vizDetails,
     } = this.props;
     const topicName = _.get(selectedViz, 'topicName');
     const isRobotmodel = _.get(selectedViz, 'vizType') === VIZ_TYPE_ROBOTMODEL;

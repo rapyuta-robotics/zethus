@@ -8,7 +8,7 @@ class ArrowOptions extends React.PureComponent {
   render() {
     const { options: propsOptions, updateOptions } = this.props;
 
-    const { color, alpha, shaftLength, shaftRadius, headLength, headRadius } = {
+    const { alpha, color, headLength, headRadius, shaftLength, shaftRadius } = {
       ...DEFAULT_OPTIONS_ARROW,
       ...propsOptions,
     };

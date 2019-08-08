@@ -36,14 +36,14 @@ class VizType extends React.PureComponent {
     e.preventDefault();
     const { selectViz } = this.props;
     const {
-      selectedViz: { vizType, topicName, messageType },
+      selectedViz: { messageType, topicName, vizType },
     } = this.state;
     selectViz(vizType, topicName, messageType);
   }
 
   render() {
     const { selectedViz } = this.state;
-    const { rosTopics, rosParams, closeModal } = this.props;
+    const { closeModal, rosParams, rosTopics } = this.props;
     return (
       <AddVizForm onSubmit={this.onSubmit}>
         <TypeContainer>

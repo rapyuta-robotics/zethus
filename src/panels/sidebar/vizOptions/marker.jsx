@@ -1,8 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
-import OptionRow from '../../../components/optionRow';
 import { DEFAULT_OPTIONS_MARKER } from 'amphion/src/utils/constants';
+import OptionRow from '../../../components/optionRow';
 import { Input, OptionContainer } from '../../../components/styled';
 
 class MarkerOptions extends React.PureComponent {

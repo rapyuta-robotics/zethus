@@ -59,7 +59,7 @@ class Visualization extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     const {
-      options: { vizType, topicName, visible },
+      options: { topicName, visible, vizType },
       options,
       rosTopics,
     } = this.props;
@@ -92,10 +92,10 @@ class Visualization extends React.PureComponent {
   resetVisualization() {
     const {
       options,
-      options: { vizType, topicName, visible },
-      viewer,
+      options: { topicName, visible, vizType },
       rosInstance,
       rosTopics,
+      viewer,
     } = this.props;
     if (this.vizInstance) {
       this.vizInstance.destroy();
