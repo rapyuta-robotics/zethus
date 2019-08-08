@@ -3,6 +3,14 @@ import _ from 'lodash';
 import { vizOptions } from '../../utils';
 import VizTypeItem from './vizTypeItem';
 import VizTypeDetails from './vizTypeDetails';
+import { ButtonPrimary, FlexGrow } from '../../components/styled';
+import {
+  AddVizForm,
+  ModalActions,
+  TypeContainer,
+  TypeInfo,
+  TypeSelection,
+} from '../../components/styled/modal';
 
 class VizType extends React.PureComponent {
   constructor(props) {
@@ -37,9 +45,9 @@ class VizType extends React.PureComponent {
     const { selectedViz } = this.state;
     const { rosTopics, rosParams, closeModal } = this.props;
     return (
-      <form onSubmit={this.onSubmit} className="addVizForm">
-        <div className="type-container">
-          <div className="type-selection">
+      <AddVizForm onSubmit={this.onSubmit}>
+        <TypeContainer>
+          <TypeSelection>
             {_.map(vizOptions, op => {
               return (
                 <VizTypeItem
@@ -54,8 +62,8 @@ class VizType extends React.PureComponent {
                 />
               );
             })}
-          </div>
-          <div className="type-info">
+          </TypeSelection>
+          <TypeInfo>
             {selectedViz ? (
               <VizTypeDetails vizType={selectedViz.vizType} />
             ) : (
@@ -65,18 +73,18 @@ class VizType extends React.PureComponent {
                 Please choose a visualization on the left to see details
               </p>
             )}
-          </div>
-        </div>
-        <div className="modal-actions">
-          <div className="flexGrow" />
-          <button type="submit" className="btn-primary" disabled={!selectedViz}>
+          </TypeInfo>
+        </TypeContainer>
+        <ModalActions>
+          <FlexGrow />
+          <ButtonPrimary type="submit" disabled={!selectedViz}>
             Proceed
-          </button>
-          <button type="button" className="btn-primary" onClick={closeModal}>
+          </ButtonPrimary>
+          <ButtonPrimary type="button" onClick={closeModal}>
             Close
-          </button>
-        </div>
-      </form>
+          </ButtonPrimary>
+        </ModalActions>
+      </AddVizForm>
     );
   }
 }

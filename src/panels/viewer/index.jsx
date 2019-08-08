@@ -1,6 +1,20 @@
 import React from 'react';
+import styled from 'styled-components';
 
-import '../../styles/viewport.scss';
+const StyledViewport = styled.div`
+  width: 100%;
+  flex-grow: 1;
+  height: 100%;
+  position: relative;
+
+  #viewportStats {
+    position: absolute !important;
+    top: auto !important;
+    left: auto !important;
+    right: 0 !important;
+    bottom: 0 !important;
+  }
+`;
 
 class Viewport extends React.PureComponent {
   constructor(props) {
@@ -19,6 +33,7 @@ class Viewport extends React.PureComponent {
           color: gridColor,
           centerlineColor: gridCenterlineColor,
         },
+        fixedFrame: { value: fixedFrame },
       },
     } = this.props;
     viewer.updateOptions({
@@ -28,12 +43,21 @@ class Viewport extends React.PureComponent {
       gridColor,
       gridCenterlineColor,
     });
+    if (fixedFrame !== prevProps.globalOptions.fixedFrame.value) {
+      viewer.updateSelectedFrame(fixedFrame);
+    }
   }
 
   componentDidMount() {
-    const { viewer } = this.props;
+    const {
+      viewer,
+      globalOptions: {
+        fixedFrame: { value: fixedFrame },
+      },
+    } = this.props;
     const container = this.container.current;
     viewer.setContainer(container);
+    viewer.updateSelectedFrame(fixedFrame);
     viewer.scene.stats.dom.id = 'viewportStats';
     container.appendChild(viewer.scene.stats.dom);
   }
@@ -44,7 +68,7 @@ class Viewport extends React.PureComponent {
   }
 
   render() {
-    return <div ref={this.container} id="viewport" />;
+    return <StyledViewport ref={this.container} />;
   }
 }
 

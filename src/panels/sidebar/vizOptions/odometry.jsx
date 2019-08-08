@@ -9,6 +9,7 @@ import {
 import OptionRow from '../../../components/optionRow';
 import ShapeOptions from './shape';
 import { updateOptionsUtil } from '../../../utils';
+import { Input, OptionContainer, Select } from '../../../components/styled';
 
 class OdometryOptions extends React.PureComponent {
   constructor(props) {
@@ -32,9 +33,8 @@ class OdometryOptions extends React.PureComponent {
     return (
       <React.Fragment>
         <OptionRow label="Position Tolerance">
-          <input
+          <Input
             name="positionTolerance"
-            className="input"
             type="number"
             value={positionTolerance}
             data-id="positionTolerance"
@@ -42,9 +42,8 @@ class OdometryOptions extends React.PureComponent {
           />
         </OptionRow>
         <OptionRow label="Angle Tolerance">
-          <input
+          <Input
             name="angleTolerance"
-            className="input"
             type="number"
             data-id="angleTolerance"
             value={angleTolerance}
@@ -52,9 +51,8 @@ class OdometryOptions extends React.PureComponent {
           />
         </OptionRow>
         <OptionRow label="Keep">
-          <input
+          <Input
             name="keep"
-            className="input"
             type="number"
             data-id="keep"
             value={keep}
@@ -63,9 +61,8 @@ class OdometryOptions extends React.PureComponent {
         </OptionRow>
 
         <OptionRow label="Shape">
-          <select
+          <Select
             name="type"
-            className="input"
             data-id="type"
             onChange={this.updateOptions}
             value={shapeType}
@@ -75,12 +72,12 @@ class OdometryOptions extends React.PureComponent {
                 {type}
               </option>
             ))}
-          </select>
+          </Select>
         </OptionRow>
 
-        <div className="optionContainer">
+        <OptionContainer>
           <ShapeOptions options={options} updateOptions={this.updateOptions} />
-        </div>
+        </OptionContainer>
       </React.Fragment>
     );
   }

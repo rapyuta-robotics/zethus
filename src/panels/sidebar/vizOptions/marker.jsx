@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import OptionRow from '../../../components/optionRow';
 import { DEFAULT_OPTIONS_MARKER } from 'amphion/src/utils/constants';
+import { Input, OptionContainer } from '../../../components/styled';
 
 class MarkerOptions extends React.PureComponent {
   constructor(props) {
@@ -42,11 +43,11 @@ class MarkerOptions extends React.PureComponent {
     return (
       <React.Fragment>
         Namespaces:
-        <div className="optionContainer">
+        <OptionContainer>
           {_.map(namespaces, (checked, key) =>
             key ? (
               <OptionRow label={key}>
-                <input
+                <Input
                   name={key}
                   type="checkbox"
                   data-id="key"
@@ -56,7 +57,7 @@ class MarkerOptions extends React.PureComponent {
               </OptionRow>
             ) : null,
           )}
-        </div>
+        </OptionContainer>
       </React.Fragment>
     );
   }

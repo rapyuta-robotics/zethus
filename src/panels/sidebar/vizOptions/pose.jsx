@@ -12,6 +12,7 @@ import {
 import OptionRow from '../../../components/optionRow';
 import ShapeOptions from './shape';
 import { updateOptionsUtil } from '../../../utils';
+import { OptionContainer, Select } from '../../../components/styled';
 
 const dropdownOptions = {
   [VIZ_TYPE_POSE]: [OBJECT_TYPE_ARROW, OBJECT_TYPE_AXES],
@@ -39,9 +40,8 @@ class PoseOptions extends React.PureComponent {
     return (
       <React.Fragment>
         <OptionRow label="Shape">
-          <select
+          <Select
             name="type"
-            className="input"
             data-id="type"
             onChange={this.updateOptions}
             value={shapeType}
@@ -51,16 +51,16 @@ class PoseOptions extends React.PureComponent {
                 {o}
               </option>
             ))}
-          </select>
+          </Select>
         </OptionRow>
-        <div className="optionContainer">
+        <OptionContainer>
           {
             <ShapeOptions
               options={options}
               updateOptions={this.updateOptions}
             />
           }
-        </div>
+        </OptionContainer>
       </React.Fragment>
     );
   }

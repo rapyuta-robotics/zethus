@@ -1,7 +1,15 @@
 import React from 'react';
 import _ from 'lodash';
 import { vizOptions } from '../../utils';
-import classNames from 'classnames';
+import { ButtonPrimary, FlexGrow } from '../../components/styled';
+import {
+  AddVizForm,
+  ModalActions,
+  TopicRow,
+  TypeContainer,
+  TypeSelection,
+  TypeUnsupported,
+} from '../../components/styled/modal';
 
 class TopicName extends React.Component {
   constructor(props) {
@@ -36,49 +44,45 @@ class TopicName extends React.Component {
     const { rosTopics, closeModal } = this.props;
     const { selectedViz } = this.state;
     return (
-      <form onSubmit={this.onSubmit} className="addVizForm">
-        <div className="type-container">
-          <div className="type-selection">
+      <AddVizForm onSubmit={this.onSubmit}>
+        <TypeContainer>
+          <TypeSelection>
             {_.map(_.sortBy(rosTopics, 'name'), ({ name, messageType }) => {
               const vizOption = _.find(vizOptions, v =>
                 _.includes(v.messageTypes, messageType),
               );
               return vizOption ? (
-                <button
+                <TopicRow
                   type="button"
-                  className={classNames({
-                    topicRow: true,
-                    flex: true,
-                    selected: _.get(selectedViz, 'topicName') === name,
-                  })}
+                  selected={_.get(selectedViz, 'topicName') === name}
                   key={name}
                   onClick={() =>
                     this.selectViz(vizOption.type, name, messageType)
                   }
                 >
                   {name}
-                  <span className="flexGrow" />({messageType})
-                </button>
+                  <FlexGrow />({messageType})
+                </TopicRow>
               ) : (
-                <div className="flex typeUnsupported" key={name}>
+                <TypeUnsupported key={name}>
                   {name}
-                  <span className="flexGrow" />
+                  <FlexGrow />
                   (Unsupported type: {messageType})
-                </div>
+                </TypeUnsupported>
               );
             })}
-          </div>
-        </div>
-        <div className="modal-actions">
-          <div className="flexGrow" />
-          <button type="submit" className="btn-primary" disabled={!selectedViz}>
+          </TypeSelection>
+        </TypeContainer>
+        <ModalActions>
+          <FlexGrow />
+          <ButtonPrimary type="submit" disabled={!selectedViz}>
             Proceed
-          </button>
-          <button type="button" className="btn-primary" onClick={closeModal}>
+          </ButtonPrimary>
+          <ButtonPrimary type="button" onClick={closeModal}>
             Close
-          </button>
-        </div>
-      </form>
+          </ButtonPrimary>
+        </ModalActions>
+      </AddVizForm>
     );
   }
 }

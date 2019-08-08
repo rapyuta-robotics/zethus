@@ -1,5 +1,12 @@
 import _ from 'lodash';
 import React from 'react';
+import {
+  VizImageClose,
+  VizImageContainer,
+  VizImageHeader,
+  VizImageName,
+} from './styled/viz';
+import { FlexGrow } from './styled';
 
 class DraggableImage extends React.Component {
   constructor(props) {
@@ -78,20 +85,16 @@ class DraggableImage extends React.Component {
     }
 
     return (
-      <div
-        ref={this.elementRef}
-        className="vizImageContainer"
-        onMouseUp={this.onMouseUp}
-      >
-        <div className="vizImageHeader" onMouseDown={this.onMouseDown}>
-          <div className="vizImageName">{name}</div>
-          <div className="flexGrow" />
-          <button type="button" className="vizImageClose" onClick={this.hide}>
+      <VizImageContainer ref={this.elementRef} onMouseUp={this.onMouseUp}>
+        <VizImageHeader onMouseDown={this.onMouseDown}>
+          <VizImageName>{name}</VizImageName>
+          <FlexGrow />
+          <VizImageClose type="button" onClick={this.hide}>
             CLOSE
-          </button>
-        </div>
+          </VizImageClose>
+        </VizImageHeader>
         <canvas />
-      </div>
+      </VizImageContainer>
     );
   }
 }

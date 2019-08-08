@@ -2,6 +2,7 @@ import React from 'react';
 import { DEFAULT_OPTIONS_ARROW } from 'amphion/src/utils/constants';
 
 import OptionRow from '../../../components/optionRow';
+import { Input } from '../../../components/styled';
 
 class ArrowOptions extends React.PureComponent {
   render() {
@@ -15,10 +16,9 @@ class ArrowOptions extends React.PureComponent {
     return (
       <React.Fragment>
         <OptionRow label="Color">
-          <input
+          <Input
             name="color"
             type="color"
-            className="input"
             value={color}
             data-id="color"
             onChange={updateOptions}
@@ -26,10 +26,9 @@ class ArrowOptions extends React.PureComponent {
         </OptionRow>
 
         <OptionRow label="Alpha">
-          <input
+          <Input
             name="alpha"
             type="number"
-            className="input"
             value={alpha}
             data-id="alpha"
             onChange={updateOptions}
@@ -37,10 +36,9 @@ class ArrowOptions extends React.PureComponent {
         </OptionRow>
 
         <OptionRow label="Shaft Length">
-          <input
+          <Input
             name="shaftLength"
             type="number"
-            className="input"
             value={shaftLength}
             data-id="shaftLength"
             onChange={updateOptions}
@@ -48,10 +46,9 @@ class ArrowOptions extends React.PureComponent {
         </OptionRow>
 
         <OptionRow label="Shaft Radius">
-          <input
+          <Input
             name="shaftRadius"
             type="number"
-            className="input"
             value={shaftRadius}
             data-id="shaftRadius"
             onChange={updateOptions}
@@ -59,10 +56,9 @@ class ArrowOptions extends React.PureComponent {
         </OptionRow>
 
         <OptionRow label="Head Length">
-          <input
+          <Input
             name="headLength"
             type="number"
-            className="input"
             value={headLength}
             data-id="headLength"
             onChange={updateOptions}
@@ -70,10 +66,9 @@ class ArrowOptions extends React.PureComponent {
         </OptionRow>
 
         <OptionRow label="Head Radius">
-          <input
+          <Input
             name="headRadius"
             type="number"
-            className="input"
             value={headRadius}
             data-id="headRadius"
             onChange={updateOptions}

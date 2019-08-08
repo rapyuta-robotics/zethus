@@ -8,6 +8,7 @@ import {
 import OptionRow from '../../../components/optionRow';
 import ColorTransformer from './colorTransformer';
 import { updateOptionsUtil } from '../../../utils';
+import { Input, Select } from '../../../components/styled';
 
 class LaserScanOptions extends React.PureComponent {
   constructor(props) {
@@ -27,9 +28,8 @@ class LaserScanOptions extends React.PureComponent {
     return (
       <React.Fragment>
         <OptionRow label="Style">
-          <select
+          <Select
             name="style"
-            className="input"
             data-id="style"
             onChange={this.updateOptions}
             value={style}
@@ -41,14 +41,13 @@ class LaserScanOptions extends React.PureComponent {
                 </option>
               );
             })}
-          </select>
+          </Select>
         </OptionRow>
 
         <OptionRow label="Size">
-          <input
+          <Input
             type="number"
             name="size"
-            className="input"
             data-id="size"
             value={size}
             onChange={this.updateOptions}
@@ -56,10 +55,9 @@ class LaserScanOptions extends React.PureComponent {
         </OptionRow>
 
         <OptionRow label="Alpha">
-          <input
+          <Input
             type="number"
             name="alpha"
-            className="input"
             data-id="alpha"
             value={alpha}
             onChange={this.updateOptions}
@@ -67,9 +65,8 @@ class LaserScanOptions extends React.PureComponent {
         </OptionRow>
 
         <OptionRow label="Color Transformer">
-          <select
+          <Select
             name="colorTransformer"
-            className="input"
             data-id="colorTransformer"
             onChange={this.updateOptions}
             value={colorTransformer}
@@ -81,7 +78,7 @@ class LaserScanOptions extends React.PureComponent {
                 </option>
               );
             })}
-          </select>
+          </Select>
         </OptionRow>
         {
           <ColorTransformer

@@ -2,6 +2,7 @@ import React from 'react';
 import OptionRow from '../../../components/optionRow';
 import { updateOptionsUtil } from '../../../utils';
 import { DEFAULT_OPTIONS_PATH } from 'amphion/src/utils/constants';
+import { Input } from '../../../components/styled';
 
 class PathOptions extends React.PureComponent {
   constructor(props) {
@@ -18,21 +19,19 @@ class PathOptions extends React.PureComponent {
     return (
       <React.Fragment>
         <OptionRow label="Color">
-          <input
+          <Input
             type="color"
             name="color"
             data-id="color"
-            className="input"
             value={color}
             onChange={this.updateOptions}
           />
         </OptionRow>
         <OptionRow label="Alpha">
-          <input
+          <Input
             type="number"
             name="alpha"
             data-id="alpha"
-            className="input"
             value={alpha}
             onChange={this.updateOptions}
           />

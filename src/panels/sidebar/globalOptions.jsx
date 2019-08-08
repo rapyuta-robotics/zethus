@@ -1,5 +1,7 @@
 import React from 'react';
+import _ from 'lodash';
 import OptionRow from '../../components/optionRow';
+import { Container, Input, Select } from '../../components/styled';
 
 class GlobalOptions extends React.PureComponent {
   constructor(props) {
@@ -18,6 +20,7 @@ class GlobalOptions extends React.PureComponent {
 
   render() {
     const {
+      framesList,
       globalOptions: {
         display: displayOptions,
         backgroundColor: {
@@ -32,41 +35,34 @@ class GlobalOptions extends React.PureComponent {
       return null;
     }
     return (
-      <div className="container">
+      <Container>
         {displayBackgroundColor && (
           <OptionRow label="Background Color">
-            <div className="optionRow">
-              <input
-                type="color"
-                data-id="backgroundColor.value"
-                className="input"
-                value={valueBackgroundColor}
-                onChange={this.updateOptions}
-              />
-            </div>
+            <Input
+              type="color"
+              data-id="backgroundColor.value"
+              value={valueBackgroundColor}
+              onChange={this.updateOptions}
+            />
           </OptionRow>
         )}
-        {displayGrid && (
-          <div className="optionRow">
-            <div className="halfWidth">Grid size:</div>
-            <div className="halfWidth">{valueGrid}</div>
-          </div>
-        )}
+        {displayGrid && <OptionRow label="Grid size">{valueGrid}</OptionRow>}
         {displayFixedFrame && (
-          <div className="optionRow">
-            <div className="halfWidth">Fixed Frame:</div>
-            <div className="halfWidth">
-              <select
-                value={valueFixedFrame}
-                className="input"
-                onChange={() => {}}
-              >
-                <option value={valueFixedFrame}>{valueFixedFrame}</option>
-              </select>
-            </div>
-          </div>
+          <OptionRow label="Fixed frame">
+            <Select
+              value={valueFixedFrame}
+              data-id="fixedFrame.value"
+              onChange={this.updateOptions}
+            >
+              {_.map(framesList, f => (
+                <option key={f} value={f}>
+                  {f}
+                </option>
+              ))}
+            </Select>
+          </OptionRow>
         )}
-      </div>
+      </Container>
     );
   }
 }

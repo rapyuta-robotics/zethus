@@ -1,6 +1,16 @@
 import React from 'react';
 import Amphion from 'amphion';
 import _ from 'lodash';
+import {
+  Button,
+  ButtonPrimary,
+  FlexGrow,
+  Input,
+  InputLabel,
+  InputWrapper,
+  Paragraph,
+} from '../../components/styled';
+import { ModalActions, TypeHeading } from '../../components/styled/modal';
 
 const statuses = {
   loading: 0,
@@ -81,44 +91,41 @@ class RobotModelOptions extends React.Component {
     const { status, packages, name } = this.state;
     const { back } = this.props;
     if (status === statuses.loading) {
-      return <p>Loading list of packages...</p>;
+      return <Paragraph>Loading list of packages...</Paragraph>;
     }
     if (status === statuses.error) {
       return (
-        <p>
+        <Paragraph>
           Error occured while fetching packages. Please{' '}
-          <button onClick={this.getPackages}>try again</button>
-        </p>
+          <Button onClick={this.getPackages}>try again</Button>
+        </Paragraph>
       );
     }
     return (
       <form onSubmit={this.onSubmit}>
-        <div className="inputWrapper">
-          <label>Visualization name</label>
-          <input className="input" value={name} onChange={this.updateName} />
-        </div>
-        <h4 className="typeHeading">Packages</h4>
+        <InputWrapper>
+          <InputLabel>Visualization name</InputLabel>
+          <Input value={name} onChange={this.updateName} />
+        </InputWrapper>
+        <TypeHeading>Packages</TypeHeading>
         {_.map(packages, (path, packageName) => (
-          <div className="inputWrapper" key={packageName}>
-            <label>{packageName}</label>
-            <input
-              className="input"
+          <InputWrapper key={packageName}>
+            <InputLabel>{packageName}</InputLabel>
+            <Input
               data-id={packageName}
               value={path}
               onChange={this.updatePackage}
               required
             />
-          </div>
+          </InputWrapper>
         ))}
-        <div className="modal-actions">
-          <div className="flexGrow" />
-          <button type="submit" className="btn-primary">
-            Add Robot model
-          </button>
-          <button type="button" className="btn-primary" onClick={back}>
+        <ModalActions>
+          <FlexGrow />
+          <ButtonPrimary type="submit">Add Robot model</ButtonPrimary>
+          <ButtonPrimary type="button" onClick={back}>
             Back
-          </button>
-        </div>
+          </ButtonPrimary>
+        </ModalActions>
       </form>
     );
   }
