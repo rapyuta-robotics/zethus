@@ -64,8 +64,8 @@ class RobotModelOptions extends React.Component {
 
   updatePackage(e) {
     const {
-      value,
       dataset: { id: packageId },
+      value,
     } = e.target;
     const { packages } = this.state;
     this.setState({
@@ -78,8 +78,8 @@ class RobotModelOptions extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { selectedViz, addVisualization } = this.props;
-    const { packages, name } = this.state;
+    const { addVisualization, selectedViz } = this.props;
+    const { name, packages } = this.state;
     addVisualization({
       ...selectedViz,
       name,
@@ -88,7 +88,7 @@ class RobotModelOptions extends React.Component {
   }
 
   render() {
-    const { status, packages, name } = this.state;
+    const { name, packages, status } = this.state;
     const { back } = this.props;
     if (status === statuses.loading) {
       return <Paragraph>Loading list of packages...</Paragraph>;

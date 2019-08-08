@@ -26,7 +26,7 @@ class GenericOptions extends React.Component {
 
   onSubmit(e) {
     e.preventDefault();
-    const { selectedViz, addVisualization } = this.props;
+    const { addVisualization, selectedViz } = this.props;
     const { name } = this.state;
     addVisualization({
       ...selectedViz,

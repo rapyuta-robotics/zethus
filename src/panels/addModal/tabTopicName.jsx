@@ -35,13 +35,13 @@ class TopicName extends React.Component {
     e.preventDefault();
     const { selectViz } = this.props;
     const {
-      selectedViz: { vizType, topicName, messageType },
+      selectedViz: { messageType, topicName, vizType },
     } = this.state;
     selectViz(vizType, topicName, messageType);
   }
 
   render() {
-    const { rosTopics, closeModal } = this.props;
+    const { closeModal, rosTopics } = this.props;
     const { selectedViz } = this.state;
     return (
       <AddVizForm onSubmit={this.onSubmit}>

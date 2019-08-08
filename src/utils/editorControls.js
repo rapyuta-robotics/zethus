@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * @author qiao / https://github.com/qiao
  * @author mrdoob / http://mrdoob.com
@@ -15,7 +16,7 @@ import {
   Vector3,
 } from 'three/build/three.module';
 
-var EditorControls = function(object, domElement) {
+const EditorControls = function(object, domElement) {
   domElement = domElement !== undefined ? domElement : document;
 
   // API
@@ -28,27 +29,27 @@ var EditorControls = function(object, domElement) {
 
   // internals
 
-  var scope = this;
-  var vector = new Vector3();
-  var delta = new Vector3();
-  var box = new Box3();
+  const scope = this;
+  const vector = new Vector3();
+  const delta = new Vector3();
+  const box = new Box3();
 
-  var STATE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2 };
-  var state = STATE.NONE;
+  const STATE = { NONE: -1, ROTATE: 0, ZOOM: 1, PAN: 2 };
+  let state = STATE.NONE;
 
-  var center = this.center;
-  var normalMatrix = new Matrix3();
-  var pointer = new Vector2();
-  var pointerOld = new Vector2();
-  var spherical = new Spherical();
-  var sphere = new Sphere();
+  const { center } = this;
+  const normalMatrix = new Matrix3();
+  const pointer = new Vector2();
+  const pointerOld = new Vector2();
+  const spherical = new Spherical();
+  const sphere = new Sphere();
 
   // events
 
-  var changeEvent = { type: 'change' };
+  const changeEvent = { type: 'change' };
 
   this.focus = function(target) {
-    var distance;
+    let distance;
 
     box.setFromObject(target);
 
@@ -72,7 +73,7 @@ var EditorControls = function(object, domElement) {
   };
 
   this.pan = function(delta) {
-    var distance = object.position.distanceTo(center);
+    const distance = object.position.distanceTo(center);
 
     delta.multiplyScalar(distance * scope.panSpeed);
     delta.applyMatrix3(normalMatrix.getNormalMatrix(object.matrix));
@@ -84,7 +85,7 @@ var EditorControls = function(object, domElement) {
   };
 
   this.zoom = function(delta) {
-    var distance = object.position.distanceTo(center);
+    const distance = object.position.distanceTo(center);
 
     delta.multiplyScalar(distance * scope.zoomSpeed);
 
@@ -143,8 +144,8 @@ var EditorControls = function(object, domElement) {
 
     pointer.set(event.clientX, event.clientY);
 
-    var movementX = pointer.x - pointerOld.x;
-    var movementY = pointer.y - pointerOld.y;
+    const movementX = pointer.x - pointerOld.x;
+    const movementY = pointer.y - pointerOld.y;
 
     if (state === STATE.ROTATE) {
       scope.rotate(delta.set(-movementX, -movementY, 0));
@@ -197,10 +198,10 @@ var EditorControls = function(object, domElement) {
 
   // touch
 
-  var touches = [new Vector3(), new Vector3(), new Vector3()];
-  var prevTouches = [new Vector3(), new Vector3(), new Vector3()];
+  const touches = [new Vector3(), new Vector3(), new Vector3()];
+  const prevTouches = [new Vector3(), new Vector3(), new Vector3()];
 
-  var prevDistance = null;
+  let prevDistance = null;
 
   function touchStart(event) {
     if (scope.enabled === false) return;
@@ -237,9 +238,9 @@ var EditorControls = function(object, domElement) {
     event.stopPropagation();
 
     function getClosest(touch, touches) {
-      var closest = touches[0];
+      let closest = touches[0];
 
-      for (var i in touches) {
+      for (const i in touches) {
         if (closest.distanceTo(touch) > touches[i].distanceTo(touch))
           closest = touches[i];
       }

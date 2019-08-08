@@ -8,7 +8,7 @@ import { Anchor } from '../../components/styled';
 class VizTypeDetails extends React.PureComponent {
   render() {
     const { vizType } = this.props;
-    const { type, description, docsLink } = _.find(
+    const { description, docsLink, type } = _.find(
       vizOptions,
       v => v.type === vizType,
     );

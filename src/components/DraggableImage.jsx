@@ -77,7 +77,7 @@ class DraggableImage extends React.Component {
 
   render() {
     const {
-      viz: { visible, name },
+      viz: { name, visible },
     } = this.props;
 
     if (!visible) {

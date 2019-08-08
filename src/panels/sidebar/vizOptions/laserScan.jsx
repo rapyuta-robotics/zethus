@@ -23,7 +23,7 @@ class LaserScanOptions extends React.PureComponent {
       ...DEFAULT_OPTIONS_LASERSCAN,
       ...propsOptions,
     };
-    const { style, size, alpha, colorTransformer } = options;
+    const { alpha, colorTransformer, size, style } = options;
 
     return (
       <React.Fragment>

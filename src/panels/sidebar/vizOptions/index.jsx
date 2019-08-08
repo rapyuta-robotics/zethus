@@ -14,7 +14,7 @@ import {
 } from '../../../components/styled/viz';
 
 const VizOptions = ({
-  options: { vizType, name, topicName, key, visible, display },
+  options: { display, key, name, topicName, visible, vizType },
   options,
   topics,
   vizObject: { icon },

@@ -207,8 +207,8 @@ export function updateOptionsUtil(e) {
   } = this.props;
   const {
     checked,
-    value,
     dataset: { id: optionId },
+    value,
   } = e.target;
   updateVizOptions(key, {
     [optionId]: _.has(e.target, 'checked') ? checked : value,

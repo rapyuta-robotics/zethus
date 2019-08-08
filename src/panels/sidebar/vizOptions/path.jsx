@@ -1,7 +1,7 @@
 import React from 'react';
+import { DEFAULT_OPTIONS_PATH } from 'amphion/src/utils/constants';
 import OptionRow from '../../../components/optionRow';
 import { updateOptionsUtil } from '../../../utils';
-import { DEFAULT_OPTIONS_PATH } from 'amphion/src/utils/constants';
 import { Input } from '../../../components/styled';
 
 class PathOptions extends React.PureComponent {
@@ -12,7 +12,7 @@ class PathOptions extends React.PureComponent {
 
   render() {
     const { options: propsOptions } = this.props;
-    const { color, alpha } = {
+    const { alpha, color } = {
       ...DEFAULT_OPTIONS_PATH,
       ...propsOptions,
     };
