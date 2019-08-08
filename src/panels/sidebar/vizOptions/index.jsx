@@ -3,12 +3,7 @@ import _ from 'lodash';
 
 import { VIZ_TYPE_ROBOTMODEL, VIZ_TYPE_TF } from 'amphion/src/utils/constants';
 import VizSpecificOptions from './vizSpecificOption';
-import {
-  Button,
-  HalfWidth,
-  Select,
-  StyledOptionRow,
-} from '../../../components/styled';
+import { Button, Select, StyledOptionRow } from '../../../components/styled';
 import OptionRow from '../../../components/optionRow';
 import {
   VizItem,
