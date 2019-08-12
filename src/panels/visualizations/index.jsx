@@ -1,6 +1,6 @@
 import React from 'react';
+import { Rnd } from 'react-rnd';
 import Amphion from 'amphion';
-
 import {
   VIZ_TYPE_IMAGE,
   VIZ_TYPE_LASERSCAN,
@@ -17,6 +17,7 @@ import {
 } from 'amphion/src/utils/constants';
 import _ from 'lodash';
 import { getTfTopics } from '../../utils';
+import { VizImageContainer, VizImageHeader } from '../../components/styled/viz';
 
 class Visualization extends React.PureComponent {
   constructor(props) {
@@ -24,6 +25,9 @@ class Visualization extends React.PureComponent {
     this.vizInstance = null;
     this.imageDomRef = React.createRef();
     this.resetVisualization = this.resetVisualization.bind(this);
+    this.state = {
+      isVizWrapperVisible: true,
+    };
   }
 
   static getNewViz(vizType, ros, topicName, options) {
@@ -80,7 +84,7 @@ class Visualization extends React.PureComponent {
         this.vizInstance.changeTopic(currentTfTopics);
       }
     } else if (
-      topicName !== prevProps.topicName &&
+      topicName !== prevProps.options.topicName &&
       this.vizInstance.changeTopic
     ) {
       this.vizInstance.changeTopic(topicName);
@@ -89,7 +93,7 @@ class Visualization extends React.PureComponent {
       this.vizInstance.updateOptions(options);
     }
     if (visible !== prevProps.options.visible) {
-      this.updateVisibility(visible);
+      this.updateVisibility(vizType, visible);
     }
   }
 
@@ -104,6 +108,7 @@ class Visualization extends React.PureComponent {
     if (this.vizInstance) {
       this.vizInstance.destroy();
     }
+
     this.vizInstance = Visualization.getNewViz(
       vizType,
       rosInstance,
@@ -117,14 +122,20 @@ class Visualization extends React.PureComponent {
       viewer.addRobot(this.vizInstance);
     } else if (vizType === VIZ_TYPE_IMAGE) {
       this.imageDomRef.current.appendChild(this.vizInstance.object);
+      this.vizInstance.subscribe();
     } else {
       viewer.addVisualization(this.vizInstance);
       this.vizInstance.subscribe();
     }
-    this.updateVisibility(!_.isBoolean(visible) || visible);
+    this.updateVisibility(vizType, !_.isBoolean(visible) || visible);
   }
 
-  updateVisibility(visible) {
+  updateVisibility(vizType, visible) {
+    if (vizType === VIZ_TYPE_IMAGE) {
+      this.setState({ isVizWrapperVisible: visible });
+      return;
+    }
+
     if (visible) {
       this.vizInstance.show();
     } else {
@@ -140,10 +151,36 @@ class Visualization extends React.PureComponent {
 
   render() {
     const {
-      options: { vizType },
+      options: { vizType, topicName },
     } = this.props;
+    const { isVizWrapperVisible } = this.state;
+
     if (vizType === VIZ_TYPE_IMAGE) {
-      return <div ref={this.imageDomRef} />;
+      return (
+        <Rnd
+          className={{
+            'image-viz-hidden': !isVizWrapperVisible,
+          }}
+          default={{
+            x: window.innerWidth - 320 - 30, // imageDefaultWidth: 320, imageRight: 30
+            y: 30, // imageTop: 30
+            width: 320,
+            height: 265, // imageDefaultHeight: 240 + 25px header padding
+          }}
+          lockAspectRatio
+          bounds="window"
+          onResizeStop={(e, direction, ref) => {
+            this.vizInstance.updateDimensions(
+              Number.parseInt(ref.style.width, 10),
+              Number.parseInt(ref.style.height, 10) - 25, // -25px for header padding
+            );
+          }}
+        >
+          <VizImageContainer ref={this.imageDomRef}>
+            <VizImageHeader>Image - {topicName}</VizImageHeader>
+          </VizImageContainer>
+        </Rnd>
+      );
     }
     return null;
   }

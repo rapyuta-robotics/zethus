@@ -178,7 +178,7 @@ class Wrapper extends React.Component {
             updateVizOptions={updateVizOptions}
             updateRosEndpoint={updateRosEndpoint}
             toggleAddModal={this.toggleAddModal}
-            removeVisualization={removeVisualization}
+            removeVisualization={removeVisualization}update
             toggleVisibility={toggleVisibility}
           />
         )}
