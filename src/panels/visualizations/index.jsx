@@ -2,6 +2,7 @@ import React from 'react';
 import Amphion from 'amphion';
 
 import {
+  VIZ_TYPE_IMAGE,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
@@ -21,11 +22,14 @@ class Visualization extends React.PureComponent {
   constructor(props) {
     super(props);
     this.vizInstance = null;
+    this.imageDomRef = React.createRef();
     this.resetVisualization = this.resetVisualization.bind(this);
   }
 
   static getNewViz(vizType, ros, topicName, options) {
     switch (vizType) {
+      case VIZ_TYPE_IMAGE:
+        return new Amphion.Image(ros, topicName, options);
       case VIZ_TYPE_LASERSCAN:
         return new Amphion.LaserScan(ros, topicName, options);
       case VIZ_TYPE_MAP:
@@ -111,6 +115,8 @@ class Visualization extends React.PureComponent {
     }
     if (vizType === VIZ_TYPE_ROBOTMODEL) {
       viewer.addRobot(this.vizInstance);
+    } else if (vizType === VIZ_TYPE_IMAGE) {
+      this.imageDomRef.current.appendChild(this.vizInstance.object);
     } else {
       viewer.addVisualization(this.vizInstance);
       this.vizInstance.subscribe();
@@ -133,6 +139,12 @@ class Visualization extends React.PureComponent {
   }
 
   render() {
+    const {
+      options: { vizType },
+    } = this.props;
+    if (vizType === VIZ_TYPE_IMAGE) {
+      return <div ref={this.imageDomRef} />;
+    }
     return null;
   }
 }
