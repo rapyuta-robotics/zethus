@@ -155,7 +155,7 @@ export const DEFAULT_CONFIG = {
     },
   },
   ros: {
-    endpoint: 'ws://localhost:9090',
+    endpoint: 'ws://10.91.1.110:9090',
   },
   visualizations: [],
   globalOptions: {
