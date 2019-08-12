@@ -20,7 +20,7 @@
     "url": "https://github.com/rapyuta-robotics/zethus/issues"
   },
   "dependencies": {
-    "amphion": "^0.1.9",
+    "amphion": "^0.1.10",
     "classnames": "^2.2.6",
     "interactjs": "^1.4.0-rc.13",
     "lodash": "^4.17.13",
@@ -41,13 +41,21 @@
     "styled-components": "^4.3.2",
     "three": "^0.106.2"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-commit"
+    }
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "stylelint": "prettier-stylelint --write 'src/**/*.{css,scss}' ",
-    "lint": "prettier 'src/**/*.{js,jsx}' --write --single-quote --trailing-comma all"
+    "lint": "eslint src/**/*.{js,jsx} --fix",
+    "prettier": "prettier src/**/* --write",
+    "add": "git add .",
+    "pre-commit": "npm-run-all lint stylelint prettier add"
   },
   "browserslist": [
     ">0.2%",
@@ -64,7 +72,11 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
+    "eslint-restricted-globals": "^0.2.0",
+    "husky": "^3.0.2",
+    "npm-run-all": "^4.1.5",
     "prettier": "^1.16.4",
+    "prettier-sort-destructure": "0.0.4",
     "prettier-stylelint": "^0.4.2",
     "stylelint-config-standard": "^18.2.0"
   }

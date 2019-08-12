@@ -50,13 +50,13 @@ class AddModal extends React.Component {
 
   render() {
     const {
-      closeModal,
-      rosTopics,
-      rosParams,
-      ros,
       addVisualization,
+      closeModal,
+      ros,
+      rosParams,
+      rosTopics,
     } = this.props;
-    const { tabType, selectedViz } = this.state;
+    const { selectedViz, tabType } = this.state;
     return (
       <ModalWrapper onClick={closeModal}>
         <ModalContents onClick={stopPropagation}>

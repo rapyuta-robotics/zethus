@@ -24,10 +24,10 @@ class OdometryOptions extends React.PureComponent {
       ...propsOptions,
     };
     const {
-      type: shapeType,
-      positionTolerance,
       angleTolerance,
       keep,
+      positionTolerance,
+      type: shapeType,
     } = options;
 
     return (

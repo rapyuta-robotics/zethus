@@ -132,26 +132,26 @@ class Wrapper extends React.Component {
     const {
       addModalOpen,
       framesList,
+      rosEndpoint,
+      rosParams,
       rosStatus,
       rosTopics,
-      rosParams,
-      rosEndpoint,
     } = this.state;
     const {
       configuration: {
+        globalOptions,
         panels: {
+          info: { display: displayInfo },
           sidebar: { display: displaySidebar },
           tools: { display: displayTools },
-          info: { display: displayInfo },
         },
-        globalOptions,
         visualizations,
       },
-      updateVizOptions,
-      updateGlobalOptions,
-      updateRosEndpoint,
       removeVisualization,
       toggleVisibility,
+      updateGlobalOptions,
+      updateRosEndpoint,
+      updateVizOptions,
     } = this.props;
     return (
       <PanelWrapper>
@@ -178,7 +178,8 @@ class Wrapper extends React.Component {
             updateVizOptions={updateVizOptions}
             updateRosEndpoint={updateRosEndpoint}
             toggleAddModal={this.toggleAddModal}
-            removeVisualization={removeVisualization}update
+            removeVisualization={removeVisualization}
+            update
             toggleVisibility={toggleVisibility}
           />
         )}

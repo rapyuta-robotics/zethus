@@ -7,11 +7,11 @@ import GenericOptions from './optionsGeneric';
 class SelectedVizOptionsForm extends React.PureComponent {
   render() {
     const {
-      selectedViz: { vizType: type },
-      selectedViz,
+      addVisualization,
       back,
       ros,
-      addVisualization,
+      selectedViz: { vizType: type },
+      selectedViz,
     } = this.props;
     if (type === VIZ_TYPE_ROBOTMODEL) {
       return (

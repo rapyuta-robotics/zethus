@@ -12,8 +12,8 @@ class GlobalOptions extends React.PureComponent {
   updateOptions(e) {
     const { updateGlobalOptions } = this.props;
     const {
-      value,
       dataset: { id: optionId },
+      value,
     } = e.target;
     updateGlobalOptions(optionId, value);
   }
@@ -22,11 +22,11 @@ class GlobalOptions extends React.PureComponent {
     const {
       framesList,
       globalOptions: {
-        display: displayOptions,
         backgroundColor: {
           display: displayBackgroundColor,
           value: valueBackgroundColor,
         },
+        display: displayOptions,
         fixedFrame: { display: displayFixedFrame, value: valueFixedFrame },
         grid: { display: displayGrid, size: valueGrid },
       },
