@@ -22,7 +22,6 @@
   "dependencies": {
     "amphion": "^0.1.10",
     "classnames": "^2.2.6",
-    "interactjs": "^1.4.0-rc.13",
     "lodash": "^4.17.13",
     "mousetrap": "^1.6.3",
     "node-sass": "^4.11.0",
