@@ -25,9 +25,6 @@ class Visualization extends React.PureComponent {
     this.vizInstance = null;
     this.imageDomRef = React.createRef();
     this.resetVisualization = this.resetVisualization.bind(this);
-    this.state = {
-      isVizWrapperVisible: true,
-    };
   }
 
   static getNewViz(vizType, ros, topicName, options) {
@@ -93,7 +90,7 @@ class Visualization extends React.PureComponent {
       this.vizInstance.updateOptions(options);
     }
     if (visible !== prevProps.options.visible) {
-      this.updateVisibility(vizType, visible);
+      this.updateVisibility(visible);
     }
   }
 
@@ -127,15 +124,10 @@ class Visualization extends React.PureComponent {
       viewer.addVisualization(this.vizInstance);
       this.vizInstance.subscribe();
     }
-    this.updateVisibility(vizType, !_.isBoolean(visible) || visible);
+    this.updateVisibility(!_.isBoolean(visible) || visible);
   }
 
-  updateVisibility(vizType, visible) {
-    if (vizType === VIZ_TYPE_IMAGE) {
-      this.setState({ isVizWrapperVisible: visible });
-      return;
-    }
-
+  updateVisibility(visible) {
     if (visible) {
       this.vizInstance.show();
     } else {
@@ -151,15 +143,14 @@ class Visualization extends React.PureComponent {
 
   render() {
     const {
-      options: { topicName, vizType },
+      options: { topicName, visible, vizType },
     } = this.props;
-    const { isVizWrapperVisible } = this.state;
 
     if (vizType === VIZ_TYPE_IMAGE) {
       return (
         <Rnd
-          className={{
-            'image-viz-hidden': !isVizWrapperVisible,
+          style={{
+            visibility: visible ? 'visible' : 'hidden',
           }}
           default={{
             x: window.innerWidth - 320 - 30, // imageDefaultWidth: 320, imageRight: 30
