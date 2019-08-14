@@ -66,6 +66,8 @@ export const VizImageHeader = styled.div`
   padding: 2px 5px;
   min-height: 25px;
   border-bottom: 1px solid ${COLOR_GREY_LIGHT_2};
+  word-break: break-all;
+  overflow: hidden;
 `;
 
 export const VizImageName = styled.div`

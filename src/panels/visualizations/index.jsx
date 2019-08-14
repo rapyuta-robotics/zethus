@@ -156,9 +156,8 @@ class Visualization extends React.PureComponent {
             x: window.innerWidth - 320 - 30, // imageDefaultWidth: 320, imageRight: 30
             y: 30, // imageTop: 30
             width: 320,
-            height: 265, // imageDefaultHeight: 240 + 25px header padding
+            height: 265, // imageDefaultHeight: 240 + 25px header padding,
           }}
-          lockAspectRatio
           bounds="window"
           onResizeStop={(e, direction, ref) => {
             this.vizInstance.updateDimensions(
