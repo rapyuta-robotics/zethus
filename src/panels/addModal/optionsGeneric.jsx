@@ -31,6 +31,7 @@ class GenericOptions extends React.Component {
     addVisualization({
       ...selectedViz,
       name,
+      visible: true,
     });
   }
 
