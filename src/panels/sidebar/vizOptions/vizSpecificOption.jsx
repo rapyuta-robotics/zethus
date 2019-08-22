@@ -20,6 +20,7 @@ import MarkerOptions from './marker';
 import OdometryOptions from './odometry';
 import PathOptions from './path';
 import PoseOptions from './pose';
+import PointCloudOptions from './pointcloud';
 
 const VizSpecificOptions = ({
   options: { vizType },
@@ -27,6 +28,13 @@ const VizSpecificOptions = ({
   updateVizOptions,
 }) => {
   switch (vizType) {
+    case VIZ_TYPE_POINTCLOUD:
+      return (
+        <PointCloudOptions
+          options={options}
+          updateVizOptions={updateVizOptions}
+        />
+      );
     case VIZ_TYPE_IMAGE:
       return null;
     case VIZ_TYPE_LASERSCAN:
@@ -57,8 +65,6 @@ const VizSpecificOptions = ({
       return (
         <PathOptions options={options} updateVizOptions={updateVizOptions} />
       );
-    case VIZ_TYPE_POINTCLOUD:
-      return null;
     case VIZ_TYPE_POLYGON:
       return null;
     case VIZ_TYPE_POSE:
