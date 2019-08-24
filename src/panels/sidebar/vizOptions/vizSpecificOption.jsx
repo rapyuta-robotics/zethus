@@ -11,6 +11,7 @@ import {
   VIZ_TYPE_POLYGON,
   VIZ_TYPE_POSE,
   VIZ_TYPE_POSEARRAY,
+  VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
 } from 'amphion/src/utils/constants';
@@ -21,6 +22,7 @@ import OdometryOptions from './odometry';
 import PathOptions from './path';
 import PoseOptions from './pose';
 import PointCloudOptions from './pointcloud';
+import RangeOptions from './range';
 
 const VizSpecificOptions = ({
   options: { vizType },
@@ -73,6 +75,10 @@ const VizSpecificOptions = ({
       );
     case VIZ_TYPE_POSEARRAY:
       return null;
+    case VIZ_TYPE_RANGE:
+      return (
+        <RangeOptions options={options} updateVizOptions={updateVizOptions} />
+      );
     case VIZ_TYPE_ROBOTMODEL:
       return null;
     case VIZ_TYPE_TF:

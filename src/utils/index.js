@@ -25,6 +25,8 @@ import {
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
   DEFAULT_OPTIONS_SCENE,
+  VIZ_TYPE_RANGE,
+  MESSAGE_TYPE_RANGE,
 } from 'amphion/src/utils/constants';
 import _ from 'lodash';
 
@@ -123,6 +125,14 @@ export const vizOptions = [
     description: `Adds a visualization represented by a geometry_msgs/PoseArray topic to the scene. An array of pose is added to the scene based on the Shape type selected.
     ![](/image/viz/viz-posearray.png "")`,
     docsLink: `${DOCS_ROOT_URL}Pose-Array`,
+  },
+  {
+    type: VIZ_TYPE_RANGE,
+    icon: '/image/icons/icon_range.svg',
+    messageTypes: [MESSAGE_TYPE_RANGE],
+    description: `Adds a visualization represented by a sensor_msgs/Range topic to the scene.
+    ![](/image/viz/viz-range.png "")`,
+    docsLink: `${DOCS_ROOT_URL}Range`,
   },
   {
     type: VIZ_TYPE_ROBOTMODEL,
