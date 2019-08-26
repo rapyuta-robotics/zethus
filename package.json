@@ -3,6 +3,7 @@
   "version": "0.1.10",
   "description": "Realtime robot data visualization in the browser",
   "main": "src/zethus.jsx",
+  "homepage": "https://rapyuta-robotics.github.io/zethus",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rapyuta-robotics/zethus.git"
@@ -14,7 +15,7 @@
     "javascript",
     "threejs"
   ],
-  "author": "Rapyuta Robotics <support@rapyuta-robotics.com>",
+  "author": "Rapyuta Robotics <opensource@rapyuta-robotics.com>",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/rapyuta-robotics/zethus/issues"
@@ -54,7 +55,9 @@
     "lint": "eslint src/**/*.{js,jsx} --fix",
     "prettier": "prettier src/**/* --write",
     "add": "git add .",
-    "pre-commit": "npm-run-all lint stylelint prettier add"
+    "pre-commit": "npm-run-all lint stylelint prettier add",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": [
     ">0.2%",
@@ -72,6 +75,7 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-restricted-globals": "^0.2.0",
+    "gh-pages": "^2.1.1",
     "husky": "^3.0.2",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.16.4",
