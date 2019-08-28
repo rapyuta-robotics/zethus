@@ -21,7 +21,7 @@
     "url": "https://github.com/rapyuta-robotics/zethus/issues"
   },
   "dependencies": {
-    "amphion": "^0.1.11",
+    "amphion": "^0.1.12",
     "@babel/core": "7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@svgr/webpack": "4.3.2",
