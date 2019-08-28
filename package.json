@@ -1,6 +1,6 @@
 {
   "name": "zethus",
-  "version": "0.1.10",
+  "version": "0.1.12",
   "description": "Realtime robot data visualization in the browser",
   "main": "src/zethus.jsx",
   "homepage": "https://rapyuta-robotics.github.io/zethus",
@@ -21,6 +21,7 @@
     "url": "https://github.com/rapyuta-robotics/zethus/issues"
   },
   "dependencies": {
+    "amphion": "^0.1.12",
     "@babel/core": "7.5.5",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@svgr/webpack": "4.3.2",
