@@ -3,10 +3,15 @@ import _ from 'lodash';
 import shortid from 'shortid';
 import withGracefulUnmount from 'react-graceful-unmount';
 import store from 'store';
+import { PCLDecoder } from 'amphion/src/utils/pcl';
 
 import Panels from './panels';
-
 import { DEFAULT_CONFIG } from './utils';
+
+// eslint-disable-next-line import/no-unresolved
+import('pcl-decoder').then(module => {
+  PCLDecoder.attachDecoder(module);
+});
 
 class Zethus extends React.Component {
   constructor(props) {
