@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "9751b448f883d69b2a246286ea350b2a",
+    "revision": "9309181cca42e6d40fca6c6d22cc1688",
     "url": "/zethus/index.html"
   },
   {
-    "revision": "d1b176aa07ef0a7d2611",
+    "revision": "b444ae9411e651106a5a",
     "url": "/zethus/static/css/main.611a575d.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/zethus/static/js/2.421997f7.chunk.js"
   },
   {
-    "revision": "d1b176aa07ef0a7d2611",
-    "url": "/zethus/static/js/main.31c3f879.chunk.js"
+    "revision": "b444ae9411e651106a5a",
+    "url": "/zethus/static/js/main.926be2b8.chunk.js"
   },
   {
     "revision": "12c9a9fc0b45a730e0ea",

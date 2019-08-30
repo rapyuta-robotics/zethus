@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/zethus/static/css/main.611a575d.chunk.css",
-    "main.js": "/zethus/static/js/main.31c3f879.chunk.js",
-    "main.js.map": "/zethus/static/js/main.31c3f879.chunk.js.map",
+    "main.js": "/zethus/static/js/main.926be2b8.chunk.js",
+    "main.js.map": "/zethus/static/js/main.926be2b8.chunk.js.map",
     "runtime~main.js": "/zethus/static/js/runtime~main.44df2a2e.js",
     "runtime~main.js.map": "/zethus/static/js/runtime~main.44df2a2e.js.map",
     "static/js/2.421997f7.chunk.js": "/zethus/static/js/2.421997f7.chunk.js",
     "static/js/2.421997f7.chunk.js.map": "/zethus/static/js/2.421997f7.chunk.js.map",
     "index.html": "/zethus/index.html",
-    "precache-manifest.b4fb3fafd03f6c2e9f6288322516f679.js": "/zethus/precache-manifest.b4fb3fafd03f6c2e9f6288322516f679.js",
+    "precache-manifest.3b0f020649ee335e530a25561132a8ef.js": "/zethus/precache-manifest.3b0f020649ee335e530a25561132a8ef.js",
     "service-worker.js": "/zethus/service-worker.js",
     "static/css/main.611a575d.chunk.css.map": "/zethus/static/css/main.611a575d.chunk.css.map"
   }
