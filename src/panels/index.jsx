@@ -108,7 +108,7 @@ class Wrapper extends React.Component {
   }
 
   disconnectRos() {
-    if (this.ros && this.ros.isConnected) {
+    if (this.ros && this.ros.close) {
       this.ros.close();
     }
   }
@@ -176,10 +176,11 @@ class Wrapper extends React.Component {
             rosTopics={rosTopics}
             rosInstance={this.ros}
             updateVizOptions={updateVizOptions}
+            connectRos={this.connectRos}
+            disconnectRos={this.disconnectRos}
             updateRosEndpoint={updateRosEndpoint}
             toggleAddModal={this.toggleAddModal}
             removeVisualization={removeVisualization}
-            update
             toggleVisibility={toggleVisibility}
           />
         )}

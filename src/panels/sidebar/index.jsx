@@ -37,10 +37,27 @@ class Sidebar extends React.Component {
   }
 
   onSubmit(e) {
-    const { updateRosEndpoint } = this.props;
+    const {
+      connectRos,
+      disconnectRos,
+      rosEndpoint,
+      rosStatus,
+      updateRosEndpoint,
+    } = this.props;
     const { rosInput } = this.state;
     e.preventDefault();
-    updateRosEndpoint(rosInput);
+    if (rosInput !== rosEndpoint) {
+      updateRosEndpoint(rosInput);
+    } else if (
+      _.includes(
+        [ROS_SOCKET_STATUSES.CONNECTED, ROS_SOCKET_STATUSES.CONNECTING],
+        rosStatus,
+      )
+    ) {
+      disconnectRos();
+    } else {
+      connectRos();
+    }
   }
 
   render() {
@@ -81,7 +98,13 @@ class Sidebar extends React.Component {
               />
               <FlexSpace />
               <ButtonPrimary type="submit">
-                {rosStatus === ROS_SOCKET_STATUSES.CONNECTED
+                {_.includes(
+                  [
+                    ROS_SOCKET_STATUSES.CONNECTED,
+                    ROS_SOCKET_STATUSES.CONNECTING,
+                  ],
+                  rosStatus,
+                )
                   ? 'Disconnect'
                   : 'Connect'}
               </ButtonPrimary>
