@@ -13,11 +13,14 @@ class InteractiveMarkerOptions extends React.PureComponent {
       <React.Fragment>
         <OptionRow label="Update Topic">
           <Select
-            value={updateTopicName}
+            value={updateTopicName || ''}
             onChange={e =>
               updateVizOptions(key, { updateTopicName: e.target.value })
             }
           >
+            <option value="" disabled hidden>
+              Select
+            </option>
             {_.map(topics, topic => (
               <option key={topic.name}>{topic.name}</option>
             ))}
@@ -25,11 +28,14 @@ class InteractiveMarkerOptions extends React.PureComponent {
         </OptionRow>
         <OptionRow label="Feedback Topic">
           <Select
-            value={feedbackTopicName}
+            value={feedbackTopicName || ''}
             onChange={e =>
               updateVizOptions(key, { feedbackTopicName: e.target.value })
             }
           >
+            <option value="" disabled hidden>
+              Select
+            </option>
             {_.map(topics, topic => (
               <option key={topic.name}>{topic.name}</option>
             ))}
