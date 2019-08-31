@@ -57,6 +57,7 @@ const VizOptions = ({
           )}
           <VizSpecificOptions
             options={options}
+            topics={topics}
             updateVizOptions={updateVizOptions}
           />
           <VizItemActions>

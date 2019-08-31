@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   VIZ_TYPE_IMAGE,
+  VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
@@ -23,13 +24,23 @@ import PathOptions from './path';
 import PoseOptions from './pose';
 import PointCloudOptions from './pointcloud';
 import PointOptions from './point';
+import InteractiveMarkerOptions from './interactiveMarkerOptions';
 
 const VizSpecificOptions = ({
   options: { vizType },
   options,
+  topics,
   updateVizOptions,
 }) => {
   switch (vizType) {
+    case VIZ_TYPE_INTERACTIVEMARKER:
+      return (
+        <InteractiveMarkerOptions
+          options={options}
+          topics={topics}
+          updateVizOptions={updateVizOptions}
+        />
+      );
     case VIZ_TYPE_IMAGE:
       return null;
     case VIZ_TYPE_LASERSCAN:

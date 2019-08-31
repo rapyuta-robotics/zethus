@@ -3,6 +3,7 @@ import { Rnd } from 'react-rnd';
 import Amphion from 'amphion';
 import {
   VIZ_TYPE_IMAGE,
+  VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
@@ -30,6 +31,8 @@ class Visualization extends React.PureComponent {
 
   static getNewViz(vizType, ros, topicName, options) {
     switch (vizType) {
+      case VIZ_TYPE_INTERACTIVEMARKER:
+        return new Amphion.InteractiveMarkers(ros, topicName, options);
       case VIZ_TYPE_IMAGE:
         return new Amphion.Image(ros, topicName, options);
       case VIZ_TYPE_LASERSCAN:

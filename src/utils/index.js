@@ -1,18 +1,24 @@
 import {
-  MESSAGE_TYPE_TF,
-  MESSAGE_TYPE_POSESTAMPED,
-  MESSAGE_TYPE_POINTCLOUD2,
-  MESSAGE_TYPE_MARKERARRAY,
+  DEFAULT_OPTIONS_SCENE,
+  MESSAGE_TYPE_IMAGE,
+  MESSAGE_TYPE_INTERACTIVEMARKER,
+  MESSAGE_TYPE_INTERACTIVEMARKER_FEEDBACK,
+  MESSAGE_TYPE_INTERACTIVEMARKER_UPDATE,
   MESSAGE_TYPE_LASERSCAN,
+  MESSAGE_TYPE_MARKER,
+  MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_ODOMETRY,
-  MESSAGE_TYPE_ROBOT_MODEL,
-  MESSAGE_TYPE_POSEARRAY,
   MESSAGE_TYPE_PATH,
-  MESSAGE_TYPE_IMAGE,
-  MESSAGE_TYPE_MARKER,
+  MESSAGE_TYPE_POINTCLOUD2,
+  MESSAGE_TYPE_POINTSTAMPED,
+  MESSAGE_TYPE_POSEARRAY,
+  MESSAGE_TYPE_POSESTAMPED,
+  MESSAGE_TYPE_ROBOT_MODEL,
+  MESSAGE_TYPE_TF,
   MESSAGE_TYPE_TF2,
   VIZ_TYPE_IMAGE,
+  VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
@@ -25,8 +31,6 @@ import {
   VIZ_TYPE_POSEARRAY,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
-  DEFAULT_OPTIONS_SCENE,
-  MESSAGE_TYPE_POINTSTAMPED,
 } from 'amphion/src/utils/constants';
 import _ from 'lodash';
 
@@ -84,6 +88,18 @@ export const vizOptions = [
     description: `Adds a visualization represented by a visualization_msgs/Marker or visualization_msgs/MarkerArray topic to the scene.
     ![](/image/viz/viz-markerarray.png "")`,
     docsLink: `${DOCS_ROOT_URL}Marker-Array`,
+  },
+  {
+    type: VIZ_TYPE_INTERACTIVEMARKER,
+    icon: '/image/icons/icon_marker_array.svg',
+    messageTypes: [
+      MESSAGE_TYPE_INTERACTIVEMARKER,
+      MESSAGE_TYPE_INTERACTIVEMARKER_UPDATE,
+      MESSAGE_TYPE_INTERACTIVEMARKER_FEEDBACK,
+    ],
+    description: `Adds an interactive visualization represented by a visualization_msgs/InteractiveMarker topic to the scene.
+    ![](/image/viz/viz-markerarray.png "")`,
+    docsLink: `${DOCS_ROOT_URL}Interactive-Marker`,
   },
   {
     type: VIZ_TYPE_ODOMETRY,

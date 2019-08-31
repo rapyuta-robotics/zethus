@@ -1,5 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
+import {
+  MESSAGE_TYPE_INTERACTIVEMARKER,
+  VIZ_TYPE_INTERACTIVEMARKER,
+} from 'amphion/src/utils/constants';
 import { vizOptions } from '../../utils';
 import VizTypeItem from './vizTypeItem';
 import VizTypeDetails from './vizTypeDetails';
@@ -49,6 +53,13 @@ class VizType extends React.PureComponent {
         <TypeContainer>
           <TypeSelection>
             {_.map(vizOptions, op => {
+              const messageTypes =
+                op.type === VIZ_TYPE_INTERACTIVEMARKER
+                  ? [MESSAGE_TYPE_INTERACTIVEMARKER]
+                  : op.messageTypes;
+              const filteredTopics = _.filter(rosTopics, t =>
+                _.includes(messageTypes, t.messageType),
+              );
               return (
                 <VizTypeItem
                   selectViz={this.selectViz}
@@ -56,9 +67,7 @@ class VizType extends React.PureComponent {
                   rosParams={rosParams}
                   key={op.type}
                   vizDetails={op}
-                  topics={_.filter(rosTopics, t =>
-                    _.includes(op.messageTypes, t.messageType),
-                  )}
+                  topics={filteredTopics}
                 />
               );
             })}
