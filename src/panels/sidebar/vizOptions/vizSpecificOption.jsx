@@ -30,6 +30,7 @@ const VizSpecificOptions = ({
   options: { vizType },
   options,
   topics,
+  additionalTopics,
   updateVizOptions,
 }) => {
   switch (vizType) {
@@ -38,6 +39,7 @@ const VizSpecificOptions = ({
         <InteractiveMarkerOptions
           options={options}
           topics={topics}
+          additionalTopics={additionalTopics}
           updateVizOptions={updateVizOptions}
         />
       );

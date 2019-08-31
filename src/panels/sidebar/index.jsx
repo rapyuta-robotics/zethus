@@ -115,12 +115,16 @@ class Sidebar extends React.Component {
                 const topics = _.filter(rosTopics, t =>
                   _.includes(vizObject.messageTypes, t.messageType),
                 );
+                const additionalTopics = _.filter(rosTopics, t =>
+                  _.includes(vizObject.additionalMessageTypes, t.messageType),
+                );
                 return (
                   <VizOptions
                     options={vizItem}
                     key={vizItem.key}
                     viewer={viewer}
                     topics={topics}
+                    additionalTopics={additionalTopics}
                     vizObject={vizObject}
                     rosInstance={rosInstance}
                     updateVizOptions={updateVizOptions}

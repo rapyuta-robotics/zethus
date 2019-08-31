@@ -92,8 +92,8 @@ export const vizOptions = [
   {
     type: VIZ_TYPE_INTERACTIVEMARKER,
     icon: '/image/icons/icon_marker_array.svg',
-    messageTypes: [
-      MESSAGE_TYPE_INTERACTIVEMARKER,
+    messageTypes: [MESSAGE_TYPE_INTERACTIVEMARKER],
+    additionalMessageTypes: [
       MESSAGE_TYPE_INTERACTIVEMARKER_UPDATE,
       MESSAGE_TYPE_INTERACTIVEMARKER_FEEDBACK,
     ],
