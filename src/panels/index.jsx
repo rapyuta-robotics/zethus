@@ -45,10 +45,10 @@ class Wrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { rosEndpoint, startConnectTime } = this.state;
+    const { rosEndpoint } = this.state;
     if (prevState.rosEndpoint !== rosEndpoint) {
       this.disconnectRos();
-      startConnectTime = Date.now();
+      this.state.startConnectTime = Date.now();
       this.connectRos();
     }
   }
