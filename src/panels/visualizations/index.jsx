@@ -13,8 +13,10 @@ import {
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POSE,
   VIZ_TYPE_POSEARRAY,
+  VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
+  VIZ_TYPE_WRENCH,
 } from 'amphion/src/utils/constants';
 import _ from 'lodash';
 import { getTfTopics } from '../../utils';
@@ -52,10 +54,14 @@ class Visualization extends React.PureComponent {
         return new Amphion.Pose(ros, topicName, options);
       case VIZ_TYPE_POSEARRAY:
         return new Amphion.PoseArray(ros, topicName, options);
+      case VIZ_TYPE_RANGE:
+        return new Amphion.Range(ros, topicName, options);
       case VIZ_TYPE_ROBOTMODEL:
         return new Amphion.RobotModel(ros, topicName, options);
       case VIZ_TYPE_TF:
         return new Amphion.Tf(ros, topicName, options);
+      case VIZ_TYPE_WRENCH:
+        return new Amphion.Wrench(ros, topicName, options);
       default:
         return null;
     }

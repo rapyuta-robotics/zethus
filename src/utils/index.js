@@ -6,12 +6,15 @@ import {
   MESSAGE_TYPE_LASERSCAN,
   MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_ODOMETRY,
-  MESSAGE_TYPE_ROBOT_MODEL,
+  MESSAGE_TYPE_POINTSTAMPED,
   MESSAGE_TYPE_POSEARRAY,
   MESSAGE_TYPE_PATH,
   MESSAGE_TYPE_IMAGE,
   MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_TF2,
+  MESSAGE_TYPE_RANGE,
+  MESSAGE_TYPE_ROBOT_MODEL,
+  MESSAGE_TYPE_WRENCHSTAMPED,
   VIZ_TYPE_IMAGE,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
@@ -23,10 +26,11 @@ import {
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POSE,
   VIZ_TYPE_POSEARRAY,
+  VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
+  VIZ_TYPE_WRENCH,
   DEFAULT_OPTIONS_SCENE,
-  MESSAGE_TYPE_POINTSTAMPED,
 } from 'amphion/src/utils/constants';
 import _ from 'lodash';
 
@@ -135,6 +139,14 @@ export const vizOptions = [
     docsLink: `${DOCS_ROOT_URL}Pose-Array`,
   },
   {
+    type: VIZ_TYPE_RANGE,
+    icon: '/image/icons/icon_range.svg',
+    messageTypes: [MESSAGE_TYPE_RANGE],
+    description: `Adds a visualization represented by a sensor_msgs/Range topic to the scene.
+    ![](/image/viz/viz-range.png "")`,
+    docsLink: `${DOCS_ROOT_URL}Range`,
+  },
+  {
     type: VIZ_TYPE_ROBOTMODEL,
     icon: '/image/icons/icon_robot_model.svg',
     messageTypes: [MESSAGE_TYPE_ROBOT_MODEL],
@@ -149,6 +161,14 @@ export const vizOptions = [
     description: `Adds a visualization represented by a tf/tfMessage and tf2_msgs/TFMessage topic to the scene.
     ![](/image/viz/viz-tf.png "")`,
     docsLink: `${DOCS_ROOT_URL}Tf`,
+  },
+  {
+    type: VIZ_TYPE_WRENCH,
+    icon: '/image/icons/icon_pose_array.svg',
+    messageTypes: [MESSAGE_TYPE_WRENCHSTAMPED],
+    description: `Adds a visualization represented by a geometry_msgs/WrenchStamped topic to the scene.
+    ![](/image/viz/viz-wrench.png "")`,
+    docsLink: `${DOCS_ROOT_URL}Wrench`,
   },
 ];
 
