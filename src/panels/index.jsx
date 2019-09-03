@@ -10,8 +10,6 @@ import { PanelWrapper, PanelContent } from '../components/styled';
 import AddModal from './addModal';
 import Sidebar from './sidebar';
 import Viewport from './viewer';
-import Info from './info';
-import Tools from './tools';
 import Visualization from './visualizations';
 
 class Wrapper extends React.Component {
@@ -108,7 +106,7 @@ class Wrapper extends React.Component {
   }
 
   disconnectRos() {
-    if (this.ros && this.ros.isConnected) {
+    if (this.ros && this.ros.close) {
       this.ros.close();
     }
   }
@@ -141,9 +139,7 @@ class Wrapper extends React.Component {
       configuration: {
         globalOptions,
         panels: {
-          info: { display: displayInfo },
           sidebar: { display: displaySidebar },
-          tools: { display: displayTools },
         },
         visualizations,
       },
@@ -176,6 +172,8 @@ class Wrapper extends React.Component {
             rosTopics={rosTopics}
             rosInstance={this.ros}
             updateVizOptions={updateVizOptions}
+            connectRos={this.connectRos}
+            disconnectRos={this.disconnectRos}
             updateRosEndpoint={updateRosEndpoint}
             toggleAddModal={this.toggleAddModal}
             removeVisualization={removeVisualization}
@@ -183,9 +181,7 @@ class Wrapper extends React.Component {
           />
         )}
         <PanelContent>
-          {displayTools && <Tools />}
           <Viewport viewer={this.viewer} globalOptions={globalOptions} />
-          {displayInfo && <Info />}
         </PanelContent>
         {_.map(visualizations, vizItem => (
           <Visualization

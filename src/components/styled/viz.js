@@ -40,16 +40,18 @@ export const VizItemIcon = styled.img`
 
 export const VizImageContainer = styled.div`
   display: flex;
-  position: absolute;
   background-color: #fff;
   flex-direction: column;
   cursor: move;
   border-radius: 4px;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
   border: 1px solid ${COLOR_GREY_LIGHT_2};
 
   canvas {
-    width: 320px;
-    height: 240px;
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -62,7 +64,10 @@ export const VizImageHeader = styled.div`
   display: flex;
   font-size: 14px;
   padding: 2px 5px;
+  min-height: 25px;
   border-bottom: 1px solid ${COLOR_GREY_LIGHT_2};
+  word-break: break-all;
+  overflow: hidden;
 `;
 
 export const VizImageName = styled.div`

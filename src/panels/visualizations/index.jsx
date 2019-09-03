@@ -1,31 +1,38 @@
 import React from 'react';
+import { Rnd } from 'react-rnd';
 import Amphion from 'amphion';
-
 import {
+  VIZ_TYPE_IMAGE,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
   VIZ_TYPE_MARKERARRAY,
   VIZ_TYPE_ODOMETRY,
   VIZ_TYPE_PATH,
+  VIZ_TYPE_POINT,
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POSE,
   VIZ_TYPE_POSEARRAY,
+  VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
 } from 'amphion/src/utils/constants';
 import _ from 'lodash';
 import { getTfTopics } from '../../utils';
+import { VizImageContainer, VizImageHeader } from '../../components/styled/viz';
 
 class Visualization extends React.PureComponent {
   constructor(props) {
     super(props);
     this.vizInstance = null;
+    this.imageDomRef = React.createRef();
     this.resetVisualization = this.resetVisualization.bind(this);
   }
 
   static getNewViz(vizType, ros, topicName, options) {
     switch (vizType) {
+      case VIZ_TYPE_IMAGE:
+        return new Amphion.Image(ros, topicName, options);
       case VIZ_TYPE_LASERSCAN:
         return new Amphion.LaserScan(ros, topicName, options);
       case VIZ_TYPE_MAP:
@@ -38,12 +45,16 @@ class Visualization extends React.PureComponent {
         return new Amphion.Odometry(ros, topicName, options);
       case VIZ_TYPE_PATH:
         return new Amphion.Path(ros, topicName, options);
+      case VIZ_TYPE_POINT:
+        return new Amphion.Point(ros, topicName, options);
       case VIZ_TYPE_POINTCLOUD:
         return new Amphion.PointCloud(ros, topicName, options);
       case VIZ_TYPE_POSE:
         return new Amphion.Pose(ros, topicName, options);
       case VIZ_TYPE_POSEARRAY:
         return new Amphion.PoseArray(ros, topicName, options);
+      case VIZ_TYPE_RANGE:
+        return new Amphion.Range(ros, topicName, options);
       case VIZ_TYPE_ROBOTMODEL:
         return new Amphion.RobotModel(ros, topicName, options);
       case VIZ_TYPE_TF:
@@ -76,7 +87,7 @@ class Visualization extends React.PureComponent {
         this.vizInstance.changeTopic(currentTfTopics);
       }
     } else if (
-      topicName !== prevProps.topicName &&
+      topicName !== prevProps.options.topicName &&
       this.vizInstance.changeTopic
     ) {
       this.vizInstance.changeTopic(topicName);
@@ -100,6 +111,7 @@ class Visualization extends React.PureComponent {
     if (this.vizInstance) {
       this.vizInstance.destroy();
     }
+
     this.vizInstance = Visualization.getNewViz(
       vizType,
       rosInstance,
@@ -111,6 +123,9 @@ class Visualization extends React.PureComponent {
     }
     if (vizType === VIZ_TYPE_ROBOTMODEL) {
       viewer.addRobot(this.vizInstance);
+    } else if (vizType === VIZ_TYPE_IMAGE) {
+      this.imageDomRef.current.appendChild(this.vizInstance.object);
+      this.vizInstance.subscribe();
     } else {
       viewer.addVisualization(this.vizInstance);
       this.vizInstance.subscribe();
@@ -133,6 +148,36 @@ class Visualization extends React.PureComponent {
   }
 
   render() {
+    const {
+      options: { topicName, visible, vizType },
+    } = this.props;
+
+    if (vizType === VIZ_TYPE_IMAGE) {
+      return (
+        <Rnd
+          style={{
+            visibility: visible ? 'visible' : 'hidden',
+          }}
+          default={{
+            x: window.innerWidth - 320 - 30, // imageDefaultWidth: 320, imageRight: 30
+            y: 30, // imageTop: 30
+            width: 320,
+            height: 265, // imageDefaultHeight: 240 + 25px header padding,
+          }}
+          bounds="window"
+          onResizeStop={(e, direction, ref) => {
+            this.vizInstance.updateDimensions(
+              Number.parseInt(ref.style.width, 10),
+              Number.parseInt(ref.style.height, 10) - 25, // -25px for header padding
+            );
+          }}
+        >
+          <VizImageContainer ref={this.imageDomRef}>
+            <VizImageHeader>Image - {topicName}</VizImageHeader>
+          </VizImageContainer>
+        </Rnd>
+      );
+    }
     return null;
   }
 }
