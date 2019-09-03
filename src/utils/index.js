@@ -6,12 +6,14 @@ import {
   MESSAGE_TYPE_LASERSCAN,
   MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_ODOMETRY,
-  MESSAGE_TYPE_ROBOT_MODEL,
+  MESSAGE_TYPE_POINTSTAMPED,
   MESSAGE_TYPE_POSEARRAY,
   MESSAGE_TYPE_PATH,
   MESSAGE_TYPE_IMAGE,
   MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_TF2,
+  MESSAGE_TYPE_RANGE,
+  MESSAGE_TYPE_ROBOT_MODEL,
   VIZ_TYPE_IMAGE,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
@@ -19,14 +21,14 @@ import {
   VIZ_TYPE_MARKERARRAY,
   VIZ_TYPE_ODOMETRY,
   VIZ_TYPE_PATH,
+  VIZ_TYPE_POINT,
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POSE,
   VIZ_TYPE_POSEARRAY,
+  VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
   DEFAULT_OPTIONS_SCENE,
-  VIZ_TYPE_RANGE,
-  MESSAGE_TYPE_RANGE,
 } from 'amphion/src/utils/constants';
 import _ from 'lodash';
 
@@ -103,6 +105,14 @@ export const vizOptions = [
     docsLink: `${DOCS_ROOT_URL}Path`,
   },
   {
+    type: VIZ_TYPE_POINT,
+    icon: '/image/icons/icon_point.svg',
+    messageTypes: [MESSAGE_TYPE_POINTSTAMPED],
+    description: `Adds a visualization represented by a geometry_msgs/PointStamped topic to the scene.
+    ![](/image/viz/viz-point.png "")`,
+    docsLink: `${DOCS_ROOT_URL}Point`,
+  },
+  {
     type: VIZ_TYPE_POINTCLOUD,
     icon: '/image/icons/icon_pointcloud_2.svg',
     messageTypes: [MESSAGE_TYPE_POINTCLOUD2],
@@ -156,12 +166,6 @@ export const DEFAULT_CONFIG = {
   panels: {
     sidebar: {
       display: true,
-    },
-    tools: {
-      display: false,
-    },
-    info: {
-      display: false,
     },
   },
   ros: {

@@ -7,6 +7,7 @@ import {
   VIZ_TYPE_MARKERARRAY,
   VIZ_TYPE_ODOMETRY,
   VIZ_TYPE_PATH,
+  VIZ_TYPE_POINT,
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POLYGON,
   VIZ_TYPE_POSE,
@@ -23,6 +24,7 @@ import PathOptions from './path';
 import PoseOptions from './pose';
 import PointCloudOptions from './pointcloud';
 import RangeOptions from './range';
+import PointOptions from './point';
 
 const VizSpecificOptions = ({
   options: { vizType },
@@ -30,13 +32,6 @@ const VizSpecificOptions = ({
   updateVizOptions,
 }) => {
   switch (vizType) {
-    case VIZ_TYPE_POINTCLOUD:
-      return (
-        <PointCloudOptions
-          options={options}
-          updateVizOptions={updateVizOptions}
-        />
-      );
     case VIZ_TYPE_IMAGE:
       return null;
     case VIZ_TYPE_LASERSCAN:
@@ -66,6 +61,17 @@ const VizSpecificOptions = ({
     case VIZ_TYPE_PATH:
       return (
         <PathOptions options={options} updateVizOptions={updateVizOptions} />
+      );
+    case VIZ_TYPE_POINT:
+      return (
+        <PointOptions options={options} updateVizOptions={updateVizOptions} />
+      );
+    case VIZ_TYPE_POINTCLOUD:
+      return (
+        <PointCloudOptions
+          options={options}
+          updateVizOptions={updateVizOptions}
+        />
       );
     case VIZ_TYPE_POLYGON:
       return null;

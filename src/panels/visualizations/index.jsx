@@ -9,6 +9,7 @@ import {
   VIZ_TYPE_MARKERARRAY,
   VIZ_TYPE_ODOMETRY,
   VIZ_TYPE_PATH,
+  VIZ_TYPE_POINT,
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POSE,
   VIZ_TYPE_POSEARRAY,
@@ -44,6 +45,8 @@ class Visualization extends React.PureComponent {
         return new Amphion.Odometry(ros, topicName, options);
       case VIZ_TYPE_PATH:
         return new Amphion.Path(ros, topicName, options);
+      case VIZ_TYPE_POINT:
+        return new Amphion.Point(ros, topicName, options);
       case VIZ_TYPE_POINTCLOUD:
         return new Amphion.PointCloud(ros, topicName, options);
       case VIZ_TYPE_POSE:
