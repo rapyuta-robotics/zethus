@@ -39,7 +39,7 @@
     "stats-js": "^1.0.0",
     "store": "^2.0.12",
     "styled-components": "^4.3.2",
-    "three": "^0.107.0"
+    "three": "^0.108.0"
   },
   "husky": {
     "hooks": {
