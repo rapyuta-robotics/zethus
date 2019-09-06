@@ -24,7 +24,7 @@ class Viewport extends React.PureComponent {
     this.updateViewerOptions = this.updateViewerOptions.bind(this);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     this.updateViewerOptions();
   }
 
