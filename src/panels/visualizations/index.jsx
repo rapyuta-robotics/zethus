@@ -29,7 +29,7 @@ class Visualization extends React.PureComponent {
     this.resetVisualization = this.resetVisualization.bind(this);
   }
 
-  static getNewViz(vizType, ros, topicName, options) {
+  static getNewViz(vizType, ros, topicName, camera, options) {
     switch (vizType) {
       case VIZ_TYPE_IMAGE:
         return new Amphion.Image(ros, topicName, options);
@@ -38,9 +38,9 @@ class Visualization extends React.PureComponent {
       case VIZ_TYPE_MAP:
         return new Amphion.Map(ros, topicName, options);
       case VIZ_TYPE_MARKER:
-        return new Amphion.Marker(ros, topicName, options);
+        return new Amphion.Marker(ros, topicName, camera, options);
       case VIZ_TYPE_MARKERARRAY:
-        return new Amphion.MarkerArray(ros, topicName, options);
+        return new Amphion.MarkerArray(ros, topicName, camera, options);
       case VIZ_TYPE_ODOMETRY:
         return new Amphion.Odometry(ros, topicName, options);
       case VIZ_TYPE_PATH:
@@ -116,6 +116,7 @@ class Visualization extends React.PureComponent {
       vizType,
       rosInstance,
       vizType === VIZ_TYPE_TF ? getTfTopics(rosTopics) : topicName,
+      viewer.camera,
       options,
     );
     if (!this.vizInstance) {
