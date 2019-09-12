@@ -14,7 +14,7 @@ class Zethus extends React.Component {
     const providedConfig =
       props.configuration || store.get('zethus_config') || {};
     this.state = {
-      ...Object.assign({}, DEFAULT_CONFIG, providedConfig),
+      ..._.merge({}, DEFAULT_CONFIG, providedConfig),
     };
     this.updateVizOptions = this.updateVizOptions.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
