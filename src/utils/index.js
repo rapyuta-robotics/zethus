@@ -209,18 +209,7 @@ export const DEFAULT_CONFIG = {
     measure: {
       display: false,
     },
-    custom: [
-      {
-        name: 'Nav goal',
-        type: 'publishPose',
-        topic: '/navgoal',
-      },
-      {
-        name: 'Nav goal',
-        type: 'publishPoseWithCovariance',
-        topic: 'initialpose',
-      },
-    ],
+    custom: [],
   },
 };
 
