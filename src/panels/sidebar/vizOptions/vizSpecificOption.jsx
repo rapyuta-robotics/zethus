@@ -16,6 +16,7 @@ import {
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
+  VIZ_TYPE_WRENCH,
 } from 'amphion/src/utils/constants';
 import LaserScanOptions from './laserScan';
 import MapOptions from './map';
@@ -27,6 +28,7 @@ import PointCloudOptions from './pointcloud';
 import RangeOptions from './range';
 import PointOptions from './point';
 import InteractiveMarkerOptions from './interactiveMarkerOptions';
+import WrenchOptions from './wrench';
 
 const VizSpecificOptions = ({
   options: { vizType },
@@ -36,6 +38,8 @@ const VizSpecificOptions = ({
   updateVizOptions,
 }) => {
   switch (vizType) {
+    case VIZ_TYPE_IMAGE:
+      return null;
     case VIZ_TYPE_INTERACTIVEMARKER:
       return (
         <InteractiveMarkerOptions
@@ -45,8 +49,6 @@ const VizSpecificOptions = ({
           updateVizOptions={updateVizOptions}
         />
       );
-    case VIZ_TYPE_IMAGE:
-      return null;
     case VIZ_TYPE_LASERSCAN:
       return (
         <LaserScanOptions
@@ -102,6 +104,10 @@ const VizSpecificOptions = ({
       return null;
     case VIZ_TYPE_TF:
       return null;
+    case VIZ_TYPE_WRENCH:
+      return (
+        <WrenchOptions options={options} updateVizOptions={updateVizOptions} />
+      );
     default:
       return null;
   }
