@@ -1,6 +1,6 @@
 {
   "name": "zethus",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Realtime robot data visualization in the browser",
   "main": "src/zethus.jsx",
   "homepage": "https://rapyuta-robotics.github.io/zethus",
