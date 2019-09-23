@@ -53,7 +53,6 @@ class ConfigurationModal extends React.Component {
     super(props);
     this.state = {
       config: props.configuration,
-      error: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -62,12 +61,6 @@ class ConfigurationModal extends React.Component {
   handleChange(config) {
     this.setState({
       config,
-    });
-  }
-
-  onError() {
-    this.setState({
-      error: true,
     });
   }
 
