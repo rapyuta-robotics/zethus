@@ -10,8 +10,7 @@ import {
 import TabVizType from './tabVizType';
 import TabTopicName from './tabTopicName';
 import SelectedVizOptionsForm from './options';
-
-const stopPropagation = e => e.stopPropagation();
+import { stopPropagation } from '../../utils';
 
 const tabs = {
   vizType: 'Visualization type',

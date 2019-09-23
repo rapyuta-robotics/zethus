@@ -69,6 +69,7 @@ class Sidebar extends React.Component {
       rosStatus,
       rosTopics,
       globalOptions,
+      toggleConfigurationModal,
       toggleVisibility,
       updateGlobalOptions,
       updateVizOptions,
@@ -118,6 +119,7 @@ class Sidebar extends React.Component {
               framesList={framesList}
               globalOptions={globalOptions}
               updateGlobalOptions={updateGlobalOptions}
+              toggleConfigurationModal={toggleConfigurationModal}
             />
             <Separator />
             <SidebarVizContainer>

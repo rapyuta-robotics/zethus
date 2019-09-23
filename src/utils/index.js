@@ -48,6 +48,8 @@ export const TF_MESSAGE_TYPES = [MESSAGE_TYPE_TF, MESSAGE_TYPE_TF2];
 export const getTfTopics = rosTopics =>
   _.filter(rosTopics, t => _.includes(TF_MESSAGE_TYPES, t.messageType));
 
+export const stopPropagation = e => e.stopPropagation();
+
 export const vizOptions = [
   {
     type: VIZ_TYPE_IMAGE,

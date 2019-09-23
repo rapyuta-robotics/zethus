@@ -1,7 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
+import styled from 'styled-components';
+
 import OptionRow from '../../components/optionRow';
-import { Container, Input, Select } from '../../components/styled';
+import { Container, Input, Select, TextButton } from '../../components/styled';
+
+const EditConfigButton = styled(TextButton)`
+  font-size: 14px;
+`;
 
 class GlobalOptions extends React.PureComponent {
   constructor(props) {
@@ -30,12 +36,16 @@ class GlobalOptions extends React.PureComponent {
         fixedFrame: { display: displayFixedFrame, value: valueFixedFrame },
         grid: { display: displayGrid, size: valueGrid },
       },
+      toggleConfigurationModal,
     } = this.props;
     if (!displayOptions) {
       return null;
     }
     return (
       <Container>
+        <EditConfigButton onClick={toggleConfigurationModal}>
+          Edit Configuration
+        </EditConfigButton>
         {displayBackgroundColor && (
           <OptionRow label="Background Color">
             <Input
