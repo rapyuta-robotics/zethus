@@ -14,6 +14,7 @@ import {
   MESSAGE_TYPE_TF2,
   MESSAGE_TYPE_RANGE,
   MESSAGE_TYPE_ROBOT_MODEL,
+  MESSAGE_TYPE_WRENCHSTAMPED,
   VIZ_TYPE_IMAGE,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
@@ -28,6 +29,7 @@ import {
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
+  VIZ_TYPE_WRENCH,
   DEFAULT_OPTIONS_SCENE,
 } from 'amphion/src/utils/constants';
 import _ from 'lodash';
@@ -160,6 +162,14 @@ export const vizOptions = [
     ![](/image/viz/viz-tf.png "")`,
     docsLink: `${DOCS_ROOT_URL}Tf`,
   },
+  {
+    type: VIZ_TYPE_WRENCH,
+    icon: '/image/icons/icon_pose_array.svg',
+    messageTypes: [MESSAGE_TYPE_WRENCHSTAMPED],
+    description: `Adds a visualization represented by a geometry_msgs/WrenchStamped topic to the scene.
+    ![](/image/viz/viz-wrench.png "")`,
+    docsLink: `${DOCS_ROOT_URL}Wrench`,
+  },
 ];
 
 export const DEFAULT_CONFIG = {
@@ -199,18 +209,7 @@ export const DEFAULT_CONFIG = {
     measure: {
       display: false,
     },
-    custom: [
-      {
-        name: 'Nav goal',
-        type: 'publishPose',
-        topic: '/navgoal',
-      },
-      {
-        name: 'Nav goal',
-        type: 'publishPoseWithCovariance',
-        topic: 'initialpose',
-      },
-    ],
+    custom: [],
   },
 };
 
