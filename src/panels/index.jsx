@@ -22,7 +22,6 @@ class Wrapper extends React.Component {
       rosTopics: [],
       rosParams: [],
       framesList: [],
-      startConnectTime: undefined
     };
 
     this.connectRos = this.connectRos.bind(this);
@@ -48,28 +47,16 @@ class Wrapper extends React.Component {
     const { rosEndpoint } = this.state;
     if (prevState.rosEndpoint !== rosEndpoint) {
       this.disconnectRos();
-      this.state.startConnectTime = Date.now();
       this.connectRos();
     }
   }
 
   componentDidMount() {
-    const { rosEndpoint, startConnectTime } = this.state;
+    const { rosEndpoint } = this.state;
     this.ros.on('error', () => {
-      // add a 20 second retry timeout
-      if ((Date.now() - startConnectTime) / 1000 > 20)
-      {
-        this.setState({
-          rosStatus: ROS_SOCKET_STATUSES.CONNECTION_ERROR,
-        });
-      } else {
-        // wait 1 second, and try again
-        setTimeout(() => {
-          if (rosEndpoint && this.state.rosStatus != ROS_SOCKET_STATUSES.CONNECTED) {
-            this.connectRos();
-          }
-        }, 1000);
-      }
+      this.setState({
+        rosStatus: ROS_SOCKET_STATUSES.CONNECTION_ERROR,
+      });
     });
 
     this.ros.on('connection', this.refreshRosData);
