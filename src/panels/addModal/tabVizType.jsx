@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { vizOptions } from '../../utils';
+import { vizOptions } from '../../utils/vizOptions';
 import VizTypeItem from './vizTypeItem';
 import VizTypeDetails from './vizTypeDetails';
 import { ButtonPrimary, FlexGrow } from '../../components/styled';

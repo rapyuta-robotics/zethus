@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import ReactMarkdown from 'react-markdown';
 
-import { vizOptions } from '../../utils';
+import { vizOptions } from '../../utils/vizOptions';
 import { Anchor } from '../../components/styled';
 
 class VizTypeDetails extends React.PureComponent {
