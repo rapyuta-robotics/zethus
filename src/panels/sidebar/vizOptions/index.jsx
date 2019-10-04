@@ -21,7 +21,7 @@ const VizOptions = ({
   options: { display, key, name, topicName, visible, vizType },
   options,
   topics,
-  additionalTopics,
+  relatedTopics,
   vizObject: { icon },
   updateVizOptions,
   removeVisualization,
@@ -71,7 +71,7 @@ const VizOptions = ({
           <VizSpecificOptions
             options={options}
             topics={topics}
-            additionalTopics={additionalTopics}
+            relatedTopics={relatedTopics}
             updateVizOptions={updateVizOptions}
           />
           <VizItemActions>

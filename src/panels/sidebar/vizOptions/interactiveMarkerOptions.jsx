@@ -8,23 +8,40 @@ import OptionRow from '../../../components/optionRow';
 import { Select } from '../../../components/styled';
 
 class InteractiveMarkerOptions extends React.PureComponent {
-  render() {
+  componentDidMount() {
     const {
-      additionalTopics,
       options: propsOptions,
+      relatedTopics,
       updateVizOptions,
     } = this.props;
 
-    const { feedbackTopicName, key, updateTopicName } = propsOptions;
+    const { key } = propsOptions;
 
-    const updateTopics = _.filter(
-      additionalTopics,
+    this.updateTopics = _.filter(
+      relatedTopics,
       t => t.messageType === MESSAGE_TYPE_INTERACTIVEMARKER_UPDATE,
     );
-    const feedbackTopics = _.filter(
-      additionalTopics,
+    this.feedbackTopics = _.filter(
+      relatedTopics,
       t => t.messageType === MESSAGE_TYPE_INTERACTIVEMARKER_FEEDBACK,
     );
+
+    updateVizOptions(key, {
+      updateTopicName: {
+        name: this.updateTopics.length > 0 ? this.updateTopics[0].name : '',
+        messageType: MESSAGE_TYPE_INTERACTIVEMARKER_UPDATE,
+      },
+      feedbackTopicName: {
+        name: this.feedbackTopics.length > 0 ? this.feedbackTopics[0].name : '',
+        messageType: MESSAGE_TYPE_INTERACTIVEMARKER_FEEDBACK,
+      },
+    });
+  }
+
+  render() {
+    const { options: propsOptions, updateVizOptions } = this.props;
+
+    const { feedbackTopicName, key, updateTopicName } = propsOptions;
 
     return (
       <React.Fragment>
@@ -43,7 +60,7 @@ class InteractiveMarkerOptions extends React.PureComponent {
             <option value="" disabled hidden>
               Select
             </option>
-            {_.map(updateTopics, topic => (
+            {_.map(this.updateTopics, topic => (
               <option key={topic.name}>{topic.name}</option>
             ))}
           </Select>
@@ -63,7 +80,7 @@ class InteractiveMarkerOptions extends React.PureComponent {
             <option value="" disabled hidden>
               Select
             </option>
-            {_.map(feedbackTopics, topic => (
+            {_.map(this.feedbackTopics, topic => (
               <option key={topic.name}>{topic.name}</option>
             ))}
           </Select>
