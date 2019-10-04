@@ -32,20 +32,9 @@ class Visualization extends React.PureComponent {
   }
 
   static getNewViz(vizType, ros, topicName, viewer, options) {
-    const { camera, controls, renderer, scene } = viewer;
     switch (vizType) {
       case VIZ_TYPE_INTERACTIVEMARKER:
-        return new Amphion.InteractiveMarkers(
-          ros,
-          topicName,
-          {
-            scene,
-            renderer,
-            camera,
-            controls,
-          },
-          options,
-        );
+        return new Amphion.InteractiveMarkers(ros, topicName, viewer, options);
       case VIZ_TYPE_IMAGE:
         return new Amphion.Image(ros, topicName, options);
       case VIZ_TYPE_LASERSCAN:
