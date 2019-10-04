@@ -8,7 +8,9 @@ import OptionRow from '../../../components/optionRow';
 import { Select } from '../../../components/styled';
 
 class InteractiveMarkerOptions extends React.PureComponent {
-  componentDidMount() {
+  constructor(props) {
+    super(props);
+
     const {
       options: propsOptions,
       relatedTopics,
