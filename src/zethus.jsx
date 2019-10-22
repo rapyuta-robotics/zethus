@@ -22,6 +22,13 @@ class Zethus extends React.Component {
     this.addVisualization = this.addVisualization.bind(this);
     this.removeVisualization = this.removeVisualization.bind(this);
     this.toggleVisibility = this.toggleVisibility.bind(this);
+    this.updateConfiguration = this.updateConfiguration.bind(this);
+  }
+
+  updateConfiguration(configuration) {
+    this.setState({
+      ..._.merge({}, DEFAULT_CONFIG, configuration),
+    });
   }
 
   updateVizOptions(key, options) {
@@ -103,6 +110,7 @@ class Zethus extends React.Component {
         addVisualization={this.addVisualization}
         removeVisualization={this.removeVisualization}
         toggleVisibility={this.toggleVisibility}
+        updateConfiguration={this.updateConfiguration}
         updateVizOptions={this.updateVizOptions}
         updateRosEndpoint={this.updateRosEndpoint}
         updateGlobalOptions={this.updateGlobalOptions}

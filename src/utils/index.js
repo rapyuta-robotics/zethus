@@ -12,6 +12,8 @@ export const ROS_SOCKET_STATUSES = {
 export const getTfTopics = rosTopics =>
   _.filter(rosTopics, t => _.includes(TF_MESSAGE_TYPES, t.messageType));
 
+export const stopPropagation = e => e.stopPropagation();
+
 export const DEFAULT_CONFIG = {
   panels: {
     sidebar: {
