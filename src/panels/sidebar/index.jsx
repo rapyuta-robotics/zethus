@@ -1,7 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
-import { ROS_SOCKET_STATUSES, vizOptions } from '../../utils';
+import { ROS_SOCKET_STATUSES } from '../../utils';
+import { vizOptions } from '../../utils/vizOptions';
 import GlobalOptions from './globalOptions';
 import {
   ButtonPrimary,
@@ -15,6 +16,7 @@ import {
   StyledLogo,
 } from '../../components/styled';
 import ConnectionDot from '../../components/connectionDot';
+import RosReconnectHandler from './rosReconnectHandler';
 
 import Logo from '../../components/logo';
 import VizOptions from './vizOptions';
@@ -62,13 +64,14 @@ class Sidebar extends React.Component {
 
   render() {
     const {
-      framesList,
+      connectRos,
       visualizations,
+      globalOptions,
       removeVisualization,
       rosInstance,
       rosStatus,
       rosTopics,
-      globalOptions,
+      framesList,
       toggleConfigurationModal,
       toggleVisibility,
       updateGlobalOptions,
@@ -87,7 +90,13 @@ class Sidebar extends React.Component {
         <Container>
           <RosStatus>
             <ConnectionDot status={rosStatus} />
-            <span>{rosStatus}</span>
+            <span>
+              {rosStatus}.{' '}
+              <RosReconnectHandler
+                connectRos={connectRos}
+                rosStatus={rosStatus}
+              />
+            </span>
           </RosStatus>
           <form onSubmit={this.onSubmit}>
             <InputLabel>ROS Endpoint</InputLabel>
