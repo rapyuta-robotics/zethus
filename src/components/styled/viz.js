@@ -29,13 +29,16 @@ export const VizItemContent = styled.div`
   margin-left: 24px;
 `;
 
-export const VizItemIcon = styled.img`
+export const VizItemIcon = styled.div`
   width: 20px;
   height: 20px;
   display: inline-block;
   background-color: ${COLOR_GREY_LIGHT_1};
   margin-right: 10px;
   border-radius: 4px;
+  svg {
+    width: 100%;
+  }
 `;
 
 export const VizImageContainer = styled.div`
@@ -108,7 +111,7 @@ export const VizItemCollapse = styled(Button)`
   margin: 0 3px 0 0;
   width: 20px;
   height: 20px;
-  img {
+  svg {
     width: 14px;
   }
   ${({ collapsed }) =>

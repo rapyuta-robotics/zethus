@@ -1,7 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 
-import { ROS_SOCKET_STATUSES, vizOptions } from '../../utils';
+import { ROS_SOCKET_STATUSES } from '../../utils';
+import { vizOptions } from '../../utils/vizOptions';
 import GlobalOptions from './globalOptions';
 import {
   ButtonPrimary,
