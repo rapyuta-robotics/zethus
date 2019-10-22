@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { vizOptions } from '../../utils';
+import { vizOptions } from '../../utils/vizOptions';
 import { ButtonPrimary, FlexGrow } from '../../components/styled';
 import {
   AddVizForm,

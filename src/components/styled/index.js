@@ -226,3 +226,19 @@ export const StyledLogo = styled(Container)`
     display: block;
   }
 `;
+
+export const TextButton = styled(Button)`
+  border: 0;
+  margin: 0;
+  padding: 0;
+  background-color: transparent;
+  color: ${COLOR_PRIMARY};
+  font-size: 16px;
+  text-decoration: underline;
+  &:hover {
+    text-decoration: none;
+  }
+  &[disabled] {
+    color: ${COLOR_GREY_LIGHT_2};
+  }
+`;

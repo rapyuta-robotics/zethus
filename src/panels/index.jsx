@@ -11,6 +11,7 @@ import AddModal from './addModal';
 import Sidebar from './sidebar';
 import Viewport from './viewer';
 import Visualization from './visualizations';
+import ConfigurationModal from './configurationModal';
 
 class Wrapper extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class Wrapper extends React.Component {
       rosEndpoint: '',
       rosStatus: ROS_SOCKET_STATUSES.INITIAL,
       addModalOpen: false,
+      configurationModalOpen: false,
       rosTopics: [],
       rosParams: [],
       framesList: [],
@@ -28,8 +30,10 @@ class Wrapper extends React.Component {
     this.disconnectRos = this.disconnectRos.bind(this);
     this.toggleAddModal = this.toggleAddModal.bind(this);
     this.refreshRosData = this.refreshRosData.bind(this);
+    this.toggleConfigurationModal = this.toggleConfigurationModal.bind(this);
     this.addVisualization = this.addVisualization.bind(this);
     this.updateFramesList = this.updateFramesList.bind(this);
+    this.updateConfiguration = this.updateConfiguration.bind(this);
 
     this.ros = new ROSLIB.Ros();
     this.viewer = new Amphion.TfViewer(this.ros, {
@@ -118,6 +122,13 @@ class Wrapper extends React.Component {
     });
   }
 
+  toggleConfigurationModal() {
+    const { configurationModalOpen } = this.state;
+    this.setState({
+      configurationModalOpen: !configurationModalOpen,
+    });
+  }
+
   addVisualization(options) {
     const { addVisualization } = this.props;
     addVisualization(options);
@@ -126,9 +137,18 @@ class Wrapper extends React.Component {
     });
   }
 
+  updateConfiguration(configuration) {
+    const { updateConfiguration } = this.props;
+    updateConfiguration(configuration);
+    this.setState({
+      configurationModalOpen: false,
+    });
+  }
+
   render() {
     const {
       addModalOpen,
+      configurationModalOpen,
       framesList,
       rosEndpoint,
       rosParams,
@@ -143,12 +163,14 @@ class Wrapper extends React.Component {
         },
         visualizations,
       },
+      configuration,
       removeVisualization,
       toggleVisibility,
       updateGlobalOptions,
       updateRosEndpoint,
       updateVizOptions,
     } = this.props;
+
     return (
       <PanelWrapper>
         {addModalOpen && (
@@ -160,24 +182,32 @@ class Wrapper extends React.Component {
             addVisualization={this.addVisualization}
           />
         )}
+        {configurationModalOpen && (
+          <ConfigurationModal
+            configuration={configuration}
+            updateConfiguration={this.updateConfiguration}
+            closeModal={this.toggleConfigurationModal}
+          />
+        )}
         {displaySidebar && (
           <Sidebar
             framesList={framesList}
             globalOptions={globalOptions}
-            updateGlobalOptions={updateGlobalOptions}
             rosEndpoint={rosEndpoint}
+            rosInstance={this.ros}
+            rosTopics={rosTopics}
             rosStatus={rosStatus}
             visualizations={visualizations}
             viewer={this.viewer}
-            rosTopics={rosTopics}
-            rosInstance={this.ros}
-            updateVizOptions={updateVizOptions}
             connectRos={this.connectRos}
             disconnectRos={this.disconnectRos}
-            updateRosEndpoint={updateRosEndpoint}
-            toggleAddModal={this.toggleAddModal}
             removeVisualization={removeVisualization}
+            toggleAddModal={this.toggleAddModal}
             toggleVisibility={toggleVisibility}
+            toggleConfigurationModal={this.toggleConfigurationModal}
+            updateGlobalOptions={updateGlobalOptions}
+            updateRosEndpoint={updateRosEndpoint}
+            updateVizOptions={updateVizOptions}
           />
         )}
         <PanelContent>

@@ -16,6 +16,7 @@ import {
   VizItemContent,
   VizItemIcon,
 } from '../../../components/styled/viz';
+import Chevron from '../../../components/chevron';
 
 const VizOptions = ({
   options: { display, key, name, topicName, visible, vizType },
@@ -52,9 +53,9 @@ const VizOptions = ({
           collapsed={collapsed}
           onClick={() => toggleCollapsed(!collapsed)}
         >
-          <img src="./image/chevron.svg" alt="" />
+          <Chevron />
         </VizItemCollapse>
-        <VizItemIcon src={icon} alt="" />
+        <VizItemIcon>{icon}</VizItemIcon>
         {name}
       </StyledOptionRow>
       {!collapsed && (
