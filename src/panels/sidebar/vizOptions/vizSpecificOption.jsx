@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   VIZ_TYPE_IMAGE,
+  VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
@@ -26,16 +27,28 @@ import PoseOptions from './pose';
 import PointCloudOptions from './pointcloud';
 import RangeOptions from './range';
 import PointOptions from './point';
+import InteractiveMarkerOptions from './interactiveMarkerOptions';
 import WrenchOptions from './wrench';
 
 const VizSpecificOptions = ({
   options: { vizType },
   options,
+  topics,
+  relatedTopics,
   updateVizOptions,
 }) => {
   switch (vizType) {
     case VIZ_TYPE_IMAGE:
       return null;
+    case VIZ_TYPE_INTERACTIVEMARKER:
+      return (
+        <InteractiveMarkerOptions
+          options={options}
+          topics={topics}
+          relatedTopics={relatedTopics}
+          updateVizOptions={updateVizOptions}
+        />
+      );
     case VIZ_TYPE_LASERSCAN:
       return (
         <LaserScanOptions
@@ -91,12 +104,12 @@ const VizSpecificOptions = ({
       return null;
     case VIZ_TYPE_TF:
       return null;
-    default:
-      return null;
     case VIZ_TYPE_WRENCH:
       return (
         <WrenchOptions options={options} updateVizOptions={updateVizOptions} />
       );
+    default:
+      return null;
   }
 };
 

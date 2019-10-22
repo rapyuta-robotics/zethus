@@ -91,9 +91,7 @@ class ConfigurationModal extends React.Component {
             <ButtonPrimary onClick={this.handleSubmit}>
               Update Configuration
             </ButtonPrimary>
-            <ButtonPrimary onClick={closeModal}>
-              Cancel
-            </ButtonPrimary>
+            <ButtonPrimary onClick={closeModal}>Cancel</ButtonPrimary>
           </ModalActions>
         </ModalContents>
       </ModalWrapper>
