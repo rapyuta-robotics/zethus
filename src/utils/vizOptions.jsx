@@ -53,6 +53,34 @@ export const TF_MESSAGE_TYPES = [MESSAGE_TYPE_TF, MESSAGE_TYPE_TF2];
 
 const DOCS_ROOT_URL = 'https://github.com/rapyuta-robotics/zethus/wiki/';
 
+const markerArrayIcon = (
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect
+      style={iconLineStyle}
+      x="32.1"
+      y="15.05"
+      width="18.75"
+      height="36.66"
+      transform="translate(74.85 -8.1) rotate(90)"
+    />
+    <rect
+      style={iconLineStyle}
+      x="53.84"
+      y="35.93"
+      width="24.72"
+      height="24.72"
+    />
+    <circle style={iconLineStyle} cx="35.51" cy="46.59" r="14.07" />
+    <rect
+      style={iconLineStyle}
+      x="41.05"
+      y="51.28"
+      width="24.72"
+      height="24.72"
+    />
+  </svg>
+);
+
 export const vizOptions = [
   {
     type: VIZ_TYPE_IMAGE,
@@ -176,33 +204,7 @@ export const vizOptions = [
   },
   {
     type: VIZ_TYPE_MARKERARRAY,
-    icon: (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-        <rect
-          style={iconLineStyle}
-          x="32.1"
-          y="15.05"
-          width="18.75"
-          height="36.66"
-          transform="translate(74.85 -8.1) rotate(90)"
-        />
-        <rect
-          style={iconLineStyle}
-          x="53.84"
-          y="35.93"
-          width="24.72"
-          height="24.72"
-        />
-        <circle style={iconLineStyle} cx="35.51" cy="46.59" r="14.07" />
-        <rect
-          style={iconLineStyle}
-          x="41.05"
-          y="51.28"
-          width="24.72"
-          height="24.72"
-        />
-      </svg>
-    ),
+    icon: markerArrayIcon,
     messageTypes: [MESSAGE_TYPE_MARKERARRAY],
     description: `Adds a visualization represented by a visualization_msgs/Marker or visualization_msgs/MarkerArray topic to the scene.
     ![](/image/viz/viz-markerarray.png "")`,
@@ -210,7 +212,7 @@ export const vizOptions = [
   },
   {
     type: VIZ_TYPE_INTERACTIVEMARKER,
-    icon: '/image/icons/icon_marker_array.svg',
+    icon: markerArrayIcon,
     messageTypes: [MESSAGE_TYPE_INTERACTIVEMARKER],
     additionalMessageTypes: [
       MESSAGE_TYPE_INTERACTIVEMARKER_UPDATE,
