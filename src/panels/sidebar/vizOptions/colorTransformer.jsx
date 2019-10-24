@@ -1,13 +1,10 @@
 import React from 'react';
-import {
-  AXES,
-  COLOR_TRANSFORMERS,
-  INTENSITY_CHANNEL_OPTIONS,
-} from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import _ from 'lodash';
-
 import OptionRow from '../../../components/optionRow';
 import { Input, OptionContainer, Select } from '../../../components/styled';
+
+const { AXES, COLOR_TRANSFORMERS, INTENSITY_CHANNEL_OPTIONS } = CONSTANTS;
 
 const Intensity = props => {
   const {
@@ -24,7 +21,7 @@ const Intensity = props => {
   } = props;
 
   return (
-    <React.Fragment>
+    <>
       <OptionRow label="Channel Name">
         <Select
           name="channelName"
@@ -42,7 +39,7 @@ const Intensity = props => {
         </Select>
       </OptionRow>
       {!useRainbow && (
-        <React.Fragment>
+        <>
           <OptionRow label="Min Color">
             <Input
               name="minColor"
@@ -61,10 +58,10 @@ const Intensity = props => {
               onChange={updateOptions}
             />
           </OptionRow>
-        </React.Fragment>
+        </>
       )}
       {!autocomputeIntensityBounds && (
-        <React.Fragment>
+        <>
           <OptionRow label="Min Intensity">
             <Input
               type="number"
@@ -83,9 +80,9 @@ const Intensity = props => {
               onChange={updateOptions}
             />
           </OptionRow>
-        </React.Fragment>
+        </>
       )}
-    </React.Fragment>
+    </>
   );
 };
 
@@ -96,7 +93,7 @@ const AxisColor = props => {
   } = props;
 
   return (
-    <React.Fragment>
+    <>
       <OptionRow label="Axis">
         <Select
           name="axis"
@@ -136,7 +133,7 @@ const AxisColor = props => {
           </OptionRow>
         </OptionContainer>
       )}
-    </React.Fragment>
+    </>
   );
 };
 

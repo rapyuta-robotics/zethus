@@ -1,14 +1,16 @@
 import React from 'react';
 import _ from 'lodash';
-import {
-  COLOR_TRANSFORMERS,
-  LASERSCAN_STYLES,
-  DEFAULT_OPTIONS_LASERSCAN,
-} from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import OptionRow from '../../../components/optionRow';
 import ColorTransformer from './colorTransformer';
 import { updateOptionsUtil } from '../../../utils';
 import { Input, Select } from '../../../components/styled';
+
+const {
+  COLOR_TRANSFORMERS,
+  DEFAULT_OPTIONS_LASERSCAN,
+  LASERSCAN_STYLES,
+} = CONSTANTS;
 
 class LaserScanOptions extends React.PureComponent {
   constructor(props) {
@@ -26,7 +28,7 @@ class LaserScanOptions extends React.PureComponent {
     const { alpha, colorTransformer, size, style } = options;
 
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="Style">
           <Select
             name="style"
@@ -86,7 +88,7 @@ class LaserScanOptions extends React.PureComponent {
             updateOptions={this.updateOptions}
           />
         }
-      </React.Fragment>
+      </>
     );
   }
 }

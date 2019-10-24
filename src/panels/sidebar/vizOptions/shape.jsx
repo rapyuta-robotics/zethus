@@ -1,13 +1,14 @@
 import React from 'react';
-import {
-  OBJECT_TYPE_ARROW,
-  OBJECT_TYPE_AXES,
-  OBJECT_TYPE_FLAT_ARROW,
-} from 'amphion/src/utils/constants';
-
+import { CONSTANTS } from 'amphion';
 import Arrow from './arrow';
 import FlatArrow from './flatArrow';
 import Axes from './axes';
+
+const {
+  OBJECT_TYPE_ARROW,
+  OBJECT_TYPE_AXES,
+  OBJECT_TYPE_FLAT_ARROW,
+} = CONSTANTS;
 
 class ShapeOptions extends React.PureComponent {
   render() {

@@ -1,8 +1,10 @@
 import React from 'react';
-import { DEFAULT_OPTIONS_POINT } from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import OptionRow from '../../../components/optionRow';
 import { updateOptionsUtil } from '../../../utils';
 import { Input } from '../../../components/styled';
+
+const { DEFAULT_OPTIONS_POINT } = CONSTANTS;
 
 class PointOptions extends React.PureComponent {
   constructor(props) {
@@ -17,7 +19,7 @@ class PointOptions extends React.PureComponent {
       ...propsOptions,
     };
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="Radius">
           <Input
             type="number"
@@ -47,7 +49,7 @@ class PointOptions extends React.PureComponent {
             onChange={this.updateOptions}
           />
         </OptionRow>
-      </React.Fragment>
+      </>
     );
   }
 }

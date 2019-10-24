@@ -1,8 +1,10 @@
 import React from 'react';
-import { DEFAULT_OPTIONS_WRENCH } from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import OptionRow from '../../../components/optionRow';
 import { updateOptionsUtil } from '../../../utils';
 import { Input } from '../../../components/styled';
+
+const { DEFAULT_OPTIONS_WRENCH } = CONSTANTS;
 
 class WrenchOptions extends React.PureComponent {
   constructor(props) {
@@ -24,7 +26,7 @@ class WrenchOptions extends React.PureComponent {
       ...propsOptions,
     };
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="forceColor">
           <Input
             type="color"
@@ -83,7 +85,7 @@ class WrenchOptions extends React.PureComponent {
             onChange={this.updateOptions}
           />
         </OptionRow>
-      </React.Fragment>
+      </>
     );
   }
 }

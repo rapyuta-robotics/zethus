@@ -1,18 +1,19 @@
 import React from 'react';
 import _ from 'lodash';
+import { CONSTANTS } from 'amphion';
+import OptionRow from '../../../components/optionRow';
+import ShapeOptions from './shape';
+import { updateOptionsUtil } from '../../../utils';
+import { OptionContainer, Select } from '../../../components/styled';
 
-import {
+const {
   DEFAULT_OPTIONS_POSE,
   OBJECT_TYPE_ARROW,
   OBJECT_TYPE_AXES,
   OBJECT_TYPE_FLAT_ARROW,
   VIZ_TYPE_POSE,
   VIZ_TYPE_POSEARRAY,
-} from 'amphion/src/utils/constants';
-import OptionRow from '../../../components/optionRow';
-import ShapeOptions from './shape';
-import { updateOptionsUtil } from '../../../utils';
-import { OptionContainer, Select } from '../../../components/styled';
+} = CONSTANTS;
 
 const dropdownOptions = {
   [VIZ_TYPE_POSE]: [OBJECT_TYPE_ARROW, OBJECT_TYPE_AXES],
@@ -38,7 +39,7 @@ class PoseOptions extends React.PureComponent {
     const { type: shapeType, vizType } = options;
 
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="Shape">
           <Select
             name="type"
@@ -61,7 +62,7 @@ class PoseOptions extends React.PureComponent {
             />
           }
         </OptionContainer>
-      </React.Fragment>
+      </>
     );
   }
 }

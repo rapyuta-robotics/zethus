@@ -1,12 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
-import {
-  DEFAULT_OPTIONS_POINTCLOUD,
-  POINTCLOUD_COLOR_CHANNELS,
-} from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import OptionRow from '../../../components/optionRow';
 import { updateOptionsUtil } from '../../../utils';
 import { Input, Select } from '../../../components/styled';
+
+const { DEFAULT_OPTIONS_POINTCLOUD, POINTCLOUD_COLOR_CHANNELS } = CONSTANTS;
 
 class PointCloudOptions extends React.PureComponent {
   constructor(props) {
@@ -24,7 +23,7 @@ class PointCloudOptions extends React.PureComponent {
     const { colorChannel, size, useRainbow } = options;
 
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="Color channel">
           <Select
             name="colorChannel"
@@ -63,7 +62,7 @@ class PointCloudOptions extends React.PureComponent {
             />
           </OptionRow>
         )}
-      </React.Fragment>
+      </>
     );
   }
 }

@@ -1,8 +1,9 @@
 import React from 'react';
-
-import { VIZ_TYPE_ROBOTMODEL } from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import RobotModelOptions from './optionsRobotModel';
 import GenericOptions from './optionsGeneric';
+
+const { VIZ_TYPE_ROBOTMODEL } = CONSTANTS;
 
 class SelectedVizOptionsForm extends React.PureComponent {
   render() {

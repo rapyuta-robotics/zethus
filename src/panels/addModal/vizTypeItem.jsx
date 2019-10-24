@@ -1,9 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
-import { VIZ_TYPE_ROBOTMODEL } from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import Select from 'react-select';
 import { TypeEmpty, TypeHeading, TypeRow } from '../../components/styled/modal';
 import { VizItemIcon } from '../../components/styled/viz';
+
+const { VIZ_TYPE_ROBOTMODEL } = CONSTANTS;
 
 const customStyles = {
   container: provided => ({

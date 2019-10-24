@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import _ from 'lodash';
-
-import {
-  VIZ_TYPE_INTERACTIVEMARKER,
-  VIZ_TYPE_ROBOTMODEL,
-  VIZ_TYPE_TF,
-} from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import VizSpecificOptions from './vizSpecificOption';
 import { Button, Select, StyledOptionRow } from '../../../components/styled';
 import OptionRow from '../../../components/optionRow';
@@ -17,6 +12,12 @@ import {
   VizItemIcon,
 } from '../../../components/styled/viz';
 import Chevron from '../../../components/chevron';
+
+const {
+  VIZ_TYPE_INTERACTIVEMARKER,
+  VIZ_TYPE_ROBOTMODEL,
+  VIZ_TYPE_TF,
+} = CONSTANTS;
 
 const VizOptions = ({
   options: { display, key, name, topicName, visible, vizType },

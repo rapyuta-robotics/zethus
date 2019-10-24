@@ -1,6 +1,8 @@
-import { DEFAULT_OPTIONS_SCENE } from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import _ from 'lodash';
 import { TF_MESSAGE_TYPES } from './vizOptions';
+
+const { DEFAULT_OPTIONS_SCENE } = CONSTANTS;
 
 export const ROS_SOCKET_STATUSES = {
   INITIAL: 'Idle. Not Connected',
