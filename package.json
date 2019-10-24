@@ -1,8 +1,8 @@
 {
   "name": "zethus",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "description": "Realtime robot data visualization in the browser",
-  "main": "src/zethus.jsx",
+  "main": "dist/zethus.js",
   "homepage": "https://rapyuta-robotics.github.io/zethus",
   "repository": {
     "type": "git",
@@ -60,6 +60,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@haensl/rollup-plugin-local-resolve": "^1.0.5",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.0.0",
@@ -71,10 +72,18 @@
     "eslint-restricted-globals": "^0.2.0",
     "gh-pages": "^2.1.1",
     "husky": "^3.0.2",
+    "install": "^0.13.0",
     "lint-staged": "^9.2.5",
+    "npm": "^6.12.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.16.4",
     "prettier-sort-destructure": "0.0.4",
+    "rollup": "^1.25.2",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-local-resolving": "^1.1.1",
+    "rollup-plugin-multi-entry": "^2.1.0",
+    "rollup-plugin-sass": "^1.2.2",
     "stylelint-config-standard": "^19.0.0",
     "stylelint-prettier": "^1.1.1"
   },
