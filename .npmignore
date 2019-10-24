@@ -118,3 +118,5 @@ npm-debug.log
 nbproject
 .idea
 .node_history
+# this directory is only for using zethus as a standalone application
+build/
