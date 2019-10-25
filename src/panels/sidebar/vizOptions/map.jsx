@@ -1,13 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
-
-import {
-  DEFAULT_OPTIONS_MAP,
-  MAP_COLOR_SCHEMES,
-} from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import OptionRow from '../../../components/optionRow';
 import { updateOptionsUtil } from '../../../utils';
 import { Input, Select } from '../../../components/styled';
+
+const { DEFAULT_OPTIONS_MAP, MAP_COLOR_SCHEMES } = CONSTANTS;
 
 class MapOptions extends React.Component {
   constructor(props) {
@@ -23,7 +21,7 @@ class MapOptions extends React.Component {
     };
     const { alpha, colorScheme, drawBehind } = options;
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="Alpha">
           <Input
             type="number"
@@ -58,7 +56,7 @@ class MapOptions extends React.Component {
             onChange={this.updateOptions}
           />
         </OptionRow>
-      </React.Fragment>
+      </>
     );
   }
 }

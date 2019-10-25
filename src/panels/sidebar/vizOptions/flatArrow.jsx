@@ -1,8 +1,10 @@
 import React from 'react';
-import { DEFAULT_OPTIONS_FLATARROW } from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 
 import OptionRow from '../../../components/optionRow';
 import { Input } from '../../../components/styled';
+
+const { DEFAULT_OPTIONS_FLATARROW } = CONSTANTS;
 
 class FlatArrowOptions extends React.PureComponent {
   render() {
@@ -12,7 +14,7 @@ class FlatArrowOptions extends React.PureComponent {
       ...propsOptions,
     };
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="Color">
           <Input
             name="color"
@@ -42,7 +44,7 @@ class FlatArrowOptions extends React.PureComponent {
             onChange={updateOptions}
           />
         </OptionRow>
-      </React.Fragment>
+      </>
     );
   }
 }

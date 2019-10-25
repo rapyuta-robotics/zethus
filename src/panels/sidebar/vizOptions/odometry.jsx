@@ -1,15 +1,16 @@
 import React from 'react';
 import _ from 'lodash';
-
-import {
-  DEFAULT_OPTIONS_ODOMETRY,
-  OBJECT_TYPE_ARROW,
-  OBJECT_TYPE_AXES,
-} from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import OptionRow from '../../../components/optionRow';
 import ShapeOptions from './shape';
 import { updateOptionsUtil } from '../../../utils';
 import { Input, OptionContainer, Select } from '../../../components/styled';
+
+const {
+  DEFAULT_OPTIONS_ODOMETRY,
+  OBJECT_TYPE_ARROW,
+  OBJECT_TYPE_AXES,
+} = CONSTANTS;
 
 class OdometryOptions extends React.PureComponent {
   constructor(props) {
@@ -31,7 +32,7 @@ class OdometryOptions extends React.PureComponent {
     } = options;
 
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="Position Tolerance">
           <Input
             name="positionTolerance"
@@ -78,7 +79,7 @@ class OdometryOptions extends React.PureComponent {
         <OptionContainer>
           <ShapeOptions options={options} updateOptions={this.updateOptions} />
         </OptionContainer>
-      </React.Fragment>
+      </>
     );
   }
 }

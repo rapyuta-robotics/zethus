@@ -1,27 +1,29 @@
 import React from 'react';
 import { Rnd } from 'react-rnd';
 import Amphion from 'amphion';
-import {
+
+import _ from 'lodash';
+import { getTfTopics } from '../../utils';
+import { VizImageContainer, VizImageHeader } from '../../components/styled/viz';
+
+const {
   VIZ_TYPE_IMAGE,
-  VIZ_TYPE_INTERACTIVEMARKER,
+  VIZ_TYPE_WRENCH,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
   VIZ_TYPE_MARKERARRAY,
   VIZ_TYPE_ODOMETRY,
   VIZ_TYPE_PATH,
-  VIZ_TYPE_POINT,
+  VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POSE,
   VIZ_TYPE_POSEARRAY,
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
-  VIZ_TYPE_WRENCH,
-} from 'amphion/src/utils/constants';
-import _ from 'lodash';
-import { getTfTopics } from '../../utils';
-import { VizImageContainer, VizImageHeader } from '../../components/styled/viz';
+  VIZ_TYPE_POINT,
+} = Amphion.CONSTANTS;
 
 class Visualization extends React.PureComponent {
   constructor(props) {

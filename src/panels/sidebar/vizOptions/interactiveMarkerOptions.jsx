@@ -1,11 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
-import {
-  MESSAGE_TYPE_INTERACTIVEMARKER_FEEDBACK,
-  MESSAGE_TYPE_INTERACTIVEMARKER_UPDATE,
-} from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import OptionRow from '../../../components/optionRow';
 import { Select } from '../../../components/styled';
+
+const {
+  MESSAGE_TYPE_INTERACTIVEMARKER_FEEDBACK,
+  MESSAGE_TYPE_INTERACTIVEMARKER_UPDATE,
+} = CONSTANTS;
 
 class InteractiveMarkerOptions extends React.PureComponent {
   constructor(props) {
@@ -46,7 +48,7 @@ class InteractiveMarkerOptions extends React.PureComponent {
     const { feedbackTopicName, key, updateTopicName } = propsOptions;
 
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="Update Topic">
           <Select
             value={updateTopicName || ''}
@@ -87,7 +89,7 @@ class InteractiveMarkerOptions extends React.PureComponent {
             ))}
           </Select>
         </OptionRow>
-      </React.Fragment>
+      </>
     );
   }
 }

@@ -1,9 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
 
-import { DEFAULT_OPTIONS_MARKER } from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import OptionRow from '../../../components/optionRow';
 import { Input, OptionContainer } from '../../../components/styled';
+
+const { DEFAULT_OPTIONS_MARKER } = CONSTANTS;
 
 class MarkerOptions extends React.PureComponent {
   constructor(props) {
@@ -41,7 +43,7 @@ class MarkerOptions extends React.PureComponent {
     }
 
     return (
-      <React.Fragment>
+      <>
         Namespaces:
         <OptionContainer>
           {_.map(namespaces, (checked, key) =>
@@ -58,7 +60,7 @@ class MarkerOptions extends React.PureComponent {
             ) : null,
           )}
         </OptionContainer>
-      </React.Fragment>
+      </>
     );
   }
 }

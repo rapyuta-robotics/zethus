@@ -1,8 +1,9 @@
 import React from 'react';
-import { DEFAULT_OPTIONS_AXES } from 'amphion/src/utils/constants';
-
+import { CONSTANTS } from 'amphion';
 import OptionRow from '../../../components/optionRow';
 import { Input } from '../../../components/styled';
+
+const { DEFAULT_OPTIONS_AXES } = CONSTANTS;
 
 class AxesOptions extends React.PureComponent {
   render() {
@@ -12,7 +13,7 @@ class AxesOptions extends React.PureComponent {
       ...propsOptions,
     };
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="Axes Length">
           <Input
             name="axesLength"
@@ -32,7 +33,7 @@ class AxesOptions extends React.PureComponent {
             onChange={updateOptions}
           />
         </OptionRow>
-      </React.Fragment>
+      </>
     );
   }
 }

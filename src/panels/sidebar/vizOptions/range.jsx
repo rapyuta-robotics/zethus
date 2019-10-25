@@ -1,8 +1,10 @@
 import React from 'react';
-import { DEFAULT_OPTIONS_RANGE } from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import OptionRow from '../../../components/optionRow';
 import { updateOptionsUtil } from '../../../utils';
 import { Input } from '../../../components/styled';
+
+const { DEFAULT_OPTIONS_RANGE } = CONSTANTS;
 
 class RangeOptions extends React.PureComponent {
   constructor(props) {
@@ -17,7 +19,7 @@ class RangeOptions extends React.PureComponent {
       ...propsOptions,
     };
     return (
-      <React.Fragment>
+      <>
         <OptionRow label="Color">
           <Input
             type="color"
@@ -36,7 +38,7 @@ class RangeOptions extends React.PureComponent {
             onChange={this.updateOptions}
           />
         </OptionRow>
-      </React.Fragment>
+      </>
     );
   }
 }

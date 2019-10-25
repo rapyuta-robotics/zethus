@@ -1,23 +1,5 @@
 import React from 'react';
-import {
-  VIZ_TYPE_IMAGE,
-  VIZ_TYPE_INTERACTIVEMARKER,
-  VIZ_TYPE_LASERSCAN,
-  VIZ_TYPE_MAP,
-  VIZ_TYPE_MARKER,
-  VIZ_TYPE_MARKERARRAY,
-  VIZ_TYPE_ODOMETRY,
-  VIZ_TYPE_PATH,
-  VIZ_TYPE_POINT,
-  VIZ_TYPE_POINTCLOUD,
-  VIZ_TYPE_POLYGON,
-  VIZ_TYPE_POSE,
-  VIZ_TYPE_POSEARRAY,
-  VIZ_TYPE_RANGE,
-  VIZ_TYPE_ROBOTMODEL,
-  VIZ_TYPE_TF,
-  VIZ_TYPE_WRENCH,
-} from 'amphion/src/utils/constants';
+import { CONSTANTS } from 'amphion';
 import LaserScanOptions from './laserScan';
 import MapOptions from './map';
 import MarkerOptions from './marker';
@@ -29,6 +11,26 @@ import RangeOptions from './range';
 import PointOptions from './point';
 import InteractiveMarkerOptions from './interactiveMarkerOptions';
 import WrenchOptions from './wrench';
+
+const {
+  VIZ_TYPE_IMAGE,
+  VIZ_TYPE_WRENCH,
+  VIZ_TYPE_LASERSCAN,
+  VIZ_TYPE_MAP,
+  VIZ_TYPE_MARKER,
+  VIZ_TYPE_MARKERARRAY,
+  VIZ_TYPE_ODOMETRY,
+  VIZ_TYPE_PATH,
+  VIZ_TYPE_INTERACTIVEMARKER,
+  VIZ_TYPE_POINTCLOUD,
+  VIZ_TYPE_POLYGON,
+  VIZ_TYPE_POSE,
+  VIZ_TYPE_POSEARRAY,
+  VIZ_TYPE_RANGE,
+  VIZ_TYPE_ROBOTMODEL,
+  VIZ_TYPE_TF,
+  VIZ_TYPE_POINT,
+} = CONSTANTS;
 
 const VizSpecificOptions = ({
   options: { vizType },
