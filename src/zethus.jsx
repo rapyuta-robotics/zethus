@@ -105,16 +105,18 @@ class Zethus extends React.Component {
 
   render() {
     return (
-      <Panels
-        configuration={this.state}
-        addVisualization={this.addVisualization}
-        removeVisualization={this.removeVisualization}
-        toggleVisibility={this.toggleVisibility}
-        updateConfiguration={this.updateConfiguration}
-        updateVizOptions={this.updateVizOptions}
-        updateRosEndpoint={this.updateRosEndpoint}
-        updateGlobalOptions={this.updateGlobalOptions}
-      />
+      <>
+        <Panels
+          configuration={this.state}
+          addVisualization={this.addVisualization}
+          removeVisualization={this.removeVisualization}
+          toggleVisibility={this.toggleVisibility}
+          updateConfiguration={this.updateConfiguration}
+          updateVizOptions={this.updateVizOptions}
+          updateRosEndpoint={this.updateRosEndpoint}
+          updateGlobalOptions={this.updateGlobalOptions}
+        />
+      </>
     );
   }
 }
