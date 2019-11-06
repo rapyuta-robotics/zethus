@@ -57,7 +57,7 @@ class PointCloudOptions extends React.PureComponent {
               type="checkbox"
               name="useRainbow"
               data-id="useRainbow"
-              value={useRainbow}
+              checked={useRainbow}
               onChange={this.updateOptions}
             />
           </OptionRow>

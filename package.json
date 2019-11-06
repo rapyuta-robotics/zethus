@@ -2,7 +2,7 @@
   "name": "zethus",
   "version": "0.1.19",
   "description": "Realtime robot data visualization in the browser",
-  "main": "dist/zethus.js",
+  "main": "build-lib/zethus.umd.js",
   "homepage": "https://rapyuta-robotics.github.io/zethus",
   "repository": {
     "type": "git",
@@ -27,14 +27,10 @@
     "jsoneditor-react": "^2.0.0",
     "lodash": "^4.17.13",
     "mousetrap": "^1.6.3",
-    "node-sass": "^4.11.0",
-    "react": "^16.7.0",
-    "react-dom": "^16.7.0",
     "react-graceful-unmount": "^1.0.7",
     "react-markdown": "^4.0.6",
     "react-rnd": "^10.0.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.0.1",
     "react-select": "^3.0.4",
     "roslib": "^1.0.1",
     "shortid": "^2.2.14",
@@ -44,15 +40,11 @@
     "three": "^0.109.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "build-lib": "rollup -c",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "webpack-dev-server --config webpack.app.dev.js",
+    "build": "webpack --config webpack.app.prod.js",
+    "build-lib": "node build-lib.js",
     "lint": "eslint src/**/*.{js,jsx} --fix",
-    "prettier": "prettier src/**/* --write",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "prettier": "prettier src/**/* --write"
   },
   "browserslist": [
     ">0.2%",
@@ -61,6 +53,15 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1",
+    "@babel/core": "^7.7.0",
+    "@babel/preset-env": "^7.7.1",
+    "@babel/preset-react": "^7.7.0",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.0.4",
+    "css-loader": "^3.2.0",
     "eslint": "^6.5.1",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.0.0",
@@ -70,9 +71,12 @@
     "eslint-plugin-prettier": "^3.0.1",
     "eslint-plugin-react": "^7.12.4",
     "eslint-restricted-globals": "^0.2.0",
+    "file-loader": "^4.2.0",
     "gh-pages": "^2.1.1",
+    "html-webpack-plugin": "^3.2.0",
     "husky": "^3.0.2",
     "lint-staged": "^9.2.5",
+    "node-sass": "^4.13.0",
     "npm-run-all": "^4.1.5",
     "prettier": "^1.16.4",
     "prettier-sort-destructure": "0.0.4",
@@ -82,8 +86,14 @@
     "rollup-plugin-local-resolving": "^1.1.1",
     "rollup-plugin-multi-entry": "^2.1.0",
     "rollup-plugin-sass": "^1.2.2",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
     "stylelint-config-standard": "^19.0.0",
-    "stylelint-prettier": "^1.1.1"
+    "stylelint-prettier": "^1.1.1",
+    "url-loader": "^2.2.0",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.9.0"
   },
   "husky": {
     "hooks": {
@@ -100,5 +110,9 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "peerDependencies": {
+    "react": "^16.10.1",
+    "react-dom": "^16.10.1"
   }
 }
