@@ -4,6 +4,8 @@ const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const PUBLIC_URL = require('./package').homepage;
+
 module.exports = {
   entry: './src/index.jsx',
   mode: 'production',
@@ -37,6 +39,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: 'index.html',
+      templateParameters: {
+        PUBLIC_URL,
+      },
     }),
     new CopyPlugin([{ from: './public' }]),
     new CleanWebpackPlugin(),

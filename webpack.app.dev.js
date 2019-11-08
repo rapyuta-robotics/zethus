@@ -9,6 +9,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: 'index.html',
+      templateParameters: {
+        PUBLIC_URL: '',
+      },
     }),
     new CopyPlugin([{ from: './public' }]),
     new CleanWebpackPlugin(),
