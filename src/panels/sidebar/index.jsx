@@ -7,18 +7,15 @@ import GlobalOptions from './globalOptions';
 import {
   ButtonPrimary,
   Container,
+  Flex,
+  FlexSpace,
   Input,
   InputLabel,
   Separator,
-  FlexSpace,
-  Flex,
   StyledSidebar,
-  StyledLogo,
 } from '../../components/styled';
 import ConnectionDot from '../../components/connectionDot';
 import RosReconnectHandler from './rosReconnectHandler';
-
-import Logo from '../../components/logo';
 import VizOptions from './vizOptions';
 import { RosStatus, SidebarVizContainer } from '../../components/styled/viz';
 
@@ -83,10 +80,6 @@ class Sidebar extends React.Component {
     const { rosInput } = this.state;
     return (
       <StyledSidebar>
-        <StyledLogo>
-          <Logo />
-        </StyledLogo>
-        <Separator />
         <Container>
           <RosStatus>
             <ConnectionDot status={rosStatus} />
@@ -123,7 +116,7 @@ class Sidebar extends React.Component {
         </Container>
         <Separator />
         {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
-          <React.Fragment>
+          <>
             <GlobalOptions
               framesList={framesList}
               globalOptions={globalOptions}
@@ -168,7 +161,7 @@ class Sidebar extends React.Component {
                 );
               })}
             </SidebarVizContainer>
-          </React.Fragment>
+          </>
         )}
       </StyledSidebar>
     );

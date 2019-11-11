@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONSTANTS } from 'amphion';
+import { iconFillStyle, iconLineStyle } from './common';
 
 const {
   MESSAGE_TYPE_IMAGE,
@@ -38,18 +39,6 @@ const {
   VIZ_TYPE_TF,
   MESSAGE_TYPE_TF2,
 } = CONSTANTS;
-
-const iconLineStyle = {
-  fill: 'none',
-  stroke: '#dc1d30',
-  strokeLinecap: 'round',
-  strokeLinejoin: 'round',
-  strokeWidth: '1.5px',
-};
-
-const iconFillStyle = {
-  fill: '#dc1d30',
-};
 
 export const TF_MESSAGE_TYPES = [MESSAGE_TYPE_TF, MESSAGE_TYPE_TF2];
 

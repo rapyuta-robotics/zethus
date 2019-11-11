@@ -21,6 +21,9 @@ export const DEFAULT_CONFIG = {
     sidebar: {
       display: true,
     },
+    header: {
+      display: true,
+    },
   },
   ros: {
     endpoint: 'ws://localhost:9090',

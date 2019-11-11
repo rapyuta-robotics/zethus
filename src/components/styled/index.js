@@ -220,11 +220,42 @@ export const StyledSidebar = styled.div`
   flex-shrink: 0;
 `;
 
-export const StyledLogo = styled(Container)`
+export const StyledHeader = styled.div`
+  padding: 10px 20px;
+  display: flex;
+  border-bottom: 1px solid #dddddd;
+  justify-content: space-between;
+`;
+
+export const StyledLogo = styled.div`
   svg {
     height: 40px;
     display: block;
   }
+`;
+
+export const StyledToolbar = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  max-width: calc(100% - 400px);
+  overflow-x: auto;
+`;
+
+export const StyledTool = styled.div`
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 5px;
+  background: ${props => (props.active ? '#F6F6F6' : 'white')};
+  color: ${props => (props.active ? '#dc1d30' : 'inherit')};
+`;
+
+export const ToolHeading = styled.span`
+  padding: 2px;
 `;
 
 export const TextButton = styled(Button)`
