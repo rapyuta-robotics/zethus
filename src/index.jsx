@@ -2,7 +2,12 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import Zethus from './zethus';
+import { GlobalStyle } from './components/styled';
 
-import './styles/common.scss';
-
-ReactDOM.render(<Zethus />, document.getElementById('root'));
+ReactDOM.render(
+  <>
+    <GlobalStyle />
+    <Zethus />
+  </>,
+  document.getElementById('root'),
+);

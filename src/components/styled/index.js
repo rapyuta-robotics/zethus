@@ -1,15 +1,39 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { css, keyframes, createGlobalStyle } from 'styled-components';
 import {
   COLOR_BLUE,
   COLOR_GREY_LIGHT_1,
   COLOR_GREY_LIGHT_2,
+  COLOR_GREY_TEXT_1,
   COLOR_GREY_TEXT_2,
   COLOR_GREY_TEXT_3,
   COLOR_PRIMARY,
   COLOR_RED,
+  FONT_SIZE_DEFAULT,
   FONT_SIZE_S,
 } from './constants';
 import { ROS_SOCKET_STATUSES } from '../../utils';
+
+export const GlobalStyle = createGlobalStyle`
+  * {
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  html {
+    font-size: 20px;
+  }
+  
+  body {
+    padding: 0;
+    margin: 0;
+    color: ${COLOR_GREY_TEXT_1};
+    font-family: 'Source Sans Pro', sans-serif;
+    overflow: hidden;
+    line-height: 1.5;
+    font-size: ${FONT_SIZE_DEFAULT};
+  }
+`;
 
 export const Button = styled.button`
   cursor: pointer;
