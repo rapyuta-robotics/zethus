@@ -123,7 +123,7 @@ class Sidebar extends React.Component {
         </Container>
         <Separator />
         {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
-          <React.Fragment>
+          <>
             <GlobalOptions
               framesList={framesList}
               globalOptions={globalOptions}
@@ -168,7 +168,7 @@ class Sidebar extends React.Component {
                 );
               })}
             </SidebarVizContainer>
-          </React.Fragment>
+          </>
         )}
       </StyledSidebar>
     );
