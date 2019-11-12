@@ -39,6 +39,8 @@ const {
   MESSAGE_TYPE_TF2,
 } = CONSTANTS;
 
+export const VIZ_TYPE_DEPTHCLOUD_STREAM = 'Depthcloud stream';
+
 const iconLineStyle = {
   fill: 'none',
   stroke: '#dc1d30',
@@ -400,6 +402,26 @@ export const vizOptions = [
     description: `Adds a visualization represented by a sensor_msgs/Range topic to the scene.
     ![](/image/viz/viz-range.png "")`,
     docsLink: `${DOCS_ROOT_URL}Range`,
+  },
+  {
+    type: VIZ_TYPE_DEPTHCLOUD_STREAM,
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <path
+          style={iconLineStyle}
+          d="M42.68,38s-4.29-5.07-13-2.12-8.24,10-8.24,10S13.16,53.09,16,59.07s7.55,6.33,9.89,6.33h5.62"
+        />
+        <path
+          style={iconLineStyle}
+          d="M81.33,58.72c0-6.24-8.06-9.62-12.14-8.93,0,0-2.25-9.88-12.66-8.15a13.12,13.12,0,0,0-14-3.12C34,41.47,34.33,48.58,34.33,48.58S26,55.69,28.87,61.67,36.41,68,38.76,68H81.85"
+        />
+      </svg>
+    ),
+    messageTypes: [],
+    description: `Visualizes depthcloud from the 
+    [depthcloud_encoder](http://wiki.ros.org/depthcloud_encoder) 
+    via [web-video-server](http://wiki.ros.org/web_video_server) stream`,
+    docsLink: `${DOCS_ROOT_URL}Depthcloud`,
   },
   {
     type: VIZ_TYPE_ROBOTMODEL,

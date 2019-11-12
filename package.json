@@ -37,7 +37,8 @@
     "stats-js": "^1.0.0",
     "store": "^2.0.12",
     "styled-components": "^4.3.2",
-    "three": "^0.109.0"
+    "three": "^0.109.0",
+    "valid-url": "^1.0.9"
   },
   "scripts": {
     "start": "webpack-dev-server --config webpack.app.dev.js",
