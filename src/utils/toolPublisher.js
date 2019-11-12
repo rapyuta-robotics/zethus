@@ -50,6 +50,7 @@ export default class ToolPublisher {
       point,
     });
     this.pointToolPublisher.publish(message);
+    this.seq[TOOL_TYPE_POINT]++;
   }
 
   publishNavGoalToolMessage(pose, frameId) {
@@ -65,6 +66,7 @@ export default class ToolPublisher {
       pose,
     });
     this.navGoalToolPublisher.publish(message);
+    this.seq[TOOL_TYPE_NAV_GOAL]++;
   }
 
   publishPoseEstimateToolMessage(pose, frameId) {
@@ -91,5 +93,6 @@ export default class ToolPublisher {
       },
     });
     this.poseEstimateToolPublisher.publish(message);
+    this.seq[TOOL_TYPE_POSE_ESTIMATE]++;
   }
 }
