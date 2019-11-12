@@ -1,9 +1,13 @@
 import React from 'react';
 import {
   iconLineStyle,
+  MESSAGE_TYPE_TOOL_NAV_GOAL,
   MESSAGE_TYPE_TOOL_POINT,
+  MESSAGE_TYPE_TOOL_POSE_ESTIMATE,
   TOOL_TYPE_CONTROLS,
+  TOOL_TYPE_NAV_GOAL,
   TOOL_TYPE_POINT,
+  TOOL_TYPE_POSE_ESTIMATE,
 } from './common';
 
 const activeStyle = {
@@ -18,6 +22,8 @@ const inactiveStyle = {
 export const TOOL_TYPE = {
   [TOOL_TYPE_CONTROLS]: TOOL_TYPE_CONTROLS,
   [TOOL_TYPE_POINT]: TOOL_TYPE_POINT,
+  [TOOL_TYPE_NAV_GOAL]: TOOL_TYPE_NAV_GOAL,
+  [TOOL_TYPE_POSE_ESTIMATE]: TOOL_TYPE_POSE_ESTIMATE,
 };
 
 export const toolOptions = [
@@ -34,6 +40,50 @@ export const toolOptions = [
         </g>
       </svg>
     ),
+  },
+  {
+    name: 'Pose Estimate',
+    type: TOOL_TYPE_POSE_ESTIMATE,
+    icon: active => (
+      <svg viewBox="0 0 20 20" style={{ height: '20px', marginRight: '2px' }}>
+        <g>
+          <line
+            x1="1.93"
+            y1="18.07"
+            x2="17.43"
+            y2="2.57"
+            style={active ? activeStyle : inactiveStyle}
+          />
+          <path
+            d="M13.93,2.07h4v4"
+            style={active ? activeStyle : inactiveStyle}
+          />
+        </g>
+      </svg>
+    ),
+    messageType: MESSAGE_TYPE_TOOL_POSE_ESTIMATE,
+  },
+  {
+    name: 'Nav Goal',
+    type: TOOL_TYPE_NAV_GOAL,
+    icon: active => (
+      <svg viewBox="0 0 20 20" style={{ height: '20px', marginRight: '2px' }}>
+        <g>
+          <line
+            x1="1.93"
+            y1="18.07"
+            x2="17.43"
+            y2="2.57"
+            style={active ? activeStyle : inactiveStyle}
+          />
+          <path
+            d="M13.93,2.07h4v4"
+            style={active ? activeStyle : inactiveStyle}
+          />
+        </g>
+      </svg>
+    ),
+    messageType: MESSAGE_TYPE_TOOL_NAV_GOAL,
   },
   {
     name: 'Point',

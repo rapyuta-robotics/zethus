@@ -12,7 +12,7 @@ const StyledViewport = styled.div`
     top: auto !important;
     left: auto !important;
     right: 0 !important;
-    bottom: 0 !important;
+    bottom: 60px !important;
   }
 `;
 

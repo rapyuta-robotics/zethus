@@ -9,16 +9,36 @@ export default class Raycaster extends THREE.Raycaster {
     this.camera = camera;
     this.scene = scene;
     this.domElement = domElement;
-    this.previousScreenPoint = new THREE.Vector2();
-    this.currentScreenPoint = new THREE.Vector2();
+    this.activePlane = new THREE.Plane();
+    this.intersection = new THREE.Vector3();
+    this.mouseDown = new THREE.Vector3();
     this.tool = { name: 'Controls', type: TOOL_TYPE.TOOL_TYPE_CONTROLS };
     this.eventListeners = {};
+    this.arrowHelper = new THREE.ArrowHelper(
+      new THREE.Vector3(0, 1, 0),
+      this.scene.position,
+      1,
+      0xffff00,
+      0.2,
+      0.2,
+    );
+    this.dirv1Cache = new THREE.Vector3();
+    this.dirv2Cache = new THREE.Vector3();
+    this.quaternionCache = new THREE.Quaternion();
+    this.arrowHelper.line.material.linewidth = 2;
 
     this.addOrReplaceEventListener = this.addOrReplaceEventListener.bind(this);
     this.mouseUpListener = this.mouseUpListener.bind(this);
-    this.mouseUpListener = this.mouseUpListener.bind(this);
+    this.mouseMoveListener = this.mouseMoveListener.bind(this);
+    this.mouseDownListener = this.mouseDownListener.bind(this);
+    this.translateToFixedFrame = this.translateToFixedFrame.bind(this);
 
     this.domElement.addEventListener('mouseup', this.mouseUpListener, false);
+    this.domElement.addEventListener(
+      'mousedown',
+      this.mouseDownListener,
+      false,
+    );
   }
 
   addOrReplaceEventListener(name, cb) {
@@ -33,30 +53,95 @@ export default class Raycaster extends THREE.Raycaster {
     this.setFromCamera(this.mouse, this.camera);
   }
 
-  mouseUpListener(event) {
+  mouseDownListener(event) {
     this.setRayDirection(event);
-    this.previousScreenPoint.set(event.clientX, event.clientY);
-
-    const intersection = this.intersectObjects(this.scene.children, true)[0];
-    if (!(intersection && this.eventListeners[this.tool.name])) {
+    this.activePlane.setFromNormalAndCoplanarPoint(
+      this.camera.up,
+      this.scene.position,
+    );
+    this.ray.intersectPlane(this.activePlane, this.intersection);
+    if (!(this.intersection && this.eventListeners[this.tool.name])) {
       return;
     }
+    this.translateToFixedFrame(this.intersection);
+    this.mouseDown.copy(this.intersection);
 
-    const frame = this.scene.getObjectByName(this.fixedFrame);
-    if (frame) {
-      frame.worldToLocal(intersection.point);
+    switch (this.tool.type) {
+      case TOOL_TYPE.TOOL_TYPE_POSE_ESTIMATE:
+      case TOOL_TYPE.TOOL_TYPE_NAV_GOAL: {
+        this.arrowHelper.position.copy(this.intersection);
+        this.arrowHelper.quaternion.set(0, 0, 0, 1);
+        this.scene.add(this.arrowHelper);
+        this.domElement.addEventListener(
+          'mousemove',
+          this.mouseMoveListener,
+          false,
+        );
+        break;
+      }
+      default:
     }
+  }
+
+  mouseMoveListener(event) {
+    this.setRayDirection(event);
+    const previousIntersection = this.intersection.clone();
+    this.ray.intersectPlane(this.activePlane, this.intersection);
+    if (!(this.intersection && this.eventListeners[this.tool.name])) {
+      return;
+    }
+    this.translateToFixedFrame(this.intersection);
+
+    this.dirv1Cache
+      .copy(previousIntersection)
+      .sub(this.mouseDown)
+      .normalize();
+    this.dirv2Cache
+      .copy(this.intersection)
+      .sub(this.mouseDown)
+      .normalize();
+    this.quaternionCache.setFromUnitVectors(this.dirv1Cache, this.dirv2Cache);
+
+    this.arrowHelper.quaternion.premultiply(this.quaternionCache);
+  }
+
+  mouseUpListener() {
+    this.domElement.removeEventListener(
+      'mousemove',
+      this.mouseMoveListener,
+      false,
+    );
+    this.scene.remove(this.arrowHelper);
 
     switch (this.tool.type) {
       case TOOL_TYPE.TOOL_TYPE_POINT: {
+        this.eventListeners[this.tool.name](this.intersection, this.fixedFrame);
+        break;
+      }
+      case TOOL_TYPE.TOOL_TYPE_POSE_ESTIMATE:
+      case TOOL_TYPE.TOOL_TYPE_NAV_GOAL: {
+        const { position, quaternion } = this.arrowHelper;
+        const quaternionTransform = new THREE.Quaternion().setFromAxisAngle(
+          this.camera.up,
+          Math.PI / 2,
+        );
+        quaternion.premultiply(quaternionTransform);
         this.eventListeners[this.tool.name](
-          intersection.point,
+          position,
+          quaternion,
           this.fixedFrame,
         );
         break;
       }
       case TOOL_TYPE.TOOL_TYPE_CONTROLS:
       default:
+    }
+  }
+
+  translateToFixedFrame(point) {
+    const frame = this.scene.getObjectByName(this.fixedFrame);
+    if (frame) {
+      frame.worldToLocal(point);
     }
   }
 }
