@@ -195,7 +195,6 @@ class ConfigurationModal extends React.Component {
               theme="ace/theme/xcode"
               mainMenuBar={false}
               statusBar={false}
-              htmlElementProps={{}}
             />
             {dragging && (
               <DragHoverText>
