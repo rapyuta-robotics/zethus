@@ -5,7 +5,10 @@ import Amphion from 'amphion';
 import _ from 'lodash';
 import { getTfTopics } from '../../utils';
 import { VizImageContainer, VizImageHeader } from '../../components/styled/viz';
-import { VIZ_TYPE_DEPTHCLOUD_STREAM } from '../../utils/vizOptions';
+import {
+  VIZ_TYPE_DEPTHCLOUD_STREAM,
+  VIZ_TYPE_IMAGE_STREAM,
+} from '../../utils/vizOptions';
 
 const {
   VIZ_TYPE_IMAGE,
@@ -36,6 +39,10 @@ class Visualization extends React.PureComponent {
 
   static getNewViz(vizType, ros, topicName, viewer, options) {
     switch (vizType) {
+      case VIZ_TYPE_IMAGE_STREAM:
+        return new Amphion.ImageStream(ros, null, {
+          url: topicName,
+        });
       case VIZ_TYPE_DEPTHCLOUD_STREAM:
         return new Amphion.DepthCloud(topicName);
       case VIZ_TYPE_INTERACTIVEMARKER:
@@ -138,6 +145,9 @@ class Visualization extends React.PureComponent {
     } else if (vizType === VIZ_TYPE_IMAGE) {
       this.imageDomRef.current.appendChild(this.vizInstance.object);
       this.vizInstance.subscribe();
+    } else if (vizType === VIZ_TYPE_IMAGE_STREAM) {
+      this.imageDomRef.current.appendChild(this.vizInstance.object);
+      this.vizInstance.subscribe();
     } else {
       viewer.addVisualization(this.vizInstance);
       this.vizInstance.subscribe();
@@ -164,7 +174,7 @@ class Visualization extends React.PureComponent {
       options: { topicName, visible, vizType },
     } = this.props;
 
-    if (vizType === VIZ_TYPE_IMAGE) {
+    if (vizType === VIZ_TYPE_IMAGE || vizType === VIZ_TYPE_IMAGE_STREAM) {
       return (
         <Rnd
           style={{
@@ -178,10 +188,12 @@ class Visualization extends React.PureComponent {
           }}
           bounds="window"
           onResizeStop={(e, direction, ref) => {
-            this.vizInstance.updateDimensions(
-              Number.parseInt(ref.style.width, 10),
-              Number.parseInt(ref.style.height, 10) - 25, // -25px for header padding
-            );
+            if (vizType === VIZ_TYPE_IMAGE) {
+              this.vizInstance.updateDimensions(
+                Number.parseInt(ref.style.width, 10),
+                Number.parseInt(ref.style.height, 10) - 25, // -25px for header padding
+              );
+            }
           }}
         >
           <VizImageContainer ref={this.imageDomRef}>

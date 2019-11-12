@@ -12,7 +12,10 @@ import {
   VizItemIcon,
 } from '../../../components/styled/viz';
 import Chevron from '../../../components/chevron';
-import { VIZ_TYPE_DEPTHCLOUD_STREAM } from '../../../utils/vizOptions';
+import {
+  VIZ_TYPE_DEPTHCLOUD_STREAM,
+  VIZ_TYPE_IMAGE_STREAM,
+} from '../../../utils/vizOptions';
 
 const {
   VIZ_TYPE_INTERACTIVEMARKER,
@@ -63,7 +66,12 @@ const VizOptions = ({
       {!collapsed && (
         <VizItemContent>
           {!_.includes(
-            [VIZ_TYPE_ROBOTMODEL, VIZ_TYPE_TF, VIZ_TYPE_DEPTHCLOUD_STREAM],
+            [
+              VIZ_TYPE_ROBOTMODEL,
+              VIZ_TYPE_TF,
+              VIZ_TYPE_DEPTHCLOUD_STREAM,
+              VIZ_TYPE_IMAGE_STREAM,
+            ],
             vizType,
           ) && (
             <OptionRow label="Topic">
