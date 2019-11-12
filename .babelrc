@@ -1,3 +1,13 @@
 {
-  "presets": ["@babel/preset-react"]
+  "presets": ["@babel/preset-react"],
+  "plugins": [
+    [
+      "babel-plugin-styled-components",
+      {
+        "fileName": false,
+        "pure": true,
+        "transpileTemplateLiterals": true
+      }
+    ] 
+    ]
 }
