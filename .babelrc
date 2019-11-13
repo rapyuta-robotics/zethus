@@ -5,9 +5,8 @@
       "babel-plugin-styled-components",
       {
         "fileName": false,
-        "pure": true,
-        "transpileTemplateLiterals": true
+        "pure": true
       }
-    ] 
     ]
+  ]
 }
