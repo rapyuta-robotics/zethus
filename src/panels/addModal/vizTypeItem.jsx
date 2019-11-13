@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { isWebUri } from 'valid-url';
+import isValidUrl from 'is-valid-http-url';
 import { CONSTANTS } from 'amphion';
 import Select from 'react-select';
 import { TypeEmpty, TypeHeading, TypeRow } from '../../components/styled/modal';
@@ -73,7 +73,7 @@ class VizTypeItem extends React.PureComponent {
               type="text"
               placeholder="Stream URL"
               onChange={e => {
-                if (!isWebUri(e.target.value)) {
+                if (!isValidUrl(e.target.value)) {
                   return;
                 }
                 selectViz(vizDetails.type, e.target.value, '');
