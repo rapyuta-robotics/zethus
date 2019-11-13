@@ -1,17 +1,49 @@
 const path = require('path');
+const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const PUBLIC_URL = require('./package').homepage;
+
 module.exports = {
-  entry: './src/index.jsx',
-  mode: 'development',
+  entry: {
+    zethus: './src/zethus.jsx',
+    panels: './src/panels/index.jsx',
+  },
+  mode: 'production',
+  devtool: 'source-map',
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      minSize: 30000,
+      maxSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      automaticNameMaxLength: 30,
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
+  },
   plugins: [
+    new webpack.HashedModuleIdsPlugin(),
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: 'index.html',
       templateParameters: {
-        PUBLIC_URL: '',
+        PUBLIC_URL,
       },
     }),
     new CopyPlugin([{ from: './public' }]),
@@ -51,23 +83,9 @@ module.exports = {
       three: path.resolve('./node_modules/three'),
     },
   },
-  devServer: {
-    compress: true,
-    hot: true,
-    port: 3000,
-    quiet: false,
-    noInfo: false,
-    stats: {
-      assets: false,
-      children: false,
-      chunks: false,
-      chunkModules: false,
-      colors: true,
-      entrypoints: false,
-      hash: false,
-      modules: false,
-      timings: false,
-      version: false,
-    },
+  output: {
+    filename: '[name].umd.js',
+    libraryTarget: 'umd',
+    path: path.resolve(__dirname, 'build-lib'),
   },
 };
