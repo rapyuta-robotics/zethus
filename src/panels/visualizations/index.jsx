@@ -5,6 +5,7 @@ import Amphion from 'amphion';
 import _ from 'lodash';
 import { getTfTopics } from '../../utils';
 import { VizImageContainer, VizImageHeader } from '../../components/styled/viz';
+import { VIZ_TYPE_DEPTHCLOUD_STREAM } from '../../utils/vizOptions';
 
 const {
   VIZ_TYPE_IMAGE,
@@ -35,6 +36,8 @@ class Visualization extends React.PureComponent {
 
   static getNewViz(vizType, ros, topicName, viewer, options) {
     switch (vizType) {
+      case VIZ_TYPE_DEPTHCLOUD_STREAM:
+        return new Amphion.DepthCloud(topicName);
       case VIZ_TYPE_INTERACTIVEMARKER:
         return new Amphion.InteractiveMarkers(ros, topicName, viewer, options);
       case VIZ_TYPE_IMAGE:
