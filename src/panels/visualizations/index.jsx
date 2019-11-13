@@ -40,9 +40,7 @@ class Visualization extends React.PureComponent {
   static getNewViz(vizType, ros, topicName, viewer, options) {
     switch (vizType) {
       case VIZ_TYPE_IMAGE_STREAM:
-        return new Amphion.ImageStream(ros, null, {
-          url: topicName,
-        });
+        return new Amphion.ImageStream(topicName);
       case VIZ_TYPE_DEPTHCLOUD_STREAM:
         return new Amphion.DepthCloud(topicName);
       case VIZ_TYPE_INTERACTIVEMARKER:
