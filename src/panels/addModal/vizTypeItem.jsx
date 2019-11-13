@@ -1,9 +1,12 @@
 import React from 'react';
 import _ from 'lodash';
+import isValidUrl from 'is-valid-http-url';
 import { CONSTANTS } from 'amphion';
 import Select from 'react-select';
 import { TypeEmpty, TypeHeading, TypeRow } from '../../components/styled/modal';
 import { VizItemIcon } from '../../components/styled/viz';
+import { VIZ_TYPE_DEPTHCLOUD_STREAM } from '../../utils/vizOptions';
+import { Input } from '../../components/styled';
 
 const { VIZ_TYPE_ROBOTMODEL } = CONSTANTS;
 
@@ -30,11 +33,13 @@ class VizTypeItem extends React.PureComponent {
     } = this.props;
     const topicName = _.get(selectedViz, 'topicName');
     const isRobotmodel = _.get(selectedViz, 'vizType') === VIZ_TYPE_ROBOTMODEL;
+    const isDepthcloudStream =
+      _.get(selectedViz, 'vizType') === VIZ_TYPE_DEPTHCLOUD_STREAM;
     if (vizDetails.type === VIZ_TYPE_ROBOTMODEL) {
       return (
         <div>
           <TypeHeading>
-            <VizItemIcon src={vizDetails.icon} alt="" />
+            <VizItemIcon alt="">{vizDetails.icon}</VizItemIcon>
             {vizDetails.type}
           </TypeHeading>
           <TypeRow type="button" selected={isRobotmodel}>
@@ -56,10 +61,32 @@ class VizTypeItem extends React.PureComponent {
         </div>
       );
     }
+    if (vizDetails.type === VIZ_TYPE_DEPTHCLOUD_STREAM) {
+      return (
+        <div>
+          <TypeHeading>
+            <VizItemIcon alt="">{vizDetails.icon}</VizItemIcon>
+            {vizDetails.type}
+          </TypeHeading>
+          <TypeRow type="button" selected={isDepthcloudStream}>
+            <Input
+              type="text"
+              placeholder="Stream URL"
+              onChange={e => {
+                if (!isValidUrl(e.target.value)) {
+                  return;
+                }
+                selectViz(vizDetails.type, e.target.value, '');
+              }}
+            />
+          </TypeRow>
+        </div>
+      );
+    }
     return (
       <div>
         <TypeHeading>
-          <VizItemIcon src={vizDetails.icon} alt="" />
+          <VizItemIcon alt="">{vizDetails.icon}</VizItemIcon>
           {vizDetails.type}
         </TypeHeading>
         {_.map(topics, topic => (
