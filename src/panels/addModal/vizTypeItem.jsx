@@ -5,7 +5,10 @@ import { CONSTANTS } from 'amphion';
 import Select from 'react-select';
 import { TypeEmpty, TypeHeading, TypeRow } from '../../components/styled/modal';
 import { VizItemIcon } from '../../components/styled/viz';
-import { VIZ_TYPE_DEPTHCLOUD_STREAM } from '../../utils/vizOptions';
+import {
+  VIZ_TYPE_DEPTHCLOUD_STREAM,
+  VIZ_TYPE_IMAGE_STREAM,
+} from '../../utils/vizOptions';
 import { Input } from '../../components/styled';
 
 const { VIZ_TYPE_ROBOTMODEL } = CONSTANTS;
@@ -33,8 +36,14 @@ class VizTypeItem extends React.PureComponent {
     } = this.props;
     const topicName = _.get(selectedViz, 'topicName');
     const isRobotmodel = _.get(selectedViz, 'vizType') === VIZ_TYPE_ROBOTMODEL;
-    const isDepthcloudStream =
-      _.get(selectedViz, 'vizType') === VIZ_TYPE_DEPTHCLOUD_STREAM;
+    const isAdditionalTypeSelected = {
+      [VIZ_TYPE_ROBOTMODEL]:
+        _.get(selectedViz, 'vizType') === VIZ_TYPE_ROBOTMODEL,
+      [VIZ_TYPE_DEPTHCLOUD_STREAM]:
+        _.get(selectedViz, 'vizType') === VIZ_TYPE_DEPTHCLOUD_STREAM,
+      [VIZ_TYPE_IMAGE_STREAM]:
+        _.get(selectedViz, 'vizType') === VIZ_TYPE_IMAGE_STREAM,
+    };
     if (vizDetails.type === VIZ_TYPE_ROBOTMODEL) {
       return (
         <div>
@@ -42,7 +51,10 @@ class VizTypeItem extends React.PureComponent {
             <VizItemIcon alt="">{vizDetails.icon}</VizItemIcon>
             {vizDetails.type}
           </TypeHeading>
-          <TypeRow type="button" selected={isRobotmodel}>
+          <TypeRow
+            type="button"
+            selected={isAdditionalTypeSelected[VIZ_TYPE_ROBOTMODEL]}
+          >
             <Select
               isSearchable
               className="reactSelect"
@@ -61,14 +73,20 @@ class VizTypeItem extends React.PureComponent {
         </div>
       );
     }
-    if (vizDetails.type === VIZ_TYPE_DEPTHCLOUD_STREAM) {
+    if (
+      vizDetails.type === VIZ_TYPE_DEPTHCLOUD_STREAM ||
+      vizDetails.type === VIZ_TYPE_IMAGE_STREAM
+    ) {
       return (
         <div>
           <TypeHeading>
             <VizItemIcon alt="">{vizDetails.icon}</VizItemIcon>
             {vizDetails.type}
           </TypeHeading>
-          <TypeRow type="button" selected={isDepthcloudStream}>
+          <TypeRow
+            type="button"
+            selected={isAdditionalTypeSelected[vizDetails.type]}
+          >
             <Input
               type="text"
               placeholder="Stream URL"

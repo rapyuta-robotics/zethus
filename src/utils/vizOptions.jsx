@@ -40,6 +40,7 @@ const {
 } = CONSTANTS;
 
 export const VIZ_TYPE_DEPTHCLOUD_STREAM = 'Depthcloud stream';
+export const VIZ_TYPE_IMAGE_STREAM = 'Image stream';
 
 const iconLineStyle = {
   fill: 'none',
@@ -109,6 +110,31 @@ export const vizOptions = [
     description: `Creates a container to visualize the image data represented by a sensor_msgs/Image topic.
     ![](/image/viz/viz-image.png "")`,
     docsLink: `${DOCS_ROOT_URL}Image`,
+  },
+  {
+    type: VIZ_TYPE_IMAGE_STREAM,
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <rect
+          style={iconLineStyle}
+          x="17.5"
+          y="30"
+          width="65"
+          height="40"
+          rx="2"
+        />
+        <polyline
+          style={iconLineStyle}
+          points="18 67.5 46 49.5 52 55.5 71 42.5 82.5 49.29"
+        />
+        <circle style={iconFillStyle} cx="62" cy="40.5" r="2.5" />
+      </svg>
+    ),
+    messageTypes: [],
+    description: `Creates a container to visualize the image data as a video stream coming via
+    [web-video-server](http://wiki.ros.org/web_video_server).
+    ![](/image/viz/viz-image.png "")`,
+    docsLink: `${DOCS_ROOT_URL}ImageStream`,
   },
   {
     type: VIZ_TYPE_LASERSCAN,
