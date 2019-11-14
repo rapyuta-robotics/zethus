@@ -6,12 +6,17 @@ import Amphion from 'amphion';
 
 import { DEFAULT_CONFIG, ROS_SOCKET_STATUSES } from '../utils';
 
-import { PanelWrapper, PanelContent } from '../components/styled';
+import { PanelContent, PanelWrapper } from '../components/styled';
 import AddModal from './addModal';
 import Sidebar from './sidebar';
 import Viewport from './viewer';
 import Visualization from './visualizations';
 import ConfigurationModal from './configurationModal';
+import Header from './header';
+import { TOOL_TYPE_CONTROLS } from '../utils/common';
+import Raycaster from '../utils/raycaster';
+import { TOOL_TYPE } from '../utils/toolbar';
+import ToolPublisher from '../utils/toolPublisher';
 
 class Wrapper extends React.Component {
   constructor(props) {
@@ -24,6 +29,7 @@ class Wrapper extends React.Component {
       rosTopics: [],
       rosParams: [],
       framesList: [],
+      activeTool: TOOL_TYPE_CONTROLS,
     };
 
     this.connectRos = this.connectRos.bind(this);
@@ -34,11 +40,14 @@ class Wrapper extends React.Component {
     this.addVisualization = this.addVisualization.bind(this);
     this.updateFramesList = this.updateFramesList.bind(this);
     this.updateConfiguration = this.updateConfiguration.bind(this);
+    this.selectTool = this.selectTool.bind(this);
+    this.onPointTool = this.onPointTool.bind(this);
 
     this.ros = new ROSLIB.Ros();
     this.viewer = new Amphion.TfViewer(this.ros, {
       onFramesListUpdate: this.updateFramesList,
     });
+    this.toolPublisher = new ToolPublisher(this.ros);
   }
 
   static getDerivedStateFromProps({ configuration }) {
@@ -48,10 +57,43 @@ class Wrapper extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { rosEndpoint } = this.state;
+    const { activeTool, rosEndpoint } = this.state;
+    const {
+      configuration: {
+        globalOptions: {
+          fixedFrame: { value: fixedFrame },
+        },
+      },
+    } = this.props;
+    const {
+      configuration: {
+        globalOptions: {
+          fixedFrame: { value: previousFixedFrame },
+        },
+      },
+    } = prevProps;
+
+    if (this.raycaster && previousFixedFrame !== fixedFrame) {
+      this.raycaster.fixedFrame = fixedFrame;
+    }
+
     if (prevState.rosEndpoint !== rosEndpoint) {
       this.disconnectRos();
       this.connectRos();
+    }
+
+    if (activeTool !== prevState.activeTool) {
+      this.viewer.controls.enabled = false;
+
+      switch (activeTool) {
+        case TOOL_TYPE_CONTROLS: {
+          this.viewer.controls.enabled = true;
+          break;
+        }
+        default: {
+          // TODO: add other tool cases
+        }
+      }
     }
   }
 
@@ -74,6 +116,29 @@ class Wrapper extends React.Component {
     if (rosEndpoint) {
       this.connectRos();
     }
+
+    const { camera, renderer, scene } = this.viewer;
+    scene.grid.raycast = () => undefined;
+    this.raycaster = new Raycaster(camera, scene, renderer.domElement);
+  }
+
+  selectTool(name, type) {
+    this.setState({ activeTool: type });
+    this.raycaster.tool = { name, type };
+
+    switch (type) {
+      case TOOL_TYPE.TOOL_TYPE_POINT: {
+        this.raycaster.addOrReplaceEventListener(name, this.onPointTool);
+        break;
+      }
+      case TOOL_TYPE.TOOL_TYPE_CONTROLS:
+      default:
+    }
+  }
+
+  onPointTool(point, frameId) {
+    const [x, y, z] = point.toArray();
+    this.toolPublisher.publishPointToolMessage({ x, y, z }, frameId);
   }
 
   updateFramesList(framesList) {
@@ -147,6 +212,7 @@ class Wrapper extends React.Component {
 
   render() {
     const {
+      activeTool,
       addModalOpen,
       configurationModalOpen,
       framesList,
@@ -159,6 +225,7 @@ class Wrapper extends React.Component {
       configuration: {
         globalOptions,
         panels: {
+          header: { display: displayHeader },
           sidebar: { display: displaySidebar },
         },
         visualizations,
@@ -172,57 +239,62 @@ class Wrapper extends React.Component {
     } = this.props;
 
     return (
-      <PanelWrapper>
-        {addModalOpen && (
-          <AddModal
-            ros={this.ros}
-            rosTopics={rosTopics}
-            rosParams={rosParams}
-            closeModal={this.toggleAddModal}
-            addVisualization={this.addVisualization}
-          />
+      <>
+        {displayHeader && (
+          <Header activeTool={activeTool} selectTool={this.selectTool} />
         )}
-        {configurationModalOpen && (
-          <ConfigurationModal
-            configuration={configuration}
-            updateConfiguration={this.updateConfiguration}
-            closeModal={this.toggleConfigurationModal}
-          />
-        )}
-        {displaySidebar && (
-          <Sidebar
-            framesList={framesList}
-            globalOptions={globalOptions}
-            rosEndpoint={rosEndpoint}
-            rosInstance={this.ros}
-            rosTopics={rosTopics}
-            rosStatus={rosStatus}
-            visualizations={visualizations}
-            viewer={this.viewer}
-            connectRos={this.connectRos}
-            disconnectRos={this.disconnectRos}
-            removeVisualization={removeVisualization}
-            toggleAddModal={this.toggleAddModal}
-            toggleVisibility={toggleVisibility}
-            toggleConfigurationModal={this.toggleConfigurationModal}
-            updateGlobalOptions={updateGlobalOptions}
-            updateRosEndpoint={updateRosEndpoint}
-            updateVizOptions={updateVizOptions}
-          />
-        )}
-        <PanelContent>
-          <Viewport viewer={this.viewer} globalOptions={globalOptions} />
-        </PanelContent>
-        {_.map(visualizations, vizItem => (
-          <Visualization
-            options={vizItem}
-            key={vizItem.key}
-            viewer={this.viewer}
-            rosTopics={rosTopics}
-            rosInstance={this.ros}
-          />
-        ))}
-      </PanelWrapper>
+        <PanelWrapper>
+          {addModalOpen && (
+            <AddModal
+              ros={this.ros}
+              rosTopics={rosTopics}
+              rosParams={rosParams}
+              closeModal={this.toggleAddModal}
+              addVisualization={this.addVisualization}
+            />
+          )}
+          {configurationModalOpen && (
+            <ConfigurationModal
+              configuration={configuration}
+              updateConfiguration={this.updateConfiguration}
+              closeModal={this.toggleConfigurationModal}
+            />
+          )}
+          {displaySidebar && (
+            <Sidebar
+              framesList={framesList}
+              globalOptions={globalOptions}
+              rosEndpoint={rosEndpoint}
+              rosInstance={this.ros}
+              rosTopics={rosTopics}
+              rosStatus={rosStatus}
+              visualizations={visualizations}
+              viewer={this.viewer}
+              connectRos={this.connectRos}
+              disconnectRos={this.disconnectRos}
+              removeVisualization={removeVisualization}
+              toggleAddModal={this.toggleAddModal}
+              toggleVisibility={toggleVisibility}
+              toggleConfigurationModal={this.toggleConfigurationModal}
+              updateGlobalOptions={updateGlobalOptions}
+              updateRosEndpoint={updateRosEndpoint}
+              updateVizOptions={updateVizOptions}
+            />
+          )}
+          <PanelContent>
+            <Viewport viewer={this.viewer} globalOptions={globalOptions} />
+          </PanelContent>
+          {_.map(visualizations, vizItem => (
+            <Visualization
+              options={vizItem}
+              key={vizItem.key}
+              viewer={this.viewer}
+              rosTopics={rosTopics}
+              rosInstance={this.ros}
+            />
+          ))}
+        </PanelWrapper>
+      </>
     );
   }
 }
