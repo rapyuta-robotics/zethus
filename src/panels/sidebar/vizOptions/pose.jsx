@@ -55,12 +55,7 @@ class PoseOptions extends React.PureComponent {
           </Select>
         </OptionRow>
         <OptionContainer>
-          {
-            <ShapeOptions
-              options={options}
-              updateOptions={this.updateOptions}
-            />
-          }
+          <ShapeOptions options={options} updateOptions={this.updateOptions} />
         </OptionContainer>
       </>
     );

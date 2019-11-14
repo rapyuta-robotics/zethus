@@ -82,12 +82,10 @@ class LaserScanOptions extends React.PureComponent {
             })}
           </Select>
         </OptionRow>
-        {
-          <ColorTransformer
-            options={options}
-            updateOptions={this.updateOptions}
-          />
-        }
+        <ColorTransformer
+          options={options}
+          updateOptions={this.updateOptions}
+        />
       </>
     );
   }
