@@ -13,4 +13,4 @@ export const iconFillStyle = {
 export const TOOL_TYPE_CONTROLS = 'TOOL_TYPE_CONTROLS';
 export const TOOL_TYPE_POINT = 'TOOL_TYPE_POINT';
 
-export const MESSAGE_TYPE_TOOL_POINT = 'geometry_msgs/PoseStamped';
+export const MESSAGE_TYPE_TOOL_POINT = 'geometry_msgs/PointStamped';
