@@ -40,6 +40,9 @@ const {
   MESSAGE_TYPE_TF2,
 } = CONSTANTS;
 
+export const VIZ_TYPE_DEPTHCLOUD_STREAM = 'Depthcloud stream';
+export const VIZ_TYPE_IMAGE_STREAM = 'Image stream';
+
 export const TF_MESSAGE_TYPES = [MESSAGE_TYPE_TF, MESSAGE_TYPE_TF2];
 
 const DOCS_ROOT_URL = 'https://github.com/rapyuta-robotics/zethus/wiki/';
@@ -96,6 +99,31 @@ export const vizOptions = [
     description: `Creates a container to visualize the image data represented by a sensor_msgs/Image topic.
     ![](/image/viz/viz-image.png "")`,
     docsLink: `${DOCS_ROOT_URL}Image`,
+  },
+  {
+    type: VIZ_TYPE_IMAGE_STREAM,
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <rect
+          style={iconLineStyle}
+          x="17.5"
+          y="30"
+          width="65"
+          height="40"
+          rx="2"
+        />
+        <polyline
+          style={iconLineStyle}
+          points="18 67.5 46 49.5 52 55.5 71 42.5 82.5 49.29"
+        />
+        <circle style={iconFillStyle} cx="62" cy="40.5" r="2.5" />
+      </svg>
+    ),
+    messageTypes: [],
+    description: `Creates a container to visualize the image data as a video stream coming via
+    [web-video-server](http://wiki.ros.org/web_video_server).
+    ![](/image/viz/viz-image.png "")`,
+    docsLink: `${DOCS_ROOT_URL}ImageStream`,
   },
   {
     type: VIZ_TYPE_LASERSCAN,
@@ -389,6 +417,26 @@ export const vizOptions = [
     description: `Adds a visualization represented by a sensor_msgs/Range topic to the scene.
     ![](/image/viz/viz-range.png "")`,
     docsLink: `${DOCS_ROOT_URL}Range`,
+  },
+  {
+    type: VIZ_TYPE_DEPTHCLOUD_STREAM,
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+        <path
+          style={iconLineStyle}
+          d="M42.68,38s-4.29-5.07-13-2.12-8.24,10-8.24,10S13.16,53.09,16,59.07s7.55,6.33,9.89,6.33h5.62"
+        />
+        <path
+          style={iconLineStyle}
+          d="M81.33,58.72c0-6.24-8.06-9.62-12.14-8.93,0,0-2.25-9.88-12.66-8.15a13.12,13.12,0,0,0-14-3.12C34,41.47,34.33,48.58,34.33,48.58S26,55.69,28.87,61.67,36.41,68,38.76,68H81.85"
+        />
+      </svg>
+    ),
+    messageTypes: [],
+    description: `Visualizes depthcloud from the 
+    [depthcloud_encoder](http://wiki.ros.org/depthcloud_encoder) 
+    via [web-video-server](http://wiki.ros.org/web_video_server) stream`,
+    docsLink: `${DOCS_ROOT_URL}Depthcloud`,
   },
   {
     type: VIZ_TYPE_ROBOTMODEL,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { map } from 'lodash';
 import { StyledToolbar } from '../../components/styled';
 import Tool from './tool';
 import { toolOptions } from '../../utils/toolbar';
@@ -8,7 +9,7 @@ export default class Toolbar extends React.PureComponent {
     const { activeTool, selectTool } = this.props;
     return (
       <StyledToolbar>
-        {toolOptions.map(option => (
+        {map(toolOptions, option => (
           <Tool
             key={option.type}
             data={option}

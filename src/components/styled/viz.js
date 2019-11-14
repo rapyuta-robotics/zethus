@@ -42,8 +42,9 @@ export const VizItemIcon = styled.div`
 `;
 
 export const VizImageContainer = styled.div`
+  background: black;
   display: flex;
-  background-color: #fff;
+  align-items: center;
   flex-direction: column;
   cursor: move;
   border-radius: 4px;
@@ -51,6 +52,12 @@ export const VizImageContainer = styled.div`
   height: 100%;
   width: 100%;
   border: 1px solid ${COLOR_GREY_LIGHT_2};
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 
   canvas {
     width: 100%;
@@ -64,7 +71,9 @@ export const RosStatus = styled(Flex)`
 `;
 
 export const VizImageHeader = styled.div`
+  background: #fff;
   display: flex;
+  width: 100%;
   font-size: 14px;
   padding: 2px 5px;
   min-height: 25px;
