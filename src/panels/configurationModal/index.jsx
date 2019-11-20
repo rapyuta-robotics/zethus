@@ -73,16 +73,17 @@ class ConfigurationModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      config: props.configuration,
+      dragging: false,
     };
     this.dragEventCounter = 0;
+    this.jsonEditor = null;
 
     this.downloadConfig = this.downloadConfig.bind(this);
-    this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.dragenterListener = this.dragenterListener.bind(this);
     this.dragleaveListener = this.dragleaveListener.bind(this);
     this.dropListener = this.dropListener.bind(this);
+    this.setEditorRef = this.setEditorRef.bind(this);
   }
 
   dragenterListener(event) {
@@ -114,7 +115,7 @@ class ConfigurationModal extends React.Component {
       reader.onload = e => {
         try {
           const config = JSON.parse(e.target.result);
-          this.handleChange(config);
+          this.jsonEditor.update(config);
         } catch (error) {
           // TODO: Add notifications. Show notification for invalid json
           console.log(error);
@@ -139,7 +140,7 @@ class ConfigurationModal extends React.Component {
   }
 
   downloadConfig() {
-    const { config } = this.state;
+    const config = this.jsonEditor.get();
     const element = document.createElement('a');
     element.setAttribute(
       'href',
@@ -157,21 +158,24 @@ class ConfigurationModal extends React.Component {
     document.body.removeChild(element);
   }
 
-  handleChange(config) {
-    this.setState({
-      config,
-    });
-  }
-
   handleSubmit() {
     const { updateConfiguration } = this.props;
-    const { config } = this.state;
+    const config = this.jsonEditor.get();
     updateConfiguration(config);
   }
 
+  setEditorRef(instance) {
+    if (instance) {
+      const { jsonEditor } = instance;
+      this.jsonEditor = jsonEditor;
+    } else {
+      this.jsonEditor = null;
+    }
+  }
+
   render() {
-    const { closeModal } = this.props;
-    const { config, dragging } = this.state;
+    const { closeModal, configuration } = this.props;
+    const { dragging } = this.state;
 
     return (
       <ModalWrapper onClick={closeModal}>
@@ -189,11 +193,11 @@ class ConfigurationModal extends React.Component {
             <Editor
               ace={ace}
               mode="code"
-              value={config}
-              onChange={this.handleChange}
+              value={configuration}
               tag={StyledEditor}
               theme="ace/theme/xcode"
               mainMenuBar={false}
+              ref={this.setEditorRef}
               statusBar={false}
             />
             {dragging && (
