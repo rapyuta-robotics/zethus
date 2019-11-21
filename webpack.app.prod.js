@@ -76,6 +76,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.js', '.jsx'],
+    alias: {
+      three: path.resolve('./node_modules/three'),
+    },
   },
   output: {
     filename: 'index.[hash].js',
