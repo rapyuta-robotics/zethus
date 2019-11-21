@@ -40,8 +40,11 @@ class Wrapper extends React.Component {
     this.addVisualization = this.addVisualization.bind(this);
     this.updateFramesList = this.updateFramesList.bind(this);
     this.updateConfiguration = this.updateConfiguration.bind(this);
+    this.composePose = this.composePose.bind(this);
     this.selectTool = this.selectTool.bind(this);
     this.onPointTool = this.onPointTool.bind(this);
+    this.onPoseEstimateTool = this.onPoseEstimateTool.bind(this);
+    this.onNavGoalTool = this.onNavGoalTool.bind(this);
 
     this.ros = new ROSLIB.Ros();
     this.viewer = new Amphion.TfViewer(this.ros, {
@@ -131,9 +134,45 @@ class Wrapper extends React.Component {
         this.raycaster.addOrReplaceEventListener(name, this.onPointTool);
         break;
       }
+      case TOOL_TYPE.TOOL_TYPE_NAV_GOAL: {
+        this.raycaster.addOrReplaceEventListener(name, this.onNavGoalTool);
+        break;
+      }
+      case TOOL_TYPE.TOOL_TYPE_POSE_ESTIMATE: {
+        this.raycaster.addOrReplaceEventListener(name, this.onPoseEstimateTool);
+        break;
+      }
       case TOOL_TYPE.TOOL_TYPE_CONTROLS:
       default:
     }
+  }
+
+  composePose(position, quaternion) {
+    const [x, y, z] = position.toArray();
+    const [ox, oy, oz, ow] = quaternion.toArray();
+    return {
+      position: {
+        x,
+        y,
+        z,
+      },
+      orientation: {
+        x: ox,
+        y: oy,
+        z: oz,
+        w: ow,
+      },
+    };
+  }
+
+  onPoseEstimateTool(position, quaternion, frameId) {
+    const pose = this.composePose(position, quaternion);
+    this.toolPublisher.publishPoseEstimateToolMessage(pose, frameId);
+  }
+
+  onNavGoalTool(position, quaternion, frameId) {
+    const pose = this.composePose(position, quaternion);
+    this.toolPublisher.publishNavGoalToolMessage(pose, frameId);
   }
 
   onPointTool(point, frameId) {
