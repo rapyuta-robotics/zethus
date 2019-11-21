@@ -14,12 +14,8 @@ class Zethus extends React.Component {
     const providedConfig =
       props.configuration || store.get('zethus_config') || {};
 
-    // initial state should be a replacement instead of a merge op
-    // merge in this.updateConfiguration makes sure the replacement
-    // produces the last seen state by user
     this.state = {
-      ...DEFAULT_CONFIG,
-      ...providedConfig,
+      ..._.merge({}, DEFAULT_CONFIG, providedConfig),
     };
     this.updateVizOptions = this.updateVizOptions.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
