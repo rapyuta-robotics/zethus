@@ -238,7 +238,7 @@ export const vizOptions = [
       MESSAGE_TYPE_INTERACTIVEMARKER_FEEDBACK,
     ],
     description: `Adds an interactive visualization represented by a visualization_msgs/InteractiveMarker topic to the scene.
-    ![](/image/viz/viz-markerarray.png "")`,
+    ![](/image/viz/viz-interactive-marker.png)`,
     docsLink: `${DOCS_ROOT_URL}Interactive-Marker`,
   },
   {
