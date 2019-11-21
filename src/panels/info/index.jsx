@@ -23,7 +23,31 @@ import Content from './content';
 import { sanitizeMessage } from '../../utils/sanitize';
 import AddInfoPanelModal from './addInfoPanelModal';
 
-const MESSAGE_BUFFER_MAX_LENGTH = 5;
+const MESSAGE_BUFFER_MAX_LENGTH = 1000;
+const compressionTypes = new Set([
+  'sensor_msgs/Image',
+  'sensor_msgs/PointCloud2',
+  'sensor_msgs/PointCloud',
+  'sensor_msgs/LaserScan',
+  'nav_msgs/Path',
+  'nav_msgs/OccupancyGrid',
+  'visualization_msgs/MarkerArray',
+  'geometry_msgs/Polygon',
+  'geometry_msgs/PolygonStamped',
+  'geometry_msgs/PoseArray',
+]);
+const getTopicOptions = messageType => {
+  if (compressionTypes.has(messageType)) {
+    return {
+      queue_length: 1,
+      compression: 'cbor',
+    };
+  }
+
+  return {
+    queue_length: 1,
+  };
+};
 
 class Info extends React.PureComponent {
   constructor(props) {
@@ -34,7 +58,7 @@ class Info extends React.PureComponent {
     this.messageBuffers = {};
 
     this.state = {
-      selected: get(topics, '[0].name', null),
+      selected: get(topics, '[0]', {}),
       raw: false,
       addModalOpen: false,
     };
@@ -50,7 +74,11 @@ class Info extends React.PureComponent {
     const { ros, topics } = this.props;
 
     forEach(topics, topic => {
-      const topicInstance = new ROSLIB.Topic({ ...topic, ros });
+      const topicInstance = new ROSLIB.Topic({
+        ...topic,
+        ros,
+        ...getTopicOptions(topic.messageType),
+      });
       topicInstance.subscribe(message => this.onMessage(topic, message));
       this.messageBuffers[topic.name] = [];
       this.topicInstances[topic.name] = topicInstance;
@@ -59,8 +87,8 @@ class Info extends React.PureComponent {
 
   static getDerivedStateFromProps(nextProps, prevState) {
     let { selected } = prevState;
-    if (isNil(find(nextProps.topics, t => t.name === selected))) {
-      selected = size(nextProps.topics) > 0 ? nextProps.topics[0].name : null;
+    if (isNil(find(nextProps.topics, t => t.name === selected.name))) {
+      selected = size(nextProps.topics) > 0 ? nextProps.topics[0] : {};
     }
     return {
       ...prevState,
@@ -89,7 +117,11 @@ class Info extends React.PureComponent {
 
     forEach(topics, topic => {
       if (!oldTopicNames.has(topic.name)) {
-        const topicInstance = new ROSLIB.Topic({ ...topic, ros });
+        const topicInstance = new ROSLIB.Topic({
+          ...topic,
+          ros,
+          ...getTopicOptions(topic.messageType),
+        });
         topicInstance.subscribe(message => this.onMessage(topic, message));
         this.messageBuffers[topic.name] = [];
         this.topicInstances[topic.name] = topicInstance;
@@ -101,22 +133,25 @@ class Info extends React.PureComponent {
     const { name } = topic;
     const buffer = this.messageBuffers[name];
     if (size(buffer) === MESSAGE_BUFFER_MAX_LENGTH) {
-      buffer.shift();
+      buffer.pop();
     }
-    buffer.push(sanitizeMessage(topic, message));
+
+    const sanitizedMessage = sanitizeMessage(topic, message);
+    sanitizedMessage.timestamp = performance.now();
+    buffer.unshift(sanitizedMessage);
   }
 
-  onTabChange(e, name) {
+  onTabChange(e, topic) {
     const { topics, updateInfoTabs } = this.props;
     const action = e.target.getAttribute('data-action');
 
     if (action === 'close') {
       const topicsShallowClone = [...topics];
-      const index = findIndex(topicsShallowClone, x => x.name === name);
+      const index = findIndex(topicsShallowClone, x => x.name === topic.name);
       topicsShallowClone.splice(index, 1);
       updateInfoTabs(topicsShallowClone);
     } else {
-      this.setState({ selected: name });
+      this.setState({ selected: topic });
     }
   }
 
@@ -128,9 +163,10 @@ class Info extends React.PureComponent {
     this.setState({ addModalOpen });
   }
 
-  addInfoPanel(topic) {
+  addInfoPanel(topic, keys) {
     const { topics, updateInfoTabs } = this.props;
     const topicsShallowClone = [...topics];
+    topic.keys = keys;
     topicsShallowClone.push(topic);
     updateInfoTabs(topicsShallowClone);
     this.toggleAddModal(false);
@@ -138,7 +174,12 @@ class Info extends React.PureComponent {
 
   render() {
     const { addModalOpen, raw, selected } = this.state;
-    const { collapsed, rosTopics, togglePanelCollapse, topics } = this.props;
+    const {
+      collapsed,
+      rosTopics: allTopics,
+      togglePanelCollapse,
+      topics,
+    } = this.props;
 
     return (
       <>
@@ -147,9 +188,9 @@ class Info extends React.PureComponent {
             <InfoPanelTabsWrapper>
               {map(topics, t => (
                 <InfoPanelTab
-                  selected={t.name === selected}
+                  selected={t.name === selected.name}
                   key={t.name}
-                  onClick={e => this.onTabChange(e, t.name)}
+                  onClick={e => this.onTabChange(e, t)}
                 >
                   <span>{t.name}</span>
                   <span data-action="close">&#8855;</span>
@@ -160,10 +201,10 @@ class Info extends React.PureComponent {
               </InfoPanelAddButton>
             </InfoPanelTabsWrapper>
             <InfoPanelHeaderControls>
-              <span>
-                Raw:{' '}
+              <label>
+                Raw:
                 <input type="checkbox" value={raw} onChange={this.onRawClick} />
-              </span>
+              </label>
               <span onClick={() => togglePanelCollapse('info')}>
                 Collapse {collapsed ? '▲' : '▼'}
               </span>
@@ -180,7 +221,7 @@ class Info extends React.PureComponent {
         <AddInfoPanelModal
           open={addModalOpen}
           topics={topics}
-          rosTopics={rosTopics}
+          allTopics={allTopics}
           closeModal={() => this.toggleAddModal(false)}
           onAdd={this.addInfoPanel}
         />

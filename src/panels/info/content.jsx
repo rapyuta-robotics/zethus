@@ -1,9 +1,10 @@
 import React from 'react';
-import { isNil, map, size } from 'lodash';
+import { isNil, omit, size, map } from 'lodash';
 import FormattedContent from './formattedContent';
-import { InfoPanelNoMessage } from '../../components/styled';
+import { FilteredKeys, InfoPanelNoMessage } from '../../components/styled';
+import RawContent from './rawContent';
 
-const CONTENT_MANUAL_UPDATE_RATE = 1000;
+const CONTENT_MANUAL_UPDATE_RATE = 500;
 
 class Content extends React.Component {
   constructor(props) {
@@ -30,11 +31,11 @@ class Content extends React.Component {
     const { messageBuffers, raw, selected } = this.props;
 
     const lastMessage =
-      size(messageBuffers[selected]) === 0
+      size(messageBuffers[selected.name]) === 0
         ? null
-        : messageBuffers[selected].slice(-1)[0];
+        : messageBuffers[selected.name][0];
 
-    if (isNil(selected)) {
+    if (isNil(selected.name)) {
       return (
         <InfoPanelNoMessage>
           Add an info panel to receive messages.
@@ -42,18 +43,24 @@ class Content extends React.Component {
       );
     }
 
-    if (size(messageBuffers[selected]) === 0) {
+    if (size(messageBuffers[selected.name]) === 0) {
       return <InfoPanelNoMessage>waiting for messages...</InfoPanelNoMessage>;
     }
 
+    const bufferClone = raw ? [...messageBuffers[selected.name]] : [];
     return (
       <>
+        {size(selected.keys) > 0 && (
+          <FilteredKeys>
+            {map(selected.keys, key => (
+              <span key={key}>{key}</span>
+            ))}
+          </FilteredKeys>
+        )}
         {raw ? (
-          map(messageBuffers[selected], (message, index) => (
-            <div key={index}>{JSON.stringify(message)}</div>
-          ))
+          <RawContent messages={bufferClone} />
         ) : (
-          <FormattedContent message={lastMessage} />
+          <FormattedContent message={omit(lastMessage, ['timestamp'])} />
         )}
       </>
     );

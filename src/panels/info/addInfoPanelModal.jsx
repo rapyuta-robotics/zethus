@@ -1,6 +1,11 @@
 import React from 'react';
 import { filter, get, isNil, map, size } from 'lodash';
-import { ButtonPrimary, FlexGrow } from '../../components/styled';
+import TagsInput from 'react-tagsinput';
+import {
+  AddInfoPanelModalTopics,
+  ButtonPrimary,
+  FlexGrow,
+} from '../../components/styled';
 
 import {
   ModalActions,
@@ -16,11 +21,17 @@ class AddInfoPanelModal extends React.Component {
     super(props);
     this.state = {
       selected: null,
+      keys: [],
     };
 
     this.selectTopic = this.selectTopic.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.addInfoPanel = this.addInfoPanel.bind(this);
+    this.handleFilterKeysChange = this.handleFilterKeysChange.bind(this);
+  }
+
+  handleFilterKeysChange(keys) {
+    this.setState({ keys });
   }
 
   selectTopic(selected) {
@@ -29,26 +40,26 @@ class AddInfoPanelModal extends React.Component {
 
   closeModal() {
     const { closeModal } = this.props;
-    this.setState({ selected: null }, () => {
+    this.setState({ selected: null, keys: [] }, () => {
       closeModal();
     });
   }
 
-  addInfoPanel(params) {
+  addInfoPanel(topic, keys) {
     const { closeModal, onAdd } = this.props;
-    this.setState({ selected: null }, () => {
-      onAdd(params);
+    this.setState({ selected: null, keys: [] }, () => {
+      onAdd(topic, keys);
       closeModal();
     });
   }
 
   render() {
-    const { open, rosTopics, topics } = this.props;
-    const { selected } = this.state;
+    const { allTopics, open, topics } = this.props;
+    const { keys, selected } = this.state;
 
     const topicsNamesSet = new Set(map(topics, topic => topic.name));
     const filteredTopics = filter(
-      rosTopics,
+      allTopics,
       topic => !topicsNamesSet.has(topic.name),
     );
 
@@ -56,26 +67,38 @@ class AddInfoPanelModal extends React.Component {
       <ModalWrapper onClick={this.closeModal}>
         <ModalContents onClick={stopPropagation}>
           <ModalTitle>Add Info Panel</ModalTitle>
-          {size(rosTopics) === 0
-            ? 'No topics available'
-            : map(filteredTopics, ({ name, messageType }) => (
-                <TopicRow
-                  type="button"
-                  selected={get(selected, 'name') === name}
-                  key={name}
-                  onClick={() => {
-                    this.selectTopic({ name, messageType });
-                  }}
-                >
-                  {name}
-                  <FlexGrow />({messageType})
-                </TopicRow>
-              ))}
+          <AddInfoPanelModalTopics>
+            {size(allTopics) === 0
+              ? 'No topics available'
+              : map(filteredTopics, ({ name, messageType }) => (
+                  <TopicRow
+                    type="button"
+                    selected={get(selected, 'name') === name}
+                    key={name}
+                    onClick={() => {
+                      this.selectTopic({ name, messageType });
+                    }}
+                  >
+                    {name}
+                    <FlexGrow />({messageType})
+                  </TopicRow>
+                ))}
+          </AddInfoPanelModalTopics>
+          <ModalActions>
+            <TagsInput
+              value={keys}
+              onlyUnique
+              inputProps={{
+                placeholder: 'Filter keys...',
+              }}
+              onChange={this.handleFilterKeysChange}
+            />
+          </ModalActions>
           <ModalActions>
             <FlexGrow />
             <ButtonPrimary
               disabled={isNil(selected)}
-              onClick={() => this.addInfoPanel(selected)}
+              onClick={() => this.addInfoPanel(selected, keys)}
             >
               Confirm
             </ButtonPrimary>

@@ -7,6 +7,7 @@ import Amphion from 'amphion';
 import { DEFAULT_CONFIG, ROS_SOCKET_STATUSES } from '../utils';
 
 import {
+  AddInfoPanelTagsInputStyle,
   PanelContent,
   PanelWrapper,
   ViewportWrapper,
@@ -226,7 +227,7 @@ class Wrapper extends React.Component {
       },
     } = this.props;
 
-    if (!isNil(panelName) && !isNil(collapsed)) {
+    if (!isNil(panelName)) {
       this.updateConfiguration({
         panels: {
           [panelName]: { collapsed: !collapsed },
@@ -280,6 +281,7 @@ class Wrapper extends React.Component {
 
     return (
       <>
+        <AddInfoPanelTagsInputStyle />
         {displayHeader && (
           <Header activeTool={activeTool} selectTool={this.selectTool} />
         )}

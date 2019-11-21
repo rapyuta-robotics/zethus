@@ -26,7 +26,7 @@ export const DEFAULT_CONFIG = {
     },
     info: {
       display: true,
-      collapsed: false,
+      collapsed: true,
     },
   },
   ros: {

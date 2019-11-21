@@ -1,4 +1,4 @@
-import { get, isNil, pick, set, size } from 'lodash';
+import { get, isNil, map, set, size } from 'lodash';
 
 const replacementMap = {
   'sensor_msgs/Image': {
@@ -36,9 +36,14 @@ const replacementMap = {
 export const sanitizeMessage = (topic, message) => {
   // message is mutated for speed
   const { keys, messageType } = topic;
-  let filteredMessage = message;
+  const keysSet = new Set(keys);
+  const filteredMessage = message;
   if (size(keys) !== 0) {
-    filteredMessage = pick(message, keys);
+    map(filteredMessage, (value, key) => {
+      if (!keysSet.has(key)) {
+        delete filteredMessage[key];
+      }
+    });
   }
   if (isNil(replacementMap[messageType])) {
     return filteredMessage;

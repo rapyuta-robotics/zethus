@@ -41,6 +41,49 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 
+export const AddInfoPanelTagsInputStyle = createGlobalStyle`
+  .react-tagsinput {
+    overflow: hidden;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    border: 1px solid ${COLOR_GREY_LIGHT_1}
+  }
+  
+  .react-tagsinput--focused {
+    border-color: ${COLOR_GREY_LIGHT_2};
+  }
+  
+  .react-tagsinput-tag {
+    border-radius: 2px;
+    border: 1px solid ${COLOR_GREY_LIGHT_2};
+    color: ${COLOR_GREY_TEXT_3};
+    display: inline-block;
+    padding: 5px;
+    margin: 3px;
+    
+    a::before {
+      content: "  x";
+    }
+  }
+  
+  .react-tagsinput-remove {
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .react-tagsinput-input {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    color: ${COLOR_GREY_TEXT_3};
+    font-weight: 400;
+    outline: none;
+    padding: 3px;
+    margin-top: 5px;
+  }
+`;
+
 export const Button = styled.button`
   cursor: pointer;
   font-size: inherit;
@@ -333,11 +376,17 @@ export const InfoPanelHeaderControls = styled.div`
   display: flex;
   flex-grow: 1;
   justify-content: flex-end;
+  user-select: none;
 
-  & > span {
+  span,
+  label {
     padding: 3px 5px;
     display: flex;
     align-items: center;
+    cursor: pointer;
+  }
+
+  input {
     cursor: pointer;
   }
 `;
@@ -351,7 +400,7 @@ export const InfoPanelTab = styled.div`
   color: ${props => (props.selected ? COLOR_RED : 'inherit')};
   user-select: none;
 
-  & > span:first-child {
+  span:first-child {
     display: block;
     max-width: 200px;
     white-space: nowrap;
@@ -367,16 +416,16 @@ export const InfoPanelContentWrapper = styled.div`
   height: ${props => (props.collapsed ? 0 : 300)}px;
   overflow-y: auto;
 
-  & .jsoneditor {
+  .jsoneditor {
     border: none;
   }
-  & .jsoneditor-menu {
+  .jsoneditor-menu {
     display: none;
   }
-  & .jsoneditor-expandable:first-child {
+  .jsoneditor-expandable:first-child {
     display: none;
   }
-  & .jsoneditor-tree-inner {
+  .jsoneditor-tree-inner {
     margin: 10px 10px 20px -20px;
   }
 `;
@@ -394,4 +443,44 @@ export const InfoPanelAddButton = styled.div`
   justify-content: center;
   cursor: pointer;
   background: ${COLOR_GREY_LIGHT_1};
+`;
+
+export const AddInfoPanelModalTopics = styled.div`
+  overflow-y: auto;
+`;
+
+export const RawContentWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+export const RawContentRow = styled.div`
+  margin: 5px 10px;
+  border-bottom: 1px solid ${COLOR_GREY_LIGHT_2};
+  max-height: 200px;
+  overflow-y: auto;
+
+  &:first-child {
+    padding: 10px;
+    margin: 10px;
+    background: ${COLOR_GREY_LIGHT_2};
+  }
+`;
+
+export const FilteredKeys = styled.div`
+  width: 20%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 5px 10px;
+  border-bottom: 1px solid ${COLOR_GREY_LIGHT_1};
+
+  & > span {
+    padding: 0 5px;
+    margin-left: 10px;
+    border: 1px solid ${COLOR_GREY_LIGHT_1};
+  }
+
+  &::before {
+    content: 'Filtered keys: ';
+  }
 `;
