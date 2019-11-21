@@ -68,7 +68,7 @@ class AddModal extends React.Component {
               back={() => this.selectViz(null)}
             />
           ) : (
-            <React.Fragment>
+            <>
               <TabsHeader>
                 {_.map(tabs, tabText => (
                   <TabsButton
@@ -95,7 +95,7 @@ class AddModal extends React.Component {
                   closeModal={closeModal}
                 />
               )}
-            </React.Fragment>
+            </>
           )}
         </ModalContents>
       </ModalWrapper>

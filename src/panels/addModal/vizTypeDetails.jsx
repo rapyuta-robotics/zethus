@@ -13,11 +13,11 @@ class VizTypeDetails extends React.PureComponent {
       v => v.type === vizType,
     );
     return (
-      <React.Fragment>
+      <>
         <h4>{type}</h4>
         <ReactMarkdown source={description} />
         <Anchor href={docsLink}>View docs</Anchor>
-      </React.Fragment>
+      </>
     );
   }
 }
