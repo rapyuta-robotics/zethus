@@ -13,8 +13,13 @@ class Zethus extends React.Component {
     super(props);
     const providedConfig =
       props.configuration || store.get('zethus_config') || {};
+
+    // initial state should be a replacement instead of a merge op
+    // merge in this.updateConfiguration makes sure the replacement
+    // produces the last seen state by user
     this.state = {
-      ..._.merge({}, DEFAULT_CONFIG, providedConfig),
+      ...DEFAULT_CONFIG,
+      ...providedConfig,
     };
     this.updateVizOptions = this.updateVizOptions.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
@@ -25,10 +30,17 @@ class Zethus extends React.Component {
     this.updateConfiguration = this.updateConfiguration.bind(this);
   }
 
-  updateConfiguration(configuration) {
-    this.setState({
-      ..._.merge({}, DEFAULT_CONFIG, configuration),
-    });
+  updateConfiguration(configuration, replaceOnExisting) {
+    if (replaceOnExisting) {
+      this.setState({
+        ..._.merge({}, DEFAULT_CONFIG, this.state),
+        ...configuration,
+      });
+    } else {
+      this.setState({
+        ..._.merge({}, DEFAULT_CONFIG, this.state, configuration),
+      });
+    }
   }
 
   updateVizOptions(key, options) {

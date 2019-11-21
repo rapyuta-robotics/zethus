@@ -1,4 +1,4 @@
-import styled, { css, keyframes, createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle, css, keyframes } from 'styled-components';
 import {
   COLOR_BLUE,
   COLOR_GREY_LIGHT_1,
@@ -10,6 +10,7 @@ import {
   COLOR_RED,
   FONT_SIZE_DEFAULT,
   FONT_SIZE_S,
+  HEADER_HEIGHT_PX,
 } from './constants';
 import { ROS_SOCKET_STATUSES } from '../../utils';
 
@@ -32,6 +33,11 @@ export const GlobalStyle = createGlobalStyle`
     overflow: hidden;
     line-height: 1.5;
     font-size: ${FONT_SIZE_DEFAULT};
+  }
+  
+  html, body, #root {
+    width: 100%;
+    height: 100%;
   }
 `;
 
@@ -77,15 +83,17 @@ export const FlexGrow = styled.div`
 export const PanelWrapper = styled.div`
   display: flex;
   background-color: #000;
-  height: 100vh;
-  overflow-y: hidden;
+  height: calc(100% - ${HEADER_HEIGHT_PX}px);
+  overflow: hidden;
   width: 100%;
 `;
 
 export const PanelContent = styled.div`
-  width: 0;
-  flex-grow: 1;
-  flex-shrink: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
 `;
 
 export const Container = styled.div`
@@ -296,4 +304,94 @@ export const TextButton = styled(Button)`
   &[disabled] {
     color: ${COLOR_GREY_LIGHT_2};
   }
+`;
+
+export const ViewportWrapper = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+export const InfoPanel = styled.div`
+  width: 100%;
+  background: white;
+  border-left: 1px solid ${COLOR_GREY_LIGHT_2};
+`;
+
+export const InfoPanelHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  overflow-x: auto;
+  border-bottom: 1px solid ${COLOR_GREY_LIGHT_1};
+`;
+
+export const InfoPanelTabsWrapper = styled.div`
+  display: flex;
+  flex-grow: 8;
+`;
+
+export const InfoPanelHeaderControls = styled.div`
+  display: flex;
+  flex-grow: 1;
+  justify-content: flex-end;
+
+  & > span {
+    padding: 3px 5px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+`;
+
+export const InfoPanelTab = styled.div`
+  display: flex;
+  padding: 5px 10px;
+  max-width: 250px;
+  border-right: 1px solid ${COLOR_GREY_LIGHT_1};
+  cursor: pointer;
+  color: ${props => (props.selected ? COLOR_RED : 'inherit')};
+  user-select: none;
+
+  & > span:first-child {
+    display: block;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+  }
+`;
+
+export const InfoPanelContentWrapper = styled.div`
+  width: 100%;
+  transition: height 0.2s ease-out;
+  height: ${props => (props.collapsed ? 0 : 300)}px;
+  overflow-y: auto;
+
+  & .jsoneditor {
+    border: none;
+  }
+  & .jsoneditor-menu {
+    display: none;
+  }
+  & .jsoneditor-expandable:first-child {
+    display: none;
+  }
+  & .jsoneditor-tree-inner {
+    margin: 10px 10px 20px -20px;
+  }
+`;
+
+export const InfoPanelNoMessage = styled.div`
+  margin: 10px 25px;
+`;
+
+export const InfoPanelAddButton = styled.div`
+  user-select: none;
+  width: 30px;
+  padding: 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: ${COLOR_GREY_LIGHT_1};
 `;
