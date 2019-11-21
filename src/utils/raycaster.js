@@ -22,7 +22,7 @@ export default class Raycaster extends THREE.Raycaster {
       0.2,
       0.2,
     );
-    this.dirv1Cache = new THREE.Vector3();
+    this.dirv1Cache = new THREE.Vector3(0, 1, 0);
     this.dirv2Cache = new THREE.Vector3();
     this.quaternionCache = new THREE.Quaternion();
     this.arrowHelper.line.material.linewidth = 2;
@@ -85,24 +85,18 @@ export default class Raycaster extends THREE.Raycaster {
 
   mouseMoveListener(event) {
     this.setRayDirection(event);
-    const previousIntersection = this.intersection.clone();
     this.ray.intersectPlane(this.activePlane, this.intersection);
     if (!(this.intersection && this.eventListeners[this.tool.name])) {
       return;
     }
     this.translateToFixedFrame(this.intersection);
-
-    this.dirv1Cache
-      .copy(previousIntersection)
-      .sub(this.mouseDown)
-      .normalize();
     this.dirv2Cache
       .copy(this.intersection)
       .sub(this.mouseDown)
       .normalize();
     this.quaternionCache.setFromUnitVectors(this.dirv1Cache, this.dirv2Cache);
 
-    this.arrowHelper.quaternion.premultiply(this.quaternionCache);
+    this.arrowHelper.quaternion.copy(this.quaternionCache);
   }
 
   mouseUpListener() {
