@@ -178,6 +178,16 @@ export const ButtonPrimary = styled(Button)`
   }
 `;
 
+export const ButtonOutline = styled(ButtonPrimary)`
+  background-color: transparent;
+  color: ${COLOR_PRIMARY};
+  box-shadow: 0 0 0 1px ${COLOR_PRIMARY} inset;
+  &:hover {
+    background-color: ${COLOR_PRIMARY};
+    color: white;
+  }
+`;
+
 export const InputWrapper = styled.div`
   padding-top: 11px;
   padding-bottom: 11px;
