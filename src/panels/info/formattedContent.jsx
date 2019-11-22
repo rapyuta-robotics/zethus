@@ -19,11 +19,7 @@ class FormattedContent extends React.PureComponent {
 
   componentDidUpdate(prevProps) {
     const { message } = this.props;
-    if (
-      !isNil(message) &&
-      (isNil(prevProps.message) || prevProps.message !== message) &&
-      this.jsonEditor
-    ) {
+    if (!isNil(message) && prevProps.message !== message && this.jsonEditor) {
       this.jsonEditor.update(message);
     }
   }

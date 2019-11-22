@@ -28,7 +28,7 @@ class Content extends React.Component {
   }
 
   render() {
-    const { messageBuffers, raw, selected } = this.props;
+    const { messageBuffers, openAddInfoPanel, raw, selected } = this.props;
 
     const lastMessage =
       size(messageBuffers[selected.name]) === 0
@@ -37,8 +37,8 @@ class Content extends React.Component {
 
     if (isNil(selected.name)) {
       return (
-        <InfoPanelNoMessage>
-          Add an info panel to receive messages.
+        <InfoPanelNoMessage highlight onClick={openAddInfoPanel}>
+          <u>Add an info panel to receive messages.</u>
         </InfoPanelNoMessage>
       );
     }

@@ -142,7 +142,12 @@ class Info extends React.PureComponent {
   }
 
   onTabChange(e, topic) {
-    const { topics, updateInfoTabs } = this.props;
+    const {
+      collapsed,
+      togglePanelCollapse,
+      topics,
+      updateInfoTabs,
+    } = this.props;
     const action = e.target.getAttribute('data-action');
 
     if (action === 'close') {
@@ -151,7 +156,11 @@ class Info extends React.PureComponent {
       topicsShallowClone.splice(index, 1);
       updateInfoTabs(topicsShallowClone);
     } else {
-      this.setState({ selected: topic });
+      this.setState({ selected: topic }, () => {
+        if (collapsed) {
+          togglePanelCollapse('info');
+        }
+      });
     }
   }
 
@@ -164,11 +173,19 @@ class Info extends React.PureComponent {
   }
 
   addInfoPanel(topic, keys) {
-    const { topics, updateInfoTabs } = this.props;
+    const {
+      collapsed,
+      togglePanelCollapse,
+      topics,
+      updateInfoTabs,
+    } = this.props;
     const topicsShallowClone = [...topics];
     topic.keys = keys;
     topicsShallowClone.push(topic);
-    updateInfoTabs(topicsShallowClone);
+    if (collapsed) {
+      togglePanelCollapse('info');
+    }
+    setTimeout(() => updateInfoTabs(topicsShallowClone), 0);
     this.toggleAddModal(false);
   }
 
@@ -206,7 +223,7 @@ class Info extends React.PureComponent {
                 <input type="checkbox" value={raw} onChange={this.onRawClick} />
               </label>
               <span onClick={() => togglePanelCollapse('info')}>
-                Collapse {collapsed ? '▲' : '▼'}
+                {collapsed ? 'Expand' : 'Collapse'} {collapsed ? '▲' : '▼'}
               </span>
             </InfoPanelHeaderControls>
           </InfoPanelHeader>
@@ -215,6 +232,7 @@ class Info extends React.PureComponent {
               raw={raw}
               messageBuffers={this.messageBuffers}
               selected={selected}
+              openAddInfoPanel={() => this.toggleAddModal(true)}
             />
           </InfoPanelContentWrapper>
         </InfoPanel>

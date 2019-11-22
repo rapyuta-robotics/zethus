@@ -368,6 +368,7 @@ export const InfoPanel = styled.div`
   width: 100%;
   background: white;
   border-left: 1px solid ${COLOR_GREY_LIGHT_2};
+  flex-shrink: 1;
 `;
 
 export const InfoPanelHeader = styled.div`
@@ -442,6 +443,8 @@ export const InfoPanelContentWrapper = styled.div`
 
 export const InfoPanelNoMessage = styled.div`
   margin: 10px 25px;
+  color: ${props => (props.highlight ? COLOR_RED : 'inherit')};
+  cursor: pointer;
 `;
 
 export const InfoPanelAddButton = styled.div`

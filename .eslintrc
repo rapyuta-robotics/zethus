@@ -7,7 +7,6 @@
     "jest": true
   },
   "rules": {
-    "react/no-access-state-in-setstate": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "semi": 2,
     "func-names": "off",
