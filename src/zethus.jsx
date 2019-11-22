@@ -13,8 +13,9 @@ class Zethus extends React.Component {
     super(props);
     const providedConfig =
       props.configuration || store.get('zethus_config') || {};
+
     this.state = {
-      ..._.merge({}, DEFAULT_CONFIG, providedConfig),
+      ..._.merge(DEFAULT_CONFIG, providedConfig),
     };
     this.updateVizOptions = this.updateVizOptions.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
@@ -25,10 +26,19 @@ class Zethus extends React.Component {
     this.updateConfiguration = this.updateConfiguration.bind(this);
   }
 
-  updateConfiguration(configuration) {
-    this.setState({
-      ..._.merge({}, DEFAULT_CONFIG, configuration),
-    });
+  updateConfiguration(configuration, replaceOnExisting) {
+    let newState = {};
+    if (replaceOnExisting) {
+      newState = {
+        ...this.state,
+        ...configuration,
+      };
+    } else {
+      newState = {
+        ..._.merge(this.state, configuration),
+      };
+    }
+    this.setState({ state: newState });
   }
 
   updateVizOptions(key, options) {

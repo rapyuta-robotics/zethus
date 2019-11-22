@@ -1,12 +1,17 @@
 import React from 'react';
 import withGracefulUnmount from 'react-graceful-unmount';
-import _ from 'lodash';
+import _, { isNil } from 'lodash';
 import ROSLIB from 'roslib';
 import Amphion from 'amphion';
 
 import { DEFAULT_CONFIG, ROS_SOCKET_STATUSES } from '../utils';
 
-import { PanelContent, PanelWrapper } from '../components/styled';
+import {
+  AddInfoPanelTagsInputStyle,
+  PanelContent,
+  PanelWrapper,
+  ViewportWrapper,
+} from '../components/styled';
 import AddModal from './addModal';
 import Sidebar from './sidebar';
 import Viewport from './viewer';
@@ -17,6 +22,7 @@ import { TOOL_TYPE_CONTROLS } from '../utils/common';
 import Raycaster from '../utils/raycaster';
 import { TOOL_TYPE } from '../utils/toolbar';
 import ToolPublisher from '../utils/toolPublisher';
+import Info from './info';
 
 class Wrapper extends React.Component {
   constructor(props) {
@@ -45,6 +51,8 @@ class Wrapper extends React.Component {
     this.onPointTool = this.onPointTool.bind(this);
     this.onPoseEstimateTool = this.onPoseEstimateTool.bind(this);
     this.onNavGoalTool = this.onNavGoalTool.bind(this);
+    this.togglePanelCollapse = this.togglePanelCollapse.bind(this);
+    this.updateInfoTabs = this.updateInfoTabs.bind(this);
 
     this.ros = new ROSLIB.Ros();
     this.viewer = new Amphion.TfViewer(this.ros, {
@@ -241,12 +249,43 @@ class Wrapper extends React.Component {
     });
   }
 
-  updateConfiguration(configuration) {
+  updateConfiguration(configuration, replaceOnExisting) {
     const { updateConfiguration } = this.props;
-    updateConfiguration(configuration);
+    updateConfiguration(configuration, replaceOnExisting);
     this.setState({
       configurationModalOpen: false,
     });
+  }
+
+  togglePanelCollapse(panelName) {
+    const {
+      configuration: {
+        panels: {
+          [panelName]: { collapsed },
+        },
+      },
+    } = this.props;
+
+    if (!isNil(panelName)) {
+      this.updateConfiguration({
+        panels: {
+          [panelName]: { collapsed: !collapsed },
+        },
+      });
+    }
+  }
+
+  updateInfoTabs(infoTabs) {
+    if (isNil(infoTabs)) {
+      return;
+    }
+
+    this.updateConfiguration(
+      {
+        infoTabs,
+      },
+      true,
+    );
   }
 
   render() {
@@ -263,8 +302,10 @@ class Wrapper extends React.Component {
     const {
       configuration: {
         globalOptions,
+        infoTabs,
         panels: {
           header: { display: displayHeader },
+          info: { collapsed: collapsedInfo, display: displayInfo },
           sidebar: { display: displaySidebar },
         },
         visualizations,
@@ -279,6 +320,7 @@ class Wrapper extends React.Component {
 
     return (
       <>
+        <AddInfoPanelTagsInputStyle />
         {displayHeader && (
           <Header activeTool={activeTool} selectTool={this.selectTool} />
         )}
@@ -321,7 +363,19 @@ class Wrapper extends React.Component {
             />
           )}
           <PanelContent>
-            <Viewport viewer={this.viewer} globalOptions={globalOptions} />
+            <ViewportWrapper>
+              <Viewport viewer={this.viewer} globalOptions={globalOptions} />
+            </ViewportWrapper>
+            {displayInfo && (
+              <Info
+                ros={this.ros}
+                collapsed={collapsedInfo}
+                rosTopics={rosTopics}
+                updateInfoTabs={this.updateInfoTabs}
+                togglePanelCollapse={this.togglePanelCollapse}
+                topics={infoTabs}
+              />
+            )}
           </PanelContent>
           {_.map(visualizations, vizItem => (
             <Visualization

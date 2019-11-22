@@ -13,3 +13,5 @@ export const COLOR_GREY_TEXT_4 = '#888888';
 
 export const FONT_SIZE_DEFAULT = '0.8rem';
 export const FONT_SIZE_S = '0.7rem';
+
+export const HEADER_HEIGHT_PX = 60;

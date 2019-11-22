@@ -24,10 +24,15 @@ export const DEFAULT_CONFIG = {
     header: {
       display: true,
     },
+    info: {
+      display: true,
+      collapsed: true,
+    },
   },
   ros: {
     endpoint: 'ws://localhost:9090',
   },
+  infoTabs: [],
   visualizations: [],
   globalOptions: {
     display: true,

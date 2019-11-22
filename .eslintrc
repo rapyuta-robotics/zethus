@@ -7,6 +7,7 @@
     "jest": true
   },
   "rules": {
+    "jsx-a11y/label-has-associated-control": "off",
     "semi": 2,
     "func-names": "off",
     "no-plusplus": "off",
