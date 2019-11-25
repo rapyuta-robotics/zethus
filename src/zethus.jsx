@@ -15,7 +15,7 @@ class Zethus extends React.Component {
       props.configuration || store.get('zethus_config') || {};
 
     this.state = {
-      ..._.merge(DEFAULT_CONFIG, providedConfig),
+      configuration: _.merge(DEFAULT_CONFIG, providedConfig),
     };
     this.updateVizOptions = this.updateVizOptions.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
@@ -27,23 +27,26 @@ class Zethus extends React.Component {
   }
 
   updateConfiguration(configuration, replaceOnExisting) {
-    let newState = {};
+    const { configuration: oldConfiguration } = this.state;
+    let newConfiguration = {};
     if (replaceOnExisting) {
-      newState = {
-        ...this.state,
+      newConfiguration = {
+        ...oldConfiguration,
         ...configuration,
       };
     } else {
-      newState = {
-        ..._.merge(this.state, configuration),
+      newConfiguration = {
+        ..._.merge(oldConfiguration, configuration),
       };
     }
-    this.setState({ state: newState });
+    this.setState({ configuration: newConfiguration });
   }
 
   updateVizOptions(key, options) {
-    const { visualizations } = this.state;
-    this.setState({
+    const {
+      configuration: { visualizations },
+    } = this.state;
+    this.updateConfiguration({
       visualizations: _.map(visualizations, v =>
         v.key === key ? { ...v, ...options } : v,
       ),
@@ -51,8 +54,10 @@ class Zethus extends React.Component {
   }
 
   updateRosEndpoint(endpoint) {
-    const { ros } = this.state;
-    this.setState({
+    const {
+      configuration: { ros },
+    } = this.state;
+    this.updateConfiguration({
       ros: {
         ...ros,
         endpoint,
@@ -65,10 +70,12 @@ class Zethus extends React.Component {
   }
 
   updateGlobalOptions(path, option) {
-    const { globalOptions } = this.state;
+    const {
+      configuration: { globalOptions },
+    } = this.state;
     const clonedGlobalOptions = _.cloneDeep(globalOptions);
     _.set(clonedGlobalOptions, path, option);
-    this.setState({
+    this.updateConfiguration({
       globalOptions: clonedGlobalOptions,
     });
   }
@@ -77,8 +84,10 @@ class Zethus extends React.Component {
     const {
       dataset: { id: vizId },
     } = e.target;
-    const { visualizations } = this.state;
-    this.setState({
+    const {
+      configuration: { visualizations },
+    } = this.state;
+    this.updateConfiguration({
       visualizations: _.filter(visualizations, v => v.key !== vizId),
     });
   }
@@ -87,8 +96,10 @@ class Zethus extends React.Component {
     const {
       dataset: { id: vizId },
     } = e.target;
-    const { visualizations } = this.state;
-    this.setState({
+    const {
+      configuration: { visualizations },
+    } = this.state;
+    this.updateConfiguration({
       visualizations: _.map(visualizations, v =>
         v.key === vizId
           ? {
@@ -101,8 +112,10 @@ class Zethus extends React.Component {
   }
 
   addVisualization(vizOptions) {
-    const { visualizations } = this.state;
-    this.setState({
+    const {
+      configuration: { visualizations },
+    } = this.state;
+    this.updateConfiguration({
       visualizations: [
         ...visualizations,
         {
@@ -114,9 +127,10 @@ class Zethus extends React.Component {
   }
 
   render() {
+    const { configuration } = this.state;
     return (
       <Panels
-        configuration={this.state}
+        configuration={configuration}
         addVisualization={this.addVisualization}
         removeVisualization={this.removeVisualization}
         toggleVisibility={this.toggleVisibility}
