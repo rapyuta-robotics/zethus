@@ -46,11 +46,14 @@ class Zethus extends React.Component {
     const {
       configuration: { visualizations },
     } = this.state;
-    this.updateConfiguration({
-      visualizations: _.map(visualizations, v =>
-        v.key === key ? { ...v, ...options } : v,
-      ),
-    });
+    this.updateConfiguration(
+      {
+        visualizations: _.map(visualizations, v =>
+          v.key === key ? { ...v, ...options } : v,
+        ),
+      },
+      true,
+    );
   }
 
   updateRosEndpoint(endpoint) {
@@ -66,7 +69,8 @@ class Zethus extends React.Component {
   }
 
   componentWillUnmount() {
-    store.set('zethus_config', this.state);
+    const { configuration } = this.state;
+    store.set('zethus_config', configuration);
   }
 
   updateGlobalOptions(path, option) {
@@ -75,9 +79,12 @@ class Zethus extends React.Component {
     } = this.state;
     const clonedGlobalOptions = _.cloneDeep(globalOptions);
     _.set(clonedGlobalOptions, path, option);
-    this.updateConfiguration({
-      globalOptions: clonedGlobalOptions,
-    });
+    this.updateConfiguration(
+      {
+        globalOptions: clonedGlobalOptions,
+      },
+      true,
+    );
   }
 
   removeVisualization(e) {
@@ -87,9 +94,12 @@ class Zethus extends React.Component {
     const {
       configuration: { visualizations },
     } = this.state;
-    this.updateConfiguration({
-      visualizations: _.filter(visualizations, v => v.key !== vizId),
-    });
+    this.updateConfiguration(
+      {
+        visualizations: _.filter(visualizations, v => v.key !== vizId),
+      },
+      true,
+    );
   }
 
   toggleVisibility(e) {
@@ -99,16 +109,19 @@ class Zethus extends React.Component {
     const {
       configuration: { visualizations },
     } = this.state;
-    this.updateConfiguration({
-      visualizations: _.map(visualizations, v =>
-        v.key === vizId
-          ? {
-              ...v,
-              visible: !!(_.isBoolean(v.visible) && !v.visible),
-            }
-          : v,
-      ),
-    });
+    this.updateConfiguration(
+      {
+        visualizations: _.map(visualizations, v =>
+          v.key === vizId
+            ? {
+                ...v,
+                visible: !!(_.isBoolean(v.visible) && !v.visible),
+              }
+            : v,
+        ),
+      },
+      true,
+    );
   }
 
   addVisualization(vizOptions) {
