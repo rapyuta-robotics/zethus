@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import React, { Component } from 'react';
-import { Button, ButtonOutline, Flex } from './styled';
+import { ButtonOutline, Flex } from './styled';
 import { downloadFile } from '../utils';
 
 const Wrapper = styled(Flex)`
@@ -36,7 +36,6 @@ class ErrorBoundary extends Component {
   }
 
   componentDidCatch(error, errorInfo) {
-    console.log(error.message, errorInfo);
     this.setState({ error });
   }
 
