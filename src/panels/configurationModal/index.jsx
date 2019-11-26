@@ -19,7 +19,7 @@ import {
   ModalTitle,
 } from '../../components/styled/modal';
 import { COLOR_GREY_LIGHT_1 } from '../../components/styled/constants';
-import { stopPropagation } from '../../utils';
+import { downloadFile, stopPropagation } from '../../utils';
 
 const StyledEditor = styled.div`
   flex-grow: 1;
@@ -141,21 +141,7 @@ class ConfigurationModal extends React.Component {
 
   downloadConfig() {
     const config = this.jsonEditor.get();
-    const element = document.createElement('a');
-    element.setAttribute(
-      'href',
-      `data:text/json;charset=utf-8,${encodeURIComponent(
-        JSON.stringify(config, null, 2),
-      )}`,
-    );
-    element.setAttribute('download', 'zethus_config.json');
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
+    downloadFile(JSON.stringify(config, null, 2), 'zethus_config.json');
   }
 
   handleSubmit() {

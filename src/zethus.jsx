@@ -7,6 +7,7 @@ import store from 'store';
 import Panels from './panels';
 
 import { DEFAULT_CONFIG } from './utils';
+import ErrorBoundary from './components/errorBoundary';
 
 class Zethus extends React.Component {
   constructor(props) {
@@ -14,8 +15,9 @@ class Zethus extends React.Component {
     const providedConfig =
       props.configuration || store.get('zethus_config') || {};
 
+    // Empty object is required or the merge function mutates default config
     this.state = {
-      configuration: _.merge(DEFAULT_CONFIG, providedConfig),
+      configuration: _.merge({}, DEFAULT_CONFIG, providedConfig),
     };
     this.updateVizOptions = this.updateVizOptions.bind(this);
     this.updateRosEndpoint = this.updateRosEndpoint.bind(this);
@@ -24,11 +26,12 @@ class Zethus extends React.Component {
     this.removeVisualization = this.removeVisualization.bind(this);
     this.toggleVisibility = this.toggleVisibility.bind(this);
     this.updateConfiguration = this.updateConfiguration.bind(this);
+    this.resetReload = this.resetReload.bind(this);
   }
 
   updateConfiguration(configuration, replaceOnExisting) {
     const { configuration: oldConfiguration } = this.state;
-    let newConfiguration = {};
+    let newConfiguration;
     if (replaceOnExisting) {
       newConfiguration = {
         ...oldConfiguration,
@@ -124,6 +127,17 @@ class Zethus extends React.Component {
     );
   }
 
+  resetReload() {
+    this.setState(
+      {
+        configuration: DEFAULT_CONFIG,
+      },
+      () => {
+        window.location.reload();
+      },
+    );
+  }
+
   addVisualization(vizOptions) {
     const {
       configuration: { visualizations },
@@ -142,16 +156,21 @@ class Zethus extends React.Component {
   render() {
     const { configuration } = this.state;
     return (
-      <Panels
+      <ErrorBoundary
         configuration={configuration}
-        addVisualization={this.addVisualization}
-        removeVisualization={this.removeVisualization}
-        toggleVisibility={this.toggleVisibility}
-        updateConfiguration={this.updateConfiguration}
-        updateVizOptions={this.updateVizOptions}
-        updateRosEndpoint={this.updateRosEndpoint}
-        updateGlobalOptions={this.updateGlobalOptions}
-      />
+        resetReload={this.resetReload}
+      >
+        <Panels
+          configuration={configuration}
+          addVisualization={this.addVisualization}
+          removeVisualization={this.removeVisualization}
+          toggleVisibility={this.toggleVisibility}
+          updateConfiguration={this.updateConfiguration}
+          updateVizOptions={this.updateVizOptions}
+          updateRosEndpoint={this.updateRosEndpoint}
+          updateGlobalOptions={this.updateGlobalOptions}
+        />
+      </ErrorBoundary>
     );
   }
 }
