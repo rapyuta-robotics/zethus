@@ -38,7 +38,7 @@ class Zethus extends React.Component {
         ..._.merge(this.state, configuration),
       };
     }
-    this.setState({ state: newState });
+    this.setState(newState);
   }
 
   updateVizOptions(key, options) {
