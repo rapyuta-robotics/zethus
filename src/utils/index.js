@@ -16,6 +16,21 @@ export const getTfTopics = rosTopics =>
 
 export const stopPropagation = e => e.stopPropagation();
 
+export const downloadFile = (content, filename, options = {}) => {
+  const element = document.createElement('a');
+  element.setAttribute(
+    'href',
+    `data:${options.mimetype || 'text/json'};charset=utf-8,${encodeURIComponent(
+      content,
+    )}`,
+  );
+  element.setAttribute('download', filename);
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+};
+
 export const DEFAULT_CONFIG = {
   panels: {
     sidebar: {
