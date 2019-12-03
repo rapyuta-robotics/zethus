@@ -132,11 +132,13 @@ export const PanelWrapper = styled.div`
 `;
 
 export const PanelContent = styled.div`
-  width: 100%;
+  width: 10px;
   height: 100%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
 `;
 
 export const Container = styled.div`
