@@ -317,11 +317,12 @@ export const SidebarCollapse = styled.div`
 
 export const StyledSidebar = styled.div`
   background-color: #fff;
-  width: ${props => (props.collapsedSidebar ? 0 : '400px')};
+  width: 400px;
+  margin-right: ${props => (props.collapsedSidebar ? '-400px' : 0)};
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  transition: width 0.2s;
+  transition: margin-right 0.2s;
 `;
 
 export const StyledHeader = styled.div`
