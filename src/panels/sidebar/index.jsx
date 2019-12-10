@@ -175,7 +175,7 @@ class Sidebar extends React.Component {
           )}
         </StyledSidebar>
         <SidebarCollapse onClick={this.toggleSidebarOpen}>
-          {collapsedSidebar ? '>' : '<'}
+          {collapsedSidebar ? '▸' : '◂'}
         </SidebarCollapse>
       </SidebarWrapper>
     );
