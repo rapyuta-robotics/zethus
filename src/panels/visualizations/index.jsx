@@ -13,13 +13,14 @@ import {
 const {
   MESSAGE_TYPE_POINTCLOUD2,
   VIZ_TYPE_WRENCH,
+  VIZ_TYPE_IMAGE,
   VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
   VIZ_TYPE_MARKERARRAY,
   VIZ_TYPE_ODOMETRY,
-  VIZ_TYPE_IMAGE,
+  MESSAGE_TYPE_POSESTAMPED,
   VIZ_TYPE_POINT,
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POSE,
@@ -73,8 +74,14 @@ class Visualization extends React.PureComponent {
         });
         return new Amphion.PointCloud(source, options);
       }
-      case VIZ_TYPE_POSE:
-        return new Amphion.Pose(ros, topicName, options);
+      case VIZ_TYPE_POSE: {
+        const source = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_POSESTAMPED,
+        });
+        return new Amphion.Pose(source, options);
+      }
       case VIZ_TYPE_POSEARRAY:
         return new Amphion.PoseArray(ros, topicName, options);
       case VIZ_TYPE_RANGE:
