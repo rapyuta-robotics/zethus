@@ -11,16 +11,17 @@ import {
 } from '../../utils/vizOptions';
 
 const {
-  MESSAGE_TYPE_POINTCLOUD2,
+  MESSAGE_TYPE_MARKER,
   VIZ_TYPE_WRENCH,
+  MESSAGE_TYPE_POSESTAMPED,
   VIZ_TYPE_IMAGE,
   VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
   VIZ_TYPE_MARKERARRAY,
-  VIZ_TYPE_ODOMETRY,
-  MESSAGE_TYPE_POSESTAMPED,
+  MESSAGE_TYPE_POINTCLOUD2,
+  VIZ_TYPE_PATH,
   VIZ_TYPE_POINT,
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POSE,
@@ -28,7 +29,7 @@ const {
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
-  VIZ_TYPE_PATH,
+  VIZ_TYPE_ODOMETRY,
 } = Amphion.CONSTANTS;
 
 class Visualization extends React.PureComponent {
@@ -53,8 +54,14 @@ class Visualization extends React.PureComponent {
         return new Amphion.LaserScan(ros, topicName, options);
       case VIZ_TYPE_MAP:
         return new Amphion.Map(ros, topicName, options);
-      case VIZ_TYPE_MARKER:
-        return new Amphion.Marker(ros, topicName, options);
+      case VIZ_TYPE_MARKER: {
+        const source = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_MARKER,
+        });
+        return new Amphion.Marker(source, options);
+      }
       case VIZ_TYPE_MARKERARRAY:
         return new Amphion.MarkerArray(ros, topicName, options);
       case VIZ_TYPE_ODOMETRY:
