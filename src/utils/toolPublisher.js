@@ -30,6 +30,10 @@ export default class ToolPublisher {
       messageType: 'geometry_msgs/PoseWithCovarianceStamped',
     });
 
+    this.pointToolPublisher.advertise();
+    this.navGoalToolPublisher.advertise();
+    this.poseEstimateToolPublisher.advertise();
+
     this.publishPointToolMessage = this.publishPointToolMessage.bind(this);
     this.publishNavGoalToolMessage = this.publishNavGoalToolMessage.bind(this);
     this.publishPoseEstimateToolMessage = this.publishPoseEstimateToolMessage.bind(

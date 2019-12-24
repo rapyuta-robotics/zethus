@@ -11,22 +11,23 @@ import {
 } from '../../utils/vizOptions';
 
 const {
-  VIZ_TYPE_IMAGE,
+  MESSAGE_TYPE_POINTCLOUD2,
   VIZ_TYPE_WRENCH,
+  VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
   VIZ_TYPE_MARKERARRAY,
   VIZ_TYPE_ODOMETRY,
-  VIZ_TYPE_PATH,
-  VIZ_TYPE_INTERACTIVEMARKER,
+  VIZ_TYPE_IMAGE,
+  VIZ_TYPE_POINT,
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POSE,
   VIZ_TYPE_POSEARRAY,
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
-  VIZ_TYPE_POINT,
+  VIZ_TYPE_PATH,
 } = Amphion.CONSTANTS;
 
 class Visualization extends React.PureComponent {
@@ -61,8 +62,17 @@ class Visualization extends React.PureComponent {
         return new Amphion.Path(ros, topicName, options);
       case VIZ_TYPE_POINT:
         return new Amphion.Point(ros, topicName, options);
-      case VIZ_TYPE_POINTCLOUD:
-        return new Amphion.PointCloud(ros, topicName, options);
+      case VIZ_TYPE_POINTCLOUD: {
+        const source = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_POINTCLOUD2,
+          compression: 'cbor',
+          queueSize: 1,
+          queueLength: 1,
+        });
+        return new Amphion.PointCloud(source, options);
+      }
       case VIZ_TYPE_POSE:
         return new Amphion.Pose(ros, topicName, options);
       case VIZ_TYPE_POSEARRAY:
