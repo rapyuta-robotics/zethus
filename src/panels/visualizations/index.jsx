@@ -13,6 +13,7 @@ import {
 const {
   MESSAGE_TYPE_MARKER,
   VIZ_TYPE_WRENCH,
+  MESSAGE_TYPE_POINTCLOUD2,
   MESSAGE_TYPE_POSESTAMPED,
   VIZ_TYPE_IMAGE,
   VIZ_TYPE_INTERACTIVEMARKER,
@@ -20,7 +21,7 @@ const {
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
   VIZ_TYPE_MARKERARRAY,
-  MESSAGE_TYPE_POINTCLOUD2,
+  MESSAGE_TYPE_OCCUPANCYGRID,
   VIZ_TYPE_PATH,
   VIZ_TYPE_POINT,
   VIZ_TYPE_POINTCLOUD,
@@ -52,8 +53,17 @@ class Visualization extends React.PureComponent {
         return new Amphion.Image(ros, topicName, options);
       case VIZ_TYPE_LASERSCAN:
         return new Amphion.LaserScan(ros, topicName, options);
-      case VIZ_TYPE_MAP:
-        return new Amphion.Map(ros, topicName, options);
+      case VIZ_TYPE_MAP: {
+        const source = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_OCCUPANCYGRID,
+          compression: 'cbor',
+          queueSize: 1,
+          queueLength: 0,
+        });
+        return new Amphion.Map(source, options);
+      }
       case VIZ_TYPE_MARKER: {
         const source = new Amphion.RosTopicDataSource({
           ros,
