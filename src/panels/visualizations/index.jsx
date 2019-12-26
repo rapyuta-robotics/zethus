@@ -17,13 +17,14 @@ const {
   MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_ODOMETRY,
   MESSAGE_TYPE_PATH,
+  MESSAGE_TYPE_POINT,
   MESSAGE_TYPE_POINTCLOUD2,
   MESSAGE_TYPE_POSESTAMPED,
   VIZ_TYPE_IMAGE,
   VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
-  VIZ_TYPE_MAP,
   MESSAGE_TYPE_MARKER,
+  VIZ_TYPE_MARKER,
   VIZ_TYPE_MARKERARRAY,
   VIZ_TYPE_ODOMETRY,
   VIZ_TYPE_PATH,
@@ -34,7 +35,7 @@ const {
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
-  VIZ_TYPE_MARKER,
+  VIZ_TYPE_MAP,
 } = Amphion.CONSTANTS;
 
 class Visualization extends React.PureComponent {
@@ -111,8 +112,14 @@ class Visualization extends React.PureComponent {
         });
         return new Amphion.Path(pathSource, options);
       }
-      case VIZ_TYPE_POINT:
-        return new Amphion.Point(ros, topicName, options);
+      case VIZ_TYPE_POINT: {
+        const pointSource = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_POINT,
+        });
+        return new Amphion.Point(pointSource, options);
+      }
       case VIZ_TYPE_POINTCLOUD: {
         const pointcloudSource = new Amphion.RosTopicDataSource({
           ros,
