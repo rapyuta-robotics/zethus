@@ -16,6 +16,7 @@ const {
   MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_ODOMETRY,
+  MESSAGE_TYPE_PATH,
   MESSAGE_TYPE_POINTCLOUD2,
   MESSAGE_TYPE_POSESTAMPED,
   VIZ_TYPE_IMAGE,
@@ -102,8 +103,14 @@ class Visualization extends React.PureComponent {
         });
         return new Amphion.Odometry(odometrySource, options);
       }
-      case VIZ_TYPE_PATH:
-        return new Amphion.Path(ros, topicName, options);
+      case VIZ_TYPE_PATH: {
+        const pathSource = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_PATH,
+        });
+        return new Amphion.Path(pathSource, options);
+      }
       case VIZ_TYPE_POINT:
         return new Amphion.Point(ros, topicName, options);
       case VIZ_TYPE_POINTCLOUD: {
