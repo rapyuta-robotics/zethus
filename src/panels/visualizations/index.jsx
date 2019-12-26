@@ -15,14 +15,15 @@ const {
   VIZ_TYPE_WRENCH,
   MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_OCCUPANCYGRID,
+  MESSAGE_TYPE_ODOMETRY,
   MESSAGE_TYPE_POINTCLOUD2,
   MESSAGE_TYPE_POSESTAMPED,
   VIZ_TYPE_IMAGE,
   VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
-  VIZ_TYPE_MARKER,
   MESSAGE_TYPE_MARKER,
+  VIZ_TYPE_MARKERARRAY,
   VIZ_TYPE_ODOMETRY,
   VIZ_TYPE_PATH,
   VIZ_TYPE_POINT,
@@ -32,7 +33,7 @@ const {
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
-  VIZ_TYPE_MARKERARRAY,
+  VIZ_TYPE_MARKER,
 } = Amphion.CONSTANTS;
 
 class Visualization extends React.PureComponent {
@@ -93,8 +94,14 @@ class Visualization extends React.PureComponent {
         });
         return new Amphion.MarkerArray(markerArraySource, options);
       }
-      case VIZ_TYPE_ODOMETRY:
-        return new Amphion.Odometry(ros, topicName, options);
+      case VIZ_TYPE_ODOMETRY: {
+        const odometrySource = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_ODOMETRY,
+        });
+        return new Amphion.Odometry(odometrySource, options);
+      }
       case VIZ_TYPE_PATH:
         return new Amphion.Path(ros, topicName, options);
       case VIZ_TYPE_POINT:
