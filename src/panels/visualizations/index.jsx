@@ -22,6 +22,7 @@ const {
   MESSAGE_TYPE_POSEARRAY,
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_RANGE,
+  MESSAGE_TYPE_WRENCH,
   VIZ_TYPE_IMAGE,
   VIZ_TYPE_INTERACTIVEMARKER,
   MESSAGE_TYPE_MARKER,
@@ -161,8 +162,14 @@ class Visualization extends React.PureComponent {
         return new Amphion.RobotModel(ros, topicName, options);
       case VIZ_TYPE_TF:
         return new Amphion.Tf(ros, topicName, options);
-      case VIZ_TYPE_WRENCH:
-        return new Amphion.Wrench(ros, topicName, options);
+      case VIZ_TYPE_WRENCH: {
+        const wrenchSource = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_WRENCH,
+        });
+        return new Amphion.Wrench(wrenchSource, options);
+      }
       default:
         return null;
     }
