@@ -2,7 +2,7 @@ import React from 'react';
 import { Rnd } from 'react-rnd';
 import Amphion from 'amphion';
 
-import _ from 'lodash';
+import _, { map } from 'lodash';
 import { getTfTopics } from '../../utils';
 import { VizImageContainer, VizImageHeader } from '../../components/styled/viz';
 import {
@@ -22,10 +22,11 @@ const {
   MESSAGE_TYPE_POSEARRAY,
   MESSAGE_TYPE_POSESTAMPED,
   MESSAGE_TYPE_RANGE,
+  MESSAGE_TYPE_TF2,
   MESSAGE_TYPE_WRENCH,
   VIZ_TYPE_IMAGE,
-  VIZ_TYPE_INTERACTIVEMARKER,
   MESSAGE_TYPE_MARKER,
+  VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
   VIZ_TYPE_MARKERARRAY,
@@ -38,7 +39,7 @@ const {
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
-  VIZ_TYPE_LASERSCAN,
+  VIZ_TYPE_INTERACTIVEMARKER,
 } = Amphion.CONSTANTS;
 
 class Visualization extends React.PureComponent {
@@ -160,8 +161,14 @@ class Visualization extends React.PureComponent {
       }
       case VIZ_TYPE_ROBOTMODEL:
         return new Amphion.RobotModel(ros, topicName, options);
-      case VIZ_TYPE_TF:
-        return new Amphion.Tf(ros, topicName, options);
+      case VIZ_TYPE_TF: {
+        const tfSource = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_TF2,
+        });
+        return new Amphion.Tf(tfSource, options);
+      }
       case VIZ_TYPE_WRENCH: {
         const wrenchSource = new Amphion.RosTopicDataSource({
           ros,
@@ -183,6 +190,7 @@ class Visualization extends React.PureComponent {
     const {
       options: { topicName, visible, vizType },
       options,
+      rosInstance,
       rosTopics,
     } = this.props;
     if (vizType !== prevProps.options.vizType) {
@@ -195,7 +203,16 @@ class Visualization extends React.PureComponent {
         _.join(_.sortBy(_.map(currentTfTopics, 'name'))) !==
         _.join(_.sortBy(_.map(prevTfTopics, 'name')))
       ) {
-        this.vizInstance.changeTopic(currentTfTopics);
+        const sources = map(
+          currentTfTopics,
+          topic =>
+            new Amphion.RosTopicDataSource({
+              ros: rosInstance,
+              topicName: topic.name,
+              messageType: topic.messageType,
+            }),
+        );
+        this.vizInstance.changeSources(sources);
       }
     } else if (
       topicName !== prevProps.options.topicName &&
