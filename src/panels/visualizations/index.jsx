@@ -19,6 +19,7 @@ const {
   MESSAGE_TYPE_PATH,
   MESSAGE_TYPE_POINT,
   MESSAGE_TYPE_POINTCLOUD2,
+  MESSAGE_TYPE_POSEARRAY,
   MESSAGE_TYPE_POSESTAMPED,
   VIZ_TYPE_IMAGE,
   VIZ_TYPE_INTERACTIVEMARKER,
@@ -139,8 +140,14 @@ class Visualization extends React.PureComponent {
         });
         return new Amphion.Pose(poseSource, options);
       }
-      case VIZ_TYPE_POSEARRAY:
-        return new Amphion.PoseArray(ros, topicName, options);
+      case VIZ_TYPE_POSEARRAY: {
+        const poseArraySource = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_POSEARRAY,
+        });
+        return new Amphion.PoseArray(poseArraySource, options);
+      }
       case VIZ_TYPE_RANGE:
         return new Amphion.Range(ros, topicName, options);
       case VIZ_TYPE_ROBOTMODEL:
