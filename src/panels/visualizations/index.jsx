@@ -13,6 +13,7 @@ import {
 const {
   MESSAGE_TYPE_LASERSCAN,
   VIZ_TYPE_WRENCH,
+  MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_POINTCLOUD2,
   MESSAGE_TYPE_POSESTAMPED,
@@ -82,8 +83,16 @@ class Visualization extends React.PureComponent {
         });
         return new Amphion.Marker(markerSource, options);
       }
-      case VIZ_TYPE_MARKERARRAY:
-        return new Amphion.MarkerArray(ros, topicName, options);
+      case VIZ_TYPE_MARKERARRAY: {
+        const markerArraySource = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_MARKERARRAY,
+          queueLength: 0,
+          queueSize: 1,
+        });
+        return new Amphion.MarkerArray(markerArraySource, options);
+      }
       case VIZ_TYPE_ODOMETRY:
         return new Amphion.Odometry(ros, topicName, options);
       case VIZ_TYPE_PATH:
