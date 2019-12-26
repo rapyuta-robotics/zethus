@@ -11,8 +11,9 @@ import {
 } from '../../utils/vizOptions';
 
 const {
-  MESSAGE_TYPE_MARKER,
+  MESSAGE_TYPE_LASERSCAN,
   VIZ_TYPE_WRENCH,
+  MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_POINTCLOUD2,
   MESSAGE_TYPE_POSESTAMPED,
   VIZ_TYPE_IMAGE,
@@ -20,8 +21,8 @@ const {
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
-  VIZ_TYPE_MARKERARRAY,
-  MESSAGE_TYPE_OCCUPANCYGRID,
+  MESSAGE_TYPE_MARKER,
+  VIZ_TYPE_ODOMETRY,
   VIZ_TYPE_PATH,
   VIZ_TYPE_POINT,
   VIZ_TYPE_POINTCLOUD,
@@ -30,7 +31,7 @@ const {
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
-  VIZ_TYPE_ODOMETRY,
+  VIZ_TYPE_MARKERARRAY,
 } = Amphion.CONSTANTS;
 
 class Visualization extends React.PureComponent {
@@ -43,18 +44,27 @@ class Visualization extends React.PureComponent {
 
   static getNewViz(vizType, ros, topicName, viewer, options) {
     switch (vizType) {
+      // TODO: Image, ImageStream, DepthCloudStream will be moved to Core2
+      // after the right-side panel is integrated
       case VIZ_TYPE_IMAGE_STREAM:
         return new Amphion.ImageStream(topicName);
+      case VIZ_TYPE_IMAGE:
+        return new Amphion.Image(ros, topicName, options);
       case VIZ_TYPE_DEPTHCLOUD_STREAM:
         return new Amphion.DepthCloud(topicName);
       case VIZ_TYPE_INTERACTIVEMARKER:
         return new Amphion.InteractiveMarkers(ros, topicName, viewer, options);
-      case VIZ_TYPE_IMAGE:
-        return new Amphion.Image(ros, topicName, options);
-      case VIZ_TYPE_LASERSCAN:
-        return new Amphion.LaserScan(ros, topicName, options);
+      case VIZ_TYPE_LASERSCAN: {
+        const laserScanSource = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_LASERSCAN,
+          compression: 'cbor',
+        });
+        return new Amphion.LaserScan(laserScanSource, options);
+      }
       case VIZ_TYPE_MAP: {
-        const source = new Amphion.RosTopicDataSource({
+        const mapSource = new Amphion.RosTopicDataSource({
           ros,
           topicName,
           messageType: MESSAGE_TYPE_OCCUPANCYGRID,
@@ -62,15 +72,15 @@ class Visualization extends React.PureComponent {
           queueSize: 1,
           queueLength: 0,
         });
-        return new Amphion.Map(source, options);
+        return new Amphion.Map(mapSource, options);
       }
       case VIZ_TYPE_MARKER: {
-        const source = new Amphion.RosTopicDataSource({
+        const markerSource = new Amphion.RosTopicDataSource({
           ros,
           topicName,
           messageType: MESSAGE_TYPE_MARKER,
         });
-        return new Amphion.Marker(source, options);
+        return new Amphion.Marker(markerSource, options);
       }
       case VIZ_TYPE_MARKERARRAY:
         return new Amphion.MarkerArray(ros, topicName, options);
@@ -81,7 +91,7 @@ class Visualization extends React.PureComponent {
       case VIZ_TYPE_POINT:
         return new Amphion.Point(ros, topicName, options);
       case VIZ_TYPE_POINTCLOUD: {
-        const source = new Amphion.RosTopicDataSource({
+        const pointcloudSource = new Amphion.RosTopicDataSource({
           ros,
           topicName,
           messageType: MESSAGE_TYPE_POINTCLOUD2,
@@ -89,15 +99,15 @@ class Visualization extends React.PureComponent {
           queueSize: 1,
           queueLength: 1,
         });
-        return new Amphion.PointCloud(source, options);
+        return new Amphion.PointCloud(pointcloudSource, options);
       }
       case VIZ_TYPE_POSE: {
-        const source = new Amphion.RosTopicDataSource({
+        const poseSource = new Amphion.RosTopicDataSource({
           ros,
           topicName,
           messageType: MESSAGE_TYPE_POSESTAMPED,
         });
-        return new Amphion.Pose(source, options);
+        return new Amphion.Pose(poseSource, options);
       }
       case VIZ_TYPE_POSEARRAY:
         return new Amphion.PoseArray(ros, topicName, options);
