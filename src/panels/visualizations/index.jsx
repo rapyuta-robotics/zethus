@@ -11,8 +11,9 @@ import {
 } from '../../utils/vizOptions';
 
 const {
-  MESSAGE_TYPE_LASERSCAN,
+  MESSAGE_TYPE_IMAGE,
   VIZ_TYPE_WRENCH,
+  MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_OCCUPANCYGRID,
   MESSAGE_TYPE_ODOMETRY,
@@ -25,7 +26,7 @@ const {
   MESSAGE_TYPE_TF2,
   MESSAGE_TYPE_WRENCH,
   VIZ_TYPE_IMAGE,
-  MESSAGE_TYPE_MARKER,
+  MESSAGE_TYPE_LASERSCAN,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
@@ -56,8 +57,17 @@ class Visualization extends React.PureComponent {
       // after the right-side panel is integrated
       case VIZ_TYPE_IMAGE_STREAM:
         return new Amphion.ImageStream(topicName);
-      case VIZ_TYPE_IMAGE:
-        return new Amphion.Image(ros, topicName, options);
+      case VIZ_TYPE_IMAGE: {
+        const imageSource = new Amphion.RosTopicDataSource({
+          ros,
+          topicName,
+          messageType: MESSAGE_TYPE_IMAGE,
+          queueSize: 1,
+          queueLength: 0,
+          compression: 'cbor',
+        });
+        return new Amphion.Image(imageSource, options);
+      }
       case VIZ_TYPE_DEPTHCLOUD_STREAM:
         return new Amphion.DepthCloud(topicName);
       case VIZ_TYPE_INTERACTIVEMARKER:
@@ -243,7 +253,7 @@ class Visualization extends React.PureComponent {
     this.vizInstance = Visualization.getNewViz(
       vizType,
       rosInstance,
-      vizType === VIZ_TYPE_TF ? getTfTopics(rosTopics) : topicName,
+      topicName,
       viewer,
       options,
     );
