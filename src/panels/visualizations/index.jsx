@@ -53,10 +53,9 @@ class Visualization extends React.PureComponent {
 
   static getNewViz(vizType, ros, topicName, viewer, options) {
     switch (vizType) {
-      // TODO: Image, ImageStream, DepthCloudStream will be moved to Core2
-      // after the right-side panel is integrated
-      case VIZ_TYPE_IMAGE_STREAM:
+      case VIZ_TYPE_IMAGE_STREAM: {
         return new Amphion.ImageStream(topicName);
+      }
       case VIZ_TYPE_IMAGE: {
         const imageSource = new Amphion.RosTopicDataSource({
           ros,
@@ -68,8 +67,9 @@ class Visualization extends React.PureComponent {
         });
         return new Amphion.Image(imageSource, options);
       }
-      case VIZ_TYPE_DEPTHCLOUD_STREAM:
+      case VIZ_TYPE_DEPTHCLOUD_STREAM: {
         return new Amphion.DepthCloud(topicName);
+      }
       case VIZ_TYPE_INTERACTIVEMARKER:
         return new Amphion.InteractiveMarkers(ros, topicName, viewer, options);
       case VIZ_TYPE_LASERSCAN: {
