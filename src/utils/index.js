@@ -94,3 +94,88 @@ export function updateOptionsUtil(e) {
     [optionId]: _.has(e.target, 'checked') ? checked : value,
   });
 }
+
+export function promisifyGetNodeDetails(ros, node) {
+  return new Promise(function(res, rej) {
+    try {
+      ros.getNodeDetails(node, function({ publishing, subscribing }) {
+        console.log;
+        res({ publishing, subscribing, node });
+      });
+    } catch (err) {
+      rej(err);
+    }
+  });
+}
+
+/**
+ *
+ * @param {Array} topics - a list of topics
+ * @param {Object} nodeDetails - List of node details with node name, publishing topics and subsribing topics
+ * @returns {Array} - List of edges
+ */
+export function createEdges(topics, nodeDetails) {
+  const auxGraphData = {};
+
+  topics.forEach(topic => {
+    auxGraphData[topic] = { publishers: [], subscribers: [] };
+  });
+  nodeDetails.forEach(function({ publishing: pubs, subscribing: subs, node }) {
+    pubs.forEach(topic => {
+      auxGraphData[topic].publishers.push(node);
+    });
+    subs.forEach(topic => {
+      auxGraphData[topic].subscribers.push(node);
+    });
+  });
+
+  const edges = [];
+
+  _.each(_.keys(auxGraphData), t => {
+    const { publishers } = auxGraphData[t];
+    const { subscribers } = auxGraphData[t];
+
+    _.each(publishers, (pub, i1) => {
+      _.each(subscribers, (sub, i2) => {
+        edges.push({
+          id: `${i1}${i2}`,
+          source: pub,
+          target: sub,
+          label: t,
+        });
+      });
+    });
+  });
+  console.log(edges);
+  return edges;
+}
+
+/**
+ *
+ * @param {*} ros - Ros reference
+ * @returns {Promise} - graph object represents nodes and links as edges.
+ */
+export function generateGraph(ros) {
+  const graph = {};
+
+  return new Promise(function(res, rej) {
+    ros.getNodes(nodes => {
+      graph.nodes = _.map(nodes, node => ({ id: node, label: node }));
+
+      ros.getTopics(function({ topics }) {
+        Promise.all(
+          nodes.map(function(node) {
+            return promisifyGetNodeDetails(ros, node);
+          }),
+        )
+          .then(function(data) {
+            graph.links = createEdges(topics, data);
+            res(graph);
+          })
+          .catch(function(err) {
+            rej(err);
+          });
+      });
+    });
+  });
+}

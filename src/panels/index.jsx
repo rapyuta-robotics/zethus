@@ -5,7 +5,7 @@ import ROSLIB from 'roslib';
 import Amphion from 'amphion';
 
 import { DEFAULT_CONFIG, ROS_SOCKET_STATUSES } from '../utils';
-
+import GraphVisualizationModal from './graphVisualizationModal';
 import {
   AddInfoPanelTagsInputStyle,
   PanelContent,
@@ -36,6 +36,7 @@ class Wrapper extends React.Component {
       rosParams: [],
       framesList: [],
       activeTool: TOOL_TYPE_CONTROLS,
+      graphModalOpen: true,
     };
 
     this.connectRos = this.connectRos.bind(this);
@@ -53,6 +54,7 @@ class Wrapper extends React.Component {
     this.onNavGoalTool = this.onNavGoalTool.bind(this);
     this.togglePanelCollapse = this.togglePanelCollapse.bind(this);
     this.updateInfoTabs = this.updateInfoTabs.bind(this);
+    this.toggleGraphModal = this.toggleGraphModal.bind(this);
 
     this.ros = new ROSLIB.Ros();
     this.viewer = new Amphion.TfViewer(this.ros, {
@@ -241,6 +243,12 @@ class Wrapper extends React.Component {
     });
   }
 
+  toggleGraphModal() {
+    this.setState(({ graphModalOpen }) => ({
+      graphModalOpen: !graphModalOpen,
+    }));
+  }
+
   addVisualization(options) {
     const { addVisualization } = this.props;
     addVisualization(options);
@@ -294,6 +302,7 @@ class Wrapper extends React.Component {
       addModalOpen,
       configurationModalOpen,
       framesList,
+      graphModalOpen,
       rosEndpoint,
       rosParams,
       rosStatus,
@@ -325,6 +334,14 @@ class Wrapper extends React.Component {
           <Header activeTool={activeTool} selectTool={this.selectTool} />
         )}
         <PanelWrapper>
+          {graphModalOpen && (
+            <GraphVisualizationModal
+              ros={this.ros}
+              rosTopics={rosTopics}
+              rosParams={rosParams}
+              closeModal={this.toggleGraphModal}
+            />
+          )}
           {addModalOpen && (
             <AddModal
               ros={this.ros}
