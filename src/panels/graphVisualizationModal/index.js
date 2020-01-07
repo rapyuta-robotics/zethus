@@ -53,7 +53,6 @@ class ConfigurationModal extends React.Component {
     const { ros } = this.props;
     const p = generateGraph(ros);
     p.then(graph => {
-      console.log(graph);
       this.setState({
         graph,
         status: API_CALL_STATUS.SUCCESSFUL,

@@ -99,7 +99,6 @@ export function promisifyGetNodeDetails(ros, node) {
   return new Promise(function(res, rej) {
     try {
       ros.getNodeDetails(node, function({ publishing, subscribing }) {
-        console.log;
         res({ publishing, subscribing, node });
       });
     } catch (err) {
@@ -146,7 +145,6 @@ export function createEdges(topics, nodeDetails) {
       });
     });
   });
-  console.log(edges);
   return edges;
 }
 
