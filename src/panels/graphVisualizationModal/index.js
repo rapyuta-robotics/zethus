@@ -1,19 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import {
-  ButtonPrimary,
-  ButtonOutline,
-  FlexGrow,
-} from '../../components/styled';
 import Graph from './Graph';
 import {
-  ModalActions,
   ModalWrapper,
   ModalContents,
   ModalTitle,
 } from '../../components/styled/modal';
-import { COLOR_GREY_LIGHT_1 } from '../../components/styled/constants';
 import { stopPropagation, generateGraph } from '../../utils';
 import API_CALL_STATUS from '../../utils/constants';
 
