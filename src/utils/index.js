@@ -137,14 +137,59 @@ export function createEdges(topics, nodeDetails) {
     _.each(publishers, (pub, i1) => {
       _.each(subscribers, (sub, i2) => {
         edges.push({
-          id: `${i1}${i2}`,
-          source: pub,
-          target: sub,
-          label: t,
+          source: { id: pub, label: pub },
+          target: { id: sub, label: sub },
+          value: t,
         });
       });
     });
   });
+  return edges;
+}
+
+/**
+ *
+ * @param {*} topics
+ * @param {*} nodeDetails
+ */
+export function createEdgesWithTopicNodes(topics, nodeDetails) {
+  const auxGraphData = {};
+
+  topics.forEach(topic => {
+    auxGraphData[topic] = { publishers: [], subscribers: [] };
+  });
+  nodeDetails.forEach(function({ publishing: pubs, subscribing: subs, node }) {
+    pubs.forEach(topic => {
+      auxGraphData[topic].publishers.push(node);
+    });
+    subs.forEach(topic => {
+      auxGraphData[topic].subscribers.push(node);
+    });
+  });
+
+  const edges = [];
+
+  _.each(_.keys(auxGraphData), (t, index) => {
+    const { publishers } = auxGraphData[t];
+    const { subscribers } = auxGraphData[t];
+
+    _.each(publishers, (pub, i1) => {
+      edges.push({
+        source: { id: pub, label: pub },
+        target: { id: t + index, label: t, type: 'rect' },
+        value: '',
+      });
+    });
+
+    _.each(subscribers, (sub, i1) => {
+      edges.push({
+        source: { id: t + index, label: t, type: 'rect' },
+        target: { id: sub, label: sub },
+        value: '',
+      });
+    });
+  });
+
   return edges;
 }
 
@@ -167,7 +212,7 @@ export function generateGraph(ros) {
           }),
         )
           .then(function(data) {
-            graph.links = createEdges(topics, data);
+            graph.edges = createEdgesWithTopicNodes(topics, data);
             res(graph);
           })
           .catch(function(err) {

@@ -1,0 +1,19 @@
+text {
+  fill: black;
+  font-family: 'Open Sans';
+}
+circle {
+  stroke: white;
+  stroke-width: 1.5px;
+}
+path.link,
+path.textpath {
+  fill: none;
+  stroke: #cccccc;
+  stroke-width: 0.5px;
+  z-index: 600;
+}
+path.invis {
+  fill: none;
+  stroke-width: 0;
+}

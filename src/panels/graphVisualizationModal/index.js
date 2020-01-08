@@ -1,22 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Graph from './Graph';
 import {
   ModalWrapper,
   ModalContents,
   ModalTitle,
 } from '../../components/styled/modal';
 import { stopPropagation, generateGraph } from '../../utils';
-import API_CALL_STATUS from '../../utils/constants';
+import { drawGraph } from './d3graph';
 
 const GraphContainer = styled.div`
   border: 1px solid red;
   display: flex;
-  flex: 0 1 auto;
-  height: 100%;
+  height: 90%;
   justify-content: center;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  & > svg {
+    width: 100%;
+    height: 100%;
+    z-index: 10 !important;
+  }
 `;
 
 const ResetButton = styled.button`
@@ -38,10 +43,7 @@ const ModalHeading = styled.div`
 class ConfigurationModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      graph: null,
-      status: API_CALL_STATUS.FETCHING,
-    };
+    this.state = {};
 
     this.graphRef = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -53,19 +55,13 @@ class ConfigurationModal extends React.Component {
     const { ros } = this.props;
     const p = generateGraph(ros);
     p.then(graph => {
-      this.setState({
-        graph,
-        status: API_CALL_STATUS.SUCCESSFUL,
-      });
-    }).catch(err =>
-      this.setState({
-        status: API_CALL_STATUS.ERROR,
-      }),
-    );
+      drawGraph(graph, this.graphRef);
+    }).catch(err => console.error(err));
   }
 
   refreshGraph(e) {
     e.preventDefault();
+    this.graphRef.current.innerHTML = '';
     this.createGraph();
   }
 
@@ -81,21 +77,6 @@ class ConfigurationModal extends React.Component {
 
   render() {
     const { closeModal } = this.props;
-    const { graph, status } = this.state;
-
-    let conditionalData = null;
-
-    if (status === API_CALL_STATUS.FETCHING) {
-      conditionalData = <p>Loading</p>;
-    } else if (status === API_CALL_STATUS.ERROR) {
-      conditionalData = <p>Error</p>;
-    } else {
-      conditionalData = graph ? (
-        <Graph graph={graph} />
-      ) : (
-        <p>No network present.</p>
-      );
-    }
 
     return (
       <ModalWrapper onClick={closeModal}>
@@ -104,7 +85,7 @@ class ConfigurationModal extends React.Component {
             <ModalTitle>Graph </ModalTitle>
             <ResetButton onClick={this.refreshGraph}>Reset</ResetButton>
           </ModalHeading>
-          <GraphContainer>{conditionalData}</GraphContainer>
+          <GraphContainer id="graph" ref={this.graphRef} />
         </ModalContents>
       </ModalWrapper>
     );
