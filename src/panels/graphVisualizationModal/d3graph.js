@@ -189,7 +189,7 @@ function Graph(data, ref) {
       .linkDistance(linkDistance)
       .size([w, h])
       .start();
-    //   keepNodesOnTop();
+    keepNodesOnTop();
   };
 
   const findNode = function(nodeId) {
@@ -290,18 +290,20 @@ function Graph(data, ref) {
     })
     .append('svg:path')
     .attr('d', 'M0,-5L10,0L0,5')
-    .attr('fill', '#ccc');
+    .attr('fill', '#000');
 
   update();
 }
 
 function keepNodesOnTop() {
-  // let els = document.getElementsByClassName("nodeStrokeClass");
-  // els.forEach(function( element ) {
-  //     console.log(element)
-  //     var gNode = element.parentNode;
-  //     gNode.parentNode.appendChild(gNode);
-  // });
+  const els = document.getElementsByClassName('node');
+  if (els.length === 0) return;
+  for (const item of els) {
+    const { parentNode } = item;
+    parentNode.removeChild(item);
+
+    parentNode.appendChild(item);
+  }
 }
 
 export function drawGraph(data, ref) {
