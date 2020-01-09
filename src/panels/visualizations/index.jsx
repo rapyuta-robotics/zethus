@@ -254,7 +254,6 @@ class Visualization extends React.PureComponent {
       options,
       options: { topicName, visible, vizType },
       rosInstance,
-      rosTopics,
       viewer,
     } = this.props;
     if (this.vizInstance) {
