@@ -363,14 +363,16 @@ export const TextButton = styled(Button)`
 
 export const ViewportWrapper = styled.div`
   width: 100%;
-  height: 100%;
+  flex-grow: 1;
+  flex-shrink: 1;
+  height: 10px;
 `;
-
 export const InfoPanel = styled.div`
   width: 100%;
   background: white;
   border-left: 1px solid ${COLOR_GREY_LIGHT_2};
-  flex-shrink: 1;
+  flex-shrink: 0;
+  flex-grow: 0;
 `;
 
 export const InfoPanelHeader = styled.div`
