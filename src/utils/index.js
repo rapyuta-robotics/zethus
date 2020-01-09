@@ -212,7 +212,7 @@ export function generateGraph(ros) {
           }),
         )
           .then(function(data) {
-            graph.edges = createEdgesWithTopicNodes(topics, data);
+            graph.edges = createEdges(topics, data);
             res(graph);
           })
           .catch(function(err) {

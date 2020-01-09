@@ -62,19 +62,20 @@ class Sidebar extends React.Component {
   render() {
     const {
       connectRos,
-      visualizations,
+      framesList,
       globalOptions,
       removeVisualization,
       rosInstance,
       rosStatus,
       rosTopics,
-      framesList,
+      toggleAddModal,
       toggleConfigurationModal,
+      toggleGraphModal,
       toggleVisibility,
       updateGlobalOptions,
       updateVizOptions,
       viewer,
-      toggleAddModal,
+      visualizations,
     } = this.props;
 
     const { rosInput } = this.state;
@@ -117,6 +118,12 @@ class Sidebar extends React.Component {
         <Separator />
         {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
           <>
+            <Container>
+              <ButtonPrimary onClick={toggleGraphModal}>
+                Rqt graph
+              </ButtonPrimary>
+            </Container>
+            <Separator />
             <GlobalOptions
               framesList={framesList}
               globalOptions={globalOptions}

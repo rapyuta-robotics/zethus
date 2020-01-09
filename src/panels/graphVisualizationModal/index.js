@@ -1,13 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import { update } from 'lodash';
+import Tree from './Tree';
 
+import { ButtonPrimary } from '../../components/styled';
 import {
   ModalWrapper,
   ModalContents,
   ModalTitle,
 } from '../../components/styled/modal';
-import { stopPropagation, generateGraph } from '../../utils';
-import { drawGraph } from './d3graph';
+import {
+  stopPropagation,
+  generateGraph,
+  ROS_SOCKET_STATUSES,
+} from '../../utils';
+import API_CALL_STATUS from '../../utils/constants';
+import VisualizationHelperToolbar from './visualizationToolbar';
 
 const GraphContainer = styled.div`
   border: 1px solid red;
@@ -24,16 +32,6 @@ const GraphContainer = styled.div`
   }
 `;
 
-const ResetButton = styled.button`
-  font-weight: normal;
-  font-size: 0.8rem;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 5px;
-  &:hover {
-    cursor: pointer;
-  }
-`;
 const ModalHeading = styled.div`
   display: flex;
   justify-content: space-between;
@@ -43,26 +41,59 @@ const ModalHeading = styled.div`
 class ConfigurationModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
-
-    this.graphRef = React.createRef();
+    this.state = {
+      graph: null,
+      status: API_CALL_STATUS.FETCHING,
+      visualizationToolbarSettings: {
+        debug: true,
+      },
+    };
+    this.graphContainerRef = React.createRef();
     this.handleSubmit = this.handleSubmit.bind(this);
     this.createGraph = this.createGraph.bind(this);
     this.refreshGraph = this.refreshGraph.bind(this);
+    this.returnContainerRef = this.returnContainerRef.bind(this);
+    this.changeVisualizationToolbar = this.changeVisualizationToolbar.bind(
+      this,
+    );
   }
 
   createGraph() {
     const { ros } = this.props;
     const p = generateGraph(ros);
     p.then(graph => {
-      drawGraph(graph, this.graphRef);
-    }).catch(err => console.error(err));
+      this.setState({ graph, status: API_CALL_STATUS.SUCCESSFUL });
+    }).catch(err => {
+      this.setState({
+        status: API_CALL_STATUS.ERROR,
+      });
+    });
+  }
+
+  changeVisualizationToolbar(path) {
+    return function(e) {
+      const {
+        dataset: { id },
+        value,
+      } = e.target;
+      this.setState(function({ visualizationToolbarSettings }) {
+        return {
+          visualizationToolbarSettings: {
+            ...visualizationToolbarSettings,
+            [id]: value,
+          },
+        };
+      });
+    };
   }
 
   refreshGraph(e) {
     e.preventDefault();
-    this.graphRef.current.innerHTML = '';
     this.createGraph();
+  }
+
+  returnContainerRef() {
+    return this.graphContainerRef;
   }
 
   componentDidMount() {
@@ -76,16 +107,42 @@ class ConfigurationModal extends React.Component {
   }
 
   render() {
-    const { closeModal } = this.props;
+    const { closeModal, rosStatus } = this.props;
+    const {
+      graph,
+      status,
+      visualizationToolbarSettings: { debug },
+    } = this.state;
 
+    let data = null;
+    if (status === API_CALL_STATUS.SUCCESSFUL) {
+      data = (
+        <Tree returnContainerRef={this.returnContainerRef} graph={graph} />
+      );
+    } else if (status === API_CALL_STATUS.ERROR) {
+      data = <p>Error</p>;
+    } else {
+      data = <p>Loading.</p>;
+    }
     return (
       <ModalWrapper onClick={closeModal}>
         <ModalContents onClick={stopPropagation}>
           <ModalHeading>
             <ModalTitle>Graph </ModalTitle>
-            <ResetButton onClick={this.refreshGraph}>Reset</ResetButton>
+            <ButtonPrimary
+              disabled={rosStatus !== ROS_SOCKET_STATUSES.CONNECTED}
+              onClick={this.refreshGraph}
+            >
+              {rosStatus === ROS_SOCKET_STATUSES.CONNECTED
+                ? 'Reset'
+                : 'Websocket disconnected.'}
+            </ButtonPrimary>
           </ModalHeading>
-          <GraphContainer id="graph" ref={this.graphRef} />
+          <VisualizationHelperToolbar
+            changeVisualizationToolbar={this.changeVisualizationToolbar}
+            debug={debug}
+          />
+          <GraphContainer ref={this.graphContainerRef}>{data}</GraphContainer>
         </ModalContents>
       </ModalWrapper>
     );

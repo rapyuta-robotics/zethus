@@ -36,7 +36,7 @@ class Wrapper extends React.Component {
       rosParams: [],
       framesList: [],
       activeTool: TOOL_TYPE_CONTROLS,
-      graphModalOpen: true,
+      graphModalOpen: false,
     };
 
     this.connectRos = this.connectRos.bind(this);
@@ -337,8 +337,7 @@ class Wrapper extends React.Component {
           {graphModalOpen && (
             <GraphVisualizationModal
               ros={this.ros}
-              rosTopics={rosTopics}
-              rosParams={rosParams}
+              rosStatus={rosStatus}
               closeModal={this.toggleGraphModal}
             />
           )}
@@ -377,6 +376,7 @@ class Wrapper extends React.Component {
               updateGlobalOptions={updateGlobalOptions}
               updateRosEndpoint={updateRosEndpoint}
               updateVizOptions={updateVizOptions}
+              toggleGraphModal={this.toggleGraphModal}
             />
           )}
           <PanelContent>
