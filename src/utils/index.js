@@ -111,9 +111,9 @@ export function promisifyGetNodeDetails(ros, node) {
  *
  * @param {Array} topics - a list of topics
  * @param {Object} nodeDetails - List of node details with node name, publishing topics and subsribing topics
- * @returns {Array} - List of edges
+ * @returns {auxGraphData} - For creating graph later based on options.
  */
-export function createEdges(topics, nodeDetails) {
+export function createAuxGraph(topics, nodeDetails) {
   const auxGraphData = {};
 
   topics.forEach(topic => {
@@ -128,14 +128,18 @@ export function createEdges(topics, nodeDetails) {
     });
   });
 
-  const edges = [];
+  return auxGraphData;
+}
 
+export function defaultGraph(graph) {
+  const edges = [];
+  const { auxGraphData } = graph;
   _.each(_.keys(auxGraphData), t => {
     const { publishers } = auxGraphData[t];
     const { subscribers } = auxGraphData[t];
 
-    _.each(publishers, (pub, i1) => {
-      _.each(subscribers, (sub, i2) => {
+    _.each(publishers, pub => {
+      _.each(subscribers, sub => {
         edges.push({
           source: { id: pub, label: pub },
           target: { id: sub, label: sub },
@@ -144,53 +148,42 @@ export function createEdges(topics, nodeDetails) {
       });
     });
   });
-  return edges;
+  return { nodes: graph.nodes, edges };
 }
 
-/**
- *
- * @param {*} topics
- * @param {*} nodeDetails
- */
-export function createEdgesWithTopicNodes(topics, nodeDetails) {
-  const auxGraphData = {};
+export function graphWithTopicNodes(graph) {
+  const { nodes } = graph;
+  const { auxGraphData } = graph;
 
-  topics.forEach(topic => {
-    auxGraphData[topic] = { publishers: [], subscribers: [] };
-  });
-  nodeDetails.forEach(function({ publishing: pubs, subscribing: subs, node }) {
-    pubs.forEach(topic => {
-      auxGraphData[topic].publishers.push(node);
-    });
-    subs.forEach(topic => {
-      auxGraphData[topic].subscribers.push(node);
-    });
+  // Adding topic as nodes
+  _.keys(graph.auxGraphData).forEach(topicName => {
+    nodes.push({ id: topicName + topicName, label: topicName, type: 'rect' });
   });
 
   const edges = [];
 
-  _.each(_.keys(auxGraphData), (t, index) => {
+  _.each(_.keys(auxGraphData), t => {
     const { publishers } = auxGraphData[t];
     const { subscribers } = auxGraphData[t];
 
-    _.each(publishers, (pub, i1) => {
+    _.each(publishers, pub => {
       edges.push({
         source: { id: pub, label: pub },
-        target: { id: t + index, label: t, type: 'rect' },
+        target: { id: t + t, label: t },
         value: '',
       });
     });
 
-    _.each(subscribers, (sub, i1) => {
+    _.each(subscribers, sub => {
       edges.push({
-        source: { id: t + index, label: t, type: 'rect' },
+        source: { id: t + t, label: t },
         target: { id: sub, label: sub },
         value: '',
       });
     });
   });
 
-  return edges;
+  return { nodes, edges };
 }
 
 /**
@@ -203,7 +196,11 @@ export function generateGraph(ros) {
 
   return new Promise(function(res, rej) {
     ros.getNodes(nodes => {
-      graph.nodes = _.map(nodes, node => ({ id: node, label: node }));
+      graph.nodes = _.map(nodes, node => ({
+        id: node,
+        label: node,
+        type: 'ellipse',
+      }));
 
       ros.getTopics(function({ topics }) {
         Promise.all(
@@ -212,7 +209,7 @@ export function generateGraph(ros) {
           }),
         )
           .then(function(data) {
-            graph.edges = createEdges(topics, data);
+            graph.auxGraphData = createAuxGraph(topics, data);
             res(graph);
           })
           .catch(function(err) {

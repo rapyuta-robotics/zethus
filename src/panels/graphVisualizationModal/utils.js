@@ -17,9 +17,8 @@ function createAndPopulateGraph(graph, targetElementId) {
     inner.attr('transform', d3.event.transform);
   });
   svg.call(zoom);
-
   graph.nodes.forEach(function(node) {
-    g.setNode(node.id, { label: node.id, shape: 'ellipse' });
+    g.setNode(node.id, { label: node.label, shape: node.type });
   });
 
   graph.edges.forEach(function(edge) {

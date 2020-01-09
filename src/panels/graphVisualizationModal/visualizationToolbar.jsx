@@ -1,27 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
-class visualizationToolbar extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      debug: props.debug,
-    };
-  }
-
-  render() {
-    const { debug } = this.state;
-
-    return (
-      <div>
-        <label>
-          Debug:
-          <input type="checkbox" value={debug} />
-        </label>
-      </div>
-    );
-  }
+function visualizationToolbar({ changeVisualizationToolbar, debug }) {
+  return (
+    <div>
+      <label htmlFor="debug">
+        Debug:
+        <input
+          id="debug"
+          data-id="debug"
+          type="checkbox"
+          checked={debug}
+          value={debug}
+          onChange={changeVisualizationToolbar}
+        />
+      </label>
+    </div>
+  );
 }
 
 visualizationToolbar.propTypes = {

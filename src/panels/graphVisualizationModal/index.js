@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import { update } from 'lodash';
 import Tree from './Tree';
 
 import { ButtonPrimary } from '../../components/styled';
@@ -64,27 +63,26 @@ class ConfigurationModal extends React.Component {
     p.then(graph => {
       this.setState({ graph, status: API_CALL_STATUS.SUCCESSFUL });
     }).catch(err => {
+      console.log(err);
       this.setState({
         status: API_CALL_STATUS.ERROR,
       });
     });
   }
 
-  changeVisualizationToolbar(path) {
-    return function(e) {
-      const {
-        dataset: { id },
-        value,
-      } = e.target;
-      this.setState(function({ visualizationToolbarSettings }) {
-        return {
-          visualizationToolbarSettings: {
-            ...visualizationToolbarSettings,
-            [id]: value,
-          },
-        };
-      });
-    };
+  changeVisualizationToolbar(e) {
+    const {
+      checked,
+      dataset: { id },
+    } = e.target;
+    this.setState(function({ visualizationToolbarSettings }) {
+      return {
+        visualizationToolbarSettings: {
+          ...visualizationToolbarSettings,
+          [id]: checked,
+        },
+      };
+    });
   }
 
   refreshGraph(e) {
@@ -117,7 +115,11 @@ class ConfigurationModal extends React.Component {
     let data = null;
     if (status === API_CALL_STATUS.SUCCESSFUL) {
       data = (
-        <Tree returnContainerRef={this.returnContainerRef} graph={graph} />
+        <Tree
+          returnContainerRef={this.returnContainerRef}
+          graph={graph}
+          debug={debug}
+        />
       );
     } else if (status === API_CALL_STATUS.ERROR) {
       data = <p>Error</p>;

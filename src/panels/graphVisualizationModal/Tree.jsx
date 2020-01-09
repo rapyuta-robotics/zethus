@@ -1,28 +1,44 @@
 import React, { Component } from 'react';
 import createAndPopulateGraph from './utils';
 import './styles.css';
+import { defaultGraph, graphWithTopicNodes } from '../../utils';
 
 class Tree extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      graph: props.graph,
-    };
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (JSON.stringify(nextProps.graph) !== JSON.stringify(prevState.graph)) {
-      createAndPopulateGraph(nextProps.graph, 'graph');
-      return {
-        graph: nextProps.graph,
-      };
-    }
-    return null;
+    this.graphBasedOnOptions = this.graphBasedOnOptions.bind(this);
   }
 
   componentDidMount() {
-    const { graph } = this.props;
-    createAndPopulateGraph(graph, 'graph');
+    this.graphBasedOnOptions();
+  }
+
+  graphBasedOnOptions() {
+    const { debug, graph } = this.props;
+
+    let newGraph = null;
+    switch (debug) {
+      case true: {
+        newGraph = defaultGraph(graph);
+        break;
+      }
+      case false: {
+        newGraph = graphWithTopicNodes(graph);
+        break;
+      }
+    }
+
+    createAndPopulateGraph(newGraph, 'graph');
+  }
+
+  componentDidUpdate(prevProps) {
+    const { debug, graph } = this.props;
+    if (
+      JSON.stringify(prevProps.graph) !== JSON.stringify(graph) ||
+      prevProps.debug !== debug
+    ) {
+      this.graphBasedOnOptions();
+    }
   }
 
   render() {
