@@ -9,10 +9,11 @@ import {
   VIZ_TYPE_DEPTHCLOUD_STREAM,
   VIZ_TYPE_IMAGE_STREAM,
 } from '../../utils/vizOptions';
+import { getOrCreateRosTopicDataSource } from '../sources';
 
 const {
   MESSAGE_TYPE_IMAGE,
-  VIZ_TYPE_WRENCH,
+  MESSAGE_TYPE_LASERSCAN,
   MESSAGE_TYPE_MARKER,
   MESSAGE_TYPE_MARKERARRAY,
   MESSAGE_TYPE_OCCUPANCYGRID,
@@ -26,7 +27,7 @@ const {
   MESSAGE_TYPE_TF2,
   MESSAGE_TYPE_WRENCH,
   VIZ_TYPE_IMAGE,
-  MESSAGE_TYPE_LASERSCAN,
+  VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
@@ -40,7 +41,7 @@ const {
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
-  VIZ_TYPE_INTERACTIVEMARKER,
+  VIZ_TYPE_WRENCH,
 } = Amphion.CONSTANTS;
 
 class Visualization extends React.PureComponent {
@@ -51,15 +52,15 @@ class Visualization extends React.PureComponent {
     this.resetVisualization = this.resetVisualization.bind(this);
   }
 
-  static getNewViz(vizType, ros, topicName, viewer, options) {
+  static getNewViz(vizType, ros, resourceName, viewer, options) {
     switch (vizType) {
       case VIZ_TYPE_IMAGE_STREAM: {
-        return new Amphion.ImageStream(topicName);
+        return new Amphion.ImageStream(resourceName);
       }
       case VIZ_TYPE_IMAGE: {
-        const imageSource = new Amphion.RosTopicDataSource({
+        const imageSource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_IMAGE,
           queueSize: 1,
           queueLength: 0,
@@ -68,23 +69,28 @@ class Visualization extends React.PureComponent {
         return new Amphion.Image(imageSource, options);
       }
       case VIZ_TYPE_DEPTHCLOUD_STREAM: {
-        return new Amphion.DepthCloud(topicName);
+        return new Amphion.DepthCloud(resourceName);
       }
       case VIZ_TYPE_INTERACTIVEMARKER:
-        return new Amphion.InteractiveMarkers(ros, topicName, viewer, options);
-      case VIZ_TYPE_LASERSCAN: {
-        const laserScanSource = new Amphion.RosTopicDataSource({
+        return new Amphion.InteractiveMarkers(
           ros,
-          topicName,
+          resourceName,
+          viewer,
+          options,
+        );
+      case VIZ_TYPE_LASERSCAN: {
+        const laserScanSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_LASERSCAN,
           compression: 'cbor',
         });
         return new Amphion.LaserScan(laserScanSource, options);
       }
       case VIZ_TYPE_MAP: {
-        const mapSource = new Amphion.RosTopicDataSource({
+        const mapSource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_OCCUPANCYGRID,
           compression: 'cbor',
           queueSize: 1,
@@ -93,17 +99,17 @@ class Visualization extends React.PureComponent {
         return new Amphion.Map(mapSource, options);
       }
       case VIZ_TYPE_MARKER: {
-        const markerSource = new Amphion.RosTopicDataSource({
+        const markerSource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_MARKER,
         });
         return new Amphion.Marker(markerSource, options);
       }
       case VIZ_TYPE_MARKERARRAY: {
-        const markerArraySource = new Amphion.RosTopicDataSource({
+        const markerArraySource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_MARKERARRAY,
           queueLength: 0,
           queueSize: 1,
@@ -111,33 +117,33 @@ class Visualization extends React.PureComponent {
         return new Amphion.MarkerArray(markerArraySource, options);
       }
       case VIZ_TYPE_ODOMETRY: {
-        const odometrySource = new Amphion.RosTopicDataSource({
+        const odometrySource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_ODOMETRY,
         });
         return new Amphion.Odometry(odometrySource, options);
       }
       case VIZ_TYPE_PATH: {
-        const pathSource = new Amphion.RosTopicDataSource({
+        const pathSource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_PATH,
         });
         return new Amphion.Path(pathSource, options);
       }
       case VIZ_TYPE_POINT: {
-        const pointSource = new Amphion.RosTopicDataSource({
+        const pointSource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_POINT,
         });
         return new Amphion.Point(pointSource, options);
       }
       case VIZ_TYPE_POINTCLOUD: {
-        const pointcloudSource = new Amphion.RosTopicDataSource({
+        const pointcloudSource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_POINTCLOUD2,
           compression: 'cbor',
           queueSize: 1,
@@ -146,43 +152,43 @@ class Visualization extends React.PureComponent {
         return new Amphion.PointCloud(pointcloudSource, options);
       }
       case VIZ_TYPE_POSE: {
-        const poseSource = new Amphion.RosTopicDataSource({
+        const poseSource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_POSESTAMPED,
         });
         return new Amphion.Pose(poseSource, options);
       }
       case VIZ_TYPE_POSEARRAY: {
-        const poseArraySource = new Amphion.RosTopicDataSource({
+        const poseArraySource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_POSEARRAY,
         });
         return new Amphion.PoseArray(poseArraySource, options);
       }
       case VIZ_TYPE_RANGE: {
-        const rangeSource = new Amphion.RosTopicDataSource({
+        const rangeSource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_RANGE,
         });
         return new Amphion.Range(rangeSource, options);
       }
       case VIZ_TYPE_ROBOTMODEL:
-        return new Amphion.RobotModel(ros, topicName, options);
+        return new Amphion.RobotModel(ros, resourceName, options);
       case VIZ_TYPE_TF: {
-        const tfSource = new Amphion.RosTopicDataSource({
+        const tfSource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_TF2,
         });
         return new Amphion.Tf(tfSource, options);
       }
       case VIZ_TYPE_WRENCH: {
-        const wrenchSource = new Amphion.RosTopicDataSource({
+        const wrenchSource = getOrCreateRosTopicDataSource({
           ros,
-          topicName,
+          topicName: resourceName,
           messageType: MESSAGE_TYPE_WRENCH,
         });
         return new Amphion.Wrench(wrenchSource, options);
@@ -213,22 +219,27 @@ class Visualization extends React.PureComponent {
         _.join(_.sortBy(_.map(currentTfTopics, 'name'))) !==
         _.join(_.sortBy(_.map(prevTfTopics, 'name')))
       ) {
-        const sources = map(
-          currentTfTopics,
-          topic =>
-            new Amphion.RosTopicDataSource({
-              ros: rosInstance,
-              topicName: topic.name,
-              messageType: topic.messageType,
-            }),
+        const sources = map(currentTfTopics, topic =>
+          getOrCreateRosTopicDataSource({
+            ros: rosInstance,
+            topicName: topic.name,
+            messageType: topic.messageType,
+          }),
         );
         this.vizInstance.changeSources(sources);
       }
-    } else if (
-      topicName !== prevProps.options.topicName &&
-      this.vizInstance.changeTopic
-    ) {
-      this.vizInstance.changeTopic(topicName);
+    } else if (topicName !== prevProps.options.topicName) {
+      if (this.vizInstance.changeTopic) {
+        // TODO: remove this when all visualizations get ported
+        this.vizInstance.changeTopic(topicName);
+      } else if (this.vizInstance.changeSources) {
+        const source = getOrCreateRosTopicDataSource({
+          ...this.vizInstance.options,
+          ros: rosInstance,
+          topicName,
+        });
+        this.vizInstance.changeSources([source]);
+      }
     }
     if (this.vizInstance) {
       this.vizInstance.updateOptions(options);
