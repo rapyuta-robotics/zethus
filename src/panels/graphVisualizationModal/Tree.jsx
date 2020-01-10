@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import createAndPopulateGraph from './utils';
-import './styles.css';
 import { defaultGraph, graphWithTopicNodes } from '../../utils';
 
 class Tree extends Component {
