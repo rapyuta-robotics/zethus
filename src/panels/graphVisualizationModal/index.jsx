@@ -29,6 +29,35 @@ const GraphContainer = styled.div`
     height: 100%;
     z-index: 10 !important;
   }
+
+  .node rect,
+  .node circle,
+  .node ellipse {
+    stroke: #333;
+    fill: #fff;
+    stroke-width: 1px;
+  }
+  .edgePath path {
+    stroke: #333;
+    fill: #333;
+    stroke-width: 1.5px;
+  }
+  .root-node {
+    color: white;
+  }
+
+  /* This styles the title of the tooltip */
+  .name {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #60b1fc;
+    margin: 0;
+  }
+
+  /* This styles the body of the tooltip */
+  .description {
+    font-size: 1.2em;
+  }
 `;
 
 const ModalHeading = styled.div`
