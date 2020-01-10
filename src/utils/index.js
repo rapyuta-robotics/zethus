@@ -152,15 +152,17 @@ export function defaultGraph(graph) {
 }
 
 export function graphWithTopicNodes(graph) {
-  const { nodes } = graph;
+  const newNodes = [...graph.nodes];
+  const edges = [];
   const { auxGraphData } = graph;
-
   // Adding topic as nodes
   _.keys(graph.auxGraphData).forEach(topicName => {
-    nodes.push({ id: topicName + topicName, label: topicName, type: 'rect' });
+    newNodes.push({
+      id: topicName + topicName,
+      label: topicName,
+      type: 'rect',
+    });
   });
-
-  const edges = [];
 
   _.each(_.keys(auxGraphData), t => {
     const { publishers } = auxGraphData[t];
@@ -183,7 +185,7 @@ export function graphWithTopicNodes(graph) {
     });
   });
 
-  return { nodes, edges };
+  return { nodes: newNodes, edges };
 }
 
 /**

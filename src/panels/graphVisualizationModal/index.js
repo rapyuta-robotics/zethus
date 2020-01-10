@@ -37,6 +37,13 @@ const ModalHeading = styled.div`
   align-items: center;
 `;
 
+const StyledModalContents = styled(ModalContents)`
+  height: 90%;
+  width: 90%;
+  margin: auto;
+  margin-top: 5vh;
+`;
+
 class ConfigurationModal extends React.Component {
   constructor(props) {
     super(props);
@@ -45,6 +52,7 @@ class ConfigurationModal extends React.Component {
       status: API_CALL_STATUS.FETCHING,
       visualizationToolbarSettings: {
         debug: true,
+        nodeSelect: 0,
       },
     };
     this.graphContainerRef = React.createRef();
@@ -55,6 +63,7 @@ class ConfigurationModal extends React.Component {
     this.changeVisualizationToolbar = this.changeVisualizationToolbar.bind(
       this,
     );
+    this.selectHandler = this.selectHandler.bind(this);
   }
 
   createGraph() {
@@ -67,6 +76,17 @@ class ConfigurationModal extends React.Component {
       this.setState({
         status: API_CALL_STATUS.ERROR,
       });
+    });
+  }
+
+  selectHandler(e) {
+    this.setState(function({ visualizationToolbarSettings }) {
+      return {
+        visualizationToolbarSettings: {
+          ...visualizationToolbarSettings,
+          nodeSelect: e.value,
+        },
+      };
     });
   }
 
@@ -122,13 +142,19 @@ class ConfigurationModal extends React.Component {
         />
       );
     } else if (status === API_CALL_STATUS.ERROR) {
-      data = <p>Error</p>;
+      data = (
+        <p>
+          Error{' '}
+          <ButtonPrimary onClick={this.refreshGraph}>Refresh</ButtonPrimary>
+        </p>
+      );
     } else {
       data = <p>Loading.</p>;
     }
+    console.log();
     return (
       <ModalWrapper onClick={closeModal}>
-        <ModalContents onClick={stopPropagation}>
+        <StyledModalContents onClick={stopPropagation}>
           <ModalHeading>
             <ModalTitle>Graph </ModalTitle>
             <ButtonPrimary
@@ -136,16 +162,17 @@ class ConfigurationModal extends React.Component {
               onClick={this.refreshGraph}
             >
               {rosStatus === ROS_SOCKET_STATUSES.CONNECTED
-                ? 'Reset'
+                ? 'Refresh'
                 : 'Websocket disconnected.'}
             </ButtonPrimary>
           </ModalHeading>
           <VisualizationHelperToolbar
             changeVisualizationToolbar={this.changeVisualizationToolbar}
+            selectHandler={this.selectHandler}
             debug={debug}
           />
           <GraphContainer ref={this.graphContainerRef}>{data}</GraphContainer>
-        </ModalContents>
+        </StyledModalContents>
       </ModalWrapper>
     );
   }
