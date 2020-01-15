@@ -20,11 +20,11 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   html {
     font-size: 20px;
   }
-  
+
   body {
     padding: 0;
     margin: 0;
@@ -34,7 +34,7 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.5;
     font-size: ${FONT_SIZE_DEFAULT};
   }
-  
+
   html, body, #root {
     width: 100%;
     height: 100%;
@@ -49,11 +49,11 @@ export const AddInfoPanelTagsInputStyle = createGlobalStyle`
     padding: 10px;
     border: 1px solid ${COLOR_GREY_LIGHT_1}
   }
-  
+
   .react-tagsinput--focused {
     border-color: ${COLOR_GREY_LIGHT_2};
   }
-  
+
   .react-tagsinput-tag {
     border-radius: 2px;
     border: 1px solid ${COLOR_GREY_LIGHT_2};
@@ -61,17 +61,17 @@ export const AddInfoPanelTagsInputStyle = createGlobalStyle`
     display: inline-block;
     padding: 5px;
     margin: 3px;
-    
+
     a::before {
       content: "  x";
     }
   }
-  
+
   .react-tagsinput-remove {
     cursor: pointer;
     font-weight: bold;
   }
-  
+
   .react-tagsinput-input {
     width: 100%;
     background: transparent;
@@ -299,12 +299,30 @@ export const RosStatusIndicator = styled.span`
   }}
 `;
 
+export const SidebarWrapper = styled.div`
+  display: flex;
+`;
+
+export const SidebarCollapse = styled.div`
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 1px solid ${COLOR_GREY_LIGHT_2};
+  color: ${COLOR_GREY_TEXT_3};
+  padding: 3px;
+  cursor: pointer;
+  user-select: none;
+`;
+
 export const StyledSidebar = styled.div`
   background-color: #fff;
   width: 400px;
+  margin-right: ${props => (props.collapsedSidebar ? '-400px' : 0)};
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  transition: margin-right 0.2s;
 `;
 
 export const StyledHeader = styled.div`
