@@ -12,6 +12,7 @@ import {
   HiddenInput,
   Input,
   InputLabel,
+  RemoveBagCross,
   RosbagDisplay,
   Separator,
   StyledSidebar,
@@ -34,6 +35,7 @@ class Sidebar extends React.Component {
     this.updateRosInput = this.updateRosInput.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.handleUploadRosbag = this.handleUploadRosbag.bind(this);
+    this.handleRemoveRosbag = this.handleRemoveRosbag.bind(this);
     this.rosbagUploadRef = React.createRef();
   }
 
@@ -48,6 +50,9 @@ class Sidebar extends React.Component {
     const { files: filesFromState } = this.state;
     const files = [...event.target.files];
     const refreshedRosDataOnceFlag = {};
+    if (files.length === 0) {
+      return;
+    }
     if (this.fileBagGlobalReadersMap[files[0].name]) {
       return;
     }
@@ -67,6 +72,20 @@ class Sidebar extends React.Component {
       rosbagBucket.addFile(file);
     });
     this.setState({ files: [...filesFromState, ...files] });
+  }
+
+  handleRemoveRosbag(file) {
+    const { refreshRosData } = this.props;
+    const { files } = this.state;
+    rosbagBucket.removeFile(file, () => {
+      refreshRosData();
+      const filteredFiles = files.filter(x => x !== file);
+      this.setState({ files: filteredFiles });
+      this.rosbagUploadRef.current.value = '';
+      rosbagBucket.removeReader('*', this.fileBagGlobalReadersMap[file.name]);
+      delete this.fileBagProgressRefMap[file.name];
+      delete this.fileBagGlobalReadersMap[file.name];
+    });
   }
 
   onSubmit(e) {
@@ -223,6 +242,9 @@ class Sidebar extends React.Component {
                     value="0"
                     max="100"
                   />
+                  <RemoveBagCross onClick={() => this.handleRemoveRosbag(file)}>
+                    x
+                  </RemoveBagCross>
                 </RosbagDisplay>
               ))}
             </SidebarVizContainer>

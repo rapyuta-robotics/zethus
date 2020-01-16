@@ -162,11 +162,16 @@ class Visualization extends React.PureComponent {
         return new Amphion.PointCloud(pointcloudSource, options);
       }
       case VIZ_TYPE_POSE: {
-        const poseSource = getOrCreateRosTopicDataSource({
-          ros,
-          topicName: resourceName,
-          messageType: MESSAGE_TYPE_POSESTAMPED,
-        });
+        const poseSource = options.rosbagFileName
+          ? getOrCreateRosbagDataSource({
+              topicName: resourceName,
+              bucket: rosbagBucket,
+            })
+          : getOrCreateRosTopicDataSource({
+              ros,
+              topicName: resourceName,
+              messageType: MESSAGE_TYPE_POSESTAMPED,
+            });
         return new Amphion.Pose(poseSource, options);
       }
       case VIZ_TYPE_POSEARRAY: {

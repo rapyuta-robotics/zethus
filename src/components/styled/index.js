@@ -194,6 +194,13 @@ export const RosbagDisplay = styled.div`
   justify-content: space-between;
 `;
 
+export const RemoveBagCross = styled.span`
+  &:hover {
+    cursor: pointer;
+    color: ${COLOR_RED};
+  }
+`;
+
 export const ButtonOutline = styled(ButtonPrimary)`
   background-color: transparent;
   color: ${COLOR_PRIMARY};
