@@ -9,8 +9,10 @@ import {
   Container,
   Flex,
   FlexSpace,
+  HiddenInput,
   Input,
   InputLabel,
+  RosbagDisplay,
   Separator,
   StyledSidebar,
 } from '../../components/styled';
@@ -18,21 +20,53 @@ import ConnectionDot from '../../components/connectionDot';
 import RosReconnectHandler from './rosReconnectHandler';
 import VizOptions from './vizOptions';
 import { RosStatus, SidebarVizContainer } from '../../components/styled/viz';
+import { rosbagBucket } from '../sources';
 
 class Sidebar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       rosInput: props.rosEndpoint,
+      files: [],
     };
+    this.fileBagProgressRefMap = {};
+    this.fileBagGlobalReadersMap = {};
     this.updateRosInput = this.updateRosInput.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.handleUploadRosbag = this.handleUploadRosbag.bind(this);
+    this.rosbagUploadRef = React.createRef();
   }
 
   updateRosInput(e) {
     this.setState({
       rosInput: e.target.value,
     });
+  }
+
+  handleUploadRosbag(event) {
+    const { refreshRosData } = this.props;
+    const { files: filesFromState } = this.state;
+    const files = [...event.target.files];
+    const refreshedRosDataOnceFlag = {};
+    if (this.fileBagGlobalReadersMap[files[0].name]) {
+      return;
+    }
+    const reader = (file, result) => {
+      if (!refreshedRosDataOnceFlag[file.name]) {
+        refreshRosData();
+        refreshedRosDataOnceFlag[file.name] = true;
+      }
+      const { chunkOffset, totalChunks } = result;
+      const progressEl = this.fileBagProgressRefMap[file.name].current;
+      progressEl.value = Math.floor((chunkOffset * 100) / totalChunks);
+    };
+    this.fileBagGlobalReadersMap[files[0].name] = reader;
+    rosbagBucket.addReader('*', reader);
+    files.forEach(file => {
+      this.fileBagProgressRefMap[file.name] = React.createRef();
+      rosbagBucket.addFile(file);
+    });
+    this.setState({ files: [...filesFromState, ...files] });
   }
 
   onSubmit(e) {
@@ -43,7 +77,7 @@ class Sidebar extends React.Component {
       rosStatus,
       updateRosEndpoint,
     } = this.props;
-    const { rosInput } = this.state;
+    const { files, rosInput } = this.state;
     e.preventDefault();
     if (rosInput !== rosEndpoint) {
       updateRosEndpoint(rosInput);
@@ -62,22 +96,22 @@ class Sidebar extends React.Component {
   render() {
     const {
       connectRos,
-      visualizations,
+      framesList,
       globalOptions,
       removeVisualization,
       rosInstance,
       rosStatus,
       rosTopics,
-      framesList,
+      toggleAddModal,
       toggleConfigurationModal,
       toggleVisibility,
       updateGlobalOptions,
       updateVizOptions,
       viewer,
-      toggleAddModal,
+      visualizations,
     } = this.props;
 
-    const { rosInput } = this.state;
+    const { files, rosInput } = this.state;
     return (
       <StyledSidebar>
         <Container>
@@ -160,6 +194,37 @@ class Sidebar extends React.Component {
                   />
                 );
               })}
+            </SidebarVizContainer>
+            <Separator />
+            <SidebarVizContainer>
+              <ButtonPrimary
+                type="button"
+                onClick={() => {
+                  this.rosbagUploadRef.current.click();
+                }}
+              >
+                Add rosbag
+                <HiddenInput
+                  ref={this.rosbagUploadRef}
+                  onChange={this.handleUploadRosbag}
+                  id="rosbag-upload"
+                  type="file"
+                  name="rosbags"
+                  accept=".bag"
+                />
+              </ButtonPrimary>
+              {_.size(files) === 0 && <p>No rosbags added</p>}
+              {_.map(files, (file, index) => (
+                <RosbagDisplay key={index}>
+                  <span>{file.name}</span>
+                  <progress
+                    id={`progress-${file.name}`}
+                    ref={this.fileBagProgressRefMap[file.name]}
+                    value="0"
+                    max="100"
+                  />
+                </RosbagDisplay>
+              ))}
             </SidebarVizContainer>
           </>
         )}

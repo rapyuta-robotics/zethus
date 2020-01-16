@@ -20,11 +20,11 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
+
   html {
     font-size: 20px;
   }
-  
+
   body {
     padding: 0;
     margin: 0;
@@ -34,7 +34,7 @@ export const GlobalStyle = createGlobalStyle`
     line-height: 1.5;
     font-size: ${FONT_SIZE_DEFAULT};
   }
-  
+
   html, body, #root {
     width: 100%;
     height: 100%;
@@ -49,11 +49,11 @@ export const AddInfoPanelTagsInputStyle = createGlobalStyle`
     padding: 10px;
     border: 1px solid ${COLOR_GREY_LIGHT_1}
   }
-  
+
   .react-tagsinput--focused {
     border-color: ${COLOR_GREY_LIGHT_2};
   }
-  
+
   .react-tagsinput-tag {
     border-radius: 2px;
     border: 1px solid ${COLOR_GREY_LIGHT_2};
@@ -61,17 +61,17 @@ export const AddInfoPanelTagsInputStyle = createGlobalStyle`
     display: inline-block;
     padding: 5px;
     margin: 3px;
-    
+
     a::before {
       content: "  x";
     }
   }
-  
+
   .react-tagsinput-remove {
     cursor: pointer;
     font-weight: bold;
   }
-  
+
   .react-tagsinput-input {
     width: 100%;
     background: transparent;
@@ -178,6 +178,20 @@ export const ButtonPrimary = styled(Button)`
   &[disabled] {
     background-color: ${COLOR_GREY_LIGHT_2};
   }
+`;
+
+export const HiddenInput = styled.input`
+  display: none;
+`;
+
+export const RosbagDisplay = styled.div`
+  margin-top: 20px;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 export const ButtonOutline = styled(ButtonPrimary)`

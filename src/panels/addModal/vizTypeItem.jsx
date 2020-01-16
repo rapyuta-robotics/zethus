@@ -110,13 +110,22 @@ class VizTypeItem extends React.PureComponent {
         {_.map(topics, topic => (
           <TypeRow
             type="button"
-            key={topic.name}
-            selected={_.get(selectedViz, 'topicName') === topic.name}
+            key={`${topic.name}-${topic.rosbagFileName}`}
+            selected={
+              _.get(selectedViz, 'topicName') === topic.name &&
+              _.get(selectedViz, 'rosbagFileName') === topic.rosbagFileName
+            }
             onClick={() =>
-              selectViz(vizDetails.type, topic.name, topic.messageType)
+              selectViz(
+                vizDetails.type,
+                topic.name,
+                topic.messageType,
+                topic.rosbagFileName,
+              )
             }
           >
             {topic.name}
+            {topic.rosbagFileName && ` (from rosbag - ${topic.rosbagFileName})`}
           </TypeRow>
         ))}
         {_.size(topics) === 0 && (

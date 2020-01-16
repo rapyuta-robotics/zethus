@@ -77,7 +77,11 @@ const VizOptions = ({
             <OptionRow label="Topic">
               <Select value={topicName} onChange={updateVizOptionsWrapper}>
                 {_.map(topics, topic => (
-                  <option key={topic.name}>{topic.name}</option>
+                  <option key={`${topic.name}-${topic.rosbagFileName}`}>
+                    {topic.name}
+                    {topic.rosbagFileName &&
+                      ` (from rosbag - ${topic.rosbagFileName})`}
+                  </option>
                 ))}
               </Select>
             </OptionRow>

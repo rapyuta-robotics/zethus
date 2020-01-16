@@ -22,12 +22,13 @@ class VizType extends React.PureComponent {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  selectViz(vizType, topicName, messageType) {
+  selectViz(vizType, topicName, messageType, rosbagFileName) {
     this.setState({
       selectedViz: {
         vizType,
         topicName,
         messageType,
+        rosbagFileName,
       },
     });
   }
@@ -36,9 +37,9 @@ class VizType extends React.PureComponent {
     e.preventDefault();
     const { selectViz } = this.props;
     const {
-      selectedViz: { messageType, topicName, vizType },
+      selectedViz: { messageType, rosbagFileName, topicName, vizType },
     } = this.state;
-    selectViz(vizType, topicName, messageType);
+    selectViz(vizType, topicName, messageType, rosbagFileName);
   }
 
   render() {
