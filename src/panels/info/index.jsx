@@ -16,6 +16,7 @@ import {
   InfoPanelContentWrapper,
   InfoPanelHeader,
   InfoPanelHeaderControls,
+  InfoPanelNoMessage,
   InfoPanelTab,
   InfoPanelTabsWrapper,
 } from '../../components/styled';
@@ -219,7 +220,9 @@ class Info extends React.PureComponent {
               </InfoPanelAddButton>
             </InfoPanelTabsWrapper>
             <InfoPanelHeaderControls>
-              <span onClick={toggleGraphModal}>Rqt graph</span>
+              <InfoPanelNoMessage highlight onClick={toggleGraphModal}>
+                <u>RQT Graph</u>
+              </InfoPanelNoMessage>
               <label>
                 Raw:
                 <input type="checkbox" value={raw} onChange={this.onRawClick} />
