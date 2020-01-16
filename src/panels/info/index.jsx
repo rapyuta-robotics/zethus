@@ -194,6 +194,7 @@ class Info extends React.PureComponent {
     const {
       collapsed,
       rosTopics: allTopics,
+      toggleGraphModal,
       togglePanelCollapse,
       topics,
     } = this.props;
@@ -218,6 +219,7 @@ class Info extends React.PureComponent {
               </InfoPanelAddButton>
             </InfoPanelTabsWrapper>
             <InfoPanelHeaderControls>
+              <span onClick={toggleGraphModal}>Rqt graph</span>
               <label>
                 Raw:
                 <input type="checkbox" value={raw} onChange={this.onRawClick} />

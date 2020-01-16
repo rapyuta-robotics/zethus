@@ -315,7 +315,7 @@ class Wrapper extends React.Component {
         panels: {
           header: { display: displayHeader },
           info: { collapsed: collapsedInfo, display: displayInfo },
-          sidebar: { display: displaySidebar },
+          sidebar: { collapsed: collapsedSidebar, display: displaySidebar },
         },
         visualizations,
       },
@@ -360,6 +360,7 @@ class Wrapper extends React.Component {
           {displaySidebar && (
             <Sidebar
               framesList={framesList}
+              collapsedSidebar={collapsedSidebar}
               globalOptions={globalOptions}
               rosEndpoint={rosEndpoint}
               rosInstance={this.ros}
@@ -372,11 +373,11 @@ class Wrapper extends React.Component {
               removeVisualization={removeVisualization}
               toggleAddModal={this.toggleAddModal}
               toggleVisibility={toggleVisibility}
+              togglePanelCollapse={this.togglePanelCollapse}
               toggleConfigurationModal={this.toggleConfigurationModal}
               updateGlobalOptions={updateGlobalOptions}
               updateRosEndpoint={updateRosEndpoint}
               updateVizOptions={updateVizOptions}
-              toggleGraphModal={this.toggleGraphModal}
             />
           )}
           <PanelContent>
@@ -391,6 +392,7 @@ class Wrapper extends React.Component {
                 updateInfoTabs={this.updateInfoTabs}
                 togglePanelCollapse={this.togglePanelCollapse}
                 topics={infoTabs}
+                toggleGraphModal={this.toggleGraphModal}
               />
             )}
           </PanelContent>

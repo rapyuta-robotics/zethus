@@ -12,6 +12,8 @@ import {
   Input,
   InputLabel,
   Separator,
+  SidebarCollapse,
+  SidebarWrapper,
   StyledSidebar,
 } from '../../components/styled';
 import ConnectionDot from '../../components/connectionDot';
@@ -27,12 +29,18 @@ class Sidebar extends React.Component {
     };
     this.updateRosInput = this.updateRosInput.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
+    this.toggleSidebarOpen = this.toggleSidebarOpen.bind(this);
   }
 
   updateRosInput(e) {
     this.setState({
       rosInput: e.target.value,
     });
+  }
+
+  toggleSidebarOpen() {
+    const { togglePanelCollapse } = this.props;
+    togglePanelCollapse('sidebar');
   }
 
   onSubmit(e) {
@@ -61,6 +69,7 @@ class Sidebar extends React.Component {
 
   render() {
     const {
+      collapsedSidebar,
       connectRos,
       framesList,
       globalOptions,
@@ -70,7 +79,6 @@ class Sidebar extends React.Component {
       rosTopics,
       toggleAddModal,
       toggleConfigurationModal,
-      toggleGraphModal,
       toggleVisibility,
       updateGlobalOptions,
       updateVizOptions,
@@ -80,97 +88,96 @@ class Sidebar extends React.Component {
 
     const { rosInput } = this.state;
     return (
-      <StyledSidebar>
-        <Container>
-          <RosStatus>
-            <ConnectionDot status={rosStatus} />
-            <span>
-              {rosStatus}.{' '}
-              <RosReconnectHandler
-                connectRos={connectRos}
-                rosStatus={rosStatus}
+      <SidebarWrapper>
+        <StyledSidebar collapsedSidebar={collapsedSidebar}>
+          <Container>
+            <RosStatus>
+              <ConnectionDot status={rosStatus} />
+              <span>
+                {rosStatus}.{' '}
+                <RosReconnectHandler
+                  connectRos={connectRos}
+                  rosStatus={rosStatus}
+                />
+              </span>
+            </RosStatus>
+            <form onSubmit={this.onSubmit}>
+              <InputLabel>ROS Endpoint</InputLabel>
+              <Flex>
+                <Input
+                  type="text"
+                  value={rosInput}
+                  onChange={this.updateRosInput}
+                />
+                <FlexSpace />
+                <ButtonPrimary type="submit">
+                  {_.includes(
+                    [
+                      ROS_SOCKET_STATUSES.CONNECTED,
+                      ROS_SOCKET_STATUSES.CONNECTING,
+                    ],
+                    rosStatus,
+                  )
+                    ? 'Disconnect'
+                    : 'Connect'}
+                </ButtonPrimary>
+              </Flex>
+            </form>
+          </Container>
+          <Separator />
+          {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
+            <>
+              <GlobalOptions
+                framesList={framesList}
+                globalOptions={globalOptions}
+                updateGlobalOptions={updateGlobalOptions}
+                toggleConfigurationModal={toggleConfigurationModal}
               />
-            </span>
-          </RosStatus>
-          <form onSubmit={this.onSubmit}>
-            <InputLabel>ROS Endpoint</InputLabel>
-            <Flex>
-              <Input
-                type="text"
-                value={rosInput}
-                onChange={this.updateRosInput}
-              />
-              <FlexSpace />
-              <ButtonPrimary type="submit">
-                {_.includes(
-                  [
-                    ROS_SOCKET_STATUSES.CONNECTED,
-                    ROS_SOCKET_STATUSES.CONNECTING,
-                  ],
-                  rosStatus,
-                )
-                  ? 'Disconnect'
-                  : 'Connect'}
-              </ButtonPrimary>
-            </Flex>
-          </form>
-        </Container>
-        <Separator />
-        {rosStatus === ROS_SOCKET_STATUSES.CONNECTED && (
-          <>
-            <Container>
-              <ButtonPrimary onClick={toggleGraphModal}>
-                Rqt graph
-              </ButtonPrimary>
-            </Container>
-            <Separator />
-            <GlobalOptions
-              framesList={framesList}
-              globalOptions={globalOptions}
-              updateGlobalOptions={updateGlobalOptions}
-              toggleConfigurationModal={toggleConfigurationModal}
-            />
-            <Separator />
-            <SidebarVizContainer>
-              <ButtonPrimary type="button" onClick={toggleAddModal}>
-                Add Visualization
-              </ButtonPrimary>
-              {_.size(visualizations) === 0 && (
-                <p>No visualizations added to the scene</p>
-              )}
-              {_.map(visualizations, vizItem => {
-                const vizObject = _.find(
-                  vizOptions,
-                  v => v.type === vizItem.vizType,
-                );
-                if (!vizObject) {
-                  return null;
-                }
-                const topics = _.filter(rosTopics, t =>
-                  _.includes(vizObject.messageTypes, t.messageType),
-                );
-                const relatedTopics = _.filter(rosTopics, t =>
-                  _.includes(vizObject.additionalMessageTypes, t.messageType),
-                );
-                return (
-                  <VizOptions
-                    options={vizItem}
-                    key={vizItem.key}
-                    viewer={viewer}
-                    topics={topics}
-                    relatedTopics={relatedTopics}
-                    vizObject={vizObject}
-                    rosInstance={rosInstance}
-                    updateVizOptions={updateVizOptions}
-                    removeVisualization={removeVisualization}
-                    toggleVisibility={toggleVisibility}
-                  />
-                );
-              })}
-            </SidebarVizContainer>
-          </>
-        )}
-      </StyledSidebar>
+              <Separator />
+              <SidebarVizContainer>
+                <ButtonPrimary type="button" onClick={toggleAddModal}>
+                  Add Visualization
+                </ButtonPrimary>
+                {_.size(visualizations) === 0 && (
+                  <p>No visualizations added to the scene</p>
+                )}
+                {_.map(visualizations, vizItem => {
+                  const vizObject = _.find(
+                    vizOptions,
+                    v => v.type === vizItem.vizType,
+                  );
+                  if (!vizObject) {
+                    return null;
+                  }
+                  const topics = _.filter(rosTopics, t =>
+                    _.includes(vizObject.messageTypes, t.messageType),
+                  );
+                  const relatedTopics = _.filter(rosTopics, t =>
+                    _.includes(vizObject.additionalMessageTypes, t.messageType),
+                  );
+                  return (
+                    <VizOptions
+                      options={vizItem}
+                      key={vizItem.key}
+                      viewer={viewer}
+                      topics={topics}
+                      relatedTopics={relatedTopics}
+                      vizObject={vizObject}
+                      rosInstance={rosInstance}
+                      updateVizOptions={updateVizOptions}
+                      removeVisualization={removeVisualization}
+                      toggleVisibility={toggleVisibility}
+                    />
+                  );
+                })}
+              </SidebarVizContainer>
+            </>
+          )}
+        </StyledSidebar>
+        <SidebarCollapse onClick={this.toggleSidebarOpen}>
+          {collapsedSidebar ? '▸' : '◂'}
+        </SidebarCollapse>
+      </SidebarWrapper>
     );
   }
 }

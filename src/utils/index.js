@@ -35,6 +35,7 @@ export const DEFAULT_CONFIG = {
   panels: {
     sidebar: {
       display: true,
+      collapsed: false,
     },
     header: {
       display: true,
