@@ -70,20 +70,20 @@ class Sidebar extends React.Component {
   render() {
     const {
       collapsedSidebar,
-      visualizations,
+      connectRos,
       framesList,
       globalOptions,
       removeVisualization,
       rosInstance,
       rosStatus,
-      connectRos,
+      rosTopics,
       toggleAddModal,
       toggleConfigurationModal,
       toggleVisibility,
       updateGlobalOptions,
       updateVizOptions,
       viewer,
-      rosTopics,
+      visualizations,
     } = this.props;
 
     const { rosInput } = this.state;
