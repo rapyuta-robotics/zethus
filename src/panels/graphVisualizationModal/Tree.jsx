@@ -1,40 +1,45 @@
 import React, { Component } from 'react';
-import createAndPopulateGraph from './utils';
+import createAndPopulateGraph, { reposition } from './utils';
 import { defaultGraph, graphWithTopicNodes } from '../../utils';
+import { NODE_SELECT_VALUES } from './constants';
 
 class Tree extends Component {
   constructor(props) {
     super(props);
     this.graphBasedOnOptions = this.graphBasedOnOptions.bind(this);
+    this.handleGraphResize = this.handleGraphResize.bind(this);
   }
 
   componentDidMount() {
     this.graphBasedOnOptions();
+    window.addEventListener('resize', this.handleGraphResize);
+  }
+
+  handleGraphResize() {
+    reposition(this.graph);
   }
 
   graphBasedOnOptions() {
-    const { debug, graph } = this.props;
-
+    const { graph, nodeSelect } = this.props;
     let newGraph = null;
-    switch (debug) {
-      case true: {
+    switch (nodeSelect.value) {
+      case NODE_SELECT_VALUES.NODES_ONLY: {
         newGraph = defaultGraph(graph);
         break;
       }
-      case false: {
+      case NODE_SELECT_VALUES.NODES_AND_TOPICS: {
         newGraph = graphWithTopicNodes(graph);
         break;
       }
     }
-
-    createAndPopulateGraph(newGraph, 'graph');
+    this.graph = createAndPopulateGraph(newGraph, 'graph');
   }
 
   componentDidUpdate(prevProps) {
-    const { debug, graph } = this.props;
+    const { graph, nodeSelect } = this.props;
     if (
       JSON.stringify(prevProps.graph) !== JSON.stringify(graph) ||
-      prevProps.debug !== debug
+      JSON.stringify(prevProps.nodeSelect) !== JSON.stringify(nodeSelect)
     ) {
       this.graphBasedOnOptions();
     }

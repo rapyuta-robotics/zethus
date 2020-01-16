@@ -15,6 +15,7 @@ import {
 } from '../../utils';
 import API_CALL_STATUS from '../../utils/constants';
 import VisualizationHelperToolbar from './visualizationToolbar';
+import { NODE_OPTIONS } from './constants';
 
 const GraphContainer = styled.div`
   border: 1px solid red;
@@ -81,7 +82,7 @@ class ConfigurationModal extends React.Component {
       status: API_CALL_STATUS.FETCHING,
       visualizationToolbarSettings: {
         debug: true,
-        nodeSelect: 0,
+        nodeSelect: NODE_OPTIONS[0],
       },
     };
     this.graphContainerRef = React.createRef();
@@ -108,12 +109,12 @@ class ConfigurationModal extends React.Component {
     });
   }
 
-  selectHandler(e) {
+  selectHandler(selectedOption) {
     this.setState(function({ visualizationToolbarSettings }) {
       return {
         visualizationToolbarSettings: {
           ...visualizationToolbarSettings,
-          nodeSelect: e.value,
+          nodeSelect: selectedOption,
         },
       };
     });
@@ -158,7 +159,7 @@ class ConfigurationModal extends React.Component {
     const {
       graph,
       status,
-      visualizationToolbarSettings: { debug },
+      visualizationToolbarSettings: { debug, nodeSelect },
     } = this.state;
 
     let data = null;
@@ -168,6 +169,7 @@ class ConfigurationModal extends React.Component {
           returnContainerRef={this.returnContainerRef}
           graph={graph}
           debug={debug}
+          nodeSelect={nodeSelect}
         />
       );
     } else if (status === API_CALL_STATUS.ERROR) {
@@ -180,7 +182,6 @@ class ConfigurationModal extends React.Component {
     } else {
       data = <p>Loading.</p>;
     }
-    console.log();
     return (
       <ModalWrapper onClick={closeModal}>
         <StyledModalContents onClick={stopPropagation}>
@@ -199,6 +200,7 @@ class ConfigurationModal extends React.Component {
             changeVisualizationToolbar={this.changeVisualizationToolbar}
             selectHandler={this.selectHandler}
             debug={debug}
+            nodeSelect={nodeSelect}
           />
           <GraphContainer ref={this.graphContainerRef}>{data}</GraphContainer>
         </StyledModalContents>

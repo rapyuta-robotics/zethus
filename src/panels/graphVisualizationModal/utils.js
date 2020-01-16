@@ -1,6 +1,8 @@
 import DagreD3 from 'dagre-d3';
 import * as d3 from 'd3';
 
+// NOTE: Make into a class/pure functions.
+
 function createAndPopulateGraph(graph, targetElementId) {
   const g = new DagreD3.graphlib.Graph().setGraph({
     rankdir: 'LR',
@@ -31,7 +33,6 @@ function createAndPopulateGraph(graph, targetElementId) {
     node.rx = 5;
     node.ry = 5;
   });
-
   // Run the renderer. This is what draws the final graph.
   render(inner, g);
   svg.call(
@@ -40,8 +41,30 @@ function createAndPopulateGraph(graph, targetElementId) {
       .translate(
         (svg.attr('width') - g.graph().width * initialScale) / 2 +
           Number(svg.style('width').slice(0, -2)) / 2,
-        (svg.attr('height') - g.graph().height * initialScale) / 2 +
-          Number(svg.style('height').slice(0, -2)) / 2,
+        Number(svg.style('height').slice(0, -2)) / 2 -
+          (g.graph().height * initialScale) / 2,
+      )
+      .scale(initialScale),
+  );
+  svg.attr('height', g.graph().height * initialScale + 40);
+
+  return {
+    svg,
+    g,
+    initialScale,
+    zoom,
+  };
+}
+
+export function reposition({ svg, zoom, g, initialScale }) {
+  svg.call(
+    zoom.transform,
+    d3.zoomIdentity
+      .translate(
+        (svg.attr('width') - g.graph().width * initialScale) / 2 +
+          Number(svg.style('width').slice(0, -2)) / 2,
+        Number(svg.style('height').slice(0, -2)) / 2 -
+          (g.graph().height * initialScale) / 2,
       )
       .scale(initialScale),
   );

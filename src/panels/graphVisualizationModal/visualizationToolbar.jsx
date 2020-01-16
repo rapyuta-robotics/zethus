@@ -3,38 +3,36 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Select from 'react-select';
 
-const nodeTopicOptions = [
-  {
-    value: 0,
-    label: 'Nodes only',
-  },
-  {
-    value: 1,
-    label: 'Node/Topics (all)',
-  },
-];
+import { Container } from '../../components/styled';
+import { NODE_OPTIONS } from './constants';
 
 const SelectStyled = styled(Select)`
   width: 200px !important;
   z-index: 101;
 `;
 
+const Wrapper = styled(Container)`
+  padding-left: 0;
+`;
+
 function visualizationToolbar({
   changeVisualizationToolbar,
   debug,
   selectHandler,
+  nodeSelect,
 }) {
   return (
-    <div>
+    <Wrapper>
       <SelectStyled
         data-id="nodeSelect"
-        options={nodeTopicOptions}
-        defaultValue={nodeTopicOptions[0]}
+        options={NODE_OPTIONS}
+        defaultValue={nodeSelect}
         aria-label="select nodes or topics"
         onChange={selectHandler}
       />
 
-      <label htmlFor="debug">
+      {/* Could be included in a different pr with all filtering options. */}
+      {/* <label htmlFor="debug">
         Debug:
         <input
           id="debug"
@@ -44,8 +42,8 @@ function visualizationToolbar({
           value={debug}
           onChange={changeVisualizationToolbar}
         />
-      </label>
-    </div>
+      </label> */}
+    </Wrapper>
   );
 }
 
