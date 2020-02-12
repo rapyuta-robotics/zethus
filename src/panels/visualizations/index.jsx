@@ -2,31 +2,46 @@ import React from 'react';
 import { Rnd } from 'react-rnd';
 import Amphion from 'amphion';
 
-import _ from 'lodash';
+import _, { map } from 'lodash';
 import { getTfTopics } from '../../utils';
 import { VizImageContainer, VizImageHeader } from '../../components/styled/viz';
 import {
   VIZ_TYPE_DEPTHCLOUD_STREAM,
   VIZ_TYPE_IMAGE_STREAM,
 } from '../../utils/vizOptions';
+import { getOrCreateRosTopicDataSource } from '../sources';
 
 const {
+  MESSAGE_TYPE_IMAGE,
+  MESSAGE_TYPE_LASERSCAN,
+  MESSAGE_TYPE_MARKER,
+  MESSAGE_TYPE_MARKERARRAY,
+  MESSAGE_TYPE_OCCUPANCYGRID,
+  MESSAGE_TYPE_ODOMETRY,
+  MESSAGE_TYPE_PATH,
+  MESSAGE_TYPE_POINT,
+  MESSAGE_TYPE_POINTCLOUD2,
+  MESSAGE_TYPE_POSEARRAY,
+  MESSAGE_TYPE_POSESTAMPED,
+  MESSAGE_TYPE_RANGE,
+  MESSAGE_TYPE_TF2,
+  MESSAGE_TYPE_WRENCH,
   VIZ_TYPE_IMAGE,
-  VIZ_TYPE_WRENCH,
+  VIZ_TYPE_INTERACTIVEMARKER,
   VIZ_TYPE_LASERSCAN,
   VIZ_TYPE_MAP,
   VIZ_TYPE_MARKER,
   VIZ_TYPE_MARKERARRAY,
   VIZ_TYPE_ODOMETRY,
   VIZ_TYPE_PATH,
-  VIZ_TYPE_INTERACTIVEMARKER,
+  VIZ_TYPE_POINT,
   VIZ_TYPE_POINTCLOUD,
   VIZ_TYPE_POSE,
   VIZ_TYPE_POSEARRAY,
   VIZ_TYPE_RANGE,
   VIZ_TYPE_ROBOTMODEL,
   VIZ_TYPE_TF,
-  VIZ_TYPE_POINT,
+  VIZ_TYPE_WRENCH,
 } = Amphion.CONSTANTS;
 
 class Visualization extends React.PureComponent {
@@ -37,44 +52,147 @@ class Visualization extends React.PureComponent {
     this.resetVisualization = this.resetVisualization.bind(this);
   }
 
-  static getNewViz(vizType, ros, topicName, viewer, options) {
+  static getNewViz(vizType, ros, resourceName, viewer, options) {
     switch (vizType) {
-      case VIZ_TYPE_IMAGE_STREAM:
-        return new Amphion.ImageStream(topicName);
-      case VIZ_TYPE_DEPTHCLOUD_STREAM:
-        return new Amphion.DepthCloud(topicName);
+      case VIZ_TYPE_IMAGE_STREAM: {
+        return new Amphion.ImageStream(resourceName);
+      }
+      case VIZ_TYPE_IMAGE: {
+        const imageSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_IMAGE,
+          queueSize: 1,
+          queueLength: 0,
+          compression: 'cbor',
+        });
+        return new Amphion.Image(imageSource, options);
+      }
+      case VIZ_TYPE_DEPTHCLOUD_STREAM: {
+        return new Amphion.DepthCloud(resourceName);
+      }
       case VIZ_TYPE_INTERACTIVEMARKER:
-        return new Amphion.InteractiveMarkers(ros, topicName, viewer, options);
-      case VIZ_TYPE_IMAGE:
-        return new Amphion.Image(ros, topicName, options);
-      case VIZ_TYPE_LASERSCAN:
-        return new Amphion.LaserScan(ros, topicName, options);
-      case VIZ_TYPE_MAP:
-        return new Amphion.Map(ros, topicName, options);
-      case VIZ_TYPE_MARKER:
-        return new Amphion.Marker(ros, topicName, options);
-      case VIZ_TYPE_MARKERARRAY:
-        return new Amphion.MarkerArray(ros, topicName, options);
-      case VIZ_TYPE_ODOMETRY:
-        return new Amphion.Odometry(ros, topicName, options);
-      case VIZ_TYPE_PATH:
-        return new Amphion.Path(ros, topicName, options);
-      case VIZ_TYPE_POINT:
-        return new Amphion.Point(ros, topicName, options);
-      case VIZ_TYPE_POINTCLOUD:
-        return new Amphion.PointCloud(ros, topicName, options);
-      case VIZ_TYPE_POSE:
-        return new Amphion.Pose(ros, topicName, options);
-      case VIZ_TYPE_POSEARRAY:
-        return new Amphion.PoseArray(ros, topicName, options);
-      case VIZ_TYPE_RANGE:
-        return new Amphion.Range(ros, topicName, options);
+        return new Amphion.InteractiveMarkers(
+          ros,
+          resourceName,
+          viewer,
+          options,
+        );
+      case VIZ_TYPE_LASERSCAN: {
+        const laserScanSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_LASERSCAN,
+          compression: 'cbor',
+        });
+        return new Amphion.LaserScan(laserScanSource, options);
+      }
+      case VIZ_TYPE_MAP: {
+        const mapSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_OCCUPANCYGRID,
+          compression: 'cbor',
+          queueSize: 1,
+          queueLength: 0,
+        });
+        return new Amphion.Map(mapSource, options);
+      }
+      case VIZ_TYPE_MARKER: {
+        const markerSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_MARKER,
+        });
+        return new Amphion.Marker(markerSource, options);
+      }
+      case VIZ_TYPE_MARKERARRAY: {
+        const markerArraySource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_MARKERARRAY,
+          queueLength: 0,
+          queueSize: 1,
+        });
+        return new Amphion.MarkerArray(markerArraySource, options);
+      }
+      case VIZ_TYPE_ODOMETRY: {
+        const odometrySource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_ODOMETRY,
+        });
+        return new Amphion.Odometry(odometrySource, options);
+      }
+      case VIZ_TYPE_PATH: {
+        const pathSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_PATH,
+        });
+        return new Amphion.Path(pathSource, options);
+      }
+      case VIZ_TYPE_POINT: {
+        const pointSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_POINT,
+        });
+        return new Amphion.Point(pointSource, options);
+      }
+      case VIZ_TYPE_POINTCLOUD: {
+        const pointcloudSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_POINTCLOUD2,
+          compression: 'cbor',
+          queueSize: 1,
+          queueLength: 1,
+        });
+        return new Amphion.PointCloud(pointcloudSource, options);
+      }
+      case VIZ_TYPE_POSE: {
+        const poseSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_POSESTAMPED,
+        });
+        return new Amphion.Pose(poseSource, options);
+      }
+      case VIZ_TYPE_POSEARRAY: {
+        const poseArraySource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_POSEARRAY,
+        });
+        return new Amphion.PoseArray(poseArraySource, options);
+      }
+      case VIZ_TYPE_RANGE: {
+        const rangeSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_RANGE,
+        });
+        return new Amphion.Range(rangeSource, options);
+      }
       case VIZ_TYPE_ROBOTMODEL:
-        return new Amphion.RobotModel(ros, topicName, options);
-      case VIZ_TYPE_TF:
-        return new Amphion.Tf(ros, topicName, options);
-      case VIZ_TYPE_WRENCH:
-        return new Amphion.Wrench(ros, topicName, options);
+        return new Amphion.RobotModel(ros, resourceName, options);
+      case VIZ_TYPE_TF: {
+        const tfSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_TF2,
+        });
+        return new Amphion.Tf(tfSource, options);
+      }
+      case VIZ_TYPE_WRENCH: {
+        const wrenchSource = getOrCreateRosTopicDataSource({
+          ros,
+          topicName: resourceName,
+          messageType: MESSAGE_TYPE_WRENCH,
+        });
+        return new Amphion.Wrench(wrenchSource, options);
+      }
       default:
         return null;
     }
@@ -88,6 +206,7 @@ class Visualization extends React.PureComponent {
     const {
       options: { topicName, visible, vizType },
       options,
+      rosInstance,
       rosTopics,
     } = this.props;
     if (vizType !== prevProps.options.vizType) {
@@ -100,13 +219,27 @@ class Visualization extends React.PureComponent {
         _.join(_.sortBy(_.map(currentTfTopics, 'name'))) !==
         _.join(_.sortBy(_.map(prevTfTopics, 'name')))
       ) {
-        this.vizInstance.changeTopic(currentTfTopics);
+        const sources = map(currentTfTopics, topic =>
+          getOrCreateRosTopicDataSource({
+            ros: rosInstance,
+            topicName: topic.name,
+            messageType: topic.messageType,
+          }),
+        );
+        this.vizInstance.changeSources(sources);
       }
-    } else if (
-      topicName !== prevProps.options.topicName &&
-      this.vizInstance.changeTopic
-    ) {
-      this.vizInstance.changeTopic(topicName);
+    } else if (topicName !== prevProps.options.topicName) {
+      if (this.vizInstance.changeTopic) {
+        // TODO: remove this when all visualizations get ported
+        this.vizInstance.changeTopic(topicName);
+      } else if (this.vizInstance.changeSources) {
+        const source = getOrCreateRosTopicDataSource({
+          ...this.vizInstance.options,
+          ros: rosInstance,
+          topicName,
+        });
+        this.vizInstance.changeSources([source]);
+      }
     }
     if (this.vizInstance) {
       this.vizInstance.updateOptions(options);
@@ -121,7 +254,6 @@ class Visualization extends React.PureComponent {
       options,
       options: { topicName, visible, vizType },
       rosInstance,
-      rosTopics,
       viewer,
     } = this.props;
     if (this.vizInstance) {
@@ -131,7 +263,7 @@ class Visualization extends React.PureComponent {
     this.vizInstance = Visualization.getNewViz(
       vizType,
       rosInstance,
-      vizType === VIZ_TYPE_TF ? getTfTopics(rosTopics) : topicName,
+      topicName,
       viewer,
       options,
     );
