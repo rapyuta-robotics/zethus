@@ -5,7 +5,7 @@ import ROSLIB from 'roslib';
 import Amphion from 'amphion';
 
 import { DEFAULT_CONFIG, ROS_SOCKET_STATUSES } from '../utils';
-
+import GraphVisualizationModal from './graphVisualizationModal';
 import {
   AddInfoPanelTagsInputStyle,
   PanelContent,
@@ -36,6 +36,7 @@ class Wrapper extends React.Component {
       rosParams: [],
       framesList: [],
       activeTool: TOOL_TYPE_CONTROLS,
+      graphModalOpen: false,
     };
 
     this.connectRos = this.connectRos.bind(this);
@@ -53,8 +54,9 @@ class Wrapper extends React.Component {
     this.onNavGoalTool = this.onNavGoalTool.bind(this);
     this.togglePanelCollapse = this.togglePanelCollapse.bind(this);
     this.updateInfoTabs = this.updateInfoTabs.bind(this);
-    this.vizInstances = new Set();
+    this.toggleGraphModal = this.toggleGraphModal.bind(this);
 
+    this.vizInstances = new Set();
     this.ros = new ROSLIB.Ros();
     this.viewer = new Amphion.TfViewer(this.ros, {
       onFramesListUpdate: this.updateFramesList,
@@ -242,6 +244,12 @@ class Wrapper extends React.Component {
     });
   }
 
+  toggleGraphModal() {
+    this.setState(({ graphModalOpen }) => ({
+      graphModalOpen: !graphModalOpen,
+    }));
+  }
+
   addVisualization(options) {
     const { addVisualization } = this.props;
     addVisualization(options);
@@ -295,6 +303,7 @@ class Wrapper extends React.Component {
       addModalOpen,
       configurationModalOpen,
       framesList,
+      graphModalOpen,
       rosEndpoint,
       rosParams,
       rosStatus,
@@ -307,7 +316,7 @@ class Wrapper extends React.Component {
         panels: {
           header: { display: displayHeader },
           info: { collapsed: collapsedInfo, display: displayInfo },
-          sidebar: { display: displaySidebar },
+          sidebar: { collapsed: collapsedSidebar, display: displaySidebar },
         },
         visualizations,
       },
@@ -326,6 +335,13 @@ class Wrapper extends React.Component {
           <Header activeTool={activeTool} selectTool={this.selectTool} />
         )}
         <PanelWrapper>
+          {graphModalOpen && (
+            <GraphVisualizationModal
+              ros={this.ros}
+              rosStatus={rosStatus}
+              closeModal={this.toggleGraphModal}
+            />
+          )}
           {addModalOpen && (
             <AddModal
               ros={this.ros}
@@ -345,6 +361,7 @@ class Wrapper extends React.Component {
           {displaySidebar && (
             <Sidebar
               framesList={framesList}
+              collapsedSidebar={collapsedSidebar}
               globalOptions={globalOptions}
               rosEndpoint={rosEndpoint}
               rosInstance={this.ros}
@@ -358,6 +375,7 @@ class Wrapper extends React.Component {
               removeVisualization={removeVisualization}
               toggleAddModal={this.toggleAddModal}
               toggleVisibility={toggleVisibility}
+              togglePanelCollapse={this.togglePanelCollapse}
               toggleConfigurationModal={this.toggleConfigurationModal}
               updateGlobalOptions={updateGlobalOptions}
               updateRosEndpoint={updateRosEndpoint}
@@ -376,6 +394,7 @@ class Wrapper extends React.Component {
                 updateInfoTabs={this.updateInfoTabs}
                 togglePanelCollapse={this.togglePanelCollapse}
                 topics={infoTabs}
+                toggleGraphModal={this.toggleGraphModal}
               />
             )}
           </PanelContent>
