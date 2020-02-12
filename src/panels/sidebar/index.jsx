@@ -84,7 +84,10 @@ class Sidebar extends React.Component {
       updateVizOptions,
       viewer,
       visualizations,
+      vizInstances: vizInstancesSet,
     } = this.props;
+
+    const vizInstances = [...vizInstancesSet];
 
     const { rosInput } = this.state;
     return (
@@ -155,6 +158,10 @@ class Sidebar extends React.Component {
                   const relatedTopics = _.filter(rosTopics, t =>
                     _.includes(vizObject.additionalMessageTypes, t.messageType),
                   );
+                  const vizInstance = _.filter(
+                    vizInstances,
+                    v => v.key === vizItem.key,
+                  );
                   return (
                     <VizOptions
                       options={vizItem}
@@ -163,6 +170,7 @@ class Sidebar extends React.Component {
                       topics={topics}
                       relatedTopics={relatedTopics}
                       vizObject={vizObject}
+                      vizInstance={vizInstance}
                       rosInstance={rosInstance}
                       updateVizOptions={updateVizOptions}
                       removeVisualization={removeVisualization}

@@ -56,6 +56,7 @@ class Wrapper extends React.Component {
     this.updateInfoTabs = this.updateInfoTabs.bind(this);
     this.toggleGraphModal = this.toggleGraphModal.bind(this);
 
+    this.vizInstances = new Set();
     this.ros = new ROSLIB.Ros();
     this.viewer = new Amphion.TfViewer(this.ros, {
       onFramesListUpdate: this.updateFramesList,
@@ -366,6 +367,7 @@ class Wrapper extends React.Component {
               rosInstance={this.ros}
               rosTopics={rosTopics}
               rosStatus={rosStatus}
+              vizInstances={this.vizInstances}
               visualizations={visualizations}
               viewer={this.viewer}
               connectRos={this.connectRos}
@@ -399,6 +401,8 @@ class Wrapper extends React.Component {
           {_.map(visualizations, vizItem => (
             <Visualization
               options={vizItem}
+              vizInstances={this.vizInstances}
+              id={vizItem.key}
               key={vizItem.key}
               viewer={this.viewer}
               rosTopics={rosTopics}
