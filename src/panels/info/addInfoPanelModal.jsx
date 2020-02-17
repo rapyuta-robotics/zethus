@@ -70,16 +70,17 @@ class AddInfoPanelModal extends React.Component {
           <AddInfoPanelModalTopics>
             {size(allTopics) === 0
               ? 'No topics available'
-              : map(filteredTopics, ({ name, messageType }) => (
+              : map(filteredTopics, ({ name, messageType, rosbagFileName }) => (
                   <TopicRow
                     type="button"
                     selected={get(selected, 'name') === name}
-                    key={name}
+                    key={`${name}-${rosbagFileName}`}
                     onClick={() => {
                       this.selectTopic({ name, messageType });
                     }}
                   >
                     {name}
+                    {rosbagFileName && ` (from rosbag - ${rosbagFileName})`}
                     <FlexGrow />({messageType})
                   </TopicRow>
                 ))}

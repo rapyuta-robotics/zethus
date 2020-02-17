@@ -23,6 +23,7 @@ import Raycaster from '../utils/raycaster';
 import { TOOL_TYPE } from '../utils/toolbar';
 import ToolPublisher from '../utils/toolPublisher';
 import Info from './info';
+import { rosbagBucket } from './sources';
 
 class Wrapper extends React.Component {
   constructor(props) {
@@ -198,10 +199,13 @@ class Wrapper extends React.Component {
     this.ros.getTopics(rosTopics => {
       this.setState({
         rosStatus: ROS_SOCKET_STATUSES.CONNECTED,
-        rosTopics: _.map(rosTopics.topics, (name, index) => ({
-          name,
-          messageType: rosTopics.types[index],
-        })),
+        rosTopics: [
+          ..._.map(rosTopics.topics, (name, index) => ({
+            name,
+            messageType: rosTopics.types[index],
+          })),
+          ...rosbagBucket.topics,
+        ],
       });
     });
     this.ros.getParams(rosParams => {
@@ -353,6 +357,7 @@ class Wrapper extends React.Component {
               viewer={this.viewer}
               connectRos={this.connectRos}
               disconnectRos={this.disconnectRos}
+              refreshRosData={this.refreshRosData}
               removeVisualization={removeVisualization}
               toggleAddModal={this.toggleAddModal}
               toggleVisibility={toggleVisibility}

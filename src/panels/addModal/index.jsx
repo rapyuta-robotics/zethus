@@ -35,13 +35,14 @@ class AddModal extends React.Component {
     });
   }
 
-  selectViz(vizType, topicName, messageType) {
+  selectViz(vizType, topicName, messageType, rosbagFileName) {
     this.setState({
       selectedViz: vizType
         ? {
             vizType,
             topicName,
             messageType,
+            rosbagFileName,
           }
         : '',
     });

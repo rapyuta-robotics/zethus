@@ -9,7 +9,11 @@ import {
   VIZ_TYPE_DEPTHCLOUD_STREAM,
   VIZ_TYPE_IMAGE_STREAM,
 } from '../../utils/vizOptions';
-import { getOrCreateRosTopicDataSource } from '../sources';
+import {
+  getOrCreateRosbagDataSource,
+  getOrCreateRosTopicDataSource,
+  rosbagBucket,
+} from '../sources';
 
 const {
   MESSAGE_TYPE_IMAGE,
@@ -79,12 +83,18 @@ class Visualization extends React.PureComponent {
           options,
         );
       case VIZ_TYPE_LASERSCAN: {
-        const laserScanSource = getOrCreateRosTopicDataSource({
-          ros,
-          topicName: resourceName,
-          messageType: MESSAGE_TYPE_LASERSCAN,
-          compression: 'cbor',
-        });
+        const { rosbagFileName } = options;
+        const laserScanSource = rosbagFileName
+          ? getOrCreateRosbagDataSource({
+              topicName: resourceName,
+              bucket: rosbagBucket,
+            })
+          : getOrCreateRosTopicDataSource({
+              ros,
+              topicName: resourceName,
+              messageType: MESSAGE_TYPE_LASERSCAN,
+              compression: 'cbor',
+            });
         return new Amphion.LaserScan(laserScanSource, options);
       }
       case VIZ_TYPE_MAP: {
@@ -152,11 +162,17 @@ class Visualization extends React.PureComponent {
         return new Amphion.PointCloud(pointcloudSource, options);
       }
       case VIZ_TYPE_POSE: {
-        const poseSource = getOrCreateRosTopicDataSource({
-          ros,
-          topicName: resourceName,
-          messageType: MESSAGE_TYPE_POSESTAMPED,
-        });
+        const poseSource = options.rosbagFileName
+          ? getOrCreateRosbagDataSource({
+              topicName: resourceName,
+              bucket: rosbagBucket,
+              fileName: options.rosbagFileName,
+            })
+          : getOrCreateRosTopicDataSource({
+              ros,
+              topicName: resourceName,
+              messageType: MESSAGE_TYPE_POSESTAMPED,
+            });
         return new Amphion.Pose(poseSource, options);
       }
       case VIZ_TYPE_POSEARRAY: {

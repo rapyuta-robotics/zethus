@@ -21,12 +21,13 @@ class TopicName extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  selectViz(vizType, topicName, messageType) {
+  selectViz(vizType, topicName, messageType, rosbagFileName) {
     this.setState({
       selectedViz: {
         vizType,
         topicName,
         messageType,
+        rosbagFileName,
       },
     });
   }
@@ -35,9 +36,9 @@ class TopicName extends React.Component {
     e.preventDefault();
     const { selectViz } = this.props;
     const {
-      selectedViz: { messageType, topicName, vizType },
+      selectedViz: { messageType, rosbagFileName, topicName, vizType },
     } = this.state;
-    selectViz(vizType, topicName, messageType);
+    selectViz(vizType, topicName, messageType, rosbagFileName);
   }
 
   render() {
@@ -47,30 +48,39 @@ class TopicName extends React.Component {
       <AddVizForm onSubmit={this.onSubmit}>
         <TypeContainer>
           <TypeSelection>
-            {_.map(_.sortBy(rosTopics, 'name'), ({ name, messageType }) => {
-              const vizOption = _.find(vizOptions, v =>
-                _.includes(v.messageTypes, messageType),
-              );
-              return vizOption ? (
-                <TopicRow
-                  type="button"
-                  selected={_.get(selectedViz, 'topicName') === name}
-                  key={name}
-                  onClick={() =>
-                    this.selectViz(vizOption.type, name, messageType)
-                  }
-                >
-                  {name}
-                  <FlexGrow />({messageType})
-                </TopicRow>
-              ) : (
-                <TypeUnsupported key={name}>
-                  {name}
-                  <FlexGrow />
-                  (Unsupported type: {messageType})
-                </TypeUnsupported>
-              );
-            })}
+            {_.map(
+              _.sortBy(rosTopics, 'name'),
+              ({ name, messageType, rosbagFileName }) => {
+                const vizOption = _.find(vizOptions, v =>
+                  _.includes(v.messageTypes, messageType),
+                );
+                return vizOption ? (
+                  <TopicRow
+                    type="button"
+                    selected={_.get(selectedViz, 'topicName') === name}
+                    key={`${name}-${rosbagFileName}`}
+                    onClick={() =>
+                      this.selectViz(
+                        vizOption.type,
+                        name,
+                        messageType,
+                        rosbagFileName,
+                      )
+                    }
+                  >
+                    {name}
+                    {rosbagFileName && ` (from rosbag - ${rosbagFileName})`}
+                    <FlexGrow />({messageType})
+                  </TopicRow>
+                ) : (
+                  <TypeUnsupported key={`${name}-${rosbagFileName}`}>
+                    {name}
+                    <FlexGrow />
+                    (Unsupported type: {messageType})
+                  </TypeUnsupported>
+                );
+              },
+            )}
           </TypeSelection>
         </TypeContainer>
         <ModalActions>
