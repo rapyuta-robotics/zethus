@@ -69,6 +69,7 @@ export default class ToolPublisher {
       },
       pose,
     });
+    console.log(pose, frameId);
     this.navGoalToolPublisher.publish(message);
     this.seq[TOOL_TYPE_NAV_GOAL]++;
   }

@@ -66,7 +66,7 @@ class GlobalOptions extends React.PureComponent {
             >
               {_.map(framesList, f => (
                 <option key={f} value={f}>
-                  {f.replace('-tf-connector', '')}
+                  {f}
                 </option>
               ))}
             </Select>

@@ -56,7 +56,6 @@ class Wrapper extends React.Component {
     this.updateInfoTabs = this.updateInfoTabs.bind(this);
     this.toggleGraphModal = this.toggleGraphModal.bind(this);
 
-    this.vizInstances = new Set();
     this.ros = new ROSLIB.Ros();
     this.viewer = new Amphion.TfViewer(this.ros, {
       onFramesListUpdate: this.updateFramesList,
@@ -112,6 +111,13 @@ class Wrapper extends React.Component {
   }
 
   componentDidMount() {
+    const {
+      configuration: {
+        globalOptions: {
+          fixedFrame: { value: fixedFrame },
+        },
+      },
+    } = this.props;
     const { rosEndpoint } = this.state;
     this.ros.on('error', () => {
       this.setState({
@@ -134,6 +140,10 @@ class Wrapper extends React.Component {
     const { camera, renderer, scene } = this.viewer;
     scene.grid.raycast = () => undefined;
     this.raycaster = new Raycaster(camera, scene, renderer.domElement);
+
+    if (this.raycaster) {
+      this.raycaster.fixedFrame = fixedFrame;
+    }
   }
 
   selectTool(name, type) {
@@ -367,7 +377,6 @@ class Wrapper extends React.Component {
               rosInstance={this.ros}
               rosTopics={rosTopics}
               rosStatus={rosStatus}
-              vizInstances={this.vizInstances}
               visualizations={visualizations}
               viewer={this.viewer}
               connectRos={this.connectRos}
@@ -401,7 +410,6 @@ class Wrapper extends React.Component {
           {_.map(visualizations, vizItem => (
             <Visualization
               options={vizItem}
-              vizInstances={this.vizInstances}
               id={vizItem.key}
               key={vizItem.key}
               viewer={this.viewer}

@@ -1,6 +1,7 @@
 import React from 'react';
 import Amphion from 'amphion';
 import _ from 'lodash';
+import styled from 'styled-components';
 import {
   Button,
   ButtonPrimary,
@@ -17,6 +18,10 @@ const statuses = {
   loaded: 1,
   error: 2,
 };
+
+const PackageExplanation = styled.p`
+  font-size: 14px;
+`;
 
 class RobotModelOptions extends React.Component {
   constructor(props) {
@@ -108,6 +113,16 @@ class RobotModelOptions extends React.Component {
           <Input value={name} onChange={this.updateName} />
         </InputWrapper>
         <TypeHeading>Packages</TypeHeading>
+        <PackageExplanation>
+          Please enter the path corresponding to each folder. For github repos,
+          here's an easy way to get the url.
+          <li>Replace `github.com` with `raw.githubusercontent.com`</li>
+          <li>Omit `tree` from the url</li>
+          For eg: ur_description is available at
+          `https://github.com/ros-industrial/universal_robot/tree/kinetic-devel/ur_description`,
+          please enter
+          `https://raw.githubusercontent.com/ros-industrial/universal_robot/kinetic-devel/ur_description`
+        </PackageExplanation>
         {_.map(packages, (path, packageName) => (
           <InputWrapper key={packageName}>
             <InputLabel>{packageName}</InputLabel>

@@ -58,9 +58,12 @@ class Content extends React.Component {
           </FilteredKeys>
         )}
         {raw ? (
-          <RawContent messages={bufferClone} />
+          <RawContent messages={bufferClone} selected={selected} />
         ) : (
-          <FormattedContent message={omit(lastMessage, ['timestamp'])} />
+          <FormattedContent
+            message={omit(lastMessage, ['timestamp'])}
+            selected={selected}
+          />
         )}
       </>
     );

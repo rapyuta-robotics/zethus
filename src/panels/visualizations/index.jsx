@@ -226,7 +226,6 @@ class Visualization extends React.PureComponent {
             messageType: topic.messageType,
           }),
         );
-        this.vizInstance.changeSources(sources);
       }
     } else if (topicName !== prevProps.options.topicName) {
       if (this.vizInstance.changeTopic) {
@@ -251,16 +250,13 @@ class Visualization extends React.PureComponent {
 
   resetVisualization() {
     const {
-      id,
       options,
       options: { topicName, visible, vizType },
       rosInstance,
       viewer,
-      vizInstances,
     } = this.props;
     if (this.vizInstance) {
       this.vizInstance.destroy();
-      vizInstances.delete(this.vizInstance);
     }
 
     this.vizInstance = Visualization.getNewViz(
@@ -273,8 +269,6 @@ class Visualization extends React.PureComponent {
     if (!this.vizInstance) {
       return;
     }
-    this.vizInstance.key = id;
-    vizInstances.add(this.vizInstance);
     if (vizType === VIZ_TYPE_ROBOTMODEL) {
       viewer.addRobot(this.vizInstance);
     } else if (vizType === VIZ_TYPE_IMAGE) {

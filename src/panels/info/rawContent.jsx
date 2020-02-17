@@ -15,14 +15,16 @@ class RawContent extends React.Component {
   }
 
   rowRenderer({ index }) {
-    const { messages } = this.props;
+    const { messages, selected } = this.props;
     if (isNil(messages[index])) {
       return null;
     }
 
     return (
       <RawContentRow key={messages[index].timestamp}>
-        {JSON.stringify(omit(messages[index], ['timestamp']))}
+        {size(selected.keys) === 1
+          ? messages[index][selected.keys[0]]
+          : JSON.stringify(omit(messages[index], ['timestamp']))}
       </RawContentRow>
     );
   }

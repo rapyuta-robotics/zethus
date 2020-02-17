@@ -37,7 +37,6 @@ const VizSpecificOptions = ({
   options: { vizType },
   options,
   topics,
-  vizInstance,
   relatedTopics,
   updateVizOptions,
 }) => {
@@ -105,7 +104,7 @@ const VizSpecificOptions = ({
         <RangeOptions options={options} updateVizOptions={updateVizOptions} />
       );
     case VIZ_TYPE_ROBOTMODEL:
-      return <RobotModelLinksJoints vizInstance={vizInstance} />;
+      return null; // <RobotModelLinksJoints vizInstance={vizInstance} />;
     case VIZ_TYPE_TF:
       return null;
     case VIZ_TYPE_WRENCH:

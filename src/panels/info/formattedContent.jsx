@@ -1,6 +1,6 @@
 import React from 'react';
 import { JsonEditor } from 'jsoneditor-react';
-import { isNil } from 'lodash';
+import { isNil, size } from 'lodash';
 
 class FormattedContent extends React.PureComponent {
   constructor(props) {
@@ -25,9 +25,12 @@ class FormattedContent extends React.PureComponent {
   }
 
   render() {
-    const { message } = this.props;
+    const { message, selected } = this.props;
     if (isNil(message)) {
       return null;
+    }
+    if (size(selected.keys) === 1) {
+      return message[selected.keys[0]];
     }
     return (
       <JsonEditor
