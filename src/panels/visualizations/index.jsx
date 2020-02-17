@@ -166,6 +166,7 @@ class Visualization extends React.PureComponent {
           ? getOrCreateRosbagDataSource({
               topicName: resourceName,
               bucket: rosbagBucket,
+              fileName: options.rosbagFileName,
             })
           : getOrCreateRosTopicDataSource({
               ros,

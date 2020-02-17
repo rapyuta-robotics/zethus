@@ -66,23 +66,27 @@ class Sidebar extends React.Component {
       progressEl.value = Math.floor((chunkOffset * 100) / totalChunks);
     };
     this.fileBagGlobalReadersMap[files[0].name] = reader;
-    rosbagBucket.addReader('*', reader);
     files.forEach(file => {
       this.fileBagProgressRefMap[file.name] = React.createRef();
       rosbagBucket.addFile(file);
     });
+    rosbagBucket.addReader('*', files[0].name, reader);
     this.setState({ files: [...filesFromState, ...files] });
   }
 
   handleRemoveRosbag(file) {
     const { refreshRosData } = this.props;
     const { files } = this.state;
+    rosbagBucket.removeReader(
+      '*',
+      file.name,
+      this.fileBagGlobalReadersMap[file.name],
+    );
     rosbagBucket.removeFile(file, () => {
       refreshRosData();
       const filteredFiles = files.filter(x => x !== file);
       this.setState({ files: filteredFiles });
       this.rosbagUploadRef.current.value = '';
-      rosbagBucket.removeReader('*', this.fileBagGlobalReadersMap[file.name]);
       delete this.fileBagProgressRefMap[file.name];
       delete this.fileBagGlobalReadersMap[file.name];
     });
