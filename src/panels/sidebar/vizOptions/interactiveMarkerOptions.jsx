@@ -51,7 +51,7 @@ class InteractiveMarkerOptions extends React.PureComponent {
       <>
         <OptionRow label="Update Topic">
           <Select
-            value={updateTopicName || ''}
+            value={updateTopicName.name || ''}
             onChange={e =>
               updateVizOptions(key, {
                 updateTopicName: {
@@ -71,7 +71,7 @@ class InteractiveMarkerOptions extends React.PureComponent {
         </OptionRow>
         <OptionRow label="Feedback Topic">
           <Select
-            value={feedbackTopicName || ''}
+            value={feedbackTopicName.name || ''}
             onChange={e =>
               updateVizOptions(key, {
                 feedbackTopicName: {
